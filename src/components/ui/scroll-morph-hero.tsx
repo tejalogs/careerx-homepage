@@ -606,7 +606,12 @@ function FlipCard({ config, target, staggerDelay = 0 }: FlipCardProps) {
   return (
     <motion.div
       animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
-      transition={{ type: "spring", stiffness: 65, damping: 11, delay: staggerDelay }}
+      transition={{
+        type: "spring",
+        stiffness: staggerDelay > 0 ? 60 : 40,
+        damping: staggerDelay > 0 ? 10 : 15,
+        delay: staggerDelay,
+      }}
       style={{ position: "absolute", width: CARD_W, height: CARD_H, transformStyle: "preserve-3d", perspective: "1000px" }}
       className="cursor-pointer group"
     >
