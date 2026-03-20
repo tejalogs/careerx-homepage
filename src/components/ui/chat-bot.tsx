@@ -10,6 +10,7 @@ const YELLOW = "#F5D134";
 const DARK   = "#0C0E14";
 
 // ─── Avatar Face SVG ──────────────────────────────────────────────────────────
+let _faceId = 0;
 function AvatarFace({
   size = 48,
   blink = false,
@@ -19,12 +20,14 @@ function AvatarFace({
   blink?: boolean;
   talking?: boolean;
 }) {
+  // Unique gradient ID per instance so multiple faces don't share the same SVG def
+  const id = useRef(`fg-${++_faceId}`).current;
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
       {/* Face circle */}
-      <circle cx="24" cy="24" r="22" fill="url(#faceGrad)" />
+      <circle cx="24" cy="24" r="22" fill={`url(#${id})`} />
       <defs>
-        <radialGradient id="faceGrad" cx="40%" cy="30%" r="70%">
+        <radialGradient id={id} cx="40%" cy="30%" r="70%">
           <stop offset="0%" stopColor="#4e7fd6" />
           <stop offset="100%" stopColor="#2a4a8c" />
         </radialGradient>
@@ -257,36 +260,48 @@ export function ChatBot() {
   const [pastVideo, setPastVideo] = useState(false);
   const controls = useAnimationControls();
 
-  // Show preview only after scrolling past the video section (~1.5× viewport height)
+  // Show preview only after scrolling past the video section; reset when back at top
   useEffect(() => {
     const check = () => {
-      if (window.scrollY > window.innerHeight * 1.2) setPastVideo(true);
+      const past = window.scrollY > window.innerHeight * 1.2;
+      setPastVideo(past);
     };
     window.addEventListener("scroll", check, { passive: true });
     check();
     return () => window.removeEventListener("scroll", check);
   }, []);
 
-  // Periodic blink
+  // Periodic blink — all timer IDs tracked in a ref array for full cleanup
+  const blinkTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
   useEffect(() => {
-    const blinkLoop = () => {
-      const delay = 3000 + Math.random() * 3000;
-      return setTimeout(() => {
-        setBlink(true);
-        setTimeout(() => {
-          setBlink(false);
-          const nextDelay = 100 + Math.random() * 200;
-          setTimeout(() => {
-            setBlink(true);
-            setTimeout(() => setBlink(false), 80);
-          }, nextDelay);
-        }, 100);
-        // Schedule next blink
-        blinkRef.current = blinkLoop();
-      }, delay);
+    const track = (id: ReturnType<typeof setTimeout>) => {
+      blinkTimers.current.push(id);
+      return id;
     };
-    const blinkRef = { current: blinkLoop() };
-    return () => clearTimeout(blinkRef.current);
+
+    const scheduleNext = () => {
+      const delay = 3000 + Math.random() * 3000;
+      track(setTimeout(() => {
+        setBlink(true);
+        track(setTimeout(() => {
+          setBlink(false);
+          const gap = 120 + Math.random() * 180;
+          track(setTimeout(() => {
+            setBlink(true);
+            track(setTimeout(() => {
+              setBlink(false);
+              scheduleNext();
+            }, 80));
+          }, gap));
+        }, 100));
+      }, delay));
+    };
+
+    scheduleNext();
+    return () => {
+      blinkTimers.current.forEach(clearTimeout);
+      blinkTimers.current = [];
+    };
   }, []);
 
   // Idle nudge every 8s when closed

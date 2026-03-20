@@ -105,6 +105,12 @@ export default function GetStartedSection() {
               <CheckCircle2 className="w-10 h-10 text-green-400" />
               <p className="text-xl font-black text-white">You&apos;re on the list!</p>
               <p className="text-sm text-white/60">We&apos;ll be in touch within 24 hours to get you started.</p>
+              <button
+                onClick={() => { setSubmitted(false); setEmail(""); }}
+                className="text-xs text-white/40 hover:text-white/70 transition-colors mt-1 underline underline-offset-2"
+              >
+                Submit a different email
+              </button>
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch gap-3 max-w-md mx-auto w-full px-1 sm:px-0">
