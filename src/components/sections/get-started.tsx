@@ -1,0 +1,151 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
+
+const TRUST_POINTS = [
+  "No commitment. Start with a free role assessment",
+  "10 minute assessment · 2,000+ candidates placed",
+  "Backed by 500+ hiring partners globally",
+];
+
+export default function GetStartedSection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setLoading(true);
+    // Simulate async submit — replace with real API call
+    await new Promise((r) => setTimeout(r, 800));
+    setLoading(false);
+    setSubmitted(true);
+  };
+
+  return (
+    <section
+      id="get-started"
+      ref={ref}
+      className="w-full py-20 md:py-32 px-4 sm:px-6 relative overflow-hidden"
+      style={{ backgroundColor: "#3C61A8" }}
+    >
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)",
+            backgroundSize: "30px 30px",
+          }}
+        />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-white/5 blur-[120px] rounded-full" />
+      </div>
+
+      <div className="max-w-4xl mx-auto relative z-10 text-center">
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 mb-8"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          <p className="text-[11px] font-black tracking-[0.25em] uppercase text-white">
+            Now Accepting Candidates
+          </p>
+        </motion.div>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.05] mb-6"
+        >
+          Your next role{" "}
+          <span
+            className="relative inline-block px-2"
+            style={{
+              backgroundColor: "#F5D134",
+              color: "#0C0E14",
+              borderRadius: "6px",
+              transform: "rotate(-0.8deg)",
+              display: "inline-block",
+            }}
+          >
+            starts here.
+          </span>
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed mb-10 sm:mb-12 px-2"
+        >
+          Start with a free KYB assessment. In 10 minutes, you will know exactly which roles fit your strengths and what it takes to get there.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="mb-14"
+        >
+          {submitted ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex flex-col items-center gap-3"
+            >
+              <CheckCircle2 className="w-10 h-10 text-green-400" />
+              <p className="text-xl font-black text-white">You&apos;re on the list!</p>
+              <p className="text-sm text-white/60">We&apos;ll be in touch within 24 hours to get you started.</p>
+            </motion.div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch gap-3 max-w-md mx-auto w-full px-1 sm:px-0">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email address"
+                className="flex-1 px-5 py-4 rounded-full text-base font-medium bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none focus:border-white/40 transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="group relative flex items-center justify-center gap-2 px-8 py-4 rounded-full text-base font-black overflow-hidden transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-2xl disabled:opacity-70"
+                style={{ backgroundColor: "#F5D134", color: "#0C0E14" }}
+              >
+                <div className="absolute inset-0 bg-black/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 rounded-full" />
+                <span className="relative z-10 whitespace-nowrap">{loading ? "Sending…" : "Get Started"}</span>
+                {!loading && <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />}
+              </button>
+            </form>
+          )}
+          <p className="text-center text-xs text-white/30 mt-3">No spam · Unsubscribe anytime · Free to start</p>
+        </motion.div>
+
+        <motion.ul
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8"
+        >
+          {TRUST_POINTS.map((point) => (
+            <li key={point} className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0" />
+              <span className="text-sm text-white/65 font-medium">{point}</span>
+            </li>
+          ))}
+        </motion.ul>
+
+      </div>
+    </section>
+  );
+}
