@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { motion, useTransform, useSpring, useMotionValue, animate } from "framer-motion";
+import { motion, AnimatePresence, useTransform, useSpring, useMotionValue, animate } from "framer-motion";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export type AnimationPhase = "scatter" | "line" | "circle" | "bottom-strip";
@@ -26,6 +26,7 @@ interface FlipCardProps {
   total: number;
   phase: AnimationPhase;
   target: { x: number; y: number; rotation: number; scale: number; opacity: number };
+  staggerDelay?: number;
 }
 
 // ─── Card Dimensions ──────────────────────────────────────────────────────────
@@ -601,11 +602,11 @@ function CardBack({ config }: { config: CardConfig }) {
 }
 
 // ─── FlipCard ─────────────────────────────────────────────────────────────────
-function FlipCard({ config, target }: FlipCardProps) {
+function FlipCard({ config, target, staggerDelay = 0 }: FlipCardProps) {
   return (
     <motion.div
       animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
-      transition={{ type: "spring", stiffness: 40, damping: 15 }}
+      transition={{ type: "spring", stiffness: 65, damping: 11, delay: staggerDelay }}
       style={{ position: "absolute", width: CARD_W, height: CARD_H, transformStyle: "preserve-3d", perspective: "1000px" }}
       className="cursor-pointer group"
     >
@@ -654,6 +655,9 @@ const MAX_SCROLL = 3000;
 export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () => void }) {
   const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const [showStagger, setShowStagger] = useState(false);
+  const [flashOut, setFlashOut] = useState(false);
+  const staggerApplied = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -739,17 +743,31 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
-  // Auto-advance: after cards settle, animate through and transition to video
+  // Stagger cards on first circle entry
+  useEffect(() => {
+    if (introPhase !== "scatter" && !staggerApplied.current) {
+      staggerApplied.current = true;
+      setShowStagger(true);
+      const t = setTimeout(() => setShowStagger(false), TOTAL_CARDS * 60 + 800);
+      return () => clearTimeout(t);
+    }
+  }, [introPhase]);
+
+  // Auto-advance: mobile only — desktop requires manual scroll
+  const isMobileDevice = containerSize.width > 0 && containerSize.width < 768;
+
   useEffect(() => {
     if (!circleReady) return;
+    if (!isMobileDevice) return; // desktop: manual scroll only
     const t = setTimeout(() => {
       autoAnimRef.current = animate(virtualScroll, MAX_SCROLL, {
-        duration: 3,
-        ease: [0.33, 1, 0.68, 1],
+        duration: 2,
+        ease: [0.6, 0.01, 0.05, 0.95],
         onUpdate: (v) => { scrollRef.current = v; },
         onComplete: () => {
           autoAnimRef.current = null;
-          onAutoAdvance?.();
+          setFlashOut(true);
+          setTimeout(() => onAutoAdvance?.(), 280);
         },
       });
     }, 1200);
@@ -757,9 +775,9 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
       clearTimeout(t);
       cancelAuto();
     };
-  }, [circleReady]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [circleReady, isMobileDevice]);
 
-  void circleReady;
 
   const scatterPositions = useMemo(() => CARDS.map(() => ({
     x: (Math.random() - 0.5) * 1500,
@@ -786,36 +804,87 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
   return (
     <div ref={containerRef} className="relative w-full h-full overflow-hidden" style={{ background: "radial-gradient(ellipse 70% 55% at 50% 62%, rgba(60,97,168,0.07) 0%, transparent 70%), #F7F8FC" }}>
 
+      {/* Ambient floating glow orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          animate={{ x: [-50, 50, -50], y: [-30, 30, -30] }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+          style={{ position: "absolute", width: 700, height: 700, background: "radial-gradient(circle, rgba(60,97,168,0.09) 0%, transparent 65%)", borderRadius: "50%", left: "5%", top: "10%", filter: "blur(60px)" }}
+        />
+        <motion.div
+          animate={{ x: [40, -40, 40], y: [20, -20, 20] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+          style={{ position: "absolute", width: 500, height: 500, background: "radial-gradient(circle, rgba(245,209,52,0.07) 0%, transparent 65%)", borderRadius: "50%", right: "0%", top: "35%", filter: "blur(50px)" }}
+        />
+        <motion.div
+          animate={{ x: [-20, 20, -20], y: [40, -40, 40] }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 7 }}
+          style={{ position: "absolute", width: 400, height: 400, background: "radial-gradient(circle, rgba(60,97,168,0.06) 0%, transparent 65%)", borderRadius: "50%", left: "40%", bottom: "0%", filter: "blur(40px)" }}
+        />
+      </div>
+
+      {/* Flash overlay on exit */}
+      <AnimatePresence>
+        {flashOut && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28, ease: "easeIn" }}
+            style={{ position: "absolute", inset: 0, background: "white", zIndex: 200, pointerEvents: "none" }}
+          />
+        )}
+      </AnimatePresence>
+
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
-        {/* Intro headline — fades out as cards morph */}
-        <div className="absolute z-0 flex flex-col items-center justify-center text-center pointer-events-none top-[55%] -translate-y-1/2">
+        {/* Intro headline — mobile: top, desktop: center */}
+        <div className="absolute z-0 flex flex-col items-center justify-center text-center pointer-events-none px-6 top-[10%] md:top-[52%] md:-translate-y-1/2">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={circleReady && morphValue < 0.3 ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-[10px] font-black tracking-[0.3em] uppercase mb-3"
+            style={{ color: "#3C61A8" }}
+          >
+            CareerXcelerator
+          </motion.p>
           <motion.h1
-            initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+            initial={{ opacity: 0, y: 30, scale: 0.92, filter: "blur(12px)" }}
             animate={
               circleReady && morphValue < 0.5
-                ? { opacity: 1 - morphValue * 2, y: 0, filter: "blur(0px)" }
-                : { opacity: 0, filter: "blur(10px)" }
+                ? { opacity: 1 - morphValue * 2, y: 0, scale: 1, filter: "blur(0px)" }
+                : { opacity: 0, scale: 0.96, filter: "blur(12px)" }
             }
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
             className="text-2xl md:text-4xl font-black tracking-tight text-gray-800"
           >
             Know yourself better.
             <br />
             <span style={{ color: "#3C61A8" }}>Land the role.</span>
           </motion.h1>
+          {!isMobileDevice && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={circleReady && morphValue < 0.3 ? { opacity: 0.4 } : { opacity: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="mt-4 text-[11px] font-medium text-gray-400"
+            >
+              Scroll to explore ↓
+            </motion.p>
+          )}
         </div>
 
-        {/* Arc headline — fades in once cards fan out */}
+        {/* Arc headline — fades in once cards fan out (desktop only) */}
         <motion.div
           style={{ opacity: contentOpacity, y: contentY }}
-          className="absolute top-[18%] z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4"
+          className="absolute top-[14%] z-10 hidden md:flex flex-col items-center justify-center text-center pointer-events-none px-4"
         >
           <p className="text-[10px] font-black tracking-[0.25em] uppercase text-gray-400 mb-3">
             CareerXcelerator
           </p>
           <h2 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
-            Your strengths. Your gaps.<br className="hidden md:block" /> Your path forward.
+            Your strengths. Your gaps.<br /> Your path forward.
           </h2>
           <p className="text-sm text-gray-500 max-w-md leading-relaxed font-medium">
             Strengths, gaps, salary and readiness. Mapped by AI in 10 minutes.{" "}
@@ -886,6 +955,7 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
                 total={TOTAL_CARDS}
                 phase={introPhase}
                 target={target}
+                staggerDelay={showStagger ? i * 0.055 : 0}
               />
             );
           })}
