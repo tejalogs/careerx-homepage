@@ -154,7 +154,7 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.85, y: 20 }}
       transition={{ type: "spring", stiffness: 340, damping: 28 }}
-      className="absolute bottom-[62px] right-0 w-[320px] rounded-2xl overflow-hidden shadow-2xl"
+      className="fixed bottom-[90px] right-6 w-[min(320px,calc(100vw-3rem))] rounded-2xl overflow-hidden shadow-2xl"
       style={{ border: "1px solid rgba(60,97,168,0.25)", backgroundColor: "#fff" }}
     >
       {/* Header */}
@@ -334,7 +334,7 @@ export function ChatBot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 10 }}
             transition={{ delay: 0.4, type: "spring", stiffness: 280, damping: 22 }}
-            className="pointer-events-none w-[190px] rounded-2xl overflow-hidden shadow-xl"
+            className="pointer-events-none w-[180px] max-w-[calc(100vw-6rem)] rounded-2xl overflow-hidden shadow-xl"
             style={{ backgroundColor: "#fff", border: "1px solid rgba(60,97,168,0.15)" }}
           >
             {/* Mini header */}
@@ -463,7 +463,8 @@ export function ChatBot() {
         transition={{ duration: 0.4 }}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
-        className="relative w-[54px] h-[54px] rounded-full flex items-center justify-center cursor-pointer overflow-hidden"
+        className="relative w-[54px] h-[54px] rounded-full flex items-center justify-center cursor-pointer"
+        style={{ clipPath: "circle(50%)" }}
         style={{
           boxShadow: open
             ? `0 0 0 2.5px ${YELLOW}, 0 6px 24px rgba(60,97,168,0.5)`

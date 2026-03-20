@@ -677,7 +677,9 @@ export default function IntroAnimation() {
     if (!container) return;
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      const newScroll = Math.min(Math.max(scrollRef.current + e.deltaY, 0), MAX_SCROLL);
+      // Normalize delta so Windows mice (deltaY ~100-300) feel the same as macOS trackpads (deltaY ~2-20)
+      const delta = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY), 40);
+      const newScroll = Math.min(Math.max(scrollRef.current + delta, 0), MAX_SCROLL);
       scrollRef.current = newScroll;
       virtualScroll.set(newScroll);
     };

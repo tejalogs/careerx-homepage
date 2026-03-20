@@ -43,7 +43,7 @@ function VideoSectionContent() {
   const statsInView = useInView(statsRef, { once: true, margin: "-60px" });
 
   return (
-    <div className="-mx-4 sm:-mx-8 md:-mx-16 -my-10 lg:-my-20 px-4 sm:px-8 md:px-16 py-12 sm:py-16 md:py-20 bg-white overflow-hidden">
+    <div className="-mx-4 sm:-mx-8 md:-mx-16 -my-10 lg:-my-20 px-4 sm:px-8 md:px-16 py-12 sm:py-16 md:py-20 bg-white overflow-x-clip">
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
 
         {/* Left: Scroll-triggered image cards */}
@@ -180,14 +180,16 @@ export default function Home() {
 
     const handleWheel = (e: WheelEvent) => {
       if (transitioningRef.current) return;
+      // Normalize: Windows mice emit deltaY ~100-300 per notch; cap to 40 so threshold behaves consistently
+      const delta = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY), 40);
 
       const newHeroScroll = Math.min(
-        Math.max(heroScrollRef.current + e.deltaY, 0),
+        Math.max(heroScrollRef.current + delta, 0),
         HERO_MAX_SCROLL
       );
 
       if (heroScrollRef.current >= HERO_MAX_SCROLL && e.deltaY > 0) {
-        const newOver = overScrollRef.current + e.deltaY;
+        const newOver = overScrollRef.current + delta;
         overScrollRef.current = newOver;
         if (newOver >= OVER_SCROLL_THRESHOLD) goToVideo();
       } else {
