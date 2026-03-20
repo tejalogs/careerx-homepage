@@ -690,8 +690,7 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
       cancelAuto();
-      const delta = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY), 40);
-      const newScroll = Math.min(Math.max(scrollRef.current + delta, 0), MAX_SCROLL);
+      const newScroll = Math.min(Math.max(scrollRef.current + e.deltaY, 0), MAX_SCROLL);
       scrollRef.current = newScroll;
       virtualScroll.set(newScroll);
     };
@@ -738,14 +737,15 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
   const [circleReady, setCircleReady] = useState(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setIntroPhase("circle"), 600);
-    const t2 = setTimeout(() => setCircleReady(true), 1800);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    const t1 = setTimeout(() => setIntroPhase("line"), 500);
+    const t2 = setTimeout(() => setIntroPhase("circle"), 2500);
+    const t3 = setTimeout(() => setCircleReady(true), 3200);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, []);
 
-  // Stagger cards on first circle entry
+  // Stagger on circle entry (after line phase)
   useEffect(() => {
-    if (introPhase !== "scatter" && !staggerApplied.current) {
+    if (introPhase === "circle" && !staggerApplied.current) {
       staggerApplied.current = true;
       setShowStagger(true);
       const t = setTimeout(() => setShowStagger(false), TOTAL_CARDS * 60 + 800);
@@ -761,7 +761,7 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
     if (!isMobileDevice) return; // desktop: manual scroll only
     const t = setTimeout(() => {
       autoAnimRef.current = animate(virtualScroll, MAX_SCROLL, {
-        duration: 2,
+        duration: 2.5,
         ease: [0.6, 0.01, 0.05, 0.95],
         onUpdate: (v) => { scrollRef.current = v; },
         onComplete: () => {
@@ -910,7 +910,7 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
               const arcApexY = containerSize.height * (isMobile ? 0.35 : 0.25);
               const arcCenterY = arcApexY + arcRadius;
 
-              const spreadAngle = isMobile ? 40 : 50;
+              const spreadAngle = isMobile ? 100 : 130;
               const startAngle = -90 - spreadAngle / 2;
               const step = spreadAngle / (TOTAL_CARDS - 1);
 
@@ -923,7 +923,7 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
                 x: Math.cos(arcRad) * arcRadius + parallaxValue,
                 y: Math.sin(arcRad) * arcRadius + arcCenterY,
                 rotation: currentArcAngle + 90,
-                scale: isSmallPhone ? 1.4 : isMobile ? 1.8 : 2.6,
+                scale: isSmallPhone ? 1.4 : isMobile ? 1.4 : 1.8,
               };
 
               target = {
