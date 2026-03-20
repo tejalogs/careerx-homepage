@@ -464,8 +464,8 @@ export function ChatBot() {
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
         className="relative w-[54px] h-[54px] rounded-full flex items-center justify-center cursor-pointer"
-        style={{ clipPath: "circle(50%)" }}
         style={{
+          clipPath: "circle(50%)",
           boxShadow: open
             ? `0 0 0 2.5px ${YELLOW}, 0 6px 24px rgba(60,97,168,0.5)`
             : `0 3px 16px rgba(60,97,168,0.45)`,
