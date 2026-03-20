@@ -9,76 +9,72 @@ const BLUE   = "#3C61A8";
 const YELLOW = "#F5D134";
 const DARK   = "#0C0E14";
 
-// ─── Robot Face SVG ─────────────────────────────────────────────────────────────
-function RobotFace({
+// ─── Avatar Face SVG ──────────────────────────────────────────────────────────
+function AvatarFace({
   size = 48,
   blink = false,
-  happy = false,
   talking = false,
 }: {
   size?: number;
   blink?: boolean;
-  happy?: boolean;
   talking?: boolean;
 }) {
-  const eyeH = blink ? 1 : 7;
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-      {/* Head */}
-      <rect x="8" y="10" width="32" height="28" rx="8" fill="#1a2540" />
-      {/* Antenna */}
-      <rect x="22" y="4" width="4" height="6" rx="2" fill="#1a2540" />
-      <circle cx="24" cy="4" r="3" fill={YELLOW} />
-      {/* Antenna glow */}
-      <circle cx="24" cy="4" r="2" fill={YELLOW} opacity="0.7">
-        <animate attributeName="r" values="2;3;2" dur="2s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite" />
-      </circle>
-      {/* Eye sockets */}
-      <rect x="13" y="18" width="9" height="10" rx="3" fill="#0a0f1e" />
-      <rect x="26" y="18" width="9" height="10" rx="3" fill="#0a0f1e" />
-      {/* Eye pupils */}
-      <rect
-        x="15.5"
-        y={blink ? 22 : 20}
-        width="4"
-        height={eyeH}
-        rx="2"
-        fill={YELLOW}
-        style={{ transition: "height 0.08s, y 0.08s" }}
-      />
-      <rect
-        x="28.5"
-        y={blink ? 22 : 20}
-        width="4"
-        height={eyeH}
-        rx="2"
-        fill={YELLOW}
-        style={{ transition: "height 0.08s, y 0.08s" }}
-      />
-      {/* Eye shine */}
-      {!blink && (
+      {/* Face circle */}
+      <circle cx="24" cy="24" r="22" fill="url(#faceGrad)" />
+      <defs>
+        <radialGradient id="faceGrad" cx="40%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#4e7fd6" />
+          <stop offset="100%" stopColor="#2a4a8c" />
+        </radialGradient>
+      </defs>
+
+      {/* Subtle inner glow rim */}
+      <circle cx="24" cy="24" r="21" stroke="rgba(255,255,255,0.12)" strokeWidth="1" fill="none" />
+
+      {/* Left eye */}
+      {blink ? (
+        <path d="M15 22 Q17.5 20 20 22" stroke="white" strokeWidth="1.8" strokeLinecap="round" fill="none" opacity="0.9" />
+      ) : (
         <>
-          <rect x="18" y="20" width="1.5" height="1.5" rx="0.75" fill="white" opacity="0.8" />
-          <rect x="31" y="20" width="1.5" height="1.5" rx="0.75" fill="white" opacity="0.8" />
+          <ellipse cx="17.5" cy="21" rx="3" ry="3.5" fill="white" opacity="0.92" />
+          <circle cx="18.2" cy="21.5" r="1.8" fill="#1a3068" />
+          <circle cx="18.8" cy="20.6" r="0.7" fill="white" opacity="0.85" />
         </>
       )}
+
+      {/* Right eye */}
+      {blink ? (
+        <path d="M28 22 Q30.5 20 33 22" stroke="white" strokeWidth="1.8" strokeLinecap="round" fill="none" opacity="0.9" />
+      ) : (
+        <>
+          <ellipse cx="30.5" cy="21" rx="3" ry="3.5" fill="white" opacity="0.92" />
+          <circle cx="31.2" cy="21.5" r="1.8" fill="#1a3068" />
+          <circle cx="31.8" cy="20.6" r="0.7" fill="white" opacity="0.85" />
+        </>
+      )}
+
       {/* Mouth */}
       {talking ? (
-        <rect x="16" y="32" width="16" height="4" rx="2" fill={YELLOW} opacity="0.9">
-          <animate attributeName="height" values="4;2;4;3;4" dur="0.4s" repeatCount="indefinite" />
-        </rect>
-      ) : happy ? (
-        <path d="M16 32 Q24 38 32 32" stroke={YELLOW} strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0.9" />
+        <>
+          <ellipse cx="24" cy="32" rx="5" ry="3" fill="#1a3068" opacity="0.6">
+            <animate attributeName="ry" values="3;1.5;3;2;3" dur="0.35s" repeatCount="indefinite" />
+          </ellipse>
+          <path d="M19 32 Q24 36 29 32" stroke={YELLOW} strokeWidth="1.8" strokeLinecap="round" fill="none" opacity="0.7" />
+        </>
       ) : (
-        <rect x="16" y="33" width="16" height="2.5" rx="1.25" fill={YELLOW} opacity="0.7" />
+        <path d="M18.5 31 Q24 36.5 29.5 31" stroke={YELLOW} strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.85" />
       )}
-      {/* Cheek highlights */}
-      <circle cx="12" cy="31" r="3" fill={YELLOW} opacity="0.15" />
-      <circle cx="36" cy="31" r="3" fill={YELLOW} opacity="0.15" />
-      {/* Side bolts */}
-      <rect x="5" y="20" width="3" height="6" rx="1.5" fill="#243158" />
-      <rect x="40" y="20" width="3" height="6" rx="1.5" fill="#243158" />
+
+      {/* Soft cheek blush */}
+      <ellipse cx="12" cy="29" rx="4" ry="2.5" fill={YELLOW} opacity="0.12" />
+      <ellipse cx="36" cy="29" rx="4" ry="2.5" fill={YELLOW} opacity="0.12" />
+
+      {/* Headset arc — subtle tech detail */}
+      <path d="M7 22 Q7 8 24 8 Q41 8 41 22" stroke="rgba(255,255,255,0.15)" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      <circle cx="7" cy="22" r="2.5" fill="rgba(245,209,52,0.6)" />
+      <circle cx="41" cy="22" r="2.5" fill="rgba(245,209,52,0.6)" />
     </svg>
   );
 }
@@ -155,7 +151,7 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.85, y: 20 }}
       transition={{ type: "spring", stiffness: 340, damping: 28 }}
-      className="absolute bottom-16 right-0 w-[320px] rounded-2xl overflow-hidden shadow-2xl"
+      className="absolute bottom-[62px] right-0 w-[320px] rounded-2xl overflow-hidden shadow-2xl"
       style={{ border: "1px solid rgba(60,97,168,0.25)", backgroundColor: "#fff" }}
     >
       {/* Header */}
@@ -164,7 +160,7 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
         style={{ backgroundColor: BLUE }}
       >
         <div className="shrink-0">
-          <RobotFace size={36} happy />
+          <AvatarFace size={36} />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-black text-white leading-none">CareerBot</p>
@@ -438,50 +434,54 @@ export function ChatBot() {
         )}
       </AnimatePresence>
 
-      {/* Robot button */}
+      {/* Avatar button */}
       <motion.button
         onClick={handleToggle}
         aria-label="Open CareerBot"
         animate={
           bounce
-            ? { scale: [1, 1.2, 0.9, 1.05, 1] }
+            ? { scale: [1, 1.15, 0.92, 1.04, 1] }
             : nudge
-            ? { x: [0, -5, 5, -3, 3, 0] }
+            ? { x: [0, -4, 4, -2, 2, 0] }
             : {}
         }
         transition={{ duration: 0.4 }}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.93 }}
-        className="relative w-[62px] h-[62px] rounded-full flex items-center justify-center cursor-pointer"
+        whileHover={{ scale: 1.06 }}
+        whileTap={{ scale: 0.94 }}
+        className="relative w-[54px] h-[54px] rounded-full flex items-center justify-center cursor-pointer overflow-hidden"
         style={{
-          background: `radial-gradient(circle at 35% 35%, #243a7a 0%, ${BLUE} 100%)`,
           boxShadow: open
-            ? `0 0 0 3px ${YELLOW}, 0 8px 28px rgba(60,97,168,0.55)`
-            : `0 4px 20px rgba(60,97,168,0.5)`,
+            ? `0 0 0 2.5px ${YELLOW}, 0 6px 24px rgba(60,97,168,0.5)`
+            : `0 3px 16px rgba(60,97,168,0.45)`,
           transition: "box-shadow 0.3s",
         }}
       >
-        {/* Pulse ring */}
+        {/* Pulse ring when closed */}
         {!open && (
           <span
             className="absolute inset-0 rounded-full animate-ping"
-            style={{ backgroundColor: BLUE, opacity: 0.2 }}
+            style={{ backgroundColor: BLUE, opacity: 0.18 }}
           />
         )}
-        <RobotFace size={44} blink={blink} happy={open} talking={open} />
 
-        {/* Close X overlay */}
+        <AvatarFace size={54} blink={blink} talking={open} />
+
+        {/* Minimize chevron on open — small pill at bottom edge */}
         <AnimatePresence>
           {open && (
             <motion.div
-              initial={{ opacity: 0, rotate: -45 }}
-              animate={{ opacity: 1, rotate: 0 }}
-              exit={{ opacity: 0, rotate: 45 }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-0 flex items-center justify-center rounded-full"
-              style={{ backgroundColor: "rgba(10,16,40,0.6)" }}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 6 }}
+              transition={{ duration: 0.18 }}
+              className="absolute bottom-0 inset-x-0 flex items-center justify-center pb-0.5"
             >
-              <X className="w-5 h-5 text-white" />
+              <div
+                className="w-6 h-3 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: "rgba(0,0,0,0.35)" }}
+              >
+                <X className="w-2.5 h-2.5 text-white" />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
