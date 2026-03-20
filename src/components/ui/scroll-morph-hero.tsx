@@ -606,12 +606,7 @@ function FlipCard({ config, target, staggerDelay = 0 }: FlipCardProps) {
   return (
     <motion.div
       animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
-      transition={{
-        type: "spring",
-        stiffness: staggerDelay > 0 ? 60 : 40,
-        damping: staggerDelay > 0 ? 10 : 15,
-        delay: staggerDelay,
-      }}
+      transition={{ type: "spring", stiffness: 40, damping: 15, delay: staggerDelay }}
       style={{ position: "absolute", width: CARD_W, height: CARD_H, transformStyle: "preserve-3d", perspective: "1000px" }}
       className="cursor-pointer group"
     >
@@ -809,23 +804,11 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
   return (
     <div ref={containerRef} className="relative w-full h-full overflow-hidden" style={{ background: "radial-gradient(ellipse 70% 55% at 50% 62%, rgba(60,97,168,0.07) 0%, transparent 70%), #F7F8FC" }}>
 
-      {/* Ambient floating glow orbs */}
+      {/* Ambient glow orbs — static, no animation to avoid GPU contention with card springs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          animate={{ x: [-50, 50, -50], y: [-30, 30, -30] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          style={{ position: "absolute", width: 700, height: 700, background: "radial-gradient(circle, rgba(60,97,168,0.09) 0%, transparent 65%)", borderRadius: "50%", left: "5%", top: "10%", filter: "blur(60px)" }}
-        />
-        <motion.div
-          animate={{ x: [40, -40, 40], y: [20, -20, 20] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-          style={{ position: "absolute", width: 500, height: 500, background: "radial-gradient(circle, rgba(245,209,52,0.07) 0%, transparent 65%)", borderRadius: "50%", right: "0%", top: "35%", filter: "blur(50px)" }}
-        />
-        <motion.div
-          animate={{ x: [-20, 20, -20], y: [40, -40, 40] }}
-          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 7 }}
-          style={{ position: "absolute", width: 400, height: 400, background: "radial-gradient(circle, rgba(60,97,168,0.06) 0%, transparent 65%)", borderRadius: "50%", left: "40%", bottom: "0%", filter: "blur(40px)" }}
-        />
+        <div style={{ position: "absolute", width: 700, height: 700, background: "radial-gradient(circle, rgba(60,97,168,0.08) 0%, transparent 65%)", borderRadius: "50%", left: "5%", top: "10%", filter: "blur(80px)" }} />
+        <div style={{ position: "absolute", width: 500, height: 500, background: "radial-gradient(circle, rgba(245,209,52,0.06) 0%, transparent 65%)", borderRadius: "50%", right: "0%", top: "35%", filter: "blur(70px)" }} />
+        <div style={{ position: "absolute", width: 400, height: 400, background: "radial-gradient(circle, rgba(60,97,168,0.05) 0%, transparent 65%)", borderRadius: "50%", left: "40%", bottom: "0%", filter: "blur(60px)" }} />
       </div>
 
       {/* Flash overlay on exit */}
