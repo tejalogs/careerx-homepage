@@ -827,7 +827,7 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
         {/* Intro headline — mobile: top, desktop: center */}
-        <div className="absolute z-0 flex flex-col items-center justify-center text-center pointer-events-none px-6 top-[10%] md:top-[52%] md:-translate-y-1/2">
+        <div className="absolute z-20 flex flex-col items-center justify-center text-center pointer-events-none px-6 top-[10%] md:top-[52%] md:-translate-y-1/2">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={circleReady && morphValue < 0.3 ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 10 }}

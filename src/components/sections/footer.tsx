@@ -1,7 +1,6 @@
 "use client";
 
 import { Youtube, Linkedin, Instagram, Phone, Mail, MapPin, ChevronDown } from "lucide-react";
-import { ChatBot } from "@/components/ui/chat-bot";
 
 const SOCIAL_LINKS = [
   {
@@ -160,8 +159,6 @@ export default function Footer() {
         </div>
       </footer>
 
-      {/* Floating chatbot */}
-      <ChatBot />
     </>
   );
 }

@@ -111,7 +111,7 @@ function FeatureItem({ feature, isPopular }: { feature: string; isPopular: boole
         <Check className="w-3 h-3" style={{ color: isPopular ? BLUE : DARK }} />
       </div>
       <div className="flex-1 flex items-start gap-1.5">
-        <span className="font-handwritten text-[15px] sm:text-[17px]" style={{ color: DARK }}>{feature}</span>
+        <span className="text-sm font-medium" style={{ color: DARK }}>{feature}</span>
         {tip && (
           <div className="relative mt-0.5 shrink-0">
             <button
@@ -218,7 +218,7 @@ export default function PricingSection() {
           >
             <Coins className="w-4 h-4" style={{ color: BLUE }} />
             <span
-              className="font-handwritten text-xl rotate-[-1deg] inline-block"
+              className="text-base font-semibold tracking-wide"
               style={{ color: BLUE }}
             >
               Simple Pricing
@@ -231,7 +231,7 @@ export default function PricingSection() {
             transition={{ duration: 0.45, delay: 0.07 }}
             className="relative inline-block"
           >
-            <h2 className="font-handwritten text-4xl md:text-5xl font-bold rotate-[-1deg] inline-block" style={{ color: DARK }}>
+            <h2 className="text-4xl md:text-5xl font-bold" style={{ color: DARK }}>
               One investment. Your entire career journey.
             </h2>
             <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-48 h-3 rounded-full blur-sm rotate-[-1deg]"
@@ -243,7 +243,7 @@ export default function PricingSection() {
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.4, delay: 0.15 }}
-            className="font-handwritten text-xl rotate-[-1deg] inline-block"
+            className="text-base"
             style={{ color: "rgba(12,14,20,0.5)" }}
           >
             From knowing yourself to landing the role. Everything included.
@@ -258,12 +258,7 @@ export default function PricingSection() {
               initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1, ease: [0.33, 1, 0.68, 1] }}
-              className={cn(
-                "relative group transition-all duration-300",
-                index === 0 && "rotate-[-1deg]",
-                index === 1 && "rotate-[1deg]",
-                index === 2 && "rotate-[-2deg]"
-              )}
+              className="relative group transition-all duration-300"
             >
               {/* Card shadow layer */}
               <div
@@ -284,7 +279,7 @@ export default function PricingSection() {
                 {/* Popular badge */}
                 {plan.popular && (
                   <div
-                    className="absolute -top-3 -right-3 font-handwritten text-sm px-3 py-1 rounded-full rotate-12 border-2 z-10"
+                    className="absolute -top-3 -right-3 text-xs font-semibold px-3 py-1 rounded-full border-2 z-10"
                     style={{ backgroundColor: YELLOW, color: DARK, borderColor: DARK }}
                   >
                     Most Popular!
@@ -302,20 +297,20 @@ export default function PricingSection() {
                   >
                     {plan.icon}
                   </div>
-                  <h3 className="font-handwritten text-2xl font-bold" style={{ color: DARK }}>
+                  <h3 className="text-xl font-bold" style={{ color: DARK }}>
                     {plan.name}
                   </h3>
-                  <p className="font-handwritten text-base mt-1" style={{ color: "rgba(12,14,20,0.5)" }}>
+                  <p className="text-sm mt-1" style={{ color: "rgba(12,14,20,0.5)" }}>
                     {plan.description}
                   </p>
                 </div>
 
                 {/* Price */}
-                <div className="mb-6 font-handwritten">
+                <div className="mb-6">
                   <span className="text-3xl sm:text-4xl font-bold" style={{ color: DARK }}>
                     ${plan.price}
                   </span>
-                  <span className="text-base ml-1" style={{ color: "rgba(12,14,20,0.4)" }}>
+                  <span className="text-sm ml-1" style={{ color: "rgba(12,14,20,0.4)" }}>
                     one-time
                   </span>
                 </div>
@@ -330,7 +325,7 @@ export default function PricingSection() {
                 {/* CTA */}
                 <Button
                   className={cn(
-                    "w-full h-12 font-handwritten text-lg border-2 transition-all duration-300",
+                    "w-full h-12 text-base font-semibold border-2 transition-all duration-300",
                     "shadow-[4px_4px_0px_0px] hover:shadow-[6px_6px_0px_0px]",
                     "hover:-translate-x-0.5 hover:-translate-y-0.5",
                     plan.popular
@@ -369,7 +364,7 @@ export default function PricingSection() {
         >
           <LogoStrip />
           <p
-            className="font-handwritten text-center text-base mt-5 rotate-[-1deg] inline-block w-full"
+            className="text-center text-sm mt-5 w-full"
             style={{ color: "rgba(12,14,20,0.3)" }}
           >
             Join 2,000+ candidates already on track ✓
