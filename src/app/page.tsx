@@ -262,7 +262,7 @@ export default function Home() {
             exit={{ opacity: 0, y: -40 }}
             transition={{ duration: 0.6, ease: [0.32, 0, 0.67, 0] }}
           >
-            <IntroAnimation />
+            <IntroAnimation onAutoAdvance={goToVideo} />
           </motion.div>
         )}
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { motion, useTransform, useSpring, useMotionValue } from "framer-motion";
+import { motion, useTransform, useSpring, useMotionValue, animate } from "framer-motion";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export type AnimationPhase = "scatter" | "line" | "circle" | "bottom-strip";
@@ -651,7 +651,7 @@ const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * 
 // ─── Main Hero Component ──────────────────────────────────────────────────────
 const MAX_SCROLL = 3000;
 
-export default function IntroAnimation() {
+export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () => void }) {
   const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -671,20 +671,31 @@ export default function IntroAnimation() {
 
   const virtualScroll = useMotionValue(0);
   const scrollRef = useRef(0);
+  const autoAnimRef = useRef<ReturnType<typeof animate> | null>(null);
+
+  const cancelAuto = () => {
+    if (autoAnimRef.current) {
+      autoAnimRef.current.stop();
+      autoAnimRef.current = null;
+    }
+  };
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      // Normalize delta so Windows mice (deltaY ~100-300) feel the same as macOS trackpads (deltaY ~2-20)
+      cancelAuto();
       const delta = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY), 40);
       const newScroll = Math.min(Math.max(scrollRef.current + delta, 0), MAX_SCROLL);
       scrollRef.current = newScroll;
       virtualScroll.set(newScroll);
     };
     let touchStartY = 0;
-    const handleTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
+    const handleTouchStart = (e: TouchEvent) => {
+      cancelAuto();
+      touchStartY = e.touches[0].clientY;
+    };
     const handleTouchMove = (e: TouchEvent) => {
       const deltaY = touchStartY - e.touches[0].clientY;
       touchStartY = e.touches[0].clientY;
@@ -727,6 +738,26 @@ export default function IntroAnimation() {
     const t2 = setTimeout(() => setCircleReady(true), 1800);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
+
+  // Auto-advance: after cards settle, animate through and transition to video
+  useEffect(() => {
+    if (!circleReady) return;
+    const t = setTimeout(() => {
+      autoAnimRef.current = animate(virtualScroll, MAX_SCROLL, {
+        duration: 3,
+        ease: [0.33, 1, 0.68, 1],
+        onUpdate: (v) => { scrollRef.current = v; },
+        onComplete: () => {
+          autoAnimRef.current = null;
+          onAutoAdvance?.();
+        },
+      });
+    }, 1200);
+    return () => {
+      clearTimeout(t);
+      cancelAuto();
+    };
+  }, [circleReady]);
 
   void circleReady;
 
