@@ -26,15 +26,15 @@ const SOCIAL_LINKS = [
 ];
 
 const NAV_LINKS = [
-  { label: "CareerX For", dropdown: true },
-  { label: "The Difference", dropdown: false },
-  { label: "Know Yourself Better", dropdown: false },
-  { label: "Blogs", dropdown: true },
-  { label: "Success Stories", dropdown: false },
+  { label: "How It Works", dropdown: false },
+  { label: "Products", dropdown: false },
+  { label: "Pricing", dropdown: false },
+  { label: "For Institutions", dropdown: false },
+  { label: "Insights", dropdown: false },
 ];
 
 const CONTACT = [
-  { icon: Phone, text: "0207-112-5202, +1 (510) 377-4277" },
+  { icon: Phone, text: "+1 (510) 377-4277" },
   { icon: Mail, text: "spaladugu@careerxcelerator.io" },
   { icon: MapPin, text: "5470 Kietzke Lane, Suite 300-# 520, Reno, Nevada - 89511" },
 ];
@@ -78,7 +78,7 @@ export default function Footer() {
                 </span>
               </a>
               <p className="text-sm italic font-semibold mb-6" style={{ color: "rgba(255,255,255,0.75)" }}>
-                Clarity. Preparedness. Confidence.
+                CareerXcelerator · Powered by AI
               </p>
 
               <p className="text-xs font-semibold mb-3" style={{ color: "rgba(255,255,255,0.55)" }}>

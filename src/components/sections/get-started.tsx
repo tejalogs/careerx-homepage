@@ -5,9 +5,9 @@ import { useRef, useState } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const TRUST_POINTS = [
-  "No commitment. Start with a free role assessment",
-  "10 minute assessment · 2,000+ candidates placed",
-  "Backed by 500+ hiring partners globally",
+  "No commitment. Start with a free role discovery",
+  "10 minute assessment · 2,000+ careers accelerated",
+  "Structured path from clarity to job opportunities",
 ];
 
 export default function GetStartedSection() {
@@ -56,7 +56,7 @@ export default function GetStartedSection() {
         >
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
           <p className="text-[11px] font-black tracking-[0.25em] uppercase text-white">
-            Now Accepting Candidates
+            Start with CareerXcelerator
           </p>
         </motion.div>
 
@@ -64,9 +64,9 @@ export default function GetStartedSection() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.05] mb-6"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.05] mb-6"
         >
-          Your next role{" "}
+          Find your best role.{" "}
           <span
             className="relative inline-block px-2"
             style={{
@@ -77,7 +77,7 @@ export default function GetStartedSection() {
               display: "inline-block",
             }}
           >
-            starts here.
+            Get there.
           </span>
         </motion.h2>
 
@@ -85,9 +85,9 @@ export default function GetStartedSection() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed mb-10 sm:mb-12 px-2"
+          className="text-sm sm:text-base md:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10 md:mb-12 px-4 sm:px-2"
         >
-          Start with a free KYB assessment. In 10 minutes, you will know exactly which roles fit your strengths and what it takes to get there.
+          Start with Know Yourself Better. In 10 minutes, discover which roles fit your strengths, see your skill gaps, and get a structured path to your next career move.
         </motion.p>
 
         <motion.div
@@ -113,7 +113,7 @@ export default function GetStartedSection() {
               </button>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch gap-3 max-w-md mx-auto w-full px-1 sm:px-0">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch gap-3 max-w-md mx-auto w-full px-4 sm:px-0">
               <input
                 type="email"
                 required
@@ -129,7 +129,7 @@ export default function GetStartedSection() {
                 style={{ backgroundColor: "#F5D134", color: "#0C0E14" }}
               >
                 <div className="absolute inset-0 bg-black/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 rounded-full" />
-                <span className="relative z-10 whitespace-nowrap">{loading ? "Sending…" : "Get Started"}</span>
+                <span className="relative z-10 whitespace-nowrap">{loading ? "Sending…" : "Find My Best Role"}</span>
                 {!loading && <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />}
               </button>
             </form>
@@ -141,7 +141,7 @@ export default function GetStartedSection() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8"
+          className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 md:gap-8"
         >
           {TRUST_POINTS.map((point) => (
             <li key={point} className="flex items-center gap-2">
@@ -150,6 +150,35 @@ export default function GetStartedSection() {
             </li>
           ))}
         </motion.ul>
+
+        {/* Divider */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="h-px mx-auto max-w-xs mt-14 mb-10"
+          style={{ backgroundColor: "rgba(255,255,255,0.12)" }}
+        />
+
+        {/* Institution CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.65 }}
+          className="flex flex-col items-center gap-3"
+        >
+          <p className="text-[13px] text-white/50 font-medium">
+            Representing a university or institution?
+          </p>
+          <a
+            href="#institutions"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[14px] font-bold border-2 transition-all hover:-translate-y-0.5 active:translate-y-0"
+            style={{ borderColor: "rgba(255,255,255,0.25)", color: "#fff", backgroundColor: "rgba(255,255,255,0.06)" }}
+          >
+            Institutional Deployment
+            <ArrowRight className="w-4 h-4" />
+          </a>
+        </motion.div>
 
       </div>
     </section>

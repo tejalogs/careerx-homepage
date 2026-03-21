@@ -23,7 +23,7 @@ export default function HeroSection() {
           style={{ borderColor: "#4267B2", color: "#4267B2", backgroundColor: "#EEF2FF" }}
         >
           <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "#4267B2" }} />
-          The Career Acceleration Framework
+          CareerXcelerator · Powered by AI
         </motion.div>
 
         {/* CTA Buttons */}

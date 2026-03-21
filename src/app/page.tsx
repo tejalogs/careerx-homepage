@@ -10,6 +10,9 @@ import ScrollExpandMedia from "@/components/blocks/scroll-expansion-hero";
 import { ReadinessChart } from "@/components/sections/candidate-outcomes";
 import { MissionVisionSection } from "@/components/sections/mission-vision";
 import { ServicesSection } from "@/components/sections/services";
+import { ProblemSection } from "@/components/sections/problem-section";
+import { HowItWorksSection } from "@/components/sections/how-it-works";
+import { InstitutionDetailSection } from "@/components/sections/institution-detail";
 import PricingSection from "@/components/sections/pricing";
 import { FAQSection } from "@/components/sections/faq";
 import GetStartedSection from "@/components/sections/get-started";
@@ -60,9 +63,9 @@ function VideoSectionContent() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-[10px] font-black tracking-[0.3em] uppercase text-black/50 mb-5">Platform</p>
-          <h2 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tight leading-[1.05] mb-6">
-            Everything You Need to{" "}
+          <p className="text-[10px] font-black tracking-[0.3em] uppercase text-black/50 mb-5">How It Works</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight leading-[1.05] mb-6">
+            Everything to{" "}
             <span
               className="relative inline-block px-2"
               style={{
@@ -76,14 +79,14 @@ function VideoSectionContent() {
             </span>
           </h2>
           <p className="text-[16px] text-black/60 leading-relaxed mb-8 max-w-xs">
-            From role discovery to interview simulation — a structured, AI-powered path to your next career milestone.
+            From role discovery to interview prep to job offers — a structured, AI-powered path to your next career move.
           </p>
           <a
             href="#get-started"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold text-white transition-all hover:opacity-85 active:scale-95"
             style={{ backgroundColor: "#3C61A8" }}
           >
-            Start Your Journey
+            Find My Best Role
             <ArrowRight className="w-4 h-4" />
           </a>
 
@@ -104,7 +107,7 @@ function VideoSectionContent() {
               </div>
             </div>
             <div className="text-left">
-              <p className="text-[12px] font-bold text-black/70 leading-tight">2,000+ candidates placed</p>
+              <p className="text-[12px] font-bold text-black/70 leading-tight">2,000+ careers accelerated</p>
               <p className="text-[11px] text-black/60 leading-tight">across 500+ hiring partners</p>
             </div>
           </div>
@@ -233,23 +236,11 @@ export default function Home() {
 
   return (
     <main className="overflow-hidden">
-      {/* Navbar: visible only after video expands (below-fold content) */}
-      <AnimatePresence>
-        {activeSection === "video" && videoExpanded && (
-          <motion.div
-            key="navbar"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            <Navbar
-              section={activeSection}
-              onBack={goToHero}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Navbar: always visible */}
+      <Navbar
+        section={activeSection}
+        onBack={activeSection === "video" ? goToHero : undefined}
+      />
 
       <AnimatePresence mode="wait">
         {/* ── Hero ──────────────────────────────────────────────────────────── */}
@@ -293,10 +284,24 @@ export default function Home() {
             {/* Below-fold sections — visible after video fully expands */}
             {videoExpanded && (
               <>
+                {/* Problem → Solution narrative */}
+                <Wave from="#fff" to="#F7F8FC" shape="a" />
+                <ProblemSection />
+                <HowItWorksSection />
+
+                {/* Products deep dive */}
+                <Wave from="#F7F8FC" to="#3C61A8" shape="b" />
                 <ServicesSection />
                 <Wave from="#3C61A8" to="#F7F8FC" shape="c" />
+
+                {/* B2B — Institutional detail */}
+                <InstitutionDetailSection />
+
+                {/* Trust + Pricing */}
                 <MissionVisionSection />
                 <PricingSection />
+
+                {/* Final CTA — combined for individuals + institutions */}
                 <Wave from="#F7F8FC" to="#3C61A8" shape="b" />
                 <GetStartedSection />
                 <Wave from="#3C61A8" to="#F7F8FC" shape="c" />

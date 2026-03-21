@@ -2,14 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronLeft } from "lucide-react";
+import { Menu, X, ChevronLeft, ArrowRight } from "lucide-react";
 import { BrandLogoMark } from "@/components/ui/brand-logo";
 
+const BLUE   = "#3C61A8";
+const YELLOW = "#F5D134";
+const DARK   = "#0C0E14";
+
 const NAV_LINKS = [
-  { label: "Know Yourself Better", href: "#audience" },
-  { label: "The Difference",       href: "#services" },
-  { label: "CareerX For",          href: "#audience" },
-  { label: "Pricing",              href: "#pricing"  },
+  { label: "How It Works",      href: "#how-it-works" },
+  { label: "Products",          href: "#services"     },
+  { label: "Pricing",           href: "#pricing"      },
+  { label: "For Institutions",  href: "#institutions" },
 ];
 
 interface NavbarProps {
@@ -22,7 +26,7 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -31,19 +35,28 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
 
   return (
     <>
-      {/* ── Desktop: floating pill ─────────────────────────────────────────────── */}
+      {/* ── Desktop: Apple-style glass navbar ──────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: -12 }}
+        initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-4 inset-x-0 z-50 hidden md:flex justify-center pointer-events-none"
+        transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed top-3 inset-x-0 z-50 hidden md:flex justify-center pointer-events-none"
       >
         <div
-          className={`pointer-events-auto flex items-center h-[46px] px-2 rounded-full transition-all duration-500 ${
-            scrolled
-              ? "bg-white/75 backdrop-blur-2xl border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.8)]"
-              : "bg-white/40 backdrop-blur-xl border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.7)]"
-          }`}
+          className="pointer-events-auto flex items-center h-[44px] px-1.5 rounded-[22px] transition-all duration-700"
+          style={{
+            background: scrolled
+              ? "rgba(255, 255, 255, 0.72)"
+              : "rgba(255, 255, 255, 0.45)",
+            backdropFilter: "blur(40px) saturate(180%)",
+            WebkitBackdropFilter: "blur(40px) saturate(180%)",
+            border: scrolled
+              ? "1px solid rgba(0, 0, 0, 0.08)"
+              : "1px solid rgba(255, 255, 255, 0.5)",
+            boxShadow: scrolled
+              ? "0 4px 30px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04), inset 0 0.5px 0 rgba(255, 255, 255, 0.6)"
+              : "0 2px 20px rgba(0, 0, 0, 0.04), inset 0 0.5px 0 rgba(255, 255, 255, 0.8)",
+          }}
         >
           {/* Back button */}
           <AnimatePresence>
@@ -55,24 +68,24 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
                 exit={{ opacity: 0, width: 0 }}
                 transition={{ duration: 0.2 }}
                 onClick={onBack}
-                className="flex items-center gap-0.5 pl-2 pr-3 text-[13px] font-medium text-[#3C61A8] hover:opacity-60 transition-opacity overflow-hidden whitespace-nowrap"
+                className="flex items-center gap-0.5 pl-2.5 pr-3 text-[13px] font-medium hover:opacity-60 transition-opacity overflow-hidden whitespace-nowrap"
+                style={{ color: BLUE }}
               >
-                <ChevronLeft className="w-4 h-4 shrink-0" />
-                Back
+                <ChevronLeft className="w-3.5 h-3.5 shrink-0" />
               </motion.button>
             )}
           </AnimatePresence>
 
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-white/30 transition-colors">
-            <BrandLogoMark size={22} color="#F5D134" />
-            <span className="text-[13px] font-semibold text-gray-900 tracking-tight whitespace-nowrap">
-              Career<span style={{ color: "#3C61A8" }}>X</span>celerator
+          <a href="/" className="flex items-center gap-1.5 px-3 py-1 rounded-full hover:bg-black/[0.03] transition-colors">
+            <BrandLogoMark size={18} color={YELLOW} />
+            <span className="text-[13px] font-semibold tracking-tight whitespace-nowrap" style={{ color: DARK }}>
+              Career<span style={{ color: BLUE }}>X</span>
             </span>
           </a>
 
-          {/* Divider */}
-          <div className="w-px h-4 bg-black/10 mx-1 shrink-0" />
+          {/* Separator dot */}
+          <div className="w-[3px] h-[3px] rounded-full bg-black/10 mx-1 shrink-0" />
 
           {/* Links */}
           <nav className="flex items-center">
@@ -80,60 +93,78 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
               <a
                 key={link.href}
                 href={link.href}
-                className="px-3.5 py-1.5 text-[13px] font-medium text-gray-500 hover:text-gray-900 rounded-full hover:bg-white/40 transition-all duration-150 whitespace-nowrap"
+                className="px-2.5 py-1 text-[12.5px] font-medium rounded-full hover:bg-black/[0.04] transition-all duration-200 whitespace-nowrap"
+                style={{ color: "rgba(0,0,0,0.5)" }}
+                onMouseEnter={(e) => { (e.target as HTMLElement).style.color = "rgba(0,0,0,0.85)"; }}
+                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "rgba(0,0,0,0.5)"; }}
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          {/* Divider */}
-          <div className="w-px h-4 bg-black/10 mx-1 shrink-0" />
+          {/* Separator dot */}
+          <div className="w-[3px] h-[3px] rounded-full bg-black/10 mx-1 shrink-0" />
 
           {/* Login */}
           <a
             href="#"
-            className="px-3.5 py-1.5 text-[13px] font-medium text-gray-500 hover:text-gray-900 rounded-full hover:bg-white/40 transition-all duration-150 whitespace-nowrap"
+            className="px-2.5 py-1 text-[12.5px] font-medium rounded-full hover:bg-black/[0.04] transition-all duration-200 whitespace-nowrap"
+            style={{ color: "rgba(0,0,0,0.45)" }}
           >
-            Login →
+            Login
           </a>
 
-          {/* CTA */}
+          {/* CTA pill */}
           <a
             href="#get-started"
-            className="ml-1 inline-flex items-center h-[32px] px-5 rounded-full text-[13px] font-semibold text-white transition-all hover:opacity-85 active:scale-95"
-            style={{ backgroundColor: "#3C61A8" }}
+            className="ml-1 inline-flex items-center gap-1 h-[32px] px-4 rounded-full text-[12.5px] font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-[1px] active:scale-[0.97] whitespace-nowrap"
+            style={{
+              background: `linear-gradient(135deg, ${DARK} 0%, #1a1e2e 100%)`,
+              color: "#fff",
+              boxShadow: "0 2px 8px rgba(12, 14, 20, 0.2)",
+            }}
           >
-            Get Started
+            Find My Best Role
+            <ArrowRight className="w-3 h-3" />
           </a>
         </div>
       </motion.div>
 
-      {/* ── Mobile: floating pill ──────────────────────────────────────────────── */}
+      {/* ── Mobile: Apple-style glass navbar ───────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: -12 }}
+        initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-4 left-4 right-4 z-50 md:hidden"
+        transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed top-3 left-3 right-3 z-50 md:hidden"
       >
         {/* Pill bar */}
         <div
-          className={`flex items-center justify-between h-[46px] px-4 rounded-full transition-all duration-500 ${
-            scrolled || mobileOpen
-              ? "bg-white/80 backdrop-blur-2xl border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.8)]"
-              : "bg-white/40 backdrop-blur-xl border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.7)]"
-          }`}
+          className="flex items-center justify-between h-[44px] px-3 rounded-[22px] transition-all duration-700"
+          style={{
+            background: scrolled || mobileOpen
+              ? "rgba(255, 255, 255, 0.78)"
+              : "rgba(255, 255, 255, 0.45)",
+            backdropFilter: "blur(40px) saturate(180%)",
+            WebkitBackdropFilter: "blur(40px) saturate(180%)",
+            border: scrolled || mobileOpen
+              ? "1px solid rgba(0, 0, 0, 0.08)"
+              : "1px solid rgba(255, 255, 255, 0.5)",
+            boxShadow: scrolled || mobileOpen
+              ? "0 4px 30px rgba(0, 0, 0, 0.08), inset 0 0.5px 0 rgba(255, 255, 255, 0.6)"
+              : "0 2px 20px rgba(0, 0, 0, 0.04), inset 0 0.5px 0 rgba(255, 255, 255, 0.8)",
+          }}
         >
-          <a href="/" className="flex items-center gap-2">
-            <BrandLogoMark size={22} color="#F5D134" />
-            <span className="text-[13px] font-semibold text-gray-900 tracking-tight">
-              Career<span style={{ color: "#3C61A8" }}>X</span>celerator
+          <a href="/" className="flex items-center gap-1.5">
+            <BrandLogoMark size={18} color={YELLOW} />
+            <span className="text-[13px] font-semibold tracking-tight" style={{ color: DARK }}>
+              Career<span style={{ color: BLUE }}>X</span>
             </span>
           </a>
 
           <button
             onClick={() => setMobileOpen((v) => !v)}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/8 transition-colors"
+            className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-black/[0.04] transition-colors"
             aria-label="Toggle menu"
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -145,7 +176,7 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
                   exit={{ opacity: 0, rotate: 45, scale: 0.7 }}
                   transition={{ duration: 0.15 }}
                 >
-                  <X className="w-[17px] h-[17px] text-gray-700" />
+                  <X className="w-4 h-4 text-gray-600" />
                 </motion.span>
               ) : (
                 <motion.span
@@ -155,46 +186,58 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
                   exit={{ opacity: 0, rotate: -45, scale: 0.7 }}
                   transition={{ duration: 0.15 }}
                 >
-                  <Menu className="w-[17px] h-[17px] text-gray-700" />
+                  <Menu className="w-4 h-4 text-gray-600" />
                 </motion.span>
               )}
             </AnimatePresence>
           </button>
         </div>
 
-        {/* Dropdown — detached card below pill */}
+        {/* Dropdown — glass card */}
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -8, scale: 0.96 }}
+              initial={{ opacity: 0, y: -6, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -8, scale: 0.96 }}
+              exit={{ opacity: 0, y: -6, scale: 0.97 }}
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-2 rounded-3xl overflow-hidden bg-white/80 backdrop-blur-2xl border border-white/60 shadow-[0_16px_40px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.8)]"
+              className="mt-1.5 rounded-2xl overflow-hidden"
+              style={{
+                background: "rgba(255, 255, 255, 0.82)",
+                backdropFilter: "blur(40px) saturate(180%)",
+                WebkitBackdropFilter: "blur(40px) saturate(180%)",
+                border: "1px solid rgba(0, 0, 0, 0.06)",
+                boxShadow: "0 12px 40px rgba(0, 0, 0, 0.1), inset 0 0.5px 0 rgba(255, 255, 255, 0.7)",
+              }}
             >
-              <div className="px-4 pt-2 pb-4 flex flex-col">
+              <div className="px-3 pt-1 pb-3 flex flex-col">
                 {NAV_LINKS.map((link, i) => (
                   <a
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`py-3.5 text-[15px] font-medium text-gray-700 hover:text-gray-900 transition-colors ${
-                      i < NAV_LINKS.length - 1 ? "border-b border-black/[0.06]" : ""
+                    className={`py-3 text-[14px] font-medium transition-colors ${
+                      i < NAV_LINKS.length - 1 ? "border-b border-black/[0.04]" : ""
                     }`}
+                    style={{ color: "rgba(0,0,0,0.6)" }}
                   >
                     {link.label}
                   </a>
                 ))}
-                <a href="#" className="py-3.5 text-[15px] font-medium text-gray-500 border-t border-black/[0.06]">
-                  Login →
+                <a href="#" className="py-3 text-[14px] font-medium border-t border-black/[0.04]" style={{ color: "rgba(0,0,0,0.4)" }}>
+                  Login
                 </a>
                 <a
                   href="#get-started"
                   onClick={() => setMobileOpen(false)}
-                  className="mt-2 block w-full text-center py-3 rounded-full text-[15px] font-semibold text-white"
-                  style={{ backgroundColor: "#3C61A8" }}
+                  className="mt-1.5 flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-[14px] font-semibold"
+                  style={{
+                    background: `linear-gradient(135deg, ${DARK} 0%, #1a1e2e 100%)`,
+                    color: "#fff",
+                  }}
                 >
-                  Get Started
+                  Find My Best Role
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </a>
               </div>
             </motion.div>

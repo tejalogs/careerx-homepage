@@ -2,6 +2,10 @@
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence, useTransform, useSpring, useMotionValue, animate } from "framer-motion";
+import {
+  Crosshair, Zap, BarChart3, Mic, DollarSign, CheckCircle,
+  Building2, Clock, Search, BookOpen, Rocket, MessageSquare,
+} from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export type AnimationPhase = "scatter" | "line" | "circle" | "bottom-strip";
@@ -30,8 +34,8 @@ interface FlipCardProps {
 }
 
 // ─── Card Dimensions ──────────────────────────────────────────────────────────
-const CARD_W = 60;
-const CARD_H = 85;
+const CARD_W = 80;
+const CARD_H = 110;
 
 // ─── 12 Product-Inspired Card Configs ─────────────────────────────────────────
 const CARDS: CardConfig[] = [
@@ -140,420 +144,124 @@ function Sparkline({ points, color = "#3C61A8", w = 38, h = 10 }: { points: numb
   );
 }
 
-const LABEL_STYLE = { fontSize: "3.5px", letterSpacing: "0.14em", color: "#9ca3af", fontWeight: 800, textTransform: "uppercase" as const };
+const LABEL_STYLE = { fontSize: "4.5px", letterSpacing: "0.14em", color: "#9ca3af", fontWeight: 800, textTransform: "uppercase" as const };
 const COL_STYLE = { display: "flex", flexDirection: "column" as const, height: "100%", width: "100%" };
-const PAD = { padding: "7px" };
+const PAD = { padding: "8px" };
 
 function Chip({ bg, color, text }: { bg: string; color: string; text: string }) {
   return (
-    <div style={{ display: "inline-flex", padding: "1.5px 4px", borderRadius: "3px", backgroundColor: bg, alignSelf: "flex-start" }}>
-      <p style={{ fontSize: "3px", color, fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase" }}>{text}</p>
+    <div style={{ display: "inline-flex", padding: "2px 5px", borderRadius: "3px", backgroundColor: bg, alignSelf: "flex-start" }}>
+      <p style={{ fontSize: "3.5px", color, fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase" }}>{text}</p>
     </div>
   );
 }
 
-// ─── Card Front Faces ─────────────────────────────────────────────────────────
-function CardFront({ config }: { config: CardConfig }) {
-  switch (config.type) {
-
-    case "role-match": {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const displayMatch = useCountUp(config.match, 1000);
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, background: "linear-gradient(150deg, #eef3ff 0%, #f9fbff 55%, #fff 100%)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "linear-gradient(90deg, transparent, #3C61A8, #60a5fa, #3C61A8, transparent)" }} />
-          <div style={{ position: "absolute", top: "-8px", right: "-8px", width: "32px", height: "32px", background: "rgba(60,97,168,0.07)", borderRadius: "50%", filter: "blur(10px)" }} />
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginTop: "3px" }}>
-            <div>
-              <p style={LABEL_STYLE}>Role Match</p>
-              <p style={{ fontSize: "5.5px", color: "#0C0E14", fontWeight: 900, marginTop: "2px", lineHeight: 1.2, maxWidth: "36px" }}>{config.role}</p>
-            </div>
-            <div style={{ position: "relative", width: "26px", height: "26px", flexShrink: 0 }}>
-              <div style={{ position: "absolute", inset: "-2px", borderRadius: "50%", background: "rgba(60,97,168,0.08)", filter: "blur(3px)" }} />
-              <AnimatedArcProgress pct={config.match} r={10} stroke={2} bg="rgba(60,97,168,0.08)" fg="#3C61A8" size={26} />
-              <p style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "5px", color: "#3C61A8", fontWeight: 900 }}>{displayMatch}</p>
-            </div>
-          </div>
-          <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: "2.5px" }}>
-            {[["Skill fit", 4], ["Culture", 5], ["Experience", 3]].map(([label, filled]) => (
-              <div key={String(label)} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <p style={{ fontSize: "2.8px", color: "#9ca3af", fontWeight: 700 }}>{label}</p>
-                <div style={{ display: "flex", gap: "1.5px" }}>
-                  {[1,2,3,4,5].map(d => (
-                    <div key={d} style={{ width: "5px", height: "2.5px", borderRadius: "1px", backgroundColor: d <= Number(filled) ? "#3C61A8" : "rgba(60,97,168,0.1)" }} />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          <p style={{ fontSize: "2.8px", color: "#b0b8c8", fontWeight: 600, marginTop: "3px" }}>AI · 98% accuracy</p>
-        </div>
-      );
-    }
-
-    case "skill-tags": {
-      const colors = [
-        { bg: "rgba(60,97,168,0.07)", border: "rgba(60,97,168,0.18)", text: "#3C61A8", bar: "#3C61A8", pct: 92 },
-        { bg: "rgba(124,58,237,0.07)", border: "rgba(124,58,237,0.15)", text: "#7c3aed", bar: "#7c3aed", pct: 78 },
-        { bg: "rgba(22,163,74,0.07)", border: "rgba(22,163,74,0.15)", text: "#16a34a", bar: "#16a34a", pct: 85 },
-      ];
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, background: "#fff", position: "relative" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "5px" }}>
-            <p style={LABEL_STYLE}>Your Skills</p>
-            <Chip bg="rgba(60,97,168,0.07)" color="#3C61A8" text="AI Verified" />
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-            {config.skills.map((s, i) => (
-              <div key={s} style={{ padding: "3.5px 5px", borderRadius: "5px", backgroundColor: colors[i].bg, border: `0.5px solid ${colors[i].border}` }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "2px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
-                    <div style={{ width: "3px", height: "3px", borderRadius: "50%", backgroundColor: colors[i].bar, boxShadow: `0 0 3px ${colors[i].bar}66` }} />
-                    <p style={{ fontSize: "4.5px", color: colors[i].text, fontWeight: 900 }}>{s}</p>
-                  </div>
-                  <p style={{ fontSize: "3.5px", color: colors[i].text, fontWeight: 900, opacity: 0.8 }}>{colors[i].pct}%</p>
-                </div>
-                <div style={{ height: "1.5px", borderRadius: "1px", backgroundColor: `${colors[i].bar}18`, overflow: "hidden" }}>
-                  <div style={{ width: `${colors[i].pct}%`, height: "100%", borderRadius: "1px", background: `linear-gradient(90deg, ${colors[i].bar}cc, ${colors[i].bar})` }} />
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ marginTop: "auto", paddingTop: "4px", borderTop: "0.5px solid rgba(0,0,0,0.05)", display: "flex", alignItems: "center", gap: "2px" }}>
-            <div style={{ width: "3px", height: "3px", borderRadius: "50%", backgroundColor: "#22c55e" }} />
-            <p style={{ fontSize: "3px", color: "#b0b8c8", fontWeight: 700 }}>3 skills identified · CareerX AI</p>
-          </div>
-        </div>
-      );
-    }
-
-    case "gap-insight":
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, background: "linear-gradient(160deg, #fff 0%, #fffafa 100%)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "linear-gradient(90deg, #ef4444, #f97316)" }} />
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "3px" }}>
-            <p style={{ ...LABEL_STYLE, color: "#ef4444" }}>Skill Gap</p>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "2px", padding: "1.5px 3.5px", borderRadius: "3px", background: "#fef2f2", border: "0.5px solid #fecaca" }}>
-              <p style={{ fontSize: "3px", color: "#ef4444", fontWeight: 900 }}>2 found</p>
-            </div>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginTop: "5px" }}>
-            <div style={{ padding: "4px 5px", borderRadius: "5px", background: "linear-gradient(135deg, #fef2f2, #fff5f5)", border: "0.5px solid #fecaca", position: "relative", overflow: "hidden" }}>
-              <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: "2px", background: "#ef4444", borderRadius: "2px 0 0 2px" }} />
-              <p style={{ fontSize: "2.5px", color: "#ef4444", fontWeight: 900, letterSpacing: "0.14em", textTransform: "uppercase", paddingLeft: "4px" }}>Critical</p>
-              <p style={{ fontSize: "7px", color: "#dc2626", fontWeight: 900, marginTop: "1px", letterSpacing: "-0.02em", paddingLeft: "4px" }}>{config.missing}</p>
-            </div>
-            <div style={{ padding: "4px 5px", borderRadius: "5px", background: "linear-gradient(135deg, #fffbeb, #fef9e4)", border: "0.5px solid #fde68a", position: "relative", overflow: "hidden" }}>
-              <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: "2px", background: "#f59e0b", borderRadius: "2px 0 0 2px" }} />
-              <p style={{ fontSize: "2.5px", color: "#d97706", fontWeight: 900, letterSpacing: "0.14em", textTransform: "uppercase", paddingLeft: "4px" }}>Improve</p>
-              <p style={{ fontSize: "7px", color: "#b45309", fontWeight: 900, marginTop: "1px", letterSpacing: "-0.02em", paddingLeft: "4px" }}>{config.improve}</p>
-            </div>
-          </div>
-          <p style={{ fontSize: "3px", color: "#b0b8c8", fontWeight: 700, marginTop: "auto", paddingTop: "3px" }}>AI gap analysis · updated daily</p>
-        </div>
-      );
-
-    case "interview-q":
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, background: "linear-gradient(160deg, #0f1420 0%, #0C0E14 100%)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)", backgroundSize: "5px 5px" }} />
-          <div style={{ position: "absolute", top: "-12px", left: "50%", transform: "translateX(-50%)", width: "50px", height: "28px", background: "rgba(60,97,168,0.4)", filter: "blur(14px)", borderRadius: "50%" }} />
-          <div style={{ position: "absolute", top: 0, left: "20%", right: "20%", height: "1px", background: "linear-gradient(90deg, transparent, rgba(60,97,168,0.6), transparent)" }} />
-          <p style={{ position: "absolute", bottom: "2px", right: "3px", fontSize: "30px", color: "rgba(245,209,52,0.05)", fontWeight: 900, lineHeight: 1, userSelect: "none" }}>&rdquo;</p>
-          <div style={{ display: "flex", alignItems: "center", gap: "3px", position: "relative", marginBottom: "5px" }}>
-            <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "linear-gradient(135deg, #3C61A8, #1e40af)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 0 6px rgba(60,97,168,0.5)" }}>
-              <div style={{ width: "4px", height: "4px", borderRadius: "1px", background: "#fff", opacity: 0.9 }} />
-            </div>
-            <Chip bg="rgba(245,209,52,0.12)" color="#F5D134" text="Interview Q" />
-          </div>
-          <div style={{ flex: 1, padding: "5px 6px", borderRadius: "6px", backgroundColor: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.08)", position: "relative" }}>
-            <p style={{ fontSize: "3.8px", color: "rgba(255,255,255,0.82)", lineHeight: 1.6, fontWeight: 500 }}>
-              &ldquo;{config.question}&rdquo;
-            </p>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "5px", position: "relative" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "2.5px" }}>
-              <div style={{ width: "3px", height: "3px", borderRadius: "50%", backgroundColor: "#22c55e", boxShadow: "0 0 4px #22c55e" }} />
-              <p style={{ fontSize: "3px", color: "rgba(255,255,255,0.28)", fontWeight: 700 }}>AI · Role-specific</p>
-            </div>
-            <div style={{ display: "flex", gap: "1.5px" }}>
-              {[1,2,3,4].map(i => <div key={i} style={{ width: "3px", height: "5px", borderRadius: "1px", backgroundColor: `rgba(245,209,52,${0.2 + i * 0.15})` }} />)}
-            </div>
-          </div>
-        </div>
-      );
-
-    case "salary":
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, background: "linear-gradient(150deg, #edf4ff 0%, #f5f9ff 50%, #fff 100%)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", bottom: "-6px", right: "-6px", width: "30px", height: "30px", background: "rgba(60,97,168,0.06)", borderRadius: "50%", filter: "blur(8px)" }} />
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-            <p style={LABEL_STYLE}>Salary Intel</p>
-            <Chip bg="rgba(22,163,74,0.1)" color="#16a34a" text={config.trend + " ↑"} />
-          </div>
-          <div style={{ marginTop: "4px" }}>
-            <Sparkline points={[58, 61, 65, 68, 72]} color="#3C61A8" w={46} h={14} />
-          </div>
-          <p style={{ fontSize: "22px", color: "#3C61A8", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.05em", marginTop: "2px" }}>{config.amount}</p>
-          <div style={{ display: "flex", alignItems: "center", gap: "3px", marginTop: "2px" }}>
-            <p style={{ fontSize: "3px", color: "#6b7280", fontWeight: 700 }}>Market rate · Your role</p>
-          </div>
-          <div style={{ marginTop: "auto", padding: "3px 5px", borderRadius: "4px", background: "rgba(60,97,168,0.05)", border: "0.5px solid rgba(60,97,168,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <p style={{ fontSize: "3px", color: "#9ca3af", fontWeight: 600 }}>Based on 420 live offers</p>
-            <p style={{ fontSize: "3px", color: "#3C61A8", fontWeight: 900 }}>Top 30%</p>
-          </div>
-        </div>
-      );
-
-    case "readiness": {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const displayScore = useCountUp(config.score, 1200);
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, background: "linear-gradient(150deg, #2a4a9e 0%, #3C61A8 40%, #162d6e 100%)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "6px 6px" }} />
-          <div style={{ position: "absolute", top: "-15px", right: "-15px", width: "45px", height: "45px", background: "rgba(245,209,52,0.08)", borderRadius: "50%", filter: "blur(12px)" }} />
-          <p style={{ ...LABEL_STYLE, color: "rgba(255,255,255,0.3)", position: "relative" }}>Career Readiness</p>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "6px", position: "relative" }}>
-            <div style={{ position: "relative", flexShrink: 0 }}>
-              <div style={{ position: "absolute", inset: "-4px", borderRadius: "50%", background: "rgba(245,209,52,0.12)", filter: "blur(5px)" }} />
-              <AnimatedArcProgress pct={config.score} r={14} stroke={2.5} bg="rgba(255,255,255,0.07)" fg="#F5D134" size={32} />
-              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <p style={{ fontSize: "8.5px", color: "#fff", fontWeight: 900, lineHeight: 1 }}>{displayScore}</p>
-              </div>
-            </div>
-            <div style={{ flex: 1 }}>
-              <p style={{ fontSize: "3px", color: "rgba(255,255,255,0.35)", fontWeight: 600 }}>out of 100</p>
-              <p style={{ fontSize: "5.5px", color: "#F5D134", fontWeight: 900, marginTop: "1.5px", textShadow: "0 0 8px rgba(245,209,52,0.4)" }}>Top 15%</p>
-              {[["Technical", 82], ["Comm.", 90]].map(([k, v]) => (
-                <div key={String(k)} style={{ marginTop: "2.5px" }}>
-                  <div style={{ height: "2px", borderRadius: "1px", backgroundColor: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
-                    <div style={{ width: `${v}%`, height: "100%", borderRadius: "1px", background: "linear-gradient(90deg, rgba(245,209,52,0.6), rgba(245,209,52,0.9))" }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div style={{ marginTop: "auto", padding: "3.5px 6px", borderRadius: "5px", background: "rgba(34,197,94,0.12)", border: "0.5px solid rgba(34,197,94,0.25)", display: "flex", alignItems: "center", gap: "3px", position: "relative" }}>
-            <div style={{ width: "4px", height: "4px", borderRadius: "50%", backgroundColor: "#22c55e", boxShadow: "0 0 5px #22c55e" }} />
-            <p style={{ fontSize: "4.5px", color: "#4ade80", fontWeight: 900 }}>Interview Ready</p>
-          </div>
-        </div>
-      );
-    }
-
-    case "company":
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, background: "#fff", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: "-10px", left: "-10px", width: "35px", height: "35px", background: "rgba(60,97,168,0.04)", borderRadius: "50%", filter: "blur(10px)" }} />
-          <div style={{ display: "flex", alignItems: "center", gap: "5px", marginBottom: "5px" }}>
-            <div style={{ width: "22px", height: "22px", borderRadius: "7px", background: "linear-gradient(135deg, #3C61A8 0%, #1e40af 100%)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 3px 8px rgba(60,97,168,0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}>
-              <p style={{ fontSize: "11px", color: "#fff", fontWeight: 900, lineHeight: 1 }}>{config.initial}</p>
-            </div>
-            <div>
-              <p style={{ fontSize: "6.5px", color: "#0C0E14", fontWeight: 900, lineHeight: 1 }}>{config.name}</p>
-              <div style={{ display: "flex", alignItems: "center", gap: "2px", marginTop: "1.5px" }}>
-                <div style={{ width: "3px", height: "3px", borderRadius: "50%", backgroundColor: "#22c55e", boxShadow: "0 0 4px #22c55e" }} />
-                <p style={{ fontSize: "3px", color: "#16a34a", fontWeight: 800 }}>Actively hiring</p>
-              </div>
-            </div>
-          </div>
-          <div style={{ display: "flex", gap: "2.5px", marginBottom: "4px" }}>
-            <div style={{ padding: "1.5px 4px", borderRadius: "3px", background: "rgba(60,97,168,0.07)", border: "0.5px solid rgba(60,97,168,0.12)" }}>
-              <p style={{ fontSize: "2.8px", color: "#3C61A8", fontWeight: 800 }}>Product</p>
-            </div>
-            <div style={{ padding: "1.5px 4px", borderRadius: "3px", background: "rgba(245,209,52,0.15)", border: "0.5px solid rgba(245,209,52,0.3)" }}>
-              <p style={{ fontSize: "2.8px", color: "#92700a", fontWeight: 800 }}>Senior</p>
-            </div>
-          </div>
-          <p style={{ fontSize: "3.5px", color: "#6b7280", fontWeight: 600 }}>Senior Product Manager</p>
-          <div style={{ height: "0.5px", background: "rgba(0,0,0,0.05)", margin: "4px 0" }} />
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <p style={{ fontSize: "3px", color: "#9ca3af", fontWeight: 600 }}>Profile match</p>
-            <p style={{ fontSize: "6px", color: "#3C61A8", fontWeight: 900 }}>94%</p>
-          </div>
-          <div style={{ height: "3px", borderRadius: "2px", backgroundColor: "rgba(60,97,168,0.07)", marginTop: "2.5px", overflow: "hidden" }}>
-            <div style={{ width: "94%", height: "100%", borderRadius: "2px", background: "linear-gradient(90deg, #3C61A8, #2563eb)", boxShadow: "0 0 5px rgba(60,97,168,0.4)" }} />
-          </div>
-        </div>
-      );
-
-    case "timeline":
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, background: "linear-gradient(160deg, #111520 0%, #0C0E14 60%, #0a0c13 100%)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px)", backgroundSize: "5px 5px" }} />
-          <div style={{ position: "absolute", top: "-8px", left: "50%", transform: "translateX(-50%)", width: "40px", height: "20px", background: "rgba(245,209,52,0.1)", filter: "blur(12px)", borderRadius: "50%" }} />
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", position: "relative" }}>
-            <p style={{ ...LABEL_STYLE, color: "rgba(245,209,52,0.45)" }}>Offer Timeline</p>
-            <div style={{ padding: "1.5px 3.5px", borderRadius: "3px", background: "rgba(34,197,94,0.1)", border: "0.5px solid rgba(34,197,94,0.2)" }}>
-              <p style={{ fontSize: "2.8px", color: "#4ade80", fontWeight: 900 }}>Fast Track</p>
-            </div>
-          </div>
-          <div style={{ position: "relative" }}>
-            <p style={{ fontSize: "30px", color: "#F5D134", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.05em", marginTop: "1px", position: "relative", textShadow: "0 0 24px rgba(245,209,52,0.35)" }}>{config.weeks}</p>
-            <p style={{ fontSize: "4.5px", color: "rgba(255,255,255,0.4)", fontWeight: 700, marginTop: "-1px" }}>avg. weeks to offer</p>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0px", marginTop: "auto", position: "relative" }}>
-            <div style={{ position: "absolute", left: "2px", top: "5px", bottom: "5px", width: "0.5px", background: "linear-gradient(180deg, #F5D134 40%, rgba(255,255,255,0.06) 40%)" }} />
-            {(["Apply", "Screen", "Interview", "Offer"] as const).map((step, idx) => {
-              const done = idx < 2;
-              return (
-                <div key={step} style={{ display: "flex", alignItems: "center", gap: "5px", paddingBottom: idx < 3 ? "5px" : "0" }}>
-                  <div style={{ width: "4px", height: "4px", borderRadius: "50%", flexShrink: 0, backgroundColor: done ? "#F5D134" : "rgba(255,255,255,0.07)", boxShadow: done ? "0 0 5px rgba(245,209,52,0.6)" : "none", zIndex: 1 }} />
-                  <p style={{ fontSize: "3.5px", color: done ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.18)", fontWeight: done ? 800 : 500 }}>{step}</p>
-                  {done && <p style={{ fontSize: "3px", color: "#4ade80", fontWeight: 700, marginLeft: "auto" }}>✓</p>}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      );
-
-    case "kyb":
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, backgroundColor: "#F5D134", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", bottom: "-4px", right: "-2px", fontSize: "28px", color: "rgba(12,14,20,0.035)", fontWeight: 900, lineHeight: 1, userSelect: "none", fontFamily: "monospace" }}>KYB</div>
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1.5px", background: "rgba(12,14,20,0.12)" }} />
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-            <p style={{ ...LABEL_STYLE, color: "rgba(12,14,20,0.38)" }}>Know Yourself</p>
-            <div style={{ padding: "1.5px 4px", borderRadius: "3px", backgroundColor: "rgba(12,14,20,0.1)", border: "0.5px solid rgba(12,14,20,0.08)" }}>
-              <p style={{ fontSize: "3px", color: "rgba(12,14,20,0.55)", fontWeight: 900 }}>10 min</p>
-            </div>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginTop: "5px" }}>
-            {config.strengths.map((s, i) => {
-              const pcts = [94, 81, 88];
-              return (
-                <div key={s} style={{ padding: "3px 5px", borderRadius: "5px", backgroundColor: "rgba(12,14,20,0.07)", border: "0.5px solid rgba(12,14,20,0.1)" }}>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "2px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
-                      <div style={{ width: "3.5px", height: "3.5px", borderRadius: "50%", backgroundColor: "#3C61A8", boxShadow: `0 0 4px rgba(60,97,168,0.5)` }} />
-                      <p style={{ fontSize: "4.5px", color: "#3C61A8", fontWeight: 900 }}>{s}</p>
-                    </div>
-                    <p style={{ fontSize: "3.5px", color: "rgba(60,97,168,0.7)", fontWeight: 900 }}>{pcts[i]}%</p>
-                  </div>
-                  <div style={{ height: "1.5px", borderRadius: "1px", backgroundColor: "rgba(60,97,168,0.12)", overflow: "hidden" }}>
-                    <div style={{ width: `${pcts[i]}%`, height: "100%", borderRadius: "1px", background: "linear-gradient(90deg, #3C61A8cc, #3C61A8)" }} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <p style={{ fontSize: "3px", color: "rgba(12,14,20,0.28)", fontWeight: 700, marginTop: "auto", paddingTop: "3px" }}>CareerX Assessment · Top 8%</p>
-        </div>
-      );
-
-    case "career-track":
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, background: "#fff", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: "-8px", right: "-8px", width: "28px", height: "28px", background: "rgba(245,209,52,0.15)", borderRadius: "50%", filter: "blur(8px)" }} />
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <p style={LABEL_STYLE}>Career Track</p>
-            <Chip bg="rgba(245,209,52,0.2)" color="#92700a" text="25% done" />
-          </div>
-          <p style={{ fontSize: "6px", color: "#0C0E14", fontWeight: 900, marginTop: "3px", lineHeight: 1.2 }}>{config.role}</p>
-          <div style={{ height: "2.5px", borderRadius: "2px", backgroundColor: "rgba(60,97,168,0.07)", overflow: "hidden", margin: "4px 0" }}>
-            <div style={{ width: "25%", height: "100%", borderRadius: "2px", background: "linear-gradient(90deg, #3C61A8, #2563eb)" }} />
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0px", position: "relative" }}>
-            <div style={{ position: "absolute", left: "2.5px", top: "5px", bottom: "5px", width: "0.5px", background: "linear-gradient(180deg, #3C61A8 25%, #e5e7eb 25%)" }} />
-            {["Research", "Skill-up", "Interview", "Offer"].map((step, i) => {
-              const done = i < config.stage;
-              const active = i === config.stage;
-              return (
-                <div key={step} style={{ display: "flex", alignItems: "center", gap: "5px", paddingBottom: i < 3 ? "6px" : 0 }}>
-                  <div style={{ width: "5px", height: "5px", borderRadius: "50%", backgroundColor: done ? "#3C61A8" : active ? "#F5D134" : "#e5e7eb", flexShrink: 0, zIndex: 1, boxShadow: active ? "0 0 5px rgba(245,209,52,0.7)" : done ? "0 0 4px rgba(60,97,168,0.4)" : "none" }} />
-                  <p style={{ fontSize: "3.5px", color: i <= config.stage ? "#0C0E14" : "#9ca3af", fontWeight: i <= config.stage ? 800 : 500 }}>{step}</p>
-                  {active && <p style={{ fontSize: "2.8px", color: "#3C61A8", fontWeight: 900, marginLeft: "auto" }}>Now</p>}
-                </div>
-              );
-            })}
-          </div>
-          <p style={{ fontSize: "3px", color: "#9ca3af", fontWeight: 600, marginTop: "2px" }}>Step {config.stage} of 4 · est. 6 weeks</p>
-        </div>
-      );
-
-    case "activation":
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, background: "linear-gradient(160deg, #111827 0%, #0C0E14 70%)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px)", backgroundSize: "5px 5px" }} />
-          <div style={{ position: "absolute", bottom: "-12px", right: "-12px", width: "40px", height: "40px", background: "rgba(96,165,250,0.08)", borderRadius: "50%", filter: "blur(12px)" }} />
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "7px", position: "relative" }}>
-            <p style={{ ...LABEL_STYLE, color: "rgba(255,255,255,0.22)" }}>This Week</p>
-            <Chip bg="rgba(74,222,128,0.12)" color="#4ade80" text="Activated" />
-          </div>
-          {[
-            { n: config.apps,       label: "Applied",    color: "#60a5fa", trend: "+2" },
-            { n: config.interviews, label: "Interviews", color: "#a78bfa", trend: "+1" },
-            { n: config.offers,     label: "Offer",      color: "#34d399", trend: "New" },
-          ].map((r, i) => (
-            <div key={r.label} style={{ position: "relative" }}>
-              {i > 0 && <div style={{ height: "0.5px", backgroundColor: "rgba(255,255,255,0.04)", margin: "4px 0" }} />}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "3.5px" }}>
-                  <div style={{ width: "4px", height: "4px", borderRadius: "50%", backgroundColor: r.color, boxShadow: `0 0 5px ${r.color}88` }} />
-                  <p style={{ fontSize: "3.5px", color: "rgba(255,255,255,0.32)", fontWeight: 600 }}>{r.label}</p>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
-                  <p style={{ fontSize: "3px", color: r.color, fontWeight: 800, opacity: 0.8 }}>{r.trend}</p>
-                  <p style={{ fontSize: "8px", color: "#fff", fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 1 }}>{r.n}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      );
-
-    case "ai-feedback":
-      return (
-        <div style={{ ...COL_STYLE, ...PAD, background: "linear-gradient(160deg, #f8faff 0%, #fff 60%)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "linear-gradient(90deg, #3C61A8 0%, #60a5fa 50%, #3C61A8 100%)", opacity: 0.7 }} />
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "5px", marginTop: "3px" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "2.5px", padding: "2px 4px", borderRadius: "3px", backgroundColor: "rgba(60,97,168,0.07)", border: "0.5px solid rgba(60,97,168,0.12)" }}>
-              <div style={{ width: "3px", height: "3px", borderRadius: "50%", backgroundColor: "#3C61A8", boxShadow: "0 0 4px rgba(60,97,168,0.5)" }} />
-              <p style={{ fontSize: "3px", color: "#3C61A8", fontWeight: 900, letterSpacing: "0.06em" }}>CareerX AI</p>
-            </div>
-            <div style={{ position: "relative", width: "22px", height: "22px" }}>
-              <AnimatedArcProgress pct={82} r={9} stroke={1.8} bg="rgba(60,97,168,0.08)" fg="#3C61A8" size={22} />
-              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <p style={{ fontSize: "5px", color: "#3C61A8", fontWeight: 900 }}>{config.grade}</p>
-              </div>
-            </div>
-          </div>
-          <div style={{ flex: 1, padding: "5px 6px", borderRadius: "5px", backgroundColor: "#f0f5ff", border: "0.5px solid rgba(60,97,168,0.1)" }}>
-            <p style={{ fontSize: "3.8px", color: "rgba(12,14,20,0.72)", lineHeight: 1.6, fontWeight: 500 }}>
-              &ldquo;{config.text}&rdquo;
-            </p>
-          </div>
-          <div style={{ marginTop: "5px", display: "flex", flexDirection: "column", gap: "2px" }}>
-            {[["Structure", 70], ["Delivery", 85]].map(([label, pct]) => (
-              <div key={String(label)} style={{ display: "flex", alignItems: "center", gap: "3px" }}>
-                <p style={{ fontSize: "2.8px", color: "#9ca3af", fontWeight: 700, minWidth: "22px" }}>{label}</p>
-                <div style={{ flex: 1, height: "2px", borderRadius: "1px", backgroundColor: "rgba(60,97,168,0.08)", overflow: "hidden" }}>
-                  <div style={{ width: `${pct}%`, height: "100%", borderRadius: "1px", background: "#3C61A8", opacity: 0.7 }} />
-                </div>
-              </div>
-            ))}
-          </div>
-          <p style={{ fontSize: "3px", color: "#b0b8c8", fontWeight: 700, marginTop: "4px" }}>Round 1 · Interview Sim</p>
-        </div>
-      );
-  }
+// ─── Product Screen Header (reusable) ────────────────────────────────────────
+function ScreenHeader({ label, stage, dark = false }: { label: string; stage: string; dark?: boolean }) {
+  const stageColors: Record<string, string> = { Discover: "#3C61A8", Prepare: "#16a34a", Validate: "#7c3aed", Activate: "#F5D134" };
+  const color = stageColors[stage] || "#3C61A8";
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "5px" }}>
+      <p style={{ fontSize: "3.5px", color: dark ? "rgba(255,255,255,0.45)" : "rgba(12,14,20,0.4)", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase" }}>{label}</p>
+      <div style={{ padding: "1px 4px", borderRadius: "3px", backgroundColor: dark ? `${color}22` : `${color}12`, border: `0.5px solid ${dark ? `${color}33` : `${color}18`}` }}>
+        <p style={{ fontSize: "3px", color, fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase" }}>{stage}</p>
+      </div>
+    </div>
+  );
 }
 
+// ─── Clean Concept Cards ─────────────────────────────────────────────────────
+// Poch-inspired: flat bg, 1px subtle border, generous spacing, no decoration
+
+// Color psychology: blue=trust, green=growth, purple=ambition, orange=energy,
+// coral=warmth, teal=clarity, gold=achievement, dark=premium, mint=freshness
+
+const CARD_FACES: Record<string, { bg: string; fg: string; muted: string; border: string; iconBg: string; iconFg: string; icon: React.ElementType; value: string; label: string }> = {
+  "role-match":   { bg: "#fff",     fg: "#0C0E14", muted: "rgba(0,0,0,0.3)",       border: "rgba(0,0,0,0.08)",       iconBg: "rgba(60,97,168,0.1)",    iconFg: "#3C61A8",  icon: Crosshair,     value: "What role fits me?",  label: "92% match" },
+  "skill-tags":   { bg: "#F5D134",  fg: "#0C0E14", muted: "rgba(0,0,0,0.35)",      border: "rgba(0,0,0,0.06)",       iconBg: "rgba(0,0,0,0.08)",       iconFg: "#0C0E14",  icon: Zap,           value: "3",               label: "Skills Verified" },
+  "gap-insight":  { bg: "#f0faf0",  fg: "#15803d", muted: "rgba(21,128,61,0.45)",  border: "rgba(21,128,61,0.1)",    iconBg: "rgba(21,128,61,0.1)",    iconFg: "#15803d",  icon: BarChart3,     value: "2",               label: "Gaps Found" },
+  "interview-q":  { bg: "#0C0E14",  fg: "#fff",    muted: "rgba(255,255,255,0.35)", border: "rgba(255,255,255,0.08)", iconBg: "rgba(255,255,255,0.08)", iconFg: "#a78bfa",  icon: Mic,           value: "Can I crack it?", label: "AI Interview" },
+  "salary":       { bg: "#f3f0ff",  fg: "#5b21b6", muted: "rgba(91,33,182,0.4)",   border: "rgba(91,33,182,0.08)",   iconBg: "rgba(91,33,182,0.1)",    iconFg: "#7c3aed",  icon: DollarSign,    value: "$72,000",         label: "Avg Salary" },
+  "readiness":    { bg: "#3C61A8",  fg: "#fff",    muted: "rgba(255,255,255,0.45)", border: "rgba(255,255,255,0.1)",  iconBg: "rgba(255,255,255,0.1)",  iconFg: "#F5D134",  icon: CheckCircle,   value: "87%",             label: "Interview Ready" },
+  "company":      { bg: "#fff7ed",  fg: "#c2410c", muted: "rgba(194,65,12,0.4)",   border: "rgba(194,65,12,0.08)",   iconBg: "rgba(194,65,12,0.1)",    iconFg: "#ea580c",  icon: Building2,     value: "Who is hiring?",  label: "94% Job Match" },
+  "timeline":     { bg: "#1a1a2e",  fg: "#fff",    muted: "rgba(255,255,255,0.35)", border: "rgba(255,255,255,0.06)", iconBg: "rgba(245,209,52,0.12)",  iconFg: "#F5D134",  icon: Clock,         value: "21",              label: "Days to Offer" },
+  "kyb":          { bg: "#fef3c7",  fg: "#92400e", muted: "rgba(146,64,14,0.4)",   border: "rgba(146,64,14,0.08)",   iconBg: "rgba(146,64,14,0.1)",    iconFg: "#b45309",  icon: Search,        value: "Free",            label: "Start in 10 min" },
+  "career-track": { bg: "#ecfeff",  fg: "#0e7490", muted: "rgba(14,116,144,0.4)",  border: "rgba(14,116,144,0.08)",  iconBg: "rgba(14,116,144,0.1)",   iconFg: "#0891b2",  icon: BookOpen,      value: "How to prepare?", label: "6 Week Track" },
+  "activation":   { bg: "#fdf2f8",  fg: "#be185d", muted: "rgba(190,24,93,0.35)",  border: "rgba(190,24,93,0.06)",   iconBg: "rgba(190,24,93,0.1)",    iconFg: "#ec4899",  icon: Rocket,        value: "500+",            label: "Companies Hiring" },
+  "ai-feedback":  { bg: "#fff",     fg: "#0C0E14", muted: "rgba(0,0,0,0.3)",       border: "rgba(0,0,0,0.08)",       iconBg: "rgba(60,97,168,0.08)",   iconFg: "#3C61A8",  icon: MessageSquare, value: "Feedback",        label: "After Every Round" },
+};
+
+function CardFront({ config }: { config: CardConfig }) {
+  const c = CARD_FACES[config.type];
+  const Icon = c.icon;
+
+  return (
+    <div style={{
+      ...COL_STYLE,
+      background: c.bg,
+      padding: "14px 12px",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
+      borderTop: `1px solid ${c.border}`,
+      borderLeft: `1px solid ${c.border}`,
+      borderRight: `1px solid ${c.border}`,
+      borderBottom: `2.5px solid ${c.border}`,
+    }}>
+      {/* Icon with depth — layered shadow, gradient bg, border */}
+      <div style={{
+        width: "24px",
+        height: "24px",
+        borderRadius: "8px",
+        background: c.iconBg,
+        border: `1px solid ${c.border}`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        boxShadow: `0 1px 2px rgba(0,0,0,0.06), 0 3px 8px ${c.border}, inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.04)`,
+      }}>
+        <Icon style={{ width: "12px", height: "12px", color: c.iconFg, strokeWidth: 2.2 }} />
+      </div>
+
+      {/* Value + Label */}
+      <div>
+        <p style={{
+          fontSize: c.value.length <= 4 ? "20px" : c.value.length <= 7 ? "14px" : "11px",
+          fontWeight: 900,
+          lineHeight: 1.1,
+          color: c.fg,
+          letterSpacing: "-0.03em",
+        }}>
+          {c.value}
+        </p>
+        <p style={{
+          fontSize: "5.5px",
+          fontWeight: 600,
+          color: c.muted,
+          marginTop: "3px",
+          letterSpacing: "0.03em",
+        }}>
+          {c.label}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+
 // ─── Card Back ────────────────────────────────────────────────────────────────
-const CARD_BACK_INFO: Record<string, { label: string; desc: string }> = {
-  "role-match":    { label: "Role Matching",    desc: "AI-matched to your profile" },
-  "skill-tags":    { label: "Skill Analysis",   desc: "Auto-identified strengths" },
-  "gap-insight":   { label: "Gap Analysis",     desc: "Precise gap detection" },
-  "interview-q":   { label: "Interview Prep",   desc: "Role-specific questions" },
-  "salary":        { label: "Salary Intel",     desc: "Live market benchmarks" },
-  "readiness":     { label: "Readiness Score",  desc: "Interview confidence" },
-  "company":       { label: "Company Match",    desc: "500+ hiring partners" },
-  "timeline":      { label: "Offer Timeline",   desc: "Based on your profile" },
-  "kyb":           { label: "Know Yourself",    desc: "10-min assessment" },
-  "career-track":  { label: "Career Track",     desc: "Role-specific path" },
-  "activation":    { label: "Activation",       desc: "Application support" },
-  "ai-feedback":   { label: "AI Feedback",      desc: "Real-time coaching" },
+const CARD_BACK_INFO: Record<string, { label: string; desc: string; stage: string }> = {
+  "role-match":    { label: "Role Matching",        desc: "AI-matched to your profile",    stage: "Discover" },
+  "skill-tags":    { label: "Skill Analysis",       desc: "Auto-identified strengths",     stage: "Discover" },
+  "gap-insight":   { label: "Gap Analysis",         desc: "Precise gap detection",         stage: "Prepare" },
+  "interview-q":   { label: "Interview Prep",       desc: "Role-specific questions",       stage: "Validate" },
+  "salary":        { label: "Salary Intelligence",  desc: "Live market benchmarks",        stage: "Activate" },
+  "readiness":     { label: "Readiness Score",      desc: "Interview confidence",          stage: "Validate" },
+  "company":       { label: "Company Match",        desc: "500+ hiring partners",          stage: "Activate" },
+  "timeline":      { label: "Offer Timeline",       desc: "Based on your profile",         stage: "Activate" },
+  "kyb":           { label: "Know Yourself Better", desc: "10-min career discovery",       stage: "Discover" },
+  "career-track":  { label: "Career Track",         desc: "Role-specific preparation",     stage: "Prepare" },
+  "activation":    { label: "Career Activation",    desc: "Job opportunity matching",      stage: "Activate" },
+  "ai-feedback":   { label: "Interview Simulator",  desc: "Real-time AI coaching",         stage: "Validate" },
 };
 
 function CardBack({ config }: { config: CardConfig }) {
@@ -583,9 +291,13 @@ function CardBack({ config }: { config: CardConfig }) {
         <div style={{ position: "absolute", width: "1.5px", height: "7px", backgroundColor: "#0C0E14", borderRadius: "1px" }} />
       </div>
 
+      {/* Stage badge */}
+      <div style={{ display: "inline-flex", padding: "2px 6px", borderRadius: "4px", backgroundColor: "rgba(245,209,52,0.15)", border: "0.5px solid rgba(245,209,52,0.25)", marginBottom: "6px", position: "relative" }}>
+        <p style={{ fontSize: "3.5px", color: "#F5D134", fontWeight: 900, letterSpacing: "0.15em", textTransform: "uppercase" }}>{info.stage}</p>
+      </div>
       {/* Feature label */}
-      <p style={{ fontSize: "6px", color: "#fff", fontWeight: 900, textAlign: "center", marginBottom: "4px", position: "relative", letterSpacing: "-0.01em" }}>{info.label}</p>
-      <p style={{ fontSize: "3.5px", color: "rgba(255,255,255,0.38)", fontWeight: 500, textAlign: "center", position: "relative", lineHeight: 1.5, maxWidth: "44px" }}>{info.desc}</p>
+      <p style={{ fontSize: "8px", color: "#fff", fontWeight: 900, textAlign: "center", marginBottom: "5px", position: "relative", letterSpacing: "-0.01em" }}>{info.label}</p>
+      <p style={{ fontSize: "4.5px", color: "rgba(255,255,255,0.38)", fontWeight: 500, textAlign: "center", position: "relative", lineHeight: 1.5, maxWidth: "55px" }}>{info.desc}</p>
 
       {/* Bottom brand pill */}
       <div style={{
@@ -621,9 +333,8 @@ function FlipCard({ config, target, staggerDelay = 0 }: FlipCardProps) {
           className="absolute inset-0 h-full w-full overflow-hidden"
           style={{
             backfaceVisibility: "hidden",
-            borderRadius: "14px",
-            boxShadow: "0 1px 2px rgba(12,14,20,0.04), 0 4px 16px rgba(12,14,20,0.10), 0 20px 48px rgba(12,14,20,0.08), inset 0 1px 0 rgba(255,255,255,0.85)",
-            border: "0.5px solid rgba(255,255,255,0.65)",
+            borderRadius: "16px",
+            boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.06)",
           }}
         >
           <CardFront config={config} />
@@ -634,9 +345,8 @@ function FlipCard({ config, target, staggerDelay = 0 }: FlipCardProps) {
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
-            borderRadius: "14px",
-            boxShadow: "0 1px 2px rgba(12,14,20,0.06), 0 4px 16px rgba(12,14,20,0.14), 0 20px 48px rgba(12,14,20,0.10)",
-            border: "0.5px solid rgba(255,255,255,0.06)",
+            borderRadius: "16px",
+            boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.06)",
           }}
         >
           <CardBack config={config} />
@@ -826,8 +536,8 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
 
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
-        {/* Intro headline — mobile: top, desktop: center */}
-        <div className="absolute z-20 flex flex-col items-center justify-center text-center pointer-events-none px-6 top-[10%] md:top-[52%] md:-translate-y-1/2">
+        {/* Intro headline — pinned to center of viewport */}
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center pointer-events-none px-6">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={circleReady && morphValue < 0.3 ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 10 }}
@@ -845,11 +555,9 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
                 : { opacity: 0, scale: 0.96, filter: "blur(12px)" }
             }
             transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="text-2xl md:text-4xl font-black tracking-tight text-gray-800"
+            className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-gray-800"
           >
-            Know yourself better.
-            <br />
-            <span style={{ color: "#3C61A8" }}>Land the role.</span>
+            Hiring, <span style={{ color: "#3C61A8" }}>decoded.</span>
           </motion.h1>
           {!isMobileDevice && (
             <motion.p
@@ -871,11 +579,11 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
           <p className="text-[10px] font-black tracking-[0.25em] uppercase text-gray-400 mb-3">
             CareerXcelerator
           </p>
-          <h2 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
-            Your strengths. Your gaps.<br /> Your path forward.
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
+            Role fit. Skill gaps.<br />Interview readiness.
           </h2>
           <p className="text-sm text-gray-500 max-w-md leading-relaxed font-medium">
-            Strengths, gaps, salary and readiness. Mapped by AI in 10 minutes.{" "}
+            Everything you need, in one system.{" "}
             <span className="text-gray-800 font-semibold">Hover a card to explore.</span>
           </p>
         </motion.div>

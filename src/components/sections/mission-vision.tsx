@@ -12,15 +12,15 @@ const CARDS = [
     id: "mission",
     icon: Crosshair,
     eyebrow: "Our Mission",
-    headline: "Turn self-knowledge into a hiring advantage.",
-    body: "Most people lose roles they were capable of. We change that by showing candidates exactly where they stand, what to close and how to show up. Built on real hiring data and real interview patterns.",
+    headline: "Replace guesswork with a structured path to the right role.",
+    body: "People choose roles based on trends, take courses without understanding role expectations, and apply to jobs without knowing if they truly fit. We change that with a system that guides you from career discovery to job opportunities — built on real hiring data.",
   },
   {
     id: "vision",
     icon: Globe,
     eyebrow: "Our Vision",
-    headline: "A world where the right role finds the right person.",
-    body: "We are building the infrastructure for verified career readiness. Where hiring is predictable, fair and based on proof. Where opportunity flows to those who are genuinely ready.",
+    headline: "Career readiness infrastructure for every professional.",
+    body: "We are building the system where career preparation follows a structured path — not disconnected activities. Where hiring is based on verified readiness, and opportunity flows to those who are genuinely prepared.",
   },
 ];
 
@@ -46,11 +46,11 @@ export function MissionVisionSection() {
             Why We Exist
           </p>
           <h2
-            className="text-2xl md:text-3xl font-black tracking-tight"
+            className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight"
             style={{ color: DARK }}
           >
-            Built to close the gap{" "}
-            <span style={{ color: BLUE }}>between talent and opportunity.</span>
+            Career preparation is broken.{" "}
+            <span style={{ color: BLUE }}>We built the fix.</span>
           </h2>
         </motion.div>
 

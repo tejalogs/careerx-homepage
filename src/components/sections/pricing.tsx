@@ -36,7 +36,7 @@ function LogoStrip() {
         className="text-center text-[9px] font-black tracking-[0.25em] uppercase mb-5"
         style={{ color: "rgba(60,97,168,0.4)" }}
       >
-        Our Candidates Are Now Driving Impact At Top Companies
+        Our Candidates Are Now At Leading Companies
       </p>
 
       <div className="relative max-w-full sm:max-w-xl mx-auto overflow-hidden">
@@ -157,7 +157,7 @@ const PLANS = [
     name: "Career Builder",
     icon: <Target className="w-6 h-6" />,
     price: 449,
-    description: "Start your journey to the right role",
+    description: "Discover your role fit and start preparing",
     popular: false,
     features: [
       "KYB Role Assessment",
@@ -172,7 +172,7 @@ const PLANS = [
     name: "Career Pro",
     icon: <Gem className="w-6 h-6" />,
     price: 649,
-    description: "Build your edge with expert support",
+    description: "Full career track with expert coaching",
     popular: true,
     features: [
       "KYB Role Assessment",
@@ -187,7 +187,7 @@ const PLANS = [
     name: "Career Elite",
     icon: <Rocket className="w-6 h-6" />,
     price: 799,
-    description: "The complete career transformation package",
+    description: "The complete career acceleration system",
     popular: false,
     features: [
       "KYB Role Assessment",
@@ -231,8 +231,8 @@ export default function PricingSection() {
             transition={{ duration: 0.45, delay: 0.07 }}
             className="relative inline-block"
           >
-            <h2 className="text-4xl md:text-5xl font-bold" style={{ color: DARK }}>
-              One investment. Your entire career journey.
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold" style={{ color: DARK }}>
+              One investment. From discovery to offer.
             </h2>
             <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-48 h-3 rounded-full blur-sm rotate-[-1deg]"
               style={{ backgroundColor: `${YELLOW}55` }}
@@ -246,7 +246,7 @@ export default function PricingSection() {
             className="text-base"
             style={{ color: "rgba(12,14,20,0.5)" }}
           >
-            From knowing yourself to landing the role. Everything included.
+            From role discovery to job offers. Everything included.
           </motion.p>
         </div>
 
@@ -349,7 +349,7 @@ export default function PricingSection() {
                   }
                   onClick={() => { document.getElementById("get-started")?.scrollIntoView({ behavior: "smooth" }); }}
                 >
-                  Get started
+                  Find My Best Role
                 </Button>
               </div>
             </motion.div>
@@ -367,7 +367,7 @@ export default function PricingSection() {
             className="text-center text-sm mt-5 w-full"
             style={{ color: "rgba(12,14,20,0.3)" }}
           >
-            Join 2,000+ candidates already on track ✓
+            Join 2,000+ professionals who accelerated their careers ✓
           </p>
         </motion.div>
 

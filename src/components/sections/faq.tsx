@@ -13,42 +13,42 @@ const DARK   = "#0C0E14";
 const FAQS = [
   {
     q: "What is CareerXcelerator?",
-    a: "CareerXcelerator is a complete career readiness platform that takes candidates from self-discovery to offer-ready. It covers role assessment, skill development, AI mentoring, interview simulation and live job matching in one structured programme.",
+    a: "CareerXcelerator is a career acceleration platform powered by AI. It guides you through four stages — Discover, Prepare, Validate, and Activate — taking you from career clarity to real job opportunities in one structured system.",
     variant: "blue",
   },
   {
     q: "Is CareerXcelerator a job portal?",
-    a: "No. We are a career preparation platform, not a job board. We give you the skills, credentials and interview readiness needed to succeed across any portal or direct employer pipeline, including our 500+ hiring partner network.",
+    a: "No. CareerXcelerator is a career preparation system, not a job board. We help you discover the right role, prepare with structured learning, validate your readiness through AI interviews, and then connect you with relevant opportunities.",
     variant: "yellow",
   },
   {
-    q: "How does CareerXcelerator help students get jobs?",
-    a: "We close the gap between education and employment through structured role tracks, AI-powered coaching, resume optimisation, and mock interviews. Candidates leave with validated credentials that signal real readiness to hiring managers.",
+    q: "How does the platform help me find the right role?",
+    a: "It starts with Know Yourself Better (KYB) — a 10-minute assessment that maps your strengths against real job market data. You will see active roles, required skills, salary ranges, and hiring demand for roles that actually fit you.",
     variant: "yellow",
   },
   {
     q: "Is CareerXcelerator useful for career switchers?",
-    a: "Absolutely. Our KYB assessment identifies the roles that fit your transferable strengths and our gap analysis shows exactly what to close. Many of our 2,000+ placed candidates were mid-career switchers.",
+    a: "Yes. The KYB assessment identifies roles that fit your transferable strengths, and the Career Track builds a preparation path around what your new target role actually requires. The system works for students, graduates, and experienced professionals.",
     variant: "blue",
   },
   {
-    q: "How is CareerXcelerator different from online courses and coaching?",
-    a: "Traditional courses give content. We give a structured career track tied to real employer requirements. Our AI mentor is available 24/7 and every session is scored. We do not just surface roles. We make you ready for them.",
+    q: "How is this different from courses or coaching?",
+    a: "Courses give content without context. CareerXcelerator gives you a structured system tied to real employer requirements. You discover your fit, prepare for that specific role, validate readiness through AI simulations, and activate into real opportunities.",
     variant: "blue",
   },
   {
     q: "Can universities and institutions use CareerXcelerator?",
-    a: "Yes. We offer institutional licences that let universities deploy career tracks, run cohort-wide gap analysis, issue verifiable credentials, and track placement outcomes, all under your own brand.",
+    a: "Yes. We provide institutional deployment that lets universities run career tracks at scale, map cohort-wide skill gaps, issue verified credentials, and track placement outcomes. Contact us through the For Institutions section.",
     variant: "yellow",
   },
   {
     q: "How long does it take to get offer-ready?",
-    a: "It depends on the plan. Career Builder is a 1 month activation track. Career Pro runs 3 months of full prep. Career Elite covers 6 months with multi-role support. Most candidates see interview callbacks within 4 to 8 weeks of active preparation.",
+    a: "Career Builder provides 1 month of activation. Career Pro runs 3 months of full preparation. Career Elite covers 6 months with multi-role support. Most users see interview callbacks within 4 to 8 weeks of active preparation.",
     variant: "yellow",
   },
   {
-    q: "What happens after I purchase a plan?",
-    a: "You will start with the KYB role assessment to identify your ideal track, then receive a personalised skill roadmap, access to your AI mentor, interview simulator sessions and daily job updates, all within the CareerXcelerator dashboard.",
+    q: "What happens after I click Find My Best Role?",
+    a: "You enter the Know Yourself Better (KYB) experience — a short set of questions about your interests, goals, and experience level. The system then maps your profile against real job market data and shows you where you fit.",
     variant: "blue",
   },
 ];
@@ -85,7 +85,7 @@ function FAQItem({
         {/* Question row */}
         <div className="flex items-center justify-between gap-4">
           <span
-            className="font-handwritten text-[17px] font-bold leading-snug"
+            className="text-[17px] font-bold leading-snug"
             style={{ color: isBlue ? YELLOW : BLUE }}
           >
             {faq.q}
@@ -114,7 +114,7 @@ function FAQItem({
               className="overflow-hidden"
             >
               <p
-                className="font-handwritten text-[15px] leading-relaxed mt-3 pt-3"
+                className="text-[15px] leading-relaxed mt-3 pt-3"
                 style={{
                   color: isBlue ? "rgba(245,209,52,0.85)" : "rgba(60,97,168,0.85)",
                   borderTop: `1px solid ${isBlue ? "rgba(245,209,52,0.2)" : "rgba(60,97,168,0.2)"}`,
@@ -148,7 +148,7 @@ export function FAQSection() {
             initial={{ opacity: 0, y: 14 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4"
+            className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4"
             style={{ color: DARK }}
           >
             Frequently{" "}

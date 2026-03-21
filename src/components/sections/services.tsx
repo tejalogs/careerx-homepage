@@ -18,41 +18,41 @@ const SERVICES = [
   {
     id: "kyb",
     icon: Compass,
-    title: "Know Yourself Better",
+    title: "Know Yourself Better (KYB)",
     university: "Give every student a clear picture of where they stand and which roles they are built for.",
-    candidate: "Discover exactly which roles suit you. Built on your strengths, not guesswork.",
+    candidate: "Explore roles using real job market data. Find where you actually fit — based on strengths, not guesswork.",
     accent: ["#EEF2FF", "#C7D2FE"],
   },
   {
     id: "gap",
     icon: BarChart3,
-    title: "Gap Analysis",
+    title: "Skill Gap Analysis",
     university: "Map cohort-wide gaps against live job requirements and guide targeted interventions.",
-    candidate: "Know exactly what employers screen for. Close only those gaps.",
+    candidate: "See exactly what employers screen for in your target role. Close only the gaps that matter.",
     accent: ["#FFF7ED", "#FED7AA"],
   },
   {
     id: "path",
     icon: BookOpen,
-    title: "Learning Path",
+    title: "Career Track",
     university: "Deploy curated learning tracks aligned to the roles your students are actually targeting.",
-    candidate: "A focused path built around exactly what employers screen for in your target role.",
+    candidate: "A structured learning path built around what your target role actually requires. No wasted effort.",
     accent: ["#F0FDF4", "#BBF7D0"],
   },
   {
     id: "mentor",
     icon: Bot,
-    title: "AI-Powered Mentor",
+    title: "Career Coach (AI Mentor)",
     university: "Scale expert guidance and evaluation to every student, not just the ones who ask for help.",
-    candidate: "Your personal AI coach, available 24/7 to guide, evaluate and push you forward.",
+    candidate: "Your AI career coach — available 24/7 to guide your preparation and push you forward.",
     accent: ["#EFF6FF", "#BFDBFE"],
   },
   {
     id: "credentials",
     icon: BadgeCheck,
-    title: "Micro-credentials",
+    title: "Verified Credentials",
     university: "Issue credentials backed by assessed competency, not just course completion.",
-    candidate: "Earn validated credentials that prove your readiness to any employer.",
+    candidate: "Earn credentials that prove your readiness to hiring managers. Backed by real assessments.",
     accent: ["#FDF4FF", "#E9D5FF"],
   },
   {
@@ -60,31 +60,31 @@ const SERVICES = [
     icon: FileText,
     title: "AI Resume Builder",
     university: "Ensure every graduate leaves with a resume that reflects real, validated readiness.",
-    candidate: "Generate a role-optimised resume that reflects your actual preparation level.",
+    candidate: "Generate a role-aligned resume that reflects your actual preparation and skill level.",
     accent: ["#FFFBEB", "#FDE68A"],
   },
   {
     id: "jobs",
     icon: BellRing,
-    title: "Daily Job Updates",
+    title: "Career Activation",
     university: "Live employer pipeline. Connect students to 500+ hiring partners instantly.",
-    candidate: "Tailored job alerts so you never miss the right opportunity at the right moment.",
+    candidate: "Get matched with relevant job opportunities based on your role, readiness, and profile.",
     accent: ["#FFF1F2", "#FECDD3"],
   },
   {
     id: "prep",
     icon: Mic,
-    title: "Interview Prep",
+    title: "Interview Preparation",
     university: "Standardise interview readiness across every programme and measure it at scale.",
-    candidate: "Practise with real role questions and build confident, repeatable answers.",
+    candidate: "Practise with role-specific questions from real hiring patterns. Build confident, repeatable answers.",
     accent: ["#F0FDFA", "#99F6E4"],
   },
   {
     id: "mock",
     icon: Video,
-    title: "AI Mock Interview",
+    title: "Interview Simulator",
     university: "Benchmark readiness through realistic, AI-scored interview simulations.",
-    candidate: "Simulate a real interview under pressure. Get scored feedback after every session.",
+    candidate: "Experience AI-powered interview simulations. Get scored feedback and know exactly where you stand.",
     accent: ["#EEF2FF", "#A5B4FC"],
   },
 ];
@@ -149,8 +149,8 @@ function TabToggle({
   onSelect: (v: "university" | "candidate") => void;
 }) {
   const options = [
-    { id: "university" as const, label: "Universities" },
-    { id: "candidate"  as const, label: "Candidates"  },
+    { id: "university" as const, label: "For Institutions" },
+    { id: "candidate"  as const, label: "For Individuals"  },
   ];
   return (
     <div
@@ -253,10 +253,10 @@ export function ServicesSection() {
             initial={{ opacity: 0, y: 14 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="text-3xl md:text-4xl font-black tracking-tight leading-tight mb-3 text-white"
+            className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight mb-3 text-white"
           >
             <span style={{ color: YELLOW }}>From Assessment</span>{" "}
-            <span className="text-white">to Offer.</span>
+            <span className="text-white">to Offer. One Platform.</span>
           </motion.h2>
 
           <motion.p
@@ -266,7 +266,7 @@ export function ServicesSection() {
             className="text-[14px] mb-8"
             style={{ color: "rgba(255,255,255,0.6)" }}
           >
-            One platform to understand yourself, build your edge and land the role.
+            Everything you need to understand yourself, build your edge, and land the role.
           </motion.p>
 
           <motion.div

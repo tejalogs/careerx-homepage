@@ -7,26 +7,26 @@ import Image from "next/image";
 const CARDS = [
   {
     src: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=480&q=85",
-    label: "Know Your Role",
-    caption: "Discover where your strengths align",
+    label: "Discover — Know Yourself Better",
+    caption: "Find which roles actually fit you",
     splash: "linear-gradient(306deg, #0a1628, #3C61A8)",
   },
   {
     src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=480&q=85",
-    label: "Build Your Skills",
-    caption: "Close only the gaps that matter",
+    label: "Prepare — Career Track",
+    caption: "Close only the gaps employers screen for",
     splash: "linear-gradient(306deg, #1e4d6e, #3C8CA8)",
   },
   {
     src: "https://images.unsplash.com/photo-1565688534245-05d6b5be184a?w=480&q=85",
-    label: "Mock Interviews",
-    caption: "Practice until it feels effortless",
+    label: "Validate — Interview Simulator",
+    caption: "Measure your readiness before the real thing",
     splash: "linear-gradient(306deg, #0d2240, #3C61A8)",
   },
   {
     src: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=480&q=85",
-    label: "Land the Offer",
-    caption: "Walk in ready. Walk out hired.",
+    label: "Activate — Career Activation",
+    caption: "Connect with roles matched to your profile",
     splash: "linear-gradient(306deg, #c49a00, #F5D134)",
   },
 ];
