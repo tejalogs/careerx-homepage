@@ -536,8 +536,8 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
 
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
-        {/* Intro headline — pinned to center of viewport */}
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center pointer-events-none px-6">
+        {/* Intro headline — top on mobile, center on desktop */}
+        <div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[12%] md:top-0 md:bottom-0 md:justify-center">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={circleReady && morphValue < 0.3 ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 10 }}
@@ -555,7 +555,7 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
                 : { opacity: 0, scale: 0.96, filter: "blur(12px)" }
             }
             transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-gray-800"
+            className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight text-gray-800"
           >
             Hiring, <span style={{ color: "#3C61A8" }}>decoded.</span>
           </motion.h1>
