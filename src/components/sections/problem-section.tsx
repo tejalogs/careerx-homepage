@@ -97,7 +97,7 @@ export function ProblemSection() {
                 <p
                   className="text-[13px] sm:text-[15px] leading-relaxed"
                   style={{
-                    color: isBlue ? "rgba(245,209,52,0.7)" : "rgba(60,97,168,0.7)",
+                    color: isBlue ? "rgba(245,209,52,0.85)" : "rgba(60,97,168,0.85)",
                   }}
                 >
                   {p.reality}

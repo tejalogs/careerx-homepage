@@ -27,7 +27,7 @@ export function InstitutionDetailSection() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section className="w-full py-14 md:py-24 px-4 sm:px-6" style={{ backgroundColor: "#F7F8FC" }}>
+    <section id="institutions" className="w-full py-14 md:py-24 px-4 sm:px-6" style={{ backgroundColor: "#F7F8FC" }}>
       <div ref={ref} className="max-w-5xl mx-auto">
 
         {/* Header */}
@@ -45,7 +45,7 @@ export function InstitutionDetailSection() {
             initial={{ opacity: 0, y: 14 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight mb-3"
+            className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3"
             style={{ color: DARK }}
           >
             Your placement cell is{" "}

@@ -58,7 +58,7 @@ export function HowItWorksSection() {
             initial={{ opacity: 0, y: 14 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight mb-3"
+            className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3"
             style={{ color: DARK }}
           >
             Four stages.{" "}

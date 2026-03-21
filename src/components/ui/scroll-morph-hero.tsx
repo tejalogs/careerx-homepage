@@ -583,8 +583,7 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
             Role fit. Skill gaps.<br />Interview readiness.
           </h2>
           <p className="text-sm text-gray-500 max-w-md leading-relaxed font-medium">
-            Everything you need, in one system.{" "}
-            <span className="text-gray-800 font-semibold">Hover a card to explore.</span>
+            Everything you need to go from career clarity to job offer. In one system.
           </p>
         </motion.div>
 

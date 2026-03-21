@@ -244,7 +244,7 @@ export function ServicesSection() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section id="services" className="w-full py-16 md:py-24 px-4 sm:px-6" style={{ backgroundColor: BLUE }}>
+    <section id="services" className="w-full py-14 md:py-24 px-4 sm:px-6" style={{ backgroundColor: BLUE }}>
       <div ref={ref} className="max-w-5xl mx-auto">
 
         {/* Header */}
@@ -253,7 +253,7 @@ export function ServicesSection() {
             initial={{ opacity: 0, y: 14 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight mb-3 text-white"
+            className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3 text-white"
           >
             <span style={{ color: YELLOW }}>From Assessment</span>{" "}
             <span className="text-white">to Offer. One Platform.</span>

@@ -46,7 +46,7 @@ export function MissionVisionSection() {
             Why We Exist
           </p>
           <h2
-            className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight"
+            className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight"
             style={{ color: DARK }}
           >
             Career preparation is broken.{" "}

@@ -205,7 +205,7 @@ export default function PricingSection() {
   const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
-    <section ref={ref} id="pricing" className="w-full py-16 md:py-24 px-4 sm:px-6 relative" style={{ backgroundColor: BG }}>
+    <section ref={ref} id="pricing" className="w-full py-14 md:py-24 px-4 sm:px-6 relative" style={{ backgroundColor: BG }}>
       <div className="w-full max-w-5xl mx-auto relative z-10">
 
         {/* Header */}
@@ -231,7 +231,7 @@ export default function PricingSection() {
             transition={{ duration: 0.45, delay: 0.07 }}
             className="relative inline-block"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold" style={{ color: DARK }}>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-black" style={{ color: DARK }}>
               One investment. From discovery to offer.
             </h2>
             <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-48 h-3 rounded-full blur-sm rotate-[-1deg]"
@@ -367,7 +367,7 @@ export default function PricingSection() {
             className="text-center text-sm mt-5 w-full"
             style={{ color: "rgba(12,14,20,0.3)" }}
           >
-            Join 2,000+ professionals who accelerated their careers ✓
+            Trusted by candidates now at Google, Amazon, Deloitte and more ✓
           </p>
         </motion.div>
 

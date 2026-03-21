@@ -1,6 +1,6 @@
 "use client";
 
-import { Youtube, Linkedin, Instagram, Phone, Mail, MapPin, ChevronDown } from "lucide-react";
+import { Youtube, Linkedin, Instagram, Phone, Mail, MapPin } from "lucide-react";
 
 const SOCIAL_LINKS = [
   {
@@ -26,11 +26,11 @@ const SOCIAL_LINKS = [
 ];
 
 const NAV_LINKS = [
-  { label: "How It Works", dropdown: false },
-  { label: "Products", dropdown: false },
-  { label: "Pricing", dropdown: false },
-  { label: "For Institutions", dropdown: false },
-  { label: "Insights", dropdown: false },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Products", href: "#services" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "For Institutions", href: "#institutions" },
+  { label: "Get Started", href: "#get-started" },
 ];
 
 const CONTACT = [
@@ -74,7 +74,7 @@ export default function Footer() {
             <div>
               <a href="/" className="flex items-center gap-2 mb-3">
                 <span className="text-[22px] font-black text-white tracking-tight leading-none">
-                  Career<span style={{ color: "#F5D134" }}>✶</span>celerator
+                  Career<span style={{ color: "#F5D134" }}>X</span>celerator
                 </span>
               </a>
               <p className="text-sm italic font-semibold mb-6" style={{ color: "rgba(255,255,255,0.75)" }}>
@@ -90,7 +90,7 @@ export default function Footer() {
                     key={platform}
                     href={href}
                     aria-label={platform}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-white/20"
+                    className="w-10 h-10 rounded-lg flex items-center justify-center transition-colors hover:bg-white/20"
                     style={{ backgroundColor: "rgba(255,255,255,0.12)" }}
                   >
                     {Icon ? (
@@ -107,15 +107,14 @@ export default function Footer() {
             <div>
               <p className="text-sm font-black text-white mb-5">Links</p>
               <ul className="space-y-3">
-                {NAV_LINKS.map(({ label, dropdown }) => (
+                {NAV_LINKS.map(({ label, href }) => (
                   <li key={label}>
                     <a
-                      href="#"
-                      className="flex items-center gap-1 text-sm transition-colors hover:text-white"
+                      href={href}
+                      className="text-sm transition-colors hover:text-white"
                       style={{ color: "rgba(255,255,255,0.7)" }}
                     >
                       {label}
-                      {dropdown && <ChevronDown className="w-3.5 h-3.5 opacity-60" />}
                     </a>
                   </li>
                 ))}

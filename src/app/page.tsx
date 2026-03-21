@@ -46,8 +46,8 @@ function VideoSectionContent() {
   const statsInView = useInView(statsRef, { once: true, margin: "-60px" });
 
   return (
-    <div className="-mx-4 sm:-mx-8 md:-mx-16 -my-10 lg:-my-20 px-4 sm:px-8 md:px-16 py-12 sm:py-16 md:py-20 bg-white overflow-x-clip">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
+    <div className="-mx-4 sm:-mx-8 md:-mx-16 -my-10 lg:-my-20 px-4 sm:px-8 md:px-16 py-10 sm:py-16 md:py-20 bg-white overflow-x-clip">
+      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start">
 
         {/* Left: Scroll-triggered image cards */}
         <div className="flex justify-center md:justify-start">
@@ -78,7 +78,7 @@ function VideoSectionContent() {
               Land the Job
             </span>
           </h2>
-          <p className="text-[16px] text-black/60 leading-relaxed mb-8 max-w-xs">
+          <p className="text-[14px] sm:text-[16px] text-black/60 leading-relaxed mb-8 max-w-xs">
             From role discovery to interview prep to job offers — a structured, AI-powered path to your next career move.
           </p>
           <a
@@ -122,13 +122,13 @@ function VideoSectionContent() {
             ].map((s) => (
               <div
                 key={s.label}
-                className="rounded-2xl px-5 py-4 text-center"
+                className="rounded-2xl px-3 py-3 sm:px-5 sm:py-4 text-center"
                 style={{
                   backgroundColor: "#F7F8FC",
                   border: "1px solid rgba(60,97,168,0.08)",
                 }}
               >
-                <p className="text-2xl font-black tracking-tight leading-none" style={{ color: "#3C61A8" }}>
+                <p className="text-xl sm:text-2xl font-black tracking-tight leading-none" style={{ color: "#3C61A8" }}>
                   {s.value}<span className="text-lg">{s.unit}</span>
                 </p>
                 <p className="text-[11px] font-semibold mt-1.5" style={{ color: "rgba(12,14,20,0.45)" }}>

@@ -164,7 +164,7 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
 
           <button
             onClick={() => setMobileOpen((v) => !v)}
-            className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-black/[0.04] transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-black/[0.04] transition-colors"
             aria-label="Toggle menu"
           >
             <AnimatePresence mode="wait" initial={false}>
