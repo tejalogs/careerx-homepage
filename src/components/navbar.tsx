@@ -68,7 +68,7 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
                 exit={{ opacity: 0, width: 0 }}
                 transition={{ duration: 0.2 }}
                 onClick={onBack}
-                className="flex items-center gap-0.5 pl-2.5 pr-3 text-[13px] font-medium hover:opacity-60 transition-opacity overflow-hidden whitespace-nowrap"
+                className="flex items-center gap-0.5 pl-2.5 pr-3 text-[13px] font-medium hover:opacity-60 transition-opacity overflow-hidden whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded"
                 style={{ color: BLUE }}
               >
                 <ChevronLeft className="w-3.5 h-3.5 shrink-0" />
@@ -77,7 +77,7 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
           </AnimatePresence>
 
           {/* Logo */}
-          <a href="/" className="flex items-center gap-1.5 px-3 py-1 rounded-full hover:bg-black/[0.03] transition-colors">
+          <a href="/" className="flex items-center gap-1.5 px-3 py-1 rounded-full hover:bg-black/[0.03] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
             <BrandLogoMark size={18} color={YELLOW} />
             <span className="text-[13px] font-semibold tracking-tight whitespace-nowrap" style={{ color: DARK }}>
               Career<span style={{ color: BLUE }}>X</span>
@@ -93,10 +93,10 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
               <a
                 key={link.href}
                 href={link.href}
-                className="px-2.5 py-1 text-[12.5px] font-medium rounded-full hover:bg-black/[0.04] transition-all duration-200 whitespace-nowrap"
-                style={{ color: "rgba(0,0,0,0.5)" }}
+                className="px-2.5 py-1 text-[12.5px] font-medium rounded-full hover:bg-black/[0.04] transition-all duration-200 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                style={{ color: "rgba(0,0,0,0.7)" }}
                 onMouseEnter={(e) => { (e.target as HTMLElement).style.color = "rgba(0,0,0,0.85)"; }}
-                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "rgba(0,0,0,0.5)"; }}
+                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "rgba(0,0,0,0.7)"; }}
               >
                 {link.label}
               </a>
@@ -109,8 +109,8 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
           {/* Login */}
           <a
             href="#"
-            className="px-2.5 py-1 text-[12.5px] font-medium rounded-full hover:bg-black/[0.04] transition-all duration-200 whitespace-nowrap"
-            style={{ color: "rgba(0,0,0,0.45)" }}
+            className="px-2.5 py-1 text-[12.5px] font-medium rounded-full hover:bg-black/[0.04] transition-all duration-200 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            style={{ color: "rgba(0,0,0,0.7)" }}
           >
             Login
           </a>
@@ -118,7 +118,7 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
           {/* CTA pill */}
           <a
             href="#get-started"
-            className="ml-1 inline-flex items-center gap-1 h-[32px] px-4 rounded-full text-[12.5px] font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-[1px] active:scale-[0.97] whitespace-nowrap"
+            className="ml-1 inline-flex items-center gap-1 h-[32px] px-4 rounded-full text-[12.5px] font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-[1px] active:scale-[0.97] whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             style={{
               background: `linear-gradient(135deg, ${DARK} 0%, #1a1e2e 100%)`,
               color: "#fff",
@@ -155,7 +155,7 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
               : "0 2px 20px rgba(0, 0, 0, 0.04), inset 0 0.5px 0 rgba(255, 255, 255, 0.8)",
           }}
         >
-          <a href="/" className="flex items-center gap-1.5">
+          <a href="/" className="flex items-center gap-1.5 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded-full">
             <BrandLogoMark size={18} color={YELLOW} />
             <span className="text-[13px] font-semibold tracking-tight" style={{ color: DARK }}>
               Career<span style={{ color: BLUE }}>X</span>
@@ -164,7 +164,7 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
 
           <button
             onClick={() => setMobileOpen((v) => !v)}
-            className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-black/[0.04] transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-black/[0.04] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             aria-label="Toggle menu"
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -216,21 +216,21 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`py-3 text-[14px] font-medium transition-colors ${
+                    className={`py-3 text-[14px] font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded ${
                       i < NAV_LINKS.length - 1 ? "border-b border-black/[0.04]" : ""
                     }`}
-                    style={{ color: "rgba(0,0,0,0.6)" }}
+                    style={{ color: "rgba(0,0,0,0.7)" }}
                   >
                     {link.label}
                   </a>
                 ))}
-                <a href="#" className="py-3 text-[14px] font-medium border-t border-black/[0.04]" style={{ color: "rgba(0,0,0,0.4)" }}>
+                <a href="#" className="py-3 text-[14px] font-medium border-t border-black/[0.04] outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded" style={{ color: "rgba(0,0,0,0.7)" }}>
                   Login
                 </a>
                 <a
                   href="#get-started"
                   onClick={() => setMobileOpen(false)}
-                  className="mt-1.5 flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-[14px] font-semibold"
+                  className="mt-1.5 flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-[14px] font-semibold outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   style={{
                     background: `linear-gradient(135deg, ${DARK} 0%, #1a1e2e 100%)`,
                     color: "#fff",

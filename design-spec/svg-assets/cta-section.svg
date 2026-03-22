@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" fill="none">
+  <title>CareerX Get Started / CTA Section</title>
+
+  <!-- Background -->
+  <rect width="1200" height="600" fill="#3C61A8"/>
+
+  <!-- Decorative dot pattern -->
+  <pattern id="ctaDots" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+    <circle cx="15" cy="15" r="0.8" fill="white" fill-opacity="0.06"/>
+  </pattern>
+  <rect width="1200" height="600" fill="url(#ctaDots)"/>
+
+  <!-- Decorative glow -->
+  <ellipse cx="600" cy="200" rx="450" ry="200" fill="white" fill-opacity="0.05"/>
+
+  <!-- Section label -->
+  <text x="60" y="40" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white" fill-opacity="0.4" letter-spacing="0.2em">CTA / GET STARTED SECTION</text>
+
+  <!-- ===== Content ===== -->
+  <g transform="translate(600, 100)">
+    <!-- Badge pill -->
+    <rect x="-130" y="0" width="260" height="30" rx="15" fill="white" fill-opacity="0.1" stroke="white" stroke-opacity="0.2" stroke-width="1"/>
+    <circle cx="-108" cy="15" r="3" fill="#22C55E"/>
+    <text x="0" y="20" font-family="Inter, sans-serif" font-size="11" font-weight="900" fill="white" text-anchor="middle" letter-spacing="0.25em">START WITH CAREERXCELERATOR</text>
+
+    <!-- Headline -->
+    <text x="0" y="80" font-family="Inter, sans-serif" font-size="48" font-weight="900" fill="white" text-anchor="middle" letter-spacing="-0.02em">Find your best role.</text>
+    <!-- Highlighted word -->
+    <g transform="translate(72, 98)">
+      <rect x="-8" y="0" width="172" height="50" rx="6" fill="#F5D134" transform="rotate(-0.8)"/>
+      <text x="78" y="36" font-family="Inter, sans-serif" font-size="48" font-weight="900" fill="#0C0E14" text-anchor="middle" letter-spacing="-0.02em">Get there.</text>
+    </g>
+
+    <!-- Subtitle -->
+    <text x="0" y="186" font-family="Inter, sans-serif" font-size="15" fill="white" fill-opacity="0.7" text-anchor="middle">Start with Know Yourself Better. In 10 minutes, discover which roles</text>
+    <text x="0" y="206" font-family="Inter, sans-serif" font-size="15" fill="white" fill-opacity="0.7" text-anchor="middle">fit your strengths and get a structured path to your next career move.</text>
+
+    <!-- ===== Email Form ===== -->
+    <g transform="translate(-220, 240)">
+      <!-- Email input -->
+      <rect width="300" height="52" rx="26" fill="white" fill-opacity="0.1" stroke="white" stroke-opacity="0.2" stroke-width="1"/>
+      <text x="24" y="32" font-family="Inter, sans-serif" font-size="14" font-weight="500" fill="white" fill-opacity="0.4">Enter your email address</text>
+
+      <!-- CTA button -->
+      <g transform="translate(312, 0)">
+        <rect width="210" height="52" rx="26" fill="#F5D134"/>
+        <text x="28" y="32" font-family="Inter, sans-serif" font-size="14" font-weight="900" fill="#0C0E14">Find My Best Role</text>
+        <!-- Arrow -->
+        <line x1="180" y1="26" x2="190" y2="26" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round"/>
+        <polyline points="186,22 190,26 186,30" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- Fine print -->
+    <text x="0" y="318" font-family="Inter, sans-serif" font-size="11" fill="white" fill-opacity="0.3" text-anchor="middle">No spam . Unsubscribe anytime . Free to start</text>
+
+    <!-- Trust points -->
+    <g transform="translate(-340, 360)">
+      <!-- Point 1 -->
+      <circle cx="10" cy="10" r="7" fill="none" stroke="#22C55E" stroke-width="1.5"/>
+      <polyline points="6,10 9,13 14,7" fill="none" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round"/>
+      <text x="24" y="14" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white" fill-opacity="0.65">No commitment. Start with a free role discovery</text>
+
+      <!-- Point 2 -->
+      <g transform="translate(320, 0)">
+        <circle cx="10" cy="10" r="7" fill="none" stroke="#22C55E" stroke-width="1.5"/>
+        <polyline points="6,10 9,13 14,7" fill="none" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round"/>
+        <text x="24" y="14" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white" fill-opacity="0.65">10 min assessment</text>
+      </g>
+
+      <!-- Point 3 -->
+      <g transform="translate(530, 0)">
+        <circle cx="10" cy="10" r="7" fill="none" stroke="#22C55E" stroke-width="1.5"/>
+        <polyline points="6,10 9,13 14,7" fill="none" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round"/>
+        <text x="24" y="14" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white" fill-opacity="0.65">Structured path to offers</text>
+      </g>
+    </g>
+
+    <!-- Divider -->
+    <line x1="-120" y1="420" x2="120" y2="420" stroke="white" stroke-opacity="0.12" stroke-width="1"/>
+
+    <!-- Institution CTA -->
+    <text x="0" y="452" font-family="Inter, sans-serif" font-size="13" fill="white" fill-opacity="0.5" text-anchor="middle">Representing a university or institution?</text>
+    <rect x="-110" y="464" width="220" height="42" rx="21" fill="white" fill-opacity="0.06" stroke="white" stroke-opacity="0.25" stroke-width="2"/>
+    <text x="0" y="490" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white" text-anchor="middle">Institutional Deployment</text>
+  </g>
+
+  <!-- Spec notes -->
+  <text x="60" y="570" font-family="Inter, sans-serif" font-size="10" fill="white" fill-opacity="0.3">Section bg: #3C61A8 | py: 80px-128px | Dot pattern: 30px grid, 6% opacity | Input: rounded-full, bg white/10, border white/20</text>
+  <text x="60" y="586" font-family="Inter, sans-serif" font-size="10" fill="white" fill-opacity="0.3">CTA button: bg #F5D134, color #0C0E14, font-weight 900 | Yellow highlight box: rotate(-0.8deg), border-radius 6px</text>
+</svg>

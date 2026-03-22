@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" width="800" height="240">
+  <defs>
+    <linearGradient id="cta-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3C61A8"/>
+      <stop offset="100%" stop-color="#6B21A8"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .btn-label { font-family: Inter, system-ui, sans-serif; font-size: 11px; font-weight: 500; fill: #9CA3AF; }
+  </style>
+
+  <!-- Primary Button -->
+  <g transform="translate(0, 0)">
+    <text class="btn-label" x="80" y="12" text-anchor="middle">Primary</text>
+    <rect x="0" y="24" width="160" height="40" rx="20" ry="20" fill="#0C0E14"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#FFFFFF" x="80" y="49" text-anchor="middle">Get Started</text>
+    <text class="btn-label" x="80" y="84" text-anchor="middle">Dark bg, white text, pill</text>
+  </g>
+
+  <!-- Secondary Button -->
+  <g transform="translate(200, 0)">
+    <text class="btn-label" x="80" y="12" text-anchor="middle">Secondary</text>
+    <rect x="0" y="24" width="160" height="40" rx="20" ry="20" fill="#FFFFFF" stroke="#0C0E14" stroke-width="1.5"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#0C0E14" x="80" y="49" text-anchor="middle">Learn More</text>
+    <text class="btn-label" x="80" y="84" text-anchor="middle">White bg, dark border, pill</text>
+  </g>
+
+  <!-- CTA Gradient Button -->
+  <g transform="translate(400, 0)">
+    <text class="btn-label" x="80" y="12" text-anchor="middle">CTA Gradient</text>
+    <rect x="0" y="24" width="160" height="40" rx="20" ry="20" fill="url(#cta-gradient)"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#FFFFFF" x="80" y="49" text-anchor="middle">Start Free</text>
+    <text class="btn-label" x="80" y="84" text-anchor="middle">Gradient bg, white text</text>
+  </g>
+
+  <!-- Ghost Button -->
+  <g transform="translate(600, 0)">
+    <text class="btn-label" x="80" y="12" text-anchor="middle">Ghost</text>
+    <rect x="0" y="24" width="160" height="40" rx="20" ry="20" fill="none" stroke="#D1D5DB" stroke-width="1" stroke-dasharray="4,2"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#0C0E14" x="80" y="49" text-anchor="middle">View All</text>
+    <text class="btn-label" x="80" y="84" text-anchor="middle">Transparent, hover state</text>
+  </g>
+
+  <!-- Hover States -->
+  <text font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#6B7280" x="0" y="130">Hover States</text>
+  <line x1="0" y1="138" x2="800" y2="138" stroke="#F3F4F6" stroke-width="1"/>
+
+  <!-- Primary Hover -->
+  <g transform="translate(0, 150)">
+    <rect x="0" y="0" width="160" height="40" rx="20" ry="20" fill="#1A1D26"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#FFFFFF" x="80" y="25" text-anchor="middle">Get Started</text>
+  </g>
+
+  <!-- Secondary Hover -->
+  <g transform="translate(200, 150)">
+    <rect x="0" y="0" width="160" height="40" rx="20" ry="20" fill="#F7F8FC" stroke="#0C0E14" stroke-width="1.5"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#0C0E14" x="80" y="25" text-anchor="middle">Learn More</text>
+  </g>
+
+  <!-- CTA Hover -->
+  <g transform="translate(400, 150)">
+    <rect x="0" y="0" width="160" height="40" rx="20" ry="20" fill="url(#cta-gradient)" opacity="0.9"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#FFFFFF" x="80" y="25" text-anchor="middle">Start Free</text>
+  </g>
+
+  <!-- Ghost Hover -->
+  <g transform="translate(600, 150)">
+    <rect x="0" y="0" width="160" height="40" rx="20" ry="20" fill="#F7F8FC" stroke="#9CA3AF" stroke-width="1"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#0C0E14" x="80" y="25" text-anchor="middle">View All</text>
+  </g>
+</svg>

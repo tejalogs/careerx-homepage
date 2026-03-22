@@ -1,8 +1,18 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
+
+const throttle = (fn: Function, ms: number) => {
+  let timer: NodeJS.Timeout | null = null;
+  return (...args: any[]) => {
+    if (timer) return;
+    timer = setTimeout(() => { timer = null; }, ms);
+    fn(...args);
+  };
+};
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Navbar from "@/components/navbar";
 import { ScrollImageCards } from "@/components/ui/scroll-image-cards";
 import IntroAnimation from "@/components/ui/scroll-morph-hero";
@@ -83,7 +93,7 @@ function VideoSectionContent() {
           </p>
           <a
             href="#get-started"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold text-white transition-all hover:opacity-85 active:scale-95"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold text-white transition-all hover:opacity-85 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             style={{ backgroundColor: "#3C61A8" }}
           >
             Find My Best Role
@@ -99,8 +109,7 @@ function VideoSectionContent() {
                 "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=64&q=80",
                 "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=64&q=80",
               ].map((src, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={i} src={src} alt={`Candidate ${i + 1}`} className="w-8 h-8 rounded-full object-cover border-2 border-white" />
+                <Image key={i} src={src} alt={`Candidate ${i + 1}`} width={32} height={32} className="w-8 h-8 rounded-full object-cover border-2 border-white" />
               ))}
               <div className="w-8 h-8 rounded-full bg-[#0C0E14] border-2 border-white flex items-center justify-center">
                 <span className="text-[9px] font-black text-white">+2k</span>
@@ -181,7 +190,7 @@ export default function Home() {
   useEffect(() => {
     if (activeSection !== "hero") return;
 
-    const handleWheel = (e: WheelEvent) => {
+    const handleWheel = throttle((e: WheelEvent) => {
       if (transitioningRef.current) return;
       // Normalize: Windows mice emit deltaY ~100-300 per notch; cap to 40 so threshold behaves consistently
       const delta = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY), 40);
@@ -200,13 +209,13 @@ export default function Home() {
       }
 
       heroScrollRef.current = newHeroScroll;
-    };
+    }, 16);
 
     let lastTouchY = 0;
     const handleTouchStart = (e: TouchEvent) => {
       lastTouchY = e.touches[0].clientY;
     };
-    const handleTouchMove = (e: TouchEvent) => {
+    const handleTouchMove = throttle((e: TouchEvent) => {
       if (transitioningRef.current) return;
       const delta = lastTouchY - e.touches[0].clientY;
       lastTouchY = e.touches[0].clientY;
@@ -222,7 +231,7 @@ export default function Home() {
         overScrollRef.current = 0;
       }
       heroScrollRef.current = newHeroScroll;
-    };
+    }, 16);
 
     window.addEventListener("wheel", handleWheel, { passive: true });
     window.addEventListener("touchstart", handleTouchStart, { passive: true });

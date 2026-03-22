@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="580" viewBox="0 0 1200 580" fill="none">
+  <title>CareerX Button Styles</title>
+
+  <!-- Background -->
+  <rect width="1200" height="580" fill="white"/>
+
+  <!-- Section label -->
+  <text x="60" y="40" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#3C61A8" letter-spacing="0.2em">BUTTON STYLES</text>
+  <text x="60" y="60" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">All buttons use rounded-full (pill shape) unless in pricing cards (rounded-lg / 8px)</text>
+
+  <!-- ===== Row 1: Pill CTA Buttons ===== -->
+  <text x="60" y="100" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#0C0E14">Primary CTAs (Pill Shape)</text>
+
+  <!-- Dark CTA (navbar) -->
+  <g transform="translate(60, 120)">
+    <rect width="180" height="42" rx="21" fill="#0C0E14"/>
+    <text x="24" y="26" font-family="Inter, sans-serif" font-size="12.5" font-weight="600" fill="white">Find My Best Role</text>
+    <line x1="152" y1="21" x2="162" y2="21" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <polyline points="158,17 162,21 158,25" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="60" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">Navbar CTA | h=32px | bg: gradient(#0C0E14, #1a1e2e)</text>
+    <text x="0" y="74" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">12.5px font-semibold white</text>
+  </g>
+
+  <!-- Blue CTA (sections) -->
+  <g transform="translate(300, 120)">
+    <rect width="200" height="48" rx="24" fill="#3C61A8"/>
+    <text x="28" y="30" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white">Find My Best Role</text>
+    <line x1="170" y1="24" x2="180" y2="24" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <polyline points="176,20 180,24 176,28" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="66" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">Section CTA | h=48px (py-3.5 px-7) | bg: #3C61A8</text>
+    <text x="0" y="80" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">14px font-bold white | hover: opacity-85</text>
+  </g>
+
+  <!-- Yellow CTA (get-started) -->
+  <g transform="translate(560, 120)">
+    <rect width="210" height="52" rx="26" fill="#F5D134"/>
+    <text x="28" y="32" font-family="Inter, sans-serif" font-size="14" font-weight="900" fill="#0C0E14">Find My Best Role</text>
+    <line x1="180" y1="26" x2="190" y2="26" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round"/>
+    <polyline points="186,22 190,26 186,30" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="70" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">CTA Section | h=52px | bg: #F5D134 | color: #0C0E14</text>
+    <text x="0" y="84" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">14px font-black | hover: -translate-y-0.5 + shadow-2xl</text>
+  </g>
+
+  <!-- Hero Primary -->
+  <g transform="translate(830, 120)">
+    <rect width="190" height="42" rx="21" fill="#4267B2"/>
+    <text x="20" y="26" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="white">Find My Best Role</text>
+    <line x1="160" y1="21" x2="170" y2="21" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <polyline points="166,17 170,21 166,25" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="60" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">Hero CTA | bg: #4267B2 | shadow-lg</text>
+    <text x="0" y="74" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">14px font-semibold white</text>
+  </g>
+
+  <!-- ===== Row 2: Secondary / Outlined Buttons ===== -->
+  <text x="60" y="260" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#0C0E14">Secondary / Outlined</text>
+
+  <!-- Hero secondary -->
+  <g transform="translate(60, 280)">
+    <rect width="190" height="42" rx="21" fill="white" stroke="#4267B2" stroke-width="2"/>
+    <polygon points="30,15 30,27 40,21" fill="#4267B2"/>
+    <text x="50" y="26" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#4267B2">See How It Works</text>
+    <text x="0" y="60" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">Hero secondary | border-2 #4267B2 | bg: white</text>
+    <text x="0" y="74" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">14px font-semibold #4267B2 | hover: bg-gray-50</text>
+  </g>
+
+  <!-- Institution CTA (ghost on blue bg) -->
+  <g transform="translate(310, 280)">
+    <rect width="220" height="42" rx="21" fill="#3C61A8"/>
+    <rect x="1" y="1" width="218" height="40" rx="20" fill="white" fill-opacity="0.06" stroke="white" stroke-opacity="0.25" stroke-width="2"/>
+    <text x="26" y="26" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white">Institutional Deployment</text>
+    <text x="0" y="60" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">Ghost button on blue bg | border: white/25 | bg: white/6</text>
+    <text x="0" y="74" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">14px font-bold white</text>
+  </g>
+
+  <!-- ===== Row 3: Neobrutalism Buttons (Pricing) ===== -->
+  <text x="60" y="410" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#0C0E14">Neobrutalism Buttons (Pricing Cards)</text>
+
+  <!-- Default neo button -->
+  <g transform="translate(60, 430)">
+    <!-- Shadow -->
+    <rect x="4" y="4" width="200" height="48" rx="8" fill="#0C0E14" fill-opacity="0.15"/>
+    <!-- Button -->
+    <rect width="200" height="48" rx="8" fill="white" stroke="#0C0E14" stroke-width="2"/>
+    <text x="100" y="30" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#0C0E14" text-anchor="middle">Find My Best Role</text>
+    <text x="0" y="72" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">Default | shadow: 4px 4px | border: #0C0E14</text>
+    <text x="0" y="86" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">Hover: shadow 6px 6px, translate(-0.5, -0.5)</text>
+  </g>
+
+  <!-- Hover state -->
+  <g transform="translate(310, 430)">
+    <!-- Larger shadow (hover) -->
+    <rect x="6" y="6" width="200" height="48" rx="8" fill="#0C0E14" fill-opacity="0.15"/>
+    <!-- Button shifted -->
+    <rect x="-1" y="-1" width="200" height="48" rx="8" fill="white" stroke="#0C0E14" stroke-width="2"/>
+    <text x="99" y="29" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#0C0E14" text-anchor="middle">Find My Best Role</text>
+    <text x="0" y="72" font-family="Inter, sans-serif" font-size="10" fill="#3C61A8" font-weight="600">:hover state</text>
+  </g>
+
+  <!-- Popular neo button (blue fill) -->
+  <g transform="translate(560, 430)">
+    <!-- Shadow -->
+    <rect x="4" y="4" width="200" height="48" rx="8" fill="#3C61A8" fill-opacity="0.3"/>
+    <!-- Button -->
+    <rect width="200" height="48" rx="8" fill="#3C61A8" stroke="#3C61A8" stroke-width="2"/>
+    <text x="100" y="30" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="white" text-anchor="middle">Find My Best Role</text>
+    <text x="0" y="72" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">Popular tier | bg: #3C61A8 | shadow: blue/30</text>
+    <text x="0" y="86" font-family="Inter, sans-serif" font-size="10" fill="#9CA3AF">border + shadow color match #3C61A8</text>
+  </g>
+
+  <!-- Popular hover state -->
+  <g transform="translate(810, 430)">
+    <rect x="6" y="6" width="200" height="48" rx="8" fill="#3C61A8" fill-opacity="0.3"/>
+    <rect x="-1" y="-1" width="200" height="48" rx="8" fill="#3C61A8" stroke="#3C61A8" stroke-width="2"/>
+    <text x="99" y="29" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="white" text-anchor="middle">Find My Best Role</text>
+    <text x="0" y="72" font-family="Inter, sans-serif" font-size="10" fill="#3C61A8" font-weight="600">:hover state (popular)</text>
+  </g>
+
+  <!-- Spec summary -->
+  <text x="60" y="560" font-family="Inter, sans-serif" font-size="10" fill="#6B7280">All pill buttons: rounded-full | active: scale-[0.97] | focus-visible: ring-2 ring-blue-500 ring-offset-2 | Transitions: duration-200 to duration-300</text>
+</svg>

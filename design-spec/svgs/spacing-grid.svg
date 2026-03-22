@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 380" width="600" height="380">
+  <style>
+    .spacing-label { font-family: Inter, system-ui, sans-serif; font-size: 12px; font-weight: 600; fill: #0C0E14; }
+    .spacing-value { font-family: Inter, system-ui, sans-serif; font-size: 11px; font-weight: 400; fill: #9CA3AF; }
+  </style>
+
+  <!-- Title -->
+  <text font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700" fill="#0C0E14" x="0" y="16">Spacing Scale</text>
+
+  <!-- 4px -->
+  <g transform="translate(0, 40)">
+    <text class="spacing-label" x="0" y="14">4</text>
+    <rect x="40" y="4" width="4" height="16" rx="2" fill="#3C61A8" opacity="0.8"/>
+    <text class="spacing-value" x="52" y="14">4px — micro</text>
+  </g>
+
+  <!-- 8px -->
+  <g transform="translate(0, 76)">
+    <text class="spacing-label" x="0" y="14">8</text>
+    <rect x="40" y="4" width="8" height="16" rx="2" fill="#3C61A8" opacity="0.8"/>
+    <text class="spacing-value" x="56" y="14">8px — xs</text>
+  </g>
+
+  <!-- 12px -->
+  <g transform="translate(0, 112)">
+    <text class="spacing-label" x="0" y="14">12</text>
+    <rect x="40" y="4" width="12" height="16" rx="2" fill="#3C61A8" opacity="0.8"/>
+    <text class="spacing-value" x="60" y="14">12px — sm</text>
+  </g>
+
+  <!-- 16px -->
+  <g transform="translate(0, 148)">
+    <text class="spacing-label" x="0" y="14">16</text>
+    <rect x="40" y="4" width="16" height="16" rx="2" fill="#3C61A8" opacity="0.8"/>
+    <text class="spacing-value" x="64" y="14">16px — md</text>
+  </g>
+
+  <!-- 24px -->
+  <g transform="translate(0, 184)">
+    <text class="spacing-label" x="0" y="14">24</text>
+    <rect x="40" y="4" width="24" height="16" rx="2" fill="#3C61A8" opacity="0.8"/>
+    <text class="spacing-value" x="72" y="14">24px — lg</text>
+  </g>
+
+  <!-- 32px -->
+  <g transform="translate(0, 220)">
+    <text class="spacing-label" x="0" y="14">32</text>
+    <rect x="40" y="4" width="32" height="16" rx="2" fill="#3C61A8" opacity="0.8"/>
+    <text class="spacing-value" x="80" y="14">32px — xl</text>
+  </g>
+
+  <!-- 48px -->
+  <g transform="translate(0, 256)">
+    <text class="spacing-label" x="0" y="14">48</text>
+    <rect x="40" y="4" width="48" height="16" rx="2" fill="#3C61A8" opacity="0.8"/>
+    <text class="spacing-value" x="96" y="14">48px — 2xl</text>
+  </g>
+
+  <!-- 64px -->
+  <g transform="translate(0, 292)">
+    <text class="spacing-label" x="0" y="14">64</text>
+    <rect x="40" y="4" width="64" height="16" rx="2" fill="#3C61A8" opacity="0.8"/>
+    <text class="spacing-value" x="112" y="14">64px — 3xl</text>
+  </g>
+
+  <!-- 96px -->
+  <g transform="translate(0, 328)">
+    <text class="spacing-label" x="0" y="14">96</text>
+    <rect x="40" y="4" width="96" height="16" rx="2" fill="#3C61A8" opacity="0.8"/>
+    <text class="spacing-value" x="144" y="14">96px — 4xl</text>
+  </g>
+</svg>

@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="700" viewBox="0 0 1440 700">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap');
+      text { font-family: 'Inter', system-ui, sans-serif; }
+    </style>
+    <linearGradient id="nav-cta-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0C0E14"/>
+      <stop offset="100%" stop-color="#1A1E2E"/>
+    </linearGradient>
+    <filter id="nav-shadow-default">
+      <feDropShadow dx="0" dy="2" stdDeviation="10" flood-color="#000" flood-opacity="0.04"/>
+    </filter>
+    <filter id="nav-shadow-scrolled">
+      <feDropShadow dx="0" dy="4" stdDeviation="15" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+    <filter id="mobile-shadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="20" flood-color="#000" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="700" fill="#FAFBFD" rx="12"/>
+
+  <!-- Title -->
+  <text x="80" y="56" font-size="28" font-weight="800" fill="#0C0E14" letter-spacing="-0.02em">Navbar Component</text>
+  <text x="80" y="80" font-size="14" font-weight="500" fill="#868689">Glassmorphism pill navbar -- desktop and mobile variants</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- Desktop: Default State (not scrolled) -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <text x="80" y="130" font-size="11" font-weight="700" fill="#868689" letter-spacing="0.1em">DESKTOP -- DEFAULT (TOP OF PAGE)</text>
+
+  <!-- Simulated page bg -->
+  <rect x="80" y="148" width="1280" height="80" rx="12" fill="#E8ECEF"/>
+
+  <!-- Glass pill -->
+  <g filter="url(#nav-shadow-default)">
+    <rect x="380" y="160" width="680" height="44" rx="22" fill="rgba(255,255,255,0.45)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+  </g>
+
+  <!-- Logo area -->
+  <!-- Yellow diamond logo mark -->
+  <rect x="398" y="172" width="18" height="18" rx="4" fill="#F5D134" transform="rotate(0,407,181)"/>
+  <text x="422" y="187" font-size="13" font-weight="600" fill="#0C0E14" letter-spacing="-0.02em">Career<tspan fill="#3C61A8">X</tspan></text>
+
+  <!-- Separator dot -->
+  <circle cx="490" cy="182" r="1.5" fill="rgba(0,0,0,0.1)"/>
+
+  <!-- Nav links -->
+  <text x="504" y="187" font-size="12.5" font-weight="500" fill="rgba(0,0,0,0.7)">How It Works</text>
+  <text x="600" y="187" font-size="12.5" font-weight="500" fill="rgba(0,0,0,0.7)">Products</text>
+  <text x="670" y="187" font-size="12.5" font-weight="500" fill="rgba(0,0,0,0.7)">Pricing</text>
+  <text x="730" y="187" font-size="12.5" font-weight="500" fill="rgba(0,0,0,0.7)">For Institutions</text>
+
+  <!-- Separator dot -->
+  <circle cx="838" cy="182" r="1.5" fill="rgba(0,0,0,0.1)"/>
+
+  <!-- Login -->
+  <text x="852" y="187" font-size="12.5" font-weight="500" fill="rgba(0,0,0,0.7)">Login</text>
+
+  <!-- CTA pill -->
+  <rect x="896" y="166" width="150" height="32" rx="16" fill="url(#nav-cta-grad)"/>
+  <text x="910" y="187" font-size="12.5" font-weight="600" fill="#FFFFFF">Find My Best Role</text>
+  <path d="M1030 182 L1034 182 M1032 179 L1035 182 L1032 185" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Specs annotation -->
+  <text x="80" y="250" font-size="11" font-weight="600" fill="#0C0E14">Default state:</text>
+  <text x="80" y="266" font-size="11" font-weight="400" fill="#868689">bg: rgba(255,255,255,0.45) | border: rgba(255,255,255,0.5)</text>
+  <text x="80" y="280" font-size="11" font-weight="400" fill="#868689">backdrop-filter: blur(40px) saturate(180%) | h: 44px | rounded-[22px]</text>
+  <text x="80" y="294" font-size="11" font-weight="400" fill="#868689">inner shadow: inset 0 0.5px 0 rgba(255,255,255,0.8)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- Desktop: Scrolled State -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <text x="80" y="334" font-size="11" font-weight="700" fill="#868689" letter-spacing="0.1em">DESKTOP -- SCROLLED</text>
+
+  <rect x="80" y="350" width="1280" height="80" rx="12" fill="#D8DCE0"/>
+
+  <!-- Glass pill (more opaque) -->
+  <g filter="url(#nav-shadow-scrolled)">
+    <rect x="380" y="362" width="680" height="44" rx="22" fill="rgba(255,255,255,0.72)" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+  </g>
+
+  <!-- Logo -->
+  <rect x="398" y="374" width="18" height="18" rx="4" fill="#F5D134"/>
+  <text x="422" y="389" font-size="13" font-weight="600" fill="#0C0E14" letter-spacing="-0.02em">Career<tspan fill="#3C61A8">X</tspan></text>
+
+  <circle cx="490" cy="384" r="1.5" fill="rgba(0,0,0,0.1)"/>
+
+  <text x="504" y="389" font-size="12.5" font-weight="500" fill="rgba(0,0,0,0.7)">How It Works</text>
+  <text x="600" y="389" font-size="12.5" font-weight="500" fill="rgba(0,0,0,0.7)">Products</text>
+  <text x="670" y="389" font-size="12.5" font-weight="500" fill="rgba(0,0,0,0.7)">Pricing</text>
+  <text x="730" y="389" font-size="12.5" font-weight="500" fill="rgba(0,0,0,0.7)">For Institutions</text>
+
+  <circle cx="838" cy="384" r="1.5" fill="rgba(0,0,0,0.1)"/>
+  <text x="852" y="389" font-size="12.5" font-weight="500" fill="rgba(0,0,0,0.7)">Login</text>
+
+  <rect x="896" y="368" width="150" height="32" rx="16" fill="url(#nav-cta-grad)"/>
+  <text x="910" y="389" font-size="12.5" font-weight="600" fill="#FFFFFF">Find My Best Role</text>
+  <path d="M1030 384 L1034 384 M1032 381 L1035 384 L1032 387" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <text x="80" y="452" font-size="11" font-weight="600" fill="#0C0E14">Scrolled state:</text>
+  <text x="80" y="468" font-size="11" font-weight="400" fill="#868689">bg: rgba(255,255,255,0.72) | border: rgba(0,0,0,0.08)</text>
+  <text x="80" y="482" font-size="11" font-weight="400" fill="#868689">shadow: 0 4px 30px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- Mobile Variant -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <text x="80" y="520" font-size="11" font-weight="700" fill="#868689" letter-spacing="0.1em">MOBILE -- CLOSED</text>
+
+  <!-- Mobile phone frame hint -->
+  <rect x="80" y="536" width="375" height="60" rx="12" fill="#E8ECEF"/>
+
+  <!-- Mobile pill -->
+  <g filter="url(#nav-shadow-default)">
+    <rect x="92" y="548" width="351" height="44" rx="22" fill="rgba(255,255,255,0.45)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+  </g>
+
+  <!-- Logo -->
+  <rect x="108" y="560" width="18" height="18" rx="4" fill="#F5D134"/>
+  <text x="132" y="575" font-size="13" font-weight="600" fill="#0C0E14" letter-spacing="-0.02em">Career<tspan fill="#3C61A8">X</tspan></text>
+
+  <!-- Hamburger icon -->
+  <g transform="translate(404,562)">
+    <line x1="0" y1="3" x2="16" y2="3" stroke="#4B5563" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="0" y1="8" x2="16" y2="8" stroke="#4B5563" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="0" y1="13" x2="16" y2="13" stroke="#4B5563" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <text x="80" y="618" font-size="11" font-weight="400" fill="#868689">top: 12px | left/right: 12px | h: 44px | rounded-[22px]</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- Mobile: Open dropdown -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <text x="520" y="520" font-size="11" font-weight="700" fill="#868689" letter-spacing="0.1em">MOBILE -- MENU OPEN</text>
+
+  <rect x="520" y="536" width="375" height="160" rx="12" fill="#E8ECEF"/>
+
+  <!-- Mobile pill (open state) -->
+  <g filter="url(#nav-shadow-scrolled)">
+    <rect x="532" y="548" width="351" height="44" rx="22" fill="rgba(255,255,255,0.78)" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+  </g>
+  <rect x="548" y="560" width="18" height="18" rx="4" fill="#F5D134"/>
+  <text x="572" y="575" font-size="13" font-weight="600" fill="#0C0E14" letter-spacing="-0.02em">Career<tspan fill="#3C61A8">X</tspan></text>
+
+  <!-- X icon -->
+  <g transform="translate(844,562)">
+    <line x1="2" y1="2" x2="14" y2="14" stroke="#4B5563" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="14" y1="2" x2="2" y2="14" stroke="#4B5563" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Dropdown card -->
+  <g filter="url(#mobile-shadow)">
+    <rect x="532" y="598" width="351" height="92" rx="16" fill="rgba(255,255,255,0.82)" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
+  </g>
+  <text x="548" y="620" font-size="14" font-weight="500" fill="rgba(0,0,0,0.7)">How It Works</text>
+  <line x1="548" y1="630" x2="867" y2="630" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+  <text x="548" y="652" font-size="14" font-weight="500" fill="rgba(0,0,0,0.7)">Products</text>
+  <line x1="548" y1="662" x2="867" y2="662" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+  <text x="548" y="684" font-size="14" font-weight="500" fill="rgba(0,0,0,0.7)">Pricing</text>
+
+  <text x="520" y="710" font-size="11" font-weight="400" fill="#868689">dropdown: glass card, rounded-2xl, bg: white/82, blur(40px)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- Positioning info -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <text x="1000" y="520" font-size="11" font-weight="700" fill="#868689" letter-spacing="0.1em">POSITIONING</text>
+
+  <rect x="1000" y="536" width="360" height="140" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+
+  <text x="1020" y="562" font-size="12" font-weight="600" fill="#0C0E14">Desktop</text>
+  <text x="1020" y="580" font-size="11" font-weight="400" fill="#868689">fixed top-3 inset-x-0 z-50</text>
+  <text x="1020" y="594" font-size="11" font-weight="400" fill="#868689">centered with justify-center</text>
+  <text x="1020" y="608" font-size="11" font-weight="400" fill="#868689">pointer-events-none on wrapper</text>
+
+  <text x="1020" y="634" font-size="12" font-weight="600" fill="#0C0E14">Mobile</text>
+  <text x="1020" y="652" font-size="11" font-weight="400" fill="#868689">fixed top-3 left-3 right-3 z-50</text>
+  <text x="1020" y="666" font-size="11" font-weight="400" fill="#868689">full width with 12px inset</text>
+</svg>

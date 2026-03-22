@@ -319,7 +319,7 @@ function FlipCard({ config, target, staggerDelay = 0 }: FlipCardProps) {
     <motion.div
       animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
       transition={{ type: "spring", stiffness: 40, damping: 15, delay: staggerDelay }}
-      style={{ position: "absolute", width: CARD_W, height: CARD_H, transformStyle: "preserve-3d", perspective: "1000px" }}
+      style={{ position: "absolute", width: CARD_W, height: CARD_H, transformStyle: "preserve-3d", perspective: "1000px", willChange: "transform" }}
       className="cursor-pointer group"
     >
       <motion.div
@@ -579,9 +579,9 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
           <p className="text-[10px] font-black tracking-[0.25em] uppercase text-gray-400 mb-3">
             CareerXcelerator
           </p>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
             Role fit. Skill gaps.<br />Interview readiness.
-          </h2>
+          </h1>
           <p className="text-sm text-gray-500 max-w-md leading-relaxed font-medium">
             Everything you need to go from career clarity to job offer. In one system.
           </p>

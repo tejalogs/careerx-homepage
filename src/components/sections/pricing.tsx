@@ -116,11 +116,12 @@ function FeatureItem({ feature, isPopular }: { feature: string; isPopular: boole
           <div className="relative mt-0.5 shrink-0">
             <button
               type="button"
+              aria-label={`More info about ${feature}`}
               onMouseEnter={() => setOpen(true)}
               onMouseLeave={() => setOpen(false)}
               onFocus={() => setOpen(true)}
               onBlur={() => setOpen(false)}
-              className="w-4 h-4 flex items-center justify-center rounded-full"
+              className="w-4 h-4 flex items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               style={{ color: "rgba(12,14,20,0.3)" }}
             >
               <Info className="w-3.5 h-3.5" />
@@ -258,6 +259,7 @@ export default function PricingSection() {
               initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1, ease: [0.33, 1, 0.68, 1] }}
+              role="article"
               className="relative group transition-all duration-300"
             >
               {/* Card shadow layer */}
@@ -328,6 +330,7 @@ export default function PricingSection() {
                     "w-full h-12 text-base font-semibold border-2 transition-all duration-300",
                     "shadow-[4px_4px_0px_0px] hover:shadow-[6px_6px_0px_0px]",
                     "hover:-translate-x-0.5 hover:-translate-y-0.5",
+                    "outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2",
                     plan.popular
                       ? "hover:brightness-105 active:brightness-100"
                       : "hover:brightness-95 active:brightness-100"

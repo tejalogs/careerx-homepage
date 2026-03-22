@@ -72,7 +72,7 @@ export default function Footer() {
 
             {/* Col 1: Brand */}
             <div>
-              <a href="/" className="flex items-center gap-2 mb-3">
+              <a href="/" className="flex items-center gap-2 mb-3 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded">
                 <span className="text-[22px] font-black text-white tracking-tight leading-none">
                   Career<span style={{ color: "#F5D134" }}>X</span>celerator
                 </span>
@@ -90,7 +90,7 @@ export default function Footer() {
                     key={platform}
                     href={href}
                     aria-label={platform}
-                    className="w-10 h-10 rounded-lg flex items-center justify-center transition-colors hover:bg-white/20"
+                    className="w-10 h-10 rounded-lg flex items-center justify-center transition-colors hover:bg-white/20 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     style={{ backgroundColor: "rgba(255,255,255,0.12)" }}
                   >
                     {Icon ? (
@@ -111,8 +111,8 @@ export default function Footer() {
                   <li key={label}>
                     <a
                       href={href}
-                      className="text-sm transition-colors hover:text-white"
-                      style={{ color: "rgba(255,255,255,0.7)" }}
+                      className="text-sm transition-colors hover:text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded"
+                      style={{ color: "rgba(255,255,255,0.85)" }}
                     >
                       {label}
                     </a>
@@ -128,7 +128,7 @@ export default function Footer() {
                 {CONTACT.map(({ icon: Icon, text }) => (
                   <li key={text} className="flex items-start gap-3">
                     <Icon className="w-4 h-4 mt-0.5 shrink-0" style={{ color: "rgba(255,255,255,0.55)" }} />
-                    <span className="text-sm leading-snug" style={{ color: "rgba(255,255,255,0.7)" }}>
+                    <span className="text-sm leading-snug" style={{ color: "rgba(255,255,255,0.85)" }}>
                       {text}
                     </span>
                   </li>
@@ -144,10 +144,10 @@ export default function Footer() {
           {/* Bottom bar */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 py-5">
             <div className="flex items-center gap-5">
-              <a href="#" className="text-xs text-white/60 hover:text-white/90 transition-colors">
+              <a href="#" className="text-xs text-white/60 hover:text-white/90 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded">
                 Terms of use
               </a>
-              <a href="#" className="text-xs text-white/60 hover:text-white/90 transition-colors">
+              <a href="#" className="text-xs text-white/60 hover:text-white/90 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded">
                 Privacy policy
               </a>
             </div>

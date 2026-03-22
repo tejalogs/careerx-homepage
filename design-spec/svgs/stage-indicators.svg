@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 80" width="720" height="80">
+  <style>
+    .stage-label { font-family: Inter, system-ui, sans-serif; font-size: 13px; font-weight: 600; }
+    .stage-number { font-family: Inter, system-ui, sans-serif; font-size: 9px; font-weight: 700; fill: #FFFFFF; }
+  </style>
+
+  <!-- Connecting line -->
+  <line x1="24" y1="24" x2="696" y2="24" stroke="#E5E7EB" stroke-width="2"/>
+
+  <!-- Arrow head -->
+  <polygon points="696,24 688,19 688,29" fill="#E5E7EB"/>
+
+  <!-- Discover -->
+  <g transform="translate(0, 0)">
+    <circle cx="24" cy="24" r="16" fill="#4267B2"/>
+    <text class="stage-number" x="24" y="28" text-anchor="middle">1</text>
+    <text class="stage-label" fill="#4267B2" x="24" y="60" text-anchor="middle">Discover</text>
+  </g>
+
+  <!-- Prepare -->
+  <g transform="translate(224, 0)">
+    <circle cx="24" cy="24" r="16" fill="#2D6A4F"/>
+    <text class="stage-number" x="24" y="28" text-anchor="middle">2</text>
+    <text class="stage-label" fill="#2D6A4F" x="24" y="60" text-anchor="middle">Prepare</text>
+  </g>
+
+  <!-- Validate -->
+  <g transform="translate(448, 0)">
+    <circle cx="24" cy="24" r="16" fill="#92400E"/>
+    <text class="stage-number" x="24" y="28" text-anchor="middle">3</text>
+    <text class="stage-label" fill="#92400E" x="24" y="60" text-anchor="middle">Validate</text>
+  </g>
+
+  <!-- Activate -->
+  <g transform="translate(672, 0)">
+    <circle cx="24" cy="24" r="16" fill="#6B21A8"/>
+    <text class="stage-number" x="24" y="28" text-anchor="middle">4</text>
+    <text class="stage-label" fill="#6B21A8" x="24" y="60" text-anchor="middle">Activate</text>
+  </g>
+</svg>

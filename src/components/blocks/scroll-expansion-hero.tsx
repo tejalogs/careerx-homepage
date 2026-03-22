@@ -208,8 +208,12 @@ const ScrollExpandMedia = ({
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
-  const mediaWidth = 300 + scrollProgress * (isMobileState ? 650 : 1250);
-  const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
+  const mediaBaseWidth = isMobileState ? 300 : 300;
+  const mediaMaxWidth = isMobileState ? 950 : 1550;
+  const mediaBaseHeight = isMobileState ? 400 : 400;
+  const mediaMaxHeight = isMobileState ? 600 : 800;
+  const mediaScaleX = (mediaBaseWidth + scrollProgress * (mediaMaxWidth - mediaBaseWidth)) / mediaBaseWidth;
+  const mediaScaleY = (mediaBaseHeight + scrollProgress * (mediaMaxHeight - mediaBaseHeight)) / mediaBaseHeight;
   const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
 
   const firstWord = title ? title.split(' ')[0] : '';
@@ -229,10 +233,12 @@ const ScrollExpandMedia = ({
               <div
                 className='absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none rounded-2xl overflow-hidden'
                 style={{
-                  width: `${mediaWidth}px`,
-                  height: `${mediaHeight}px`,
+                  width: `${mediaBaseWidth}px`,
+                  height: `${mediaBaseHeight}px`,
                   maxWidth: '95vw',
                   maxHeight: '85vh',
+                  transform: `translate(-50%, -50%) scale(${mediaScaleX}, ${mediaScaleY})`,
+                  willChange: 'transform',
                   boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.15)',
                 }}
               >

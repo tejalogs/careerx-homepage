@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" width="900" height="420">
+  <style>
+    .label { font-family: Inter, system-ui, sans-serif; font-size: 11px; font-weight: 500; fill: #9CA3AF; }
+    .spec { font-family: Inter, system-ui, sans-serif; font-size: 11px; font-weight: 400; fill: #D1D5DB; }
+  </style>
+
+  <!-- Display -->
+  <g transform="translate(0, 0)">
+    <text class="label" x="0" y="12">Display</text>
+    <text class="spec" x="80" y="12">72px / 900</text>
+    <text font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="900" fill="#0C0E14" x="0" y="80">Hiring, decoded.</text>
+    <line x1="0" y1="96" x2="900" y2="96" stroke="#F3F4F6" stroke-width="1"/>
+  </g>
+
+  <!-- H2 -->
+  <g transform="translate(0, 110)">
+    <text class="label" x="0" y="12">H2</text>
+    <text class="spec" x="80" y="12">48px / 800</text>
+    <text font-family="Inter, system-ui, sans-serif" font-size="48" font-weight="800" fill="#0C0E14" x="0" y="60">Section Heading</text>
+    <line x1="0" y1="76" x2="900" y2="76" stroke="#F3F4F6" stroke-width="1"/>
+  </g>
+
+  <!-- H3 -->
+  <g transform="translate(0, 200)">
+    <text class="label" x="0" y="12">H3</text>
+    <text class="spec" x="80" y="12">30px / 700</text>
+    <text font-family="Inter, system-ui, sans-serif" font-size="30" font-weight="700" fill="#0C0E14" x="0" y="48">Subsection</text>
+    <line x1="0" y1="60" x2="900" y2="60" stroke="#F3F4F6" stroke-width="1"/>
+  </g>
+
+  <!-- Body -->
+  <g transform="translate(0, 272)">
+    <text class="label" x="0" y="12">Body</text>
+    <text class="spec" x="80" y="12">18px / 400</text>
+    <text font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="400" fill="#0C0E14" x="0" y="38">Body text example</text>
+    <line x1="0" y1="50" x2="900" y2="50" stroke="#F3F4F6" stroke-width="1"/>
+  </g>
+
+  <!-- Small -->
+  <g transform="translate(0, 332)">
+    <text class="label" x="0" y="12">Small</text>
+    <text class="spec" x="80" y="12">14px / 500</text>
+    <text font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#0C0E14" x="0" y="32">Small text</text>
+    <line x1="0" y1="42" x2="900" y2="42" stroke="#F3F4F6" stroke-width="1"/>
+  </g>
+
+  <!-- Caption -->
+  <g transform="translate(0, 382)">
+    <text class="label" x="0" y="12">Caption</text>
+    <text class="spec" x="80" y="12">12px / 400</text>
+    <text font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#0C0E14" x="0" y="28">Caption</text>
+  </g>
+
+  <!-- Overline -->
+  <g transform="translate(300, 382)">
+    <text class="label" x="0" y="12">Overline</text>
+    <text class="spec" x="80" y="12">10px / 900 / 0.25em</text>
+    <text font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="900" letter-spacing="0.25em" fill="#0C0E14" x="0" y="28">OVERLINE TEXT</text>
+  </g>
+</svg>

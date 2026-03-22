@@ -97,7 +97,6 @@ function CardItem({ src, label, caption, splash }: CardItemProps) {
           fill
           className="object-cover"
           sizes="270px"
-          unoptimized
         />
         {/* Label overlay */}
         <div

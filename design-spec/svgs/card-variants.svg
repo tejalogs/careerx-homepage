@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 280" width="940" height="280">
+  <defs>
+    <filter id="card-shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#000000" flood-opacity="0.06"/>
+    </filter>
+    <filter id="glass-blur" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feFlood flood-color="#FFFFFF" flood-opacity="0.15" result="overlay"/>
+      <feComposite in="overlay" in2="blur" operator="in"/>
+    </filter>
+  </defs>
+
+  <style>
+    .card-label { font-family: Inter, system-ui, sans-serif; font-size: 11px; font-weight: 500; fill: #9CA3AF; }
+    .card-title { font-family: Inter, system-ui, sans-serif; font-size: 16px; font-weight: 700; fill: #0C0E14; }
+    .card-body { font-family: Inter, system-ui, sans-serif; font-size: 13px; font-weight: 400; fill: #6B7280; }
+  </style>
+
+  <!-- Standard Card -->
+  <g transform="translate(0, 0)">
+    <text class="card-label" x="140" y="12" text-anchor="middle">Standard Card</text>
+    <rect x="0" y="24" width="280" height="180" rx="16" ry="16" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1" filter="url(#card-shadow)"/>
+    <rect x="0" y="24" width="280" height="60" rx="16" ry="16" fill="#F7F8FC"/>
+    <rect x="0" y="68" width="280" height="16" fill="#F7F8FC"/>
+    <text class="card-title" x="20" y="108">Card Title</text>
+    <text class="card-body" x="20" y="130">Description text goes here with</text>
+    <text class="card-body" x="20" y="148">a brief summary of the content.</text>
+    <rect x="20" y="164" width="80" height="28" rx="14" fill="#0C0E14"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF" x="60" y="182" text-anchor="middle">Action</text>
+    <text class="card-label" x="140" y="224" text-anchor="middle">White bg, 1px border, shadow, 16px radius</text>
+  </g>
+
+  <!-- Neobrutalism Card -->
+  <g transform="translate(330, 0)">
+    <text class="card-label" x="140" y="12" text-anchor="middle">Neobrutalism Card</text>
+    <!-- Shadow offset -->
+    <rect x="4" y="28" width="280" height="180" rx="16" ry="16" fill="#0C0E14"/>
+    <!-- Main card -->
+    <rect x="0" y="24" width="280" height="180" rx="16" ry="16" fill="#FFFFFF" stroke="#0C0E14" stroke-width="2"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="900" letter-spacing="0.15em" fill="#6B21A8" x="20" y="56">PRO PLAN</text>
+    <text font-family="Inter, system-ui, sans-serif" font-size="36" font-weight="900" fill="#0C0E14" x="20" y="100">$49</text>
+    <text font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="400" fill="#6B7280" x="90" y="100">/month</text>
+    <text class="card-body" x="20" y="128">Everything you need to land</text>
+    <text class="card-body" x="20" y="146">your dream role.</text>
+    <rect x="20" y="160" width="240" height="32" rx="16" fill="#0C0E14"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF" x="140" y="181" text-anchor="middle">Get Started</text>
+    <text class="card-label" x="140" y="224" text-anchor="middle">2px border, 4px offset shadow</text>
+  </g>
+
+  <!-- Glass Card -->
+  <g transform="translate(660, 0)">
+    <text class="card-label" x="140" y="12" text-anchor="middle">Glass Card</text>
+    <!-- Gradient background to show glass effect -->
+    <rect x="0" y="24" width="280" height="180" rx="16" ry="16" fill="#3C61A8"/>
+    <rect x="0" y="24" width="280" height="180" rx="16" ry="16" fill="#FFFFFF" opacity="0.12" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.25"/>
+    <!-- Diagonal shine line -->
+    <line x1="40" y1="24" x2="0" y2="64" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.15"/>
+    <line x1="100" y1="24" x2="40" y2="84" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.1"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF" x="20" y="68">Glass Effect</text>
+    <text font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="400" fill="#FFFFFF" opacity="0.8" x="20" y="92">Semi-transparent with</text>
+    <text font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="400" fill="#FFFFFF" opacity="0.8" x="20" y="110">backdrop-filter blur.</text>
+    <rect x="20" y="136" width="120" height="32" rx="16" fill="#FFFFFF" opacity="0.2" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.3"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#FFFFFF" x="80" y="157" text-anchor="middle">Explore</text>
+    <text class="card-label" x="140" y="224" text-anchor="middle">Semi-transparent, blur effect</text>
+  </g>
+</svg>

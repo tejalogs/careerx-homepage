@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="720" viewBox="0 0 1440 720">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap');
+      text { font-family: 'Inter', system-ui, sans-serif; }
+    </style>
+    <filter id="card-shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#0C0E14" flood-opacity="0.05"/>
+    </filter>
+    <filter id="card-shadow-lg">
+      <feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#0C0E14" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="720" fill="#FAFBFD" rx="12"/>
+
+  <!-- Title -->
+  <text x="80" y="56" font-size="28" font-weight="800" fill="#0C0E14" letter-spacing="-0.02em">Card Components</text>
+  <text x="80" y="80" font-size="14" font-weight="500" fill="#868689">Card styles and variants used across sections</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- 1. Standard White Service Card -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <text x="80" y="130" font-size="11" font-weight="700" fill="#868689" letter-spacing="0.1em">SERVICE CARD (WHITE)</text>
+
+  <g filter="url(#card-shadow)">
+    <rect x="80" y="148" width="280" height="280" rx="16" fill="#FFFFFF" stroke="rgba(12,14,20,0.07)" stroke-width="1"/>
+  </g>
+
+  <!-- Icon badge -->
+  <rect x="100" y="168" width="40" height="40" rx="12" fill="#F5D134"/>
+  <circle cx="120" cy="188" r="8" fill="none" stroke="#0C0E14" stroke-width="1.5"/>
+  <line x1="126" y1="194" x2="130" y2="198" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Title -->
+  <text x="100" y="234" font-size="14" font-weight="800" fill="#3C61A8">Know Yourself Better</text>
+
+  <!-- Description -->
+  <text x="100" y="256" font-size="12" fill="rgba(12,14,20,0.5)">Explore roles using real job</text>
+  <text x="100" y="272" font-size="12" fill="rgba(12,14,20,0.5)">market data.</text>
+
+  <!-- Mockup area -->
+  <rect x="100" y="292" width="240" height="56" rx="8" fill="#EEF2FF" stroke="rgba(12,14,20,0.07)" stroke-width="1"/>
+  <rect x="108" y="300" width="60" height="6" rx="3" fill="rgba(60,97,168,0.2)"/>
+  <rect x="108" y="312" width="40" height="24" rx="4" fill="rgba(60,97,168,0.12)" stroke="rgba(60,97,168,0.1)" stroke-width="1"/>
+  <rect x="156" y="312" width="28" height="24" rx="4" fill="rgba(60,97,168,0.06)" stroke="rgba(60,97,168,0.1)" stroke-width="1"/>
+
+  <!-- Specs -->
+  <text x="80" y="452" font-size="11" font-weight="600" fill="#0C0E14">Specs:</text>
+  <text x="80" y="468" font-size="11" font-weight="400" fill="#868689">border-radius: 16px (rounded-2xl)</text>
+  <text x="80" y="482" font-size="11" font-weight="400" fill="#868689">border: 1px solid rgba(12,14,20,0.07)</text>
+  <text x="80" y="496" font-size="11" font-weight="400" fill="#868689">shadow: 0 2px 12px rgba(12,14,20,0.05)</text>
+  <text x="80" y="510" font-size="11" font-weight="400" fill="#868689">padding: 16-20px | hover: -translate-y-1</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- 2. Neobrutalism Pricing Card (Default) -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <text x="420" y="130" font-size="11" font-weight="700" fill="#868689" letter-spacing="0.1em">PRICING CARD - DEFAULT (NEOBRUTALISM)</text>
+
+  <!-- Shadow layer (offset) -->
+  <rect x="424" y="152" width="280" height="320" rx="16" fill="rgba(12,14,20,0.2)" stroke="#0C0E14" stroke-width="2"/>
+  <!-- Card body -->
+  <rect x="420" y="148" width="280" height="320" rx="16" fill="#FFFFFF" stroke="#0C0E14" stroke-width="2"/>
+
+  <!-- Icon circle -->
+  <circle cx="452" cy="184" r="20" fill="none" stroke="rgba(12,14,20,0.2)" stroke-width="2"/>
+  <circle cx="452" cy="184" r="4" fill="rgba(12,14,20,0.3)"/>
+
+  <!-- Plan name -->
+  <text x="448" y="228" font-size="20" font-weight="700" fill="#0C0E14">Career Builder</text>
+  <text x="448" y="246" font-size="13" fill="rgba(12,14,20,0.5)">Discover your role fit</text>
+
+  <!-- Price -->
+  <text x="448" y="284" font-size="32" font-weight="700" fill="#0C0E14">$449</text>
+  <text x="530" y="284" font-size="13" fill="rgba(12,14,20,0.4)">one-time</text>
+
+  <!-- Feature line hints -->
+  <circle cx="456" cy="314" r="8" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="1.5"/>
+  <polyline points="452,314 455,317 461,311" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="472" y="308" width="120" height="10" rx="5" fill="rgba(12,14,20,0.08)"/>
+
+  <circle cx="456" cy="340" r="8" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="1.5"/>
+  <polyline points="452,340 455,343 461,337" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="472" y="334" width="100" height="10" rx="5" fill="rgba(12,14,20,0.08)"/>
+
+  <!-- Button -->
+  <rect x="448" y="368" width="224" height="44" rx="12" fill="#FFFFFF" stroke="#0C0E14" stroke-width="2"/>
+  <text x="514" y="395" font-size="14" font-weight="600" fill="#0C0E14">Find My Best Role</text>
+
+  <text x="420" y="500" font-size="11" font-weight="600" fill="#0C0E14">Specs:</text>
+  <text x="420" y="516" font-size="11" font-weight="400" fill="#868689">border: 2px solid #0C0E14</text>
+  <text x="420" y="530" font-size="11" font-weight="400" fill="#868689">shadow: 4px 4px 0px rgba(12,14,20,0.2)</text>
+  <text x="420" y="544" font-size="11" font-weight="400" fill="#868689">hover shadow: 8px 8px 0px + translate(-1,-1)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- 3. Neobrutalism Pricing Card (Popular / Blue) -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <text x="780" y="130" font-size="11" font-weight="700" fill="#868689" letter-spacing="0.1em">PRICING CARD - POPULAR (BLUE BORDER)</text>
+
+  <!-- Shadow layer (blue) -->
+  <rect x="784" y="152" width="280" height="320" rx="16" fill="#3C61A8"/>
+  <!-- Card body -->
+  <rect x="780" y="148" width="280" height="320" rx="16" fill="#FFFFFF" stroke="#3C61A8" stroke-width="2"/>
+
+  <!-- Popular badge -->
+  <rect x="1000" y="132" width="96" height="26" rx="13" fill="#F5D134" stroke="#0C0E14" stroke-width="2"/>
+  <text x="1014" y="149" font-size="11" font-weight="600" fill="#0C0E14">Most Popular!</text>
+
+  <!-- Icon circle (blue) -->
+  <circle cx="812" cy="184" r="20" fill="none" stroke="#3C61A8" stroke-width="2"/>
+  <path d="M806 184 L812 178 L818 184 M812 178 L812 190" fill="none" stroke="#3C61A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Plan name -->
+  <text x="808" y="228" font-size="20" font-weight="700" fill="#0C0E14">Career Pro</text>
+  <text x="808" y="246" font-size="13" fill="rgba(12,14,20,0.5)">Full career track with coaching</text>
+
+  <!-- Price -->
+  <text x="808" y="284" font-size="32" font-weight="700" fill="#0C0E14">$649</text>
+  <text x="890" y="284" font-size="13" fill="rgba(12,14,20,0.4)">one-time</text>
+
+  <!-- Feature line hints (blue checks) -->
+  <circle cx="816" cy="314" r="8" fill="none" stroke="#3C61A8" stroke-width="1.5"/>
+  <polyline points="812,314 815,317 821,311" fill="none" stroke="#3C61A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="832" y="308" width="120" height="10" rx="5" fill="rgba(60,97,168,0.1)"/>
+
+  <circle cx="816" cy="340" r="8" fill="none" stroke="#3C61A8" stroke-width="1.5"/>
+  <polyline points="812,340 815,343 821,337" fill="none" stroke="#3C61A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="832" y="334" width="100" height="10" rx="5" fill="rgba(60,97,168,0.1)"/>
+
+  <!-- Button (blue filled) -->
+  <rect x="808" y="368" width="224" height="44" rx="12" fill="#3C61A8" stroke="#3C61A8" stroke-width="2"/>
+  <text x="874" y="395" font-size="14" font-weight="600" fill="#FFFFFF">Find My Best Role</text>
+
+  <text x="780" y="500" font-size="11" font-weight="600" fill="#0C0E14">Specs:</text>
+  <text x="780" y="516" font-size="11" font-weight="400" fill="#868689">border: 2px solid #3C61A8</text>
+  <text x="780" y="530" font-size="11" font-weight="400" fill="#868689">shadow: 4px 4px 0px #3C61A8</text>
+  <text x="780" y="544" font-size="11" font-weight="400" fill="#868689">badge: #F5D134 bg, #0C0E14 border + text</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- 4. Glass Card (Tooltip / Info) -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <text x="80" y="570" font-size="11" font-weight="700" fill="#868689" letter-spacing="0.1em">TOOLTIP CARD (DARK)</text>
+
+  <rect x="80" y="586" width="220" height="64" rx="12" fill="#0C0E14" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="96" y="610" font-size="11" fill="rgba(255,255,255,0.8)">A structured assessment that</text>
+  <text x="96" y="626" font-size="11" fill="rgba(255,255,255,0.8)">maps your strengths to roles.</text>
+  <!-- Arrow triangle -->
+  <polygon points="180,650 190,650 185,658" fill="#0C0E14"/>
+
+  <text x="80" y="690" font-size="11" font-weight="400" fill="#868689">bg: #0C0E14 | border: white/8 | rounded-xl | 11px white/80</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- 5. Glass Mobile Dropdown -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <text x="380" y="570" font-size="11" font-weight="700" fill="#868689" letter-spacing="0.1em">GLASS DROPDOWN (MOBILE NAV)</text>
+
+  <rect x="380" y="586" width="240" height="100" rx="16" fill="rgba(255,255,255,0.82)" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
+  <text x="400" y="614" font-size="14" font-weight="500" fill="rgba(0,0,0,0.7)">How It Works</text>
+  <line x1="400" y1="626" x2="600" y2="626" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+  <text x="400" y="648" font-size="14" font-weight="500" fill="rgba(0,0,0,0.7)">Products</text>
+  <line x1="400" y1="660" x2="600" y2="660" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+  <text x="400" y="682" font-size="14" font-weight="500" fill="rgba(0,0,0,0.7)">Pricing</text>
+
+  <text x="380" y="706" font-size="11" font-weight="400" fill="#868689">bg: white/82 | backdrop-blur: 40px | rounded-2xl</text>
+</svg>

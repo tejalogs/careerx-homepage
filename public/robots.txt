@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://careerx-homepage.vercel.app/sitemap.xml

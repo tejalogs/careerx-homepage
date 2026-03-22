@@ -161,7 +161,7 @@ function TabToggle({
         <button
           key={opt.id}
           onClick={() => onSelect(opt.id)}
-          className="relative px-6 py-2 rounded-full text-[12px] font-black transition-colors z-10"
+          className="relative px-6 py-2 rounded-full text-[12px] font-black transition-colors z-10 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
           style={{ color: selected === opt.id ? DARK : "rgba(255,255,255,0.55)" }}
         >
           {selected === opt.id && (

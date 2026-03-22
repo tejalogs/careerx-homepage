@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" width="400" height="160">
+  <defs>
+    <filter id="hero-shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Yellow Card -->
+  <g transform="translate(0, 0)">
+    <rect x="0" y="0" width="80" height="110" rx="12" ry="12" fill="#FEF3C7" stroke="#F5D134" stroke-width="1" filter="url(#hero-shadow)"/>
+    <circle cx="20" cy="24" r="8" fill="#F5D134"/>
+    <rect x="12" y="42" width="48" height="6" rx="3" fill="#92400E" opacity="0.3"/>
+    <rect x="12" y="54" width="36" height="6" rx="3" fill="#92400E" opacity="0.2"/>
+    <rect x="12" y="76" width="56" height="4" rx="2" fill="#92400E" opacity="0.15"/>
+    <rect x="12" y="84" width="44" height="4" rx="2" fill="#92400E" opacity="0.15"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="500" fill="#92400E" x="40" y="140" text-anchor="middle" opacity="0.6">Warm Amber</text>
+  </g>
+
+  <!-- Blue Card -->
+  <g transform="translate(104, 0)">
+    <rect x="0" y="0" width="80" height="110" rx="12" ry="12" fill="#1E3A5F" filter="url(#hero-shadow)"/>
+    <circle cx="20" cy="24" r="8" fill="#3C61A8"/>
+    <rect x="12" y="42" width="48" height="6" rx="3" fill="#FFFFFF" opacity="0.3"/>
+    <rect x="12" y="54" width="36" height="6" rx="3" fill="#FFFFFF" opacity="0.2"/>
+    <rect x="12" y="76" width="56" height="4" rx="2" fill="#FFFFFF" opacity="0.15"/>
+    <rect x="12" y="84" width="44" height="4" rx="2" fill="#FFFFFF" opacity="0.15"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="500" fill="#6B7280" x="40" y="140" text-anchor="middle">Navy Blue</text>
+  </g>
+
+  <!-- White Card -->
+  <g transform="translate(208, 0)">
+    <rect x="0" y="0" width="80" height="110" rx="12" ry="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1" filter="url(#hero-shadow)"/>
+    <circle cx="20" cy="24" r="8" fill="#E5E7EB"/>
+    <rect x="12" y="42" width="48" height="6" rx="3" fill="#0C0E14" opacity="0.2"/>
+    <rect x="12" y="54" width="36" height="6" rx="3" fill="#0C0E14" opacity="0.15"/>
+    <rect x="12" y="76" width="56" height="4" rx="2" fill="#0C0E14" opacity="0.1"/>
+    <rect x="12" y="84" width="44" height="4" rx="2" fill="#0C0E14" opacity="0.1"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="500" fill="#6B7280" x="40" y="140" text-anchor="middle">White</text>
+  </g>
+
+  <!-- Dark Card -->
+  <g transform="translate(312, 0)">
+    <rect x="0" y="0" width="80" height="110" rx="12" ry="12" fill="#0C0E14" filter="url(#hero-shadow)"/>
+    <circle cx="20" cy="24" r="8" fill="#1A1D26"/>
+    <rect x="12" y="42" width="48" height="6" rx="3" fill="#FFFFFF" opacity="0.2"/>
+    <rect x="12" y="54" width="36" height="6" rx="3" fill="#FFFFFF" opacity="0.15"/>
+    <rect x="12" y="76" width="56" height="4" rx="2" fill="#FFFFFF" opacity="0.1"/>
+    <rect x="12" y="84" width="44" height="4" rx="2" fill="#FFFFFF" opacity="0.1"/>
+    <text font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="500" fill="#6B7280" x="40" y="140" text-anchor="middle">Dark</text>
+  </g>
+</svg>

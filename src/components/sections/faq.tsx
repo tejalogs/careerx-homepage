@@ -74,7 +74,9 @@ function FAQItem({
     >
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full text-left rounded-2xl px-6 py-4 transition-all duration-300 group"
+        aria-expanded={open}
+        aria-controls={`faq-answer-${index}`}
+        className="w-full text-left rounded-2xl px-6 py-4 transition-all duration-300 group outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         style={{
           backgroundColor: isBlue ? BLUE : YELLOW,
           boxShadow: open
@@ -107,6 +109,8 @@ function FAQItem({
           {open && (
             <motion.div
               key="answer"
+              id={`faq-answer-${index}`}
+              role="region"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}

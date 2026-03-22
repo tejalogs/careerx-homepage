@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -19,6 +20,39 @@ const LOGOS = [
   { name: "Shopify",     domain: "shopify.com" },
   { name: "Databricks",  domain: "databricks.com" },
 ];
+
+// ─── Company Logo with error fallback ─────────────────────────────────────────
+function CompanyLogo({ name, domain }: { name: string; domain: string }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <span
+        style={{
+          fontSize: "9px",
+          fontWeight: 800,
+          color: "rgba(12,14,20,0.4)",
+          textAlign: "center",
+          lineHeight: 1.2,
+        }}
+      >
+        {name}
+      </span>
+    );
+  }
+
+  return (
+    <Image
+      src={`https://logo.clearbit.com/${domain}`}
+      alt={name}
+      width={40}
+      height={40}
+      className="w-full h-full object-contain"
+      onError={() => setHasError(true)}
+      unoptimized
+    />
+  );
+}
 
 // ─── Company Logo Marquee ─────────────────────────────────────────────────────
 export function CompanyLogosSection() {
@@ -89,20 +123,7 @@ export function CompanyLogosSection() {
                 }}
                 title={logo.name}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`https://logo.clearbit.com/${logo.domain}`}
-                  alt={logo.name}
-                  className="w-full h-full object-contain"
-                  onError={(e) => {
-                    const el = e.target as HTMLImageElement;
-                    el.style.display = "none";
-                    const parent = el.parentElement;
-                    if (parent) {
-                      parent.innerHTML = `<span style="font-size:9px;font-weight:800;color:rgba(12,14,20,0.4);text-align:center;line-height:1.2">${logo.name}</span>`;
-                    }
-                  }}
-                />
+                  <CompanyLogo name={logo.name} domain={logo.domain} />
               </div>
             ))}
           </div>

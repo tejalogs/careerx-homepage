@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" fill="none">
+  <title>CareerX Pricing Cards - Neobrutalism Style</title>
+
+  <!-- Background -->
+  <rect width="1200" height="750" fill="#F7F8FC"/>
+
+  <!-- Section label -->
+  <text x="60" y="40" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#3C61A8" letter-spacing="0.2em">PRICING CARDS - NEOBRUTALISM</text>
+  <text x="60" y="60" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">3-column grid (md) | border-2 | shadow: 4px 4px 0px 0px | hover: 8px 8px 0px 0px</text>
+
+  <!-- ===== Card 1: Career Builder ($449) ===== -->
+  <g transform="translate(60, 90)">
+    <!-- Shadow layer -->
+    <rect x="4" y="4" width="340" height="560" rx="16" fill="rgba(12,14,20,0.2)"/>
+    <!-- Card -->
+    <rect width="340" height="560" rx="16" fill="white" stroke="#0C0E14" stroke-width="2"/>
+
+    <!-- Content -->
+    <g transform="translate(28, 28)">
+      <!-- Icon circle -->
+      <circle cx="24" cy="24" r="24" fill="none" stroke="rgba(12,14,20,0.2)" stroke-width="2"/>
+      <!-- Target icon -->
+      <circle cx="24" cy="24" r="10" fill="none" stroke="rgba(12,14,20,0.5)" stroke-width="1.5"/>
+      <circle cx="24" cy="24" r="4" fill="none" stroke="rgba(12,14,20,0.5)" stroke-width="1.5"/>
+      <circle cx="24" cy="24" r="1.5" fill="rgba(12,14,20,0.5)"/>
+
+      <!-- Plan name -->
+      <text x="0" y="76" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#0C0E14">Career Builder</text>
+      <!-- Description -->
+      <text x="0" y="96" font-family="Inter, sans-serif" font-size="13" fill="rgba(12,14,20,0.5)">Discover your role fit and start preparing</text>
+
+      <!-- Price -->
+      <text x="0" y="140" font-family="Inter, sans-serif" font-size="36" font-weight="700" fill="#0C0E14">$449</text>
+      <text x="82" y="140" font-family="Inter, sans-serif" font-size="13" fill="rgba(12,14,20,0.4)">one-time</text>
+
+      <!-- Features -->
+      <g transform="translate(0, 170)">
+        <!-- Feature 1 -->
+        <circle cx="10" cy="10" r="10" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="2"/>
+        <polyline points="6,10 9,13 14,7" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="14" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">KYB Role Assessment</text>
+
+        <!-- Feature 2 -->
+        <circle cx="10" cy="40" r="10" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="2"/>
+        <polyline points="6,40 9,43 14,37" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="44" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">1 Full Career Track</text>
+
+        <!-- Feature 3 -->
+        <circle cx="10" cy="70" r="10" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="2"/>
+        <polyline points="6,70 9,73 14,67" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="74" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">Skill development roadmap</text>
+
+        <!-- Feature 4 -->
+        <circle cx="10" cy="100" r="10" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="2"/>
+        <polyline points="6,100 9,103 14,97" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="104" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">1 Interview Simulator session</text>
+
+        <!-- Feature 5 -->
+        <circle cx="10" cy="130" r="10" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="2"/>
+        <polyline points="6,130 9,133 14,127" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="134" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">1 month Career Activation</text>
+      </g>
+
+      <!-- CTA Button -->
+      <g transform="translate(0, 410)">
+        <!-- Shadow -->
+        <rect x="4" y="4" width="284" height="48" rx="8" fill="rgba(12,14,20,0.15)"/>
+        <!-- Button -->
+        <rect width="284" height="48" rx="8" fill="white" stroke="#0C0E14" stroke-width="2"/>
+        <text x="142" y="30" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#0C0E14" text-anchor="middle">Find My Best Role</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ===== Card 2: Career Pro ($649) - POPULAR ===== -->
+  <g transform="translate(430, 90)">
+    <!-- Shadow layer (blue for popular) -->
+    <rect x="4" y="4" width="340" height="560" rx="16" fill="#3C61A8"/>
+    <!-- Card -->
+    <rect width="340" height="560" rx="16" fill="white" stroke="#3C61A8" stroke-width="2"/>
+
+    <!-- Popular badge -->
+    <g transform="translate(292, -12)">
+      <rect x="-40" y="0" width="92" height="26" rx="13" fill="#F5D134" stroke="#0C0E14" stroke-width="2"/>
+      <text x="6" y="18" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#0C0E14" text-anchor="middle">Most Popular!</text>
+    </g>
+
+    <!-- Content -->
+    <g transform="translate(28, 28)">
+      <!-- Icon circle -->
+      <circle cx="24" cy="24" r="24" fill="none" stroke="#3C61A8" stroke-width="2"/>
+      <!-- Gem icon -->
+      <polygon points="24,10 36,22 24,38 12,22" fill="none" stroke="#3C61A8" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="12" y1="22" x2="36" y2="22" stroke="#3C61A8" stroke-width="1.5"/>
+
+      <!-- Plan name -->
+      <text x="0" y="76" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#0C0E14">Career Pro</text>
+      <!-- Description -->
+      <text x="0" y="96" font-family="Inter, sans-serif" font-size="13" fill="rgba(12,14,20,0.5)">Full career track with expert coaching</text>
+
+      <!-- Price -->
+      <text x="0" y="140" font-family="Inter, sans-serif" font-size="36" font-weight="700" fill="#0C0E14">$649</text>
+      <text x="82" y="140" font-family="Inter, sans-serif" font-size="13" fill="rgba(12,14,20,0.4)">one-time</text>
+
+      <!-- Features (blue check circles) -->
+      <g transform="translate(0, 170)">
+        <circle cx="10" cy="10" r="10" fill="none" stroke="#3C61A8" stroke-width="2"/>
+        <polyline points="6,10 9,13 14,7" fill="none" stroke="#3C61A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="14" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">KYB Role Assessment</text>
+
+        <circle cx="10" cy="40" r="10" fill="none" stroke="#3C61A8" stroke-width="2"/>
+        <polyline points="6,40 9,43 14,37" fill="none" stroke="#3C61A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="44" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">1 Full Career Track</text>
+
+        <circle cx="10" cy="70" r="10" fill="none" stroke="#3C61A8" stroke-width="2"/>
+        <polyline points="6,70 9,73 14,67" fill="none" stroke="#3C61A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="74" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">1 Career Expert Session</text>
+
+        <circle cx="10" cy="100" r="10" fill="none" stroke="#3C61A8" stroke-width="2"/>
+        <polyline points="6,100 9,103 14,97" fill="none" stroke="#3C61A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="104" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">3 months Interview PrepX</text>
+
+        <circle cx="10" cy="130" r="10" fill="none" stroke="#3C61A8" stroke-width="2"/>
+        <polyline points="6,130 9,133 14,127" fill="none" stroke="#3C61A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="134" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">3 months Career Activation</text>
+      </g>
+
+      <!-- CTA Button (filled blue for popular) -->
+      <g transform="translate(0, 410)">
+        <rect x="4" y="4" width="284" height="48" rx="8" fill="rgba(60,97,168,0.3)"/>
+        <rect width="284" height="48" rx="8" fill="#3C61A8" stroke="#3C61A8" stroke-width="2"/>
+        <text x="142" y="30" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="white" text-anchor="middle">Find My Best Role</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ===== Card 3: Career Elite ($799) ===== -->
+  <g transform="translate(800, 90)">
+    <!-- Shadow layer -->
+    <rect x="4" y="4" width="340" height="560" rx="16" fill="rgba(12,14,20,0.2)"/>
+    <!-- Card -->
+    <rect width="340" height="560" rx="16" fill="white" stroke="#0C0E14" stroke-width="2"/>
+
+    <!-- Content -->
+    <g transform="translate(28, 28)">
+      <!-- Icon circle -->
+      <circle cx="24" cy="24" r="24" fill="none" stroke="rgba(12,14,20,0.2)" stroke-width="2"/>
+      <!-- Rocket icon -->
+      <path d="M24 14 L30 28 L24 36 L18 28 Z" fill="none" stroke="rgba(12,14,20,0.5)" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="24" cy="24" r="2" fill="rgba(12,14,20,0.5)"/>
+
+      <!-- Plan name -->
+      <text x="0" y="76" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#0C0E14">Career Elite</text>
+      <!-- Description -->
+      <text x="0" y="96" font-family="Inter, sans-serif" font-size="13" fill="rgba(12,14,20,0.5)">The complete career acceleration system</text>
+
+      <!-- Price -->
+      <text x="0" y="140" font-family="Inter, sans-serif" font-size="36" font-weight="700" fill="#0C0E14">$799</text>
+      <text x="82" y="140" font-family="Inter, sans-serif" font-size="13" fill="rgba(12,14,20,0.4)">one-time</text>
+
+      <!-- Features -->
+      <g transform="translate(0, 170)">
+        <circle cx="10" cy="10" r="10" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="2"/>
+        <polyline points="6,10 9,13 14,7" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="14" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">KYB Role Assessment</text>
+
+        <circle cx="10" cy="40" r="10" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="2"/>
+        <polyline points="6,40 9,43 14,37" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="44" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">2 Full Career Tracks</text>
+
+        <circle cx="10" cy="70" r="10" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="2"/>
+        <polyline points="6,70 9,73 14,67" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="74" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">2 Career Expert Sessions</text>
+
+        <circle cx="10" cy="100" r="10" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="2"/>
+        <polyline points="6,100 9,103 14,97" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="104" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">6 months Interview PrepX</text>
+
+        <circle cx="10" cy="130" r="10" fill="none" stroke="rgba(12,14,20,0.3)" stroke-width="2"/>
+        <polyline points="6,130 9,133 14,127" fill="none" stroke="#0C0E14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="28" y="134" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#0C0E14">6 months Career Activation</text>
+      </g>
+
+      <!-- CTA Button -->
+      <g transform="translate(0, 410)">
+        <rect x="4" y="4" width="284" height="48" rx="8" fill="rgba(12,14,20,0.15)"/>
+        <rect width="284" height="48" rx="8" fill="white" stroke="#0C0E14" stroke-width="2"/>
+        <text x="142" y="30" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#0C0E14" text-anchor="middle">Find My Best Role</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Neobrutalism spec annotations -->
+  <g transform="translate(60, 680)">
+    <text x="0" y="0" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#3C61A8">Neobrutalism Shadow Spec:</text>
+    <text x="0" y="18" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">Default: shadow-[4px_4px_0px_0px]  |  Hover: shadow-[8px_8px_0px_0px] + translate(-1px, -1px)</text>
+    <text x="0" y="36" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">Popular card: border/shadow color = #3C61A8  |  Default: border #0C0E14, shadow rgba(12,14,20,0.2)</text>
+    <text x="0" y="54" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">Button shadow: 4px 4px default, 6px 6px hover  |  Popular CTA: filled #3C61A8 bg  |  Default: white bg + dark border</text>
+  </g>
+</svg>

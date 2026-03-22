@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" fill="none">
+  <title>CareerX Spacing Grid</title>
+
+  <!-- Background -->
+  <rect width="1200" height="520" fill="white"/>
+
+  <!-- Section label -->
+  <text x="60" y="40" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#3C61A8" letter-spacing="0.2em">SPACING SCALE</text>
+  <text x="60" y="60" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">Tailwind CSS spacing scale used across components (base unit: 4px)</text>
+
+  <!-- ===== Visual spacing blocks ===== -->
+  <g transform="translate(60, 90)">
+    <!-- 4px -->
+    <g transform="translate(0, 0)">
+      <rect width="4" height="40" rx="2" fill="#3C61A8"/>
+      <text x="14" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#0C0E14">4px</text>
+      <text x="14" y="32" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">p-1, gap-1, space-1</text>
+    </g>
+
+    <!-- 8px -->
+    <g transform="translate(0, 50)">
+      <rect width="8" height="40" rx="2" fill="#3C61A8"/>
+      <text x="18" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#0C0E14">8px</text>
+      <text x="18" y="32" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">p-2, gap-2, space-2</text>
+    </g>
+
+    <!-- 12px -->
+    <g transform="translate(0, 100)">
+      <rect width="12" height="40" rx="2" fill="#3C61A8"/>
+      <text x="22" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#0C0E14">12px</text>
+      <text x="22" y="32" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">p-3, gap-3, space-3</text>
+    </g>
+
+    <!-- 16px -->
+    <g transform="translate(0, 150)">
+      <rect width="16" height="40" rx="3" fill="#3C61A8"/>
+      <text x="26" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#0C0E14">16px</text>
+      <text x="26" y="32" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">p-4, gap-4 (card grid gap on sm/md)</text>
+    </g>
+
+    <!-- 24px -->
+    <g transform="translate(0, 200)">
+      <rect width="24" height="40" rx="3" fill="#3C61A8"/>
+      <text x="34" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#0C0E14">24px</text>
+      <text x="34" y="32" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">p-6, gap-6 (pricing card gap on md)</text>
+    </g>
+
+    <!-- 32px -->
+    <g transform="translate(0, 250)">
+      <rect width="32" height="40" rx="3" fill="#3C61A8"/>
+      <text x="42" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#0C0E14">32px</text>
+      <text x="42" y="32" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">p-8, mb-8 (section header bottom margin)</text>
+    </g>
+
+    <!-- 48px -->
+    <g transform="translate(0, 300)">
+      <rect width="48" height="40" rx="3" fill="#3C61A8"/>
+      <text x="58" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#0C0E14">48px</text>
+      <text x="58" y="32" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">py-12, sm:mb-12 (section header spacing)</text>
+    </g>
+
+    <!-- 64px -->
+    <g transform="translate(0, 350)">
+      <rect width="64" height="40" rx="4" fill="#3C61A8"/>
+      <text x="74" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#0C0E14">64px</text>
+      <text x="74" y="32" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">py-16, mb-16 (footer top padding, pricing header mb)</text>
+    </g>
+
+    <!-- 96px -->
+    <g transform="translate(0, 400)">
+      <rect width="96" height="40" rx="4" fill="#3C61A8"/>
+      <text x="106" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#0C0E14">96px</text>
+      <text x="106" y="32" font-family="Inter, sans-serif" font-size="11" fill="#9CA3AF">py-24, md:py-24 (section vertical padding)</text>
+    </g>
+  </g>
+
+  <!-- ===== Common component spacings ===== -->
+  <g transform="translate(500, 90)">
+    <text x="0" y="0" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#0C0E14">Common Component Spacings</text>
+
+    <!-- Navbar -->
+    <rect x="0" y="20" width="640" height="1" fill="#E5E7EB"/>
+    <text x="0" y="38" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#3C61A8">Navbar</text>
+    <text x="100" y="38" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">h: 44px | px: 6px (1.5) | top: 12px (top-3) | border-radius: 22px</text>
+
+    <!-- Cards -->
+    <rect x="0" y="52" width="640" height="1" fill="#E5E7EB"/>
+    <text x="0" y="70" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#3C61A8">Stage Cards</text>
+    <text x="100" y="70" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">p: 16px (p-4) sm:20px (sm:p-5) | border-radius: 16px (rounded-2xl)</text>
+
+    <!-- Pricing Cards -->
+    <rect x="0" y="84" width="640" height="1" fill="#E5E7EB"/>
+    <text x="0" y="102" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#3C61A8">Pricing Cards</text>
+    <text x="100" y="102" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">p: 20px (p-5) sm:28px (sm:p-7) | border-radius: 16px | border: 2px</text>
+
+    <!-- FAQ Items -->
+    <rect x="0" y="116" width="640" height="1" fill="#E5E7EB"/>
+    <text x="0" y="134" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#3C61A8">FAQ Items</text>
+    <text x="100" y="134" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">px: 24px (px-6) | py: 16px (py-4) | border-radius: 16px</text>
+
+    <!-- Section padding -->
+    <rect x="0" y="148" width="640" height="1" fill="#E5E7EB"/>
+    <text x="0" y="166" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#3C61A8">Sections</text>
+    <text x="100" y="166" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">py: 56px (py-14) md:96px (md:py-24) | px: 16px (px-4) sm:24px (sm:px-6)</text>
+
+    <!-- Max widths -->
+    <rect x="0" y="180" width="640" height="1" fill="#E5E7EB"/>
+    <text x="0" y="198" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#3C61A8">Max Widths</text>
+    <text x="100" y="198" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">Content: max-w-5xl (1024px) | CTA form: max-w-md (448px) | Footer: max-w-6xl (1152px)</text>
+
+    <!-- Grid gaps -->
+    <rect x="0" y="212" width="640" height="1" fill="#E5E7EB"/>
+    <text x="0" y="230" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#3C61A8">Grid Gaps</text>
+    <text x="100" y="230" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">Cards: gap-3 (12px) sm:gap-4 (16px) | Pricing: gap-6 (24px) | Footer: gap-10 sm:gap-8</text>
+
+    <!-- Icon box -->
+    <rect x="0" y="244" width="640" height="1" fill="#E5E7EB"/>
+    <text x="0" y="262" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#3C61A8">Icon Box</text>
+    <text x="100" y="262" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">w: 40px h: 40px | border-radius: 12px (rounded-xl) | mb: 16px (mb-4)</text>
+
+    <!-- Buttons -->
+    <rect x="0" y="276" width="640" height="1" fill="#E5E7EB"/>
+    <text x="0" y="294" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#3C61A8">Buttons</text>
+    <text x="100" y="294" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">Navbar CTA: h-32px px-16px | Section CTA: px-28 py-14 | Pricing: h-48px w-full</text>
+
+    <!-- Neobrutalism shadow -->
+    <rect x="0" y="308" width="640" height="1" fill="#E5E7EB"/>
+    <text x="0" y="326" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#3C61A8">Neo Shadows</text>
+    <text x="100" y="326" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">Cards: 3px offset (FAQ) | 4px offset (Pricing) | Hover: 4px-&gt;8px (Pricing)</text>
+  </g>
+
+  <!-- Border radius scale -->
+  <g transform="translate(500, 440)">
+    <text x="0" y="0" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#0C0E14">Border Radius Scale</text>
+
+    <g transform="translate(0, 16)">
+      <rect width="48" height="48" rx="6" fill="none" stroke="#3C61A8" stroke-width="1.5"/>
+      <text x="56" y="30" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">6px - highlight boxes</text>
+    </g>
+    <g transform="translate(200, 16)">
+      <rect width="48" height="48" rx="8" fill="none" stroke="#3C61A8" stroke-width="1.5"/>
+      <text x="56" y="30" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">8px - buttons (neo)</text>
+    </g>
+    <g transform="translate(400, 16)">
+      <rect width="48" height="48" rx="12" fill="none" stroke="#3C61A8" stroke-width="1.5"/>
+      <text x="56" y="30" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">12px - icon boxes (xl)</text>
+    </g>
+    <g transform="translate(200, 80)">
+      <rect width="48" height="48" rx="16" fill="none" stroke="#3C61A8" stroke-width="1.5"/>
+      <text x="56" y="30" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">16px - cards (2xl)</text>
+    </g>
+    <g transform="translate(400, 80)">
+      <rect width="48" height="48" rx="24" fill="none" stroke="#3C61A8" stroke-width="1.5"/>
+      <text x="56" y="30" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">full - pills, badges, nav</text>
+    </g>
+  </g>
+</svg>

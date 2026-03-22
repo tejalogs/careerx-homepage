@@ -107,25 +107,28 @@ export default function GetStartedSection() {
               <p className="text-sm text-white/60">We&apos;ll be in touch within 24 hours to get you started.</p>
               <button
                 onClick={() => { setSubmitted(false); setEmail(""); }}
-                className="text-xs text-white/40 hover:text-white/70 transition-colors mt-1 underline underline-offset-2"
+                className="text-xs text-white/40 hover:text-white/70 transition-colors mt-1 underline underline-offset-2 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded"
               >
                 Submit a different email
               </button>
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch gap-3 max-w-md mx-auto w-full px-4 sm:px-0">
+              <label htmlFor="get-started-email" className="sr-only">Email address</label>
               <input
+                id="get-started-email"
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email address"
-                className="flex-1 px-5 py-4 rounded-full text-base font-medium bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none focus:border-white/40 transition-colors"
+                aria-label="Email address"
+                className="flex-1 px-5 py-4 rounded-full text-base font-medium bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none focus:border-white/40 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-colors"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="group relative flex items-center justify-center gap-2 px-8 py-4 rounded-full text-base font-black overflow-hidden transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-2xl disabled:opacity-70"
+                className="group relative flex items-center justify-center gap-2 px-8 py-4 rounded-full text-base font-black overflow-hidden transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-2xl disabled:opacity-70 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 style={{ backgroundColor: "#F5D134", color: "#0C0E14" }}
               >
                 <div className="absolute inset-0 bg-black/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 rounded-full" />
@@ -172,7 +175,7 @@ export default function GetStartedSection() {
           </p>
           <a
             href="#institutions"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[14px] font-bold border-2 transition-all hover:-translate-y-0.5 active:translate-y-0"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[14px] font-bold border-2 transition-all hover:-translate-y-0.5 active:translate-y-0 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             style={{ borderColor: "rgba(255,255,255,0.25)", color: "#fff", backgroundColor: "rgba(255,255,255,0.06)" }}
           >
             Institutional Deployment
