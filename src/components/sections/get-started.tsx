@@ -5,9 +5,9 @@ import { useRef, useState } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const TRUST_POINTS = [
-  "Free to start. No credit card required.",
-  "Takes 10 minutes. Results are instant.",
-  "2,000+ candidates already on their way.",
+  "No commitment. Start with a free role discovery",
+  "10 minute assessment · 2,000+ careers accelerated",
+  "Structured path from clarity to job opportunities",
 ];
 
 export default function GetStartedSection() {
@@ -66,7 +66,7 @@ export default function GetStartedSection() {
           transition={{ duration: 0.7, delay: 0.1 }}
           className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.05] mb-6"
         >
-          Ready when you are.{" "}
+          Find your best role.{" "}
           <span
             className="relative inline-block px-2"
             style={{
@@ -77,7 +77,7 @@ export default function GetStartedSection() {
               display: "inline-block",
             }}
           >
-            Let's go.
+            Get there.
           </span>
         </motion.h2>
 
@@ -87,7 +87,7 @@ export default function GetStartedSection() {
           transition={{ duration: 0.6, delay: 0.25 }}
           className="text-sm sm:text-base md:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10 md:mb-12 px-4 sm:px-2"
         >
-          10 minutes. One assessment. You'll know which roles fit, what skills to build, and how to get there.
+          Start with Know Yourself Better. In 10 minutes, discover which roles fit your strengths, see your skill gaps, and get a structured path to your next career move.
         </motion.p>
 
         <motion.div

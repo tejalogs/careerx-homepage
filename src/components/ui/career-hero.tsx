@@ -13,8 +13,8 @@ const STAGES = [
     color: "#4267B2",
     lightColor: "#EEF2FF",
     icon: "🔍",
-    headline: "See which roles match your strengths.",
-    subline: "Map your profile against live job market data and find where you genuinely fit.",
+    headline: "Find the role that actually fits you.",
+    subline: "Understand where you stand and what the market expects from your target role.",
   },
   {
     id: "prepare",
@@ -23,8 +23,8 @@ const STAGES = [
     color: "#2D6A4F",
     lightColor: "#ECFDF5",
     icon: "📚",
-    headline: "Learn only what the role demands.",
-    subline: "A targeted learning path built around what hiring managers actually screen for.",
+    headline: "Build skills that match real job requirements.",
+    subline: "Focus only on what hiring actually demands — no generic courses, no wasted time.",
   },
   {
     id: "validate",
@@ -33,8 +33,8 @@ const STAGES = [
     color: "#92400E",
     lightColor: "#FFF7ED",
     icon: "✅",
-    headline: "Face the interview before it counts.",
-    subline: "AI-powered mock interviews with scored feedback so you walk in ready.",
+    headline: "Practice interviews before facing employers.",
+    subline: "Know exactly how you perform under real conditions before it counts.",
   },
   {
     id: "activate",
@@ -43,8 +43,8 @@ const STAGES = [
     color: "#6B21A8",
     lightColor: "#F5F3FF",
     icon: "🚀",
-    headline: "Get matched to jobs that fit.",
-    subline: "Targeted opportunities based on your role, readiness, and verified preparation.",
+    headline: "Apply with clarity and confidence.",
+    subline: "Target the right opportunities at the right time — with proof of readiness.",
   },
 ] as const;
 
@@ -318,13 +318,14 @@ export default function CareerHero({
           className="mt-8 flex flex-col items-center gap-3"
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight max-w-2xl">
-
-            Not sure what fits you?{" "}
-            <span style={{ color: "#4267B2" }}>Start here.</span>
+            Career Readiness,{" "}
+            <span style={{ color: "#4267B2" }}>Built Step by Step</span>
           </h1>
 
           <p className="text-sm sm:text-base text-gray-500 max-w-xl leading-relaxed">
-            CareerXcelerator maps your strengths to real roles, closes your skill gaps, and gets you interview-ready — all in one place.
+            A structured journey that helps you discover the right role, build
+            real capability, and prepare for interviews with clarity and
+            confidence.
           </p>
 
           {/* CTAs */}

@@ -559,14 +559,6 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
           >
             Hiring, <span style={{ color: "#3C61A8" }}>decoded.</span>
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={circleReady && morphValue < 0.3 ? { opacity: 0.5 } : { opacity: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="mt-3 text-[13px] sm:text-[14px] font-medium text-gray-500 max-w-sm text-center leading-relaxed"
-          >
-            The AI-powered system that shows you which roles fit, what to learn, and how to land them.
-          </motion.p>
           {!isMobileDevice && (
             <motion.p
               initial={{ opacity: 0 }}
@@ -588,10 +580,10 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
             CareerXcelerator
           </p>
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
-            One system.<br />Every stage covered.
+            Role fit. Skill gaps.<br />Interview readiness.
           </h1>
           <p className="text-sm text-gray-500 max-w-md leading-relaxed font-medium">
-            Role fit, skill gaps, interview readiness, and salary insights — mapped in minutes.
+            Everything you need to go from career clarity to job offer. In one system.
           </p>
         </motion.div>
 

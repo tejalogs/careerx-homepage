@@ -20,7 +20,7 @@ const SERVICES = [
     icon: Compass,
     title: "Know Yourself Better (KYB)",
     university: "Give every student a clear picture of where they stand and which roles they are built for.",
-    candidate: "Stop guessing which role to chase. See exactly where your strengths match real demand.",
+    candidate: "Explore roles using real job market data. Find where you actually fit — based on strengths, not guesswork.",
     accent: ["#EEF2FF", "#C7D2FE"],
   },
   {
@@ -28,7 +28,7 @@ const SERVICES = [
     icon: BarChart3,
     title: "Skill Gap Analysis",
     university: "Map cohort-wide gaps against live job requirements and guide targeted interventions.",
-    candidate: "Know exactly which skills you're missing for your target role — and nothing else.",
+    candidate: "See exactly what employers screen for in your target role. Close only the gaps that matter.",
     accent: ["#FFF7ED", "#FED7AA"],
   },
   {
@@ -36,7 +36,7 @@ const SERVICES = [
     icon: BookOpen,
     title: "Career Track",
     university: "Deploy curated learning tracks aligned to the roles your students are actually targeting.",
-    candidate: "A learning path built around one role. Only the skills that get you hired.",
+    candidate: "A structured learning path built around what your target role actually requires. No wasted effort.",
     accent: ["#F0FDF4", "#BBF7D0"],
   },
   {
@@ -44,7 +44,7 @@ const SERVICES = [
     icon: Bot,
     title: "Career Coach (AI Mentor)",
     university: "Scale expert guidance and evaluation to every student, not just the ones who ask for help.",
-    candidate: "An AI mentor that answers questions, reviews your work, and keeps you on track.",
+    candidate: "Your AI career coach — available 24/7 to guide your preparation and push you forward.",
     accent: ["#EFF6FF", "#BFDBFE"],
   },
   {
@@ -52,7 +52,7 @@ const SERVICES = [
     icon: BadgeCheck,
     title: "Verified Credentials",
     university: "Issue credentials backed by assessed competency, not just course completion.",
-    candidate: "Proof that you're ready — not just that you completed a course.",
+    candidate: "Earn credentials that prove your readiness to hiring managers. Backed by real assessments.",
     accent: ["#FDF4FF", "#E9D5FF"],
   },
   {
@@ -60,7 +60,7 @@ const SERVICES = [
     icon: FileText,
     title: "AI Resume Builder",
     university: "Ensure every graduate leaves with a resume that reflects real, validated readiness.",
-    candidate: "Auto-generated resume that reflects what you actually know — not what you claim.",
+    candidate: "Generate a role-aligned resume that reflects your actual preparation and skill level.",
     accent: ["#FFFBEB", "#FDE68A"],
   },
   {
@@ -68,7 +68,7 @@ const SERVICES = [
     icon: BellRing,
     title: "Career Activation",
     university: "Live employer pipeline. Connect students to 500+ hiring partners instantly.",
-    candidate: "Jobs that match your role and readiness. No more spray-and-pray applications.",
+    candidate: "Get matched with relevant job opportunities based on your role, readiness, and profile.",
     accent: ["#FFF1F2", "#FECDD3"],
   },
   {
@@ -76,7 +76,7 @@ const SERVICES = [
     icon: Mic,
     title: "Interview Preparation",
     university: "Standardise interview readiness across every programme and measure it at scale.",
-    candidate: "Practice the exact questions your target companies ask. Build answers that stick.",
+    candidate: "Practise with role-specific questions from real hiring patterns. Build confident, repeatable answers.",
     accent: ["#F0FDFA", "#99F6E4"],
   },
   {
@@ -84,7 +84,7 @@ const SERVICES = [
     icon: Video,
     title: "Interview Simulator",
     university: "Benchmark readiness through realistic, AI-scored interview simulations.",
-    candidate: "Full AI interview simulation with scoring. Know where you stand before the real thing.",
+    candidate: "Experience AI-powered interview simulations. Get scored feedback and know exactly where you stand.",
     accent: ["#EEF2FF", "#A5B4FC"],
   },
 ];
@@ -255,8 +255,8 @@ export function ServicesSection() {
             transition={{ duration: 0.5 }}
             className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3 text-white"
           >
-            <span style={{ color: YELLOW }}>Nine tools.</span>{" "}
-            <span className="text-white">One career engine.</span>
+            <span style={{ color: YELLOW }}>From Assessment</span>{" "}
+            <span className="text-white">to Offer. One Platform.</span>
           </motion.h2>
 
           <motion.p
@@ -266,7 +266,7 @@ export function ServicesSection() {
             className="text-[14px] mb-8"
             style={{ color: "rgba(255,255,255,0.6)" }}
           >
-            Each tool solves a specific part of the career puzzle. Together, they get you hired.
+            Everything you need to understand yourself, build your edge, and land the role.
           </motion.p>
 
           <motion.div

@@ -12,15 +12,15 @@ const CARDS = [
     id: "mission",
     icon: Crosshair,
     eyebrow: "Our Mission",
-    headline: "End the guesswork. Start the system.",
-    body: "Too many people pick roles based on trends, take courses that don't match employer expectations, and apply without knowing if they fit. We built a system that replaces all of that with clarity.",
+    headline: "Replace guesswork with a structured path to the right role.",
+    body: "People choose roles based on trends, take courses without understanding role expectations, and apply to jobs without knowing if they truly fit. We change that with a system that guides you from career discovery to job opportunities — built on real hiring data.",
   },
   {
     id: "vision",
     icon: Globe,
     eyebrow: "Our Vision",
-    headline: "A world where readiness decides who gets hired.",
-    body: "We're building toward a hiring system where verified preparation matters more than pedigree. Where opportunity goes to those who are genuinely ready — not just well-connected.",
+    headline: "Career readiness infrastructure for every professional.",
+    body: "We are building the system where career preparation follows a structured path — not disconnected activities. Where hiring is based on verified readiness, and opportunity flows to those who are genuinely prepared.",
   },
 ];
 
@@ -49,8 +49,8 @@ export function MissionVisionSection() {
             className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight"
             style={{ color: DARK }}
           >
-            Why we built{" "}
-            <span style={{ color: BLUE }}>CareerXcelerator.</span>
+            Career preparation is broken.{" "}
+            <span style={{ color: BLUE }}>We built the fix.</span>
           </h2>
         </motion.div>
 

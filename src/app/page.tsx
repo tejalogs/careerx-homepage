@@ -75,7 +75,7 @@ function VideoSectionContent() {
         >
           <p className="text-[10px] font-black tracking-[0.3em] uppercase text-black/50 mb-5">How It Works</p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight leading-[1.05] mb-6">
-            See it{" "}
+            Everything to{" "}
             <span
               className="relative inline-block px-2"
               style={{
@@ -85,11 +85,11 @@ function VideoSectionContent() {
                 display: "inline-block",
               }}
             >
-              in Action
+              Land the Job
             </span>
           </h2>
           <p className="text-[14px] sm:text-[16px] text-black/60 leading-relaxed mb-8 max-w-xs">
-            Watch how candidates go from "I don't know what fits me" to interview-ready in weeks.
+            From role discovery to interview prep to job offers — a structured, AI-powered path to your next career move.
           </p>
           <a
             href="#get-started"
