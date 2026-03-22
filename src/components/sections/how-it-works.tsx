@@ -12,25 +12,25 @@ const STEPS = [
   {
     stage: "Discover",
     product: "Know Yourself Better",
-    description: "Find which roles fit your strengths using real job market data.",
+    description: "A 10-minute assessment that maps your strengths to roles hiring right now.",
     icon: Compass,
   },
   {
     stage: "Prepare",
     product: "Career Track",
-    description: "Close skill gaps with structured learning built for your target role.",
+    description: "A focused learning path that closes only the gaps your target employers care about.",
     icon: BookOpen,
   },
   {
     stage: "Validate",
     product: "Interview Simulator",
-    description: "Measure your readiness through AI-powered interview simulations.",
+    description: "AI mock interviews with real questions and scored feedback before the real thing.",
     icon: Mic,
   },
   {
     stage: "Activate",
     product: "Career Activation",
-    description: "Connect with job opportunities matched to your profile and readiness.",
+    description: "Matched to open roles at 500+ companies based on your readiness and fit.",
     icon: Rocket,
   },
 ];
@@ -61,8 +61,8 @@ export function HowItWorksSection() {
             className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3"
             style={{ color: DARK }}
           >
-            Four stages.{" "}
-            <span style={{ color: BLUE }}>One structured system.</span>
+            How you go from{" "}
+            <span style={{ color: BLUE }}>unsure to unstoppable.</span>
           </motion.h2>
         </div>
 

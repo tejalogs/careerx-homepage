@@ -13,42 +13,42 @@ const DARK   = "#0C0E14";
 const FAQS = [
   {
     q: "What is CareerXcelerator?",
-    a: "CareerXcelerator is a career acceleration platform powered by AI. It guides you through four stages — Discover, Prepare, Validate, and Activate — taking you from career clarity to real job opportunities in one structured system.",
+    a: "An AI-powered career platform that helps you find the right role, build the right skills, practice interviews, and land job offers. One system, four stages.",
     variant: "blue",
   },
   {
     q: "Is CareerXcelerator a job portal?",
-    a: "No. CareerXcelerator is a career preparation system, not a job board. We help you discover the right role, prepare with structured learning, validate your readiness through AI interviews, and then connect you with relevant opportunities.",
+    a: "No. We prepare you for the job, then connect you to it. Job portals list openings. We make sure you're actually ready for them.",
     variant: "yellow",
   },
   {
     q: "How does the platform help me find the right role?",
-    a: "It starts with Know Yourself Better (KYB) — a 10-minute assessment that maps your strengths against real job market data. You will see active roles, required skills, salary ranges, and hiring demand for roles that actually fit you.",
+    a: "Start with a 10-minute assessment. We map your strengths against live job data and show you which roles are hiring, what they pay, and what they require.",
     variant: "yellow",
   },
   {
     q: "Is CareerXcelerator useful for career switchers?",
-    a: "Yes. The KYB assessment identifies roles that fit your transferable strengths, and the Career Track builds a preparation path around what your new target role actually requires. The system works for students, graduates, and experienced professionals.",
+    a: "Yes. We identify which of your existing skills transfer, pinpoint what's missing, and build a preparation path for your new target role.",
     variant: "blue",
   },
   {
     q: "How is this different from courses or coaching?",
-    a: "Courses give content without context. CareerXcelerator gives you a structured system tied to real employer requirements. You discover your fit, prepare for that specific role, validate readiness through AI simulations, and activate into real opportunities.",
+    a: "Courses teach skills without knowing which ones you need. We start with your target role, figure out what's missing, train you on that, then connect you to employers.",
     variant: "blue",
   },
   {
     q: "Can universities and institutions use CareerXcelerator?",
-    a: "Yes. We provide institutional deployment that lets universities run career tracks at scale, map cohort-wide skill gaps, issue verified credentials, and track placement outcomes. Contact us through the For Institutions section.",
+    a: "Yes. Universities can deploy career tracks across entire cohorts, track placement outcomes, and issue verified credentials at scale.",
     variant: "yellow",
   },
   {
     q: "How long does it take to get offer-ready?",
-    a: "Career Builder provides 1 month of activation. Career Pro runs 3 months of full preparation. Career Elite covers 6 months with multi-role support. Most users see interview callbacks within 4 to 8 weeks of active preparation.",
+    a: "Depends on your plan. Builder gives you 1 month, Pro gives 3 months, Elite gives 6. Most candidates start getting interview callbacks within 4 to 8 weeks.",
     variant: "yellow",
   },
   {
     q: "What happens after I click Find My Best Role?",
-    a: "You enter the Know Yourself Better (KYB) experience — a short set of questions about your interests, goals, and experience level. The system then maps your profile against real job market data and shows you where you fit.",
+    a: "You'll answer a few questions about your interests and experience. The system maps your profile against live job data and shows you which roles fit.",
     variant: "blue",
   },
 ];
@@ -155,8 +155,8 @@ export function FAQSection() {
             className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4"
             style={{ color: DARK }}
           >
-            Frequently{" "}
-            <span style={{ color: BLUE }}>Asked Questions</span>
+            Questions?{" "}
+            <span style={{ color: BLUE }}>Answered.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -165,7 +165,7 @@ export function FAQSection() {
             className="text-[14px]"
             style={{ color: "rgba(12,14,20,0.45)" }}
           >
-            Everything you need to know before you take the first step.
+            The short version of everything you're wondering.
           </motion.p>
         </div>
 

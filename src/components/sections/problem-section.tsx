@@ -47,7 +47,7 @@ export function ProblemSection() {
             className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4"
             style={{ color: DARK }}
           >
-            Career preparation is{" "}
+            Sound familiar?{" "}
             <span
               className="relative inline-block px-2"
               style={{
@@ -58,7 +58,7 @@ export function ProblemSection() {
                 display: "inline-block",
               }}
             >
-              broken.
+              Yeah, we thought so.
             </span>
           </motion.h2>
           <motion.p
@@ -68,7 +68,7 @@ export function ProblemSection() {
             className="text-[14px]"
             style={{ color: "rgba(12,14,20,0.45)" }}
           >
-            Most people prepare through disconnected activities that miss what employers actually look for.
+            Most people prepare for careers through scattered effort. Here is what that actually looks like.
           </motion.p>
         </div>
 

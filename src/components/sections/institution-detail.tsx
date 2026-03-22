@@ -58,7 +58,7 @@ export function InstitutionDetailSection() {
             className="text-[14px] max-w-xl mx-auto"
             style={{ color: "rgba(12,14,20,0.45)" }}
           >
-            You have thousands of students, a handful of career advisors, and employers who expect job-ready graduates. Here is what changes with CareerXcelerator.
+            Thousands of students. A handful of career advisors. Employers who expect job-ready graduates. Here's what changes.
           </motion.p>
         </div>
 

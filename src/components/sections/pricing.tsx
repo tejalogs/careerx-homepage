@@ -158,7 +158,7 @@ const PLANS = [
     name: "Career Builder",
     icon: <Target className="w-6 h-6" />,
     price: 449,
-    description: "Discover your role fit and start preparing",
+    description: "Find your fit and start building toward it",
     popular: false,
     features: [
       "KYB Role Assessment",
@@ -173,7 +173,7 @@ const PLANS = [
     name: "Career Pro",
     icon: <Gem className="w-6 h-6" />,
     price: 649,
-    description: "Full career track with expert coaching",
+    description: "The full system with expert coaching and extended support",
     popular: true,
     features: [
       "KYB Role Assessment",
@@ -188,7 +188,7 @@ const PLANS = [
     name: "Career Elite",
     icon: <Rocket className="w-6 h-6" />,
     price: 799,
-    description: "The complete career acceleration system",
+    description: "Maximum support, multiple roles, longest runway",
     popular: false,
     features: [
       "KYB Role Assessment",
@@ -233,7 +233,7 @@ export default function PricingSection() {
             className="relative inline-block"
           >
             <h2 className="text-2xl sm:text-3xl md:text-5xl font-black" style={{ color: DARK }}>
-              One investment. From discovery to offer.
+              Pick your path. Pay once.
             </h2>
             <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-48 h-3 rounded-full blur-sm rotate-[-1deg]"
               style={{ backgroundColor: `${YELLOW}55` }}
@@ -247,7 +247,7 @@ export default function PricingSection() {
             className="text-base"
             style={{ color: "rgba(12,14,20,0.5)" }}
           >
-            From role discovery to job offers. Everything included.
+            No subscriptions. No hidden fees. Every plan includes the full system.
           </motion.p>
         </div>
 
