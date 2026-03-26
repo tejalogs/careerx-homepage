@@ -4,9 +4,9 @@ import {
   useEffect,
   useRef,
   useState,
-  ReactNode,
+  type ReactNode,
 } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface ScrollExpandMediaProps {
   mediaType?: 'video' | 'image';
@@ -30,7 +30,6 @@ const ScrollExpandMedia = ({
   children,
 }: ScrollExpandMediaProps) => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
   const [isMobileState, setIsMobileState] = useState<boolean>(false);
 
   useEffect(() => {
@@ -49,7 +48,7 @@ const ScrollExpandMedia = ({
     <div
       ref={sectionRef}
       className='overflow-x-hidden'
-      style={{ backgroundColor: "#ffffff" }}
+      style={{ backgroundColor: "#F7F8FC" }}
     >
       <section className='relative flex flex-col items-center justify-start'>
         <div className='relative w-full flex flex-col items-center'>
@@ -65,9 +64,10 @@ const ScrollExpandMedia = ({
                   aspectRatio: isMobileState ? '16/10' : '16/9',
                   boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.1)',
                 }}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
               >
                 {mediaType === 'video' ? (
                   mediaSrc.includes('youtube.com') ? (

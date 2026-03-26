@@ -45,7 +45,7 @@ function VideoSectionContent() {
   const statsInView = useInView(statsRef, { once: true, margin: "-60px" });
 
   return (
-    <div className="-mx-4 sm:-mx-8 md:-mx-16 -my-10 lg:-my-20 px-4 sm:px-8 md:px-16 py-10 sm:py-16 md:py-20 bg-white overflow-x-clip">
+    <div className="-mx-4 sm:-mx-8 md:-mx-16 -my-10 lg:-my-20 px-4 sm:px-8 md:px-16 py-10 sm:py-16 md:py-20 overflow-x-clip" style={{ backgroundColor: "#F7F8FC" }}>
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start">
 
         {/* Left: Scroll-triggered image cards */}
@@ -173,7 +173,7 @@ export default function Home() {
       </ScrollExpandMedia>
 
       {/* Problem → Solution narrative */}
-      <Wave from="#fff" to="#F7F8FC" shape="a" />
+      <Wave from="#F7F8FC" to="#F7F8FC" shape="a" />
       <ProblemSection />
       <HowItWorksSection />
 

@@ -137,54 +137,43 @@ export default function IntroAnimation() {
     if (autoAnimRef.current) { autoAnimRef.current.stop(); autoAnimRef.current = null; }
   };
 
-  // Track whether hero animation is complete (reached end of scroll range)
-  const heroCompleteRef = useRef(false);
-
-  // Desktop scroll handler — captures wheel events to drive card animation
-  // preventDefault while animation is playing so page doesn't scroll underneath
+  // Desktop scroll handler — listens on WINDOW so scroll-back works even when
+  // cursor is below the hero. Captures scroll while animation is incomplete.
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    if (!containerRef.current) return;
     const isMob = containerSize.width > 0 && containerSize.width < 768;
     if (isMob) return;
 
     const handleWheel = (e: WheelEvent) => {
       cancelAuto();
       const prev = scrollRef.current;
-      const newScroll = Math.min(Math.max(prev + e.deltaY, 0), MAX_SCROLL);
 
-      // If animation not finished, capture scroll
-      if (newScroll < MAX_SCROLL) {
+      // Scrolling DOWN while animation not finished — capture
+      if (prev < MAX_SCROLL && e.deltaY > 0) {
         e.preventDefault();
-        heroCompleteRef.current = false;
-        scrollRef.current = newScroll;
-        virtualScroll.set(newScroll);
+        const next = Math.min(prev + e.deltaY, MAX_SCROLL);
+        scrollRef.current = next;
+        virtualScroll.set(next);
         return;
       }
 
-      // Animation at max — scrolling down: let page scroll
-      if (e.deltaY > 0) {
-        heroCompleteRef.current = true;
-        scrollRef.current = MAX_SCROLL;
-        virtualScroll.set(MAX_SCROLL);
-        // don't preventDefault — let page scroll naturally
+      // At MAX_SCROLL scrolling DOWN — release, let page scroll
+      if (prev >= MAX_SCROLL && e.deltaY > 0) {
         return;
       }
 
-      // Scrolling back up while at max AND page is at top: re-capture
-      if (e.deltaY < 0 && window.scrollY <= 5) {
+      // Scrolling UP while page is at top — rewind hero animation
+      if (e.deltaY < 0 && window.scrollY <= 2) {
         e.preventDefault();
-        heroCompleteRef.current = false;
-        const rewind = Math.min(Math.max(prev + e.deltaY, 0), MAX_SCROLL);
-        scrollRef.current = rewind;
-        virtualScroll.set(rewind);
+        const next = Math.max(prev + e.deltaY, 0);
+        scrollRef.current = next;
+        virtualScroll.set(next);
         return;
       }
 
-      // Scrolling up but page not at top: let page scroll
+      // Scrolling UP but page not at top — let page scroll up normally
     };
 
-    // Touch handlers for trackpad users
     let touchStartY = 0;
     const handleTouchStart = (e: TouchEvent) => {
       cancelAuto();
@@ -194,37 +183,30 @@ export default function IntroAnimation() {
       const deltaY = touchStartY - e.touches[0].clientY;
       touchStartY = e.touches[0].clientY;
       const prev = scrollRef.current;
-      const newScroll = Math.min(Math.max(prev + deltaY, 0), MAX_SCROLL);
 
-      if (newScroll < MAX_SCROLL) {
+      if (prev < MAX_SCROLL && deltaY > 0) {
         e.preventDefault();
-        heroCompleteRef.current = false;
-        scrollRef.current = newScroll;
-        virtualScroll.set(newScroll);
+        const next = Math.min(prev + deltaY, MAX_SCROLL);
+        scrollRef.current = next;
+        virtualScroll.set(next);
         return;
       }
-      if (deltaY > 0) {
-        heroCompleteRef.current = true;
-        scrollRef.current = MAX_SCROLL;
-        virtualScroll.set(MAX_SCROLL);
-        return;
-      }
-      if (deltaY < 0 && window.scrollY <= 5) {
+      if (prev >= MAX_SCROLL && deltaY > 0) return;
+      if (deltaY < 0 && window.scrollY <= 2) {
         e.preventDefault();
-        heroCompleteRef.current = false;
-        const rewind = Math.min(Math.max(prev + deltaY, 0), MAX_SCROLL);
-        scrollRef.current = rewind;
-        virtualScroll.set(rewind);
+        const next = Math.max(prev + deltaY, 0);
+        scrollRef.current = next;
+        virtualScroll.set(next);
       }
     };
 
-    container.addEventListener("wheel", handleWheel, { passive: false });
-    container.addEventListener("touchstart", handleTouchStart, { passive: true });
-    container.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
     return () => {
-      container.removeEventListener("wheel", handleWheel);
-      container.removeEventListener("touchstart", handleTouchStart);
-      container.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
     };
   }, [virtualScroll, containerSize.width]);
 
