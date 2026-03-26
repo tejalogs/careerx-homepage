@@ -31,14 +31,14 @@ interface CardData {
 }
 
 const CARDS: CardData[] = [
-  { id: "role-match",   bg: "#fff",     fg: "#0C0E14", muted: "rgba(0,0,0,0.35)",        border: "rgba(0,0,0,0.08)",       iconBg: "rgba(60,97,168,0.1)",    iconFg: "#3C61A8",  icon: Crosshair,   value: "92%",     label: "Role Match" },
-  { id: "skills",       bg: "#F5D134",  fg: "#0C0E14", muted: "rgba(0,0,0,0.4)",         border: "rgba(0,0,0,0.06)",       iconBg: "rgba(0,0,0,0.08)",       iconFg: "#0C0E14",  icon: Zap,         value: "3",       label: "Skills Verified" },
-  { id: "interview",    bg: "#0C0E14",  fg: "#fff",    muted: "rgba(255,255,255,0.4)",    border: "rgba(255,255,255,0.08)", iconBg: "rgba(255,255,255,0.08)", iconFg: "#a78bfa",  icon: Mic,         value: "Live",    label: "AI Interview" },
-  { id: "salary",       bg: "#f3f0ff",  fg: "#5b21b6", muted: "rgba(91,33,182,0.45)",    border: "rgba(91,33,182,0.08)",   iconBg: "rgba(91,33,182,0.1)",    iconFg: "#7c3aed",  icon: DollarSign,  value: "$72k",    label: "Avg Salary" },
-  { id: "ready",        bg: "#3C61A8",  fg: "#fff",    muted: "rgba(255,255,255,0.5)",    border: "rgba(255,255,255,0.1)",  iconBg: "rgba(255,255,255,0.1)",  iconFg: "#F5D134",  icon: CheckCircle, value: "87%",     label: "Interview Ready" },
-  { id: "hiring",       bg: "#fff7ed",  fg: "#c2410c", muted: "rgba(194,65,12,0.45)",    border: "rgba(194,65,12,0.08)",   iconBg: "rgba(194,65,12,0.1)",    iconFg: "#ea580c",  icon: Building2,   value: "500+",    label: "Hiring Partners" },
-  { id: "kyb",          bg: "#fef3c7",  fg: "#92400e", muted: "rgba(146,64,14,0.45)",    border: "rgba(146,64,14,0.08)",   iconBg: "rgba(146,64,14,0.1)",    iconFg: "#b45309",  icon: Search,      value: "Free",    label: "10 min to start" },
-  { id: "track",        bg: "#ecfeff",  fg: "#0e7490", muted: "rgba(14,116,144,0.45)",   border: "rgba(14,116,144,0.08)",  iconBg: "rgba(14,116,144,0.1)",   iconFg: "#0891b2",  icon: BookOpen,    value: "6 wks",   label: "Career Track" },
+  { id: "placed",       bg: "#fff",     fg: "#0C0E14", muted: "rgba(0,0,0,0.35)",        border: "rgba(0,0,0,0.08)",       iconBg: "rgba(60,97,168,0.1)",    iconFg: "#3C61A8",  icon: Crosshair,   value: "92%",     label: "Placed" },
+  { id: "careers",      bg: "#F5D134",  fg: "#0C0E14", muted: "rgba(0,0,0,0.4)",         border: "rgba(0,0,0,0.06)",       iconBg: "rgba(0,0,0,0.08)",       iconFg: "#0C0E14",  icon: Zap,         value: "14k+",    label: "Careers Mapped" },
+  { id: "interview",    bg: "#0C0E14",  fg: "#fff",    muted: "rgba(255,255,255,0.4)",    border: "rgba(255,255,255,0.08)", iconBg: "rgba(255,255,255,0.08)", iconFg: "#a78bfa",  icon: Mic,         value: "4.8★",    label: "Interview Score" },
+  { id: "salary",       bg: "#f3f0ff",  fg: "#5b21b6", muted: "rgba(91,33,182,0.45)",    border: "rgba(91,33,182,0.08)",   iconBg: "rgba(91,33,182,0.1)",    iconFg: "#7c3aed",  icon: DollarSign,  value: "$72k",    label: "Avg Offer" },
+  { id: "pass-rate",    bg: "#3C61A8",  fg: "#fff",    muted: "rgba(255,255,255,0.5)",    border: "rgba(255,255,255,0.1)",  iconBg: "rgba(255,255,255,0.1)",  iconFg: "#F5D134",  icon: CheckCircle, value: "87%",     label: "Pass Rate" },
+  { id: "companies",    bg: "#fff7ed",  fg: "#c2410c", muted: "rgba(194,65,12,0.45)",    border: "rgba(194,65,12,0.08)",   iconBg: "rgba(194,65,12,0.1)",    iconFg: "#ea580c",  icon: Building2,   value: "500+",    label: "Companies Hire" },
+  { id: "start",        bg: "#fef3c7",  fg: "#92400e", muted: "rgba(146,64,14,0.45)",    border: "rgba(146,64,14,0.08)",   iconBg: "rgba(146,64,14,0.1)",    iconFg: "#b45309",  icon: Search,      value: "Free",    label: "Start Now" },
+  { id: "speed",        bg: "#ecfeff",  fg: "#0e7490", muted: "rgba(14,116,144,0.45)",   border: "rgba(14,116,144,0.08)",  iconBg: "rgba(14,116,144,0.1)",   iconFg: "#0891b2",  icon: BookOpen,    value: "3 wks",   label: "Avg to Offer" },
 ];
 const TOTAL_CARDS = CARDS.length;
 
