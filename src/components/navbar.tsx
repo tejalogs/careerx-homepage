@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronLeft, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { BrandLogoMark } from "@/components/ui/brand-logo";
 
 const BLUE   = "#3C61A8";
@@ -16,12 +16,7 @@ const NAV_LINKS = [
   { label: "For Institutions",  href: "#institutions" },
 ];
 
-interface NavbarProps {
-  section?: "hero" | "video";
-  onBack?: () => void;
-}
-
-export default function Navbar({ section = "hero", onBack }: NavbarProps) {
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -31,7 +26,7 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => setMobileOpen(false), [section]);
+
 
   return (
     <>
@@ -58,24 +53,6 @@ export default function Navbar({ section = "hero", onBack }: NavbarProps) {
               : "0 2px 20px rgba(0, 0, 0, 0.04), inset 0 0.5px 0 rgba(255, 255, 255, 0.8)",
           }}
         >
-          {/* Back button */}
-          <AnimatePresence>
-            {section === "video" && onBack && (
-              <motion.button
-                key="back"
-                initial={{ opacity: 0, width: 0 }}
-                animate={{ opacity: 1, width: "auto" }}
-                exit={{ opacity: 0, width: 0 }}
-                transition={{ duration: 0.2 }}
-                onClick={onBack}
-                className="flex items-center gap-0.5 pl-2.5 pr-3 text-[13px] font-medium hover:opacity-60 transition-opacity overflow-hidden whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded"
-                style={{ color: BLUE }}
-              >
-                <ChevronLeft className="w-3.5 h-3.5 shrink-0" />
-              </motion.button>
-            )}
-          </AnimatePresence>
-
           {/* Logo */}
           <a href="/" className="flex items-center gap-1.5 px-3 py-1 rounded-full hover:bg-black/[0.03] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
             <BrandLogoMark size={18} color={YELLOW} />

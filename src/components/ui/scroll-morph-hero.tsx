@@ -362,7 +362,7 @@ const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * 
 // ─── Main Hero Component ──────────────────────────────────────────────────────
 const MAX_SCROLL = 3000;
 
-export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () => void }) {
+export default function IntroAnimation() {
   const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [showStagger, setShowStagger] = useState(false);
@@ -398,7 +398,7 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
     const container = containerRef.current;
     if (!container) return;
     const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
+      // Don't preventDefault — allow normal page scrolling
       cancelAuto();
       const newScroll = Math.min(Math.max(scrollRef.current + e.deltaY, 0), MAX_SCROLL);
       scrollRef.current = newScroll;
@@ -416,9 +416,9 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
       scrollRef.current = newScroll;
       virtualScroll.set(newScroll);
     };
-    container.addEventListener("wheel", handleWheel, { passive: false });
-    container.addEventListener("touchstart", handleTouchStart, { passive: false });
-    container.addEventListener("touchmove", handleTouchMove, { passive: false });
+    container.addEventListener("wheel", handleWheel, { passive: true });
+    container.addEventListener("touchstart", handleTouchStart, { passive: true });
+    container.addEventListener("touchmove", handleTouchMove, { passive: true });
     return () => {
       container.removeEventListener("wheel", handleWheel);
       container.removeEventListener("touchstart", handleTouchStart);
@@ -463,22 +463,18 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
     }
   }, [introPhase]);
 
-  // Auto-advance: mobile only — desktop requires manual scroll
+  // Auto-animate cards on mobile since manual scroll also scrolls the page
   const isMobileDevice = containerSize.width > 0 && containerSize.width < 768;
 
   useEffect(() => {
     if (!circleReady) return;
-    if (!isMobileDevice) return; // desktop: manual scroll only
+    if (!isMobileDevice) return;
     const t = setTimeout(() => {
       autoAnimRef.current = animate(virtualScroll, MAX_SCROLL, {
-        duration: 2.5,
+        duration: 3,
         ease: [0.6, 0.01, 0.05, 0.95],
         onUpdate: (v) => { scrollRef.current = v; },
-        onComplete: () => {
-          autoAnimRef.current = null;
-          setFlashOut(true);
-          setTimeout(() => onAutoAdvance?.(), 280);
-        },
+        onComplete: () => { autoAnimRef.current = null; },
       });
     }, 1200);
     return () => {
@@ -521,18 +517,7 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
         <div style={{ position: "absolute", width: 400, height: 400, background: "radial-gradient(circle, rgba(60,97,168,0.05) 0%, transparent 65%)", borderRadius: "50%", left: "40%", bottom: "0%", filter: "blur(60px)" }} />
       </div>
 
-      {/* Flash overlay on exit */}
-      <AnimatePresence>
-        {flashOut && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.28, ease: "easeIn" }}
-            style={{ position: "absolute", inset: 0, background: "white", zIndex: 200, pointerEvents: "none" }}
-          />
-        )}
-      </AnimatePresence>
+      {/* Reserved for future use */}
 
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
@@ -579,9 +564,9 @@ export default function IntroAnimation({ onAutoAdvance }: { onAutoAdvance?: () =
           <p className="text-[10px] font-black tracking-[0.25em] uppercase text-gray-400 mb-3">
             CareerXcelerator
           </p>
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
             Role fit. Skill gaps.<br />Interview readiness.
-          </h1>
+          </h2>
           <p className="text-sm text-gray-500 max-w-md leading-relaxed font-medium">
             Everything you need to go from career clarity to job offer. In one system.
           </p>

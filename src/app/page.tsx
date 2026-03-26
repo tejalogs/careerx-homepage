@@ -1,16 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
-
-const throttle = (fn: Function, ms: number) => {
-  let timer: NodeJS.Timeout | null = null;
-  return (...args: any[]) => {
-    if (timer) return;
-    timer = setTimeout(() => { timer = null; }, ms);
-    fn(...args);
-  };
-};
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Navbar from "@/components/navbar";
@@ -49,8 +40,6 @@ function Wave({ from, to, shape = "a" }: { from: string; to: string; shape?: "a"
 }
 
 // ─── Product Video Section Content ────────────────────────────────────────────
-
-
 function VideoSectionContent() {
   const statsRef = useRef(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-60px" });
@@ -64,7 +53,7 @@ function VideoSectionContent() {
           <ScrollImageCards />
         </div>
 
-        {/* Right: Copy + CTA — centered, bigger to balance the card column */}
+        {/* Right: Copy + CTA */}
         <motion.div
           ref={statsRef}
           className="md:sticky md:top-24 flex flex-col items-center text-center"
@@ -159,169 +148,54 @@ function VideoSectionContent() {
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-const HERO_MAX_SCROLL = 3000;
-const OVER_SCROLL_THRESHOLD = 300;
-
 export default function Home() {
-  const [activeSection, setActiveSection] = useState<"hero" | "video">("hero");
-  const [videoExpanded, setVideoExpanded] = useState(false);
-
-  const heroScrollRef = useRef(0);
-  const overScrollRef = useRef(0);
-  const transitioningRef = useRef(false);
-
-  const goToVideo = () => {
-    if (transitioningRef.current) return;
-    transitioningRef.current = true;
-    setActiveSection("video");
-    window.scrollTo(0, 0);
-  };
-
-  const goToHero = () => {
-    setActiveSection("hero");
-    setVideoExpanded(false);
-    heroScrollRef.current = 0;
-    overScrollRef.current = 0;
-    transitioningRef.current = false;
-    window.scrollTo(0, 0);
-  };
-
-  // ── Over-scroll detection on hero ─────────────────────────────────────────
-  useEffect(() => {
-    if (activeSection !== "hero") return;
-
-    const handleWheel = throttle((e: WheelEvent) => {
-      if (transitioningRef.current) return;
-      // Normalize: Windows mice emit deltaY ~100-300 per notch; cap to 40 so threshold behaves consistently
-      const delta = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY), 40);
-
-      const newHeroScroll = Math.min(
-        Math.max(heroScrollRef.current + delta, 0),
-        HERO_MAX_SCROLL
-      );
-
-      if (heroScrollRef.current >= HERO_MAX_SCROLL && e.deltaY > 0) {
-        const newOver = overScrollRef.current + delta;
-        overScrollRef.current = newOver;
-        if (newOver >= OVER_SCROLL_THRESHOLD) goToVideo();
-      } else {
-        overScrollRef.current = 0;
-      }
-
-      heroScrollRef.current = newHeroScroll;
-    }, 16);
-
-    let lastTouchY = 0;
-    const handleTouchStart = (e: TouchEvent) => {
-      lastTouchY = e.touches[0].clientY;
-    };
-    const handleTouchMove = throttle((e: TouchEvent) => {
-      if (transitioningRef.current) return;
-      const delta = lastTouchY - e.touches[0].clientY;
-      lastTouchY = e.touches[0].clientY;
-      const newHeroScroll = Math.min(
-        Math.max(heroScrollRef.current + delta, 0),
-        HERO_MAX_SCROLL
-      );
-      if (heroScrollRef.current >= HERO_MAX_SCROLL && delta > 0) {
-        const newOver = overScrollRef.current + delta;
-        overScrollRef.current = newOver;
-        if (newOver >= OVER_SCROLL_THRESHOLD) goToVideo();
-      } else {
-        overScrollRef.current = 0;
-      }
-      heroScrollRef.current = newHeroScroll;
-    }, 16);
-
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchmove", handleTouchMove, { passive: true });
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-    };
-  }, [activeSection]);
-
   return (
-    <main className="overflow-hidden">
-      {/* Navbar: always visible */}
-      <Navbar
-        section={activeSection}
-        onBack={activeSection === "video" ? goToHero : undefined}
-      />
+    <main>
+      {/* Navbar */}
+      <Navbar />
 
-      <AnimatePresence mode="wait">
-        {/* ── Hero ──────────────────────────────────────────────────────────── */}
-        {activeSection === "hero" && (
-          <motion.div
-            key="hero"
-            className="relative w-full h-screen overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, y: -40 }}
-            transition={{ duration: 0.6, ease: [0.32, 0, 0.67, 0] }}
-          >
-            <IntroAnimation onAutoAdvance={goToVideo} />
-          </motion.div>
-        )}
+      {/* Hero — full viewport, self-contained scroll animation */}
+      <section className="relative w-full h-screen overflow-hidden">
+        <IntroAnimation />
+      </section>
 
-        {/* ── Video + Below Fold ────────────────────────────────────────────── */}
-        {activeSection === "video" && (
-          <motion.div
-            key="video"
-            className="relative w-full min-h-screen"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.7, ease: [0.33, 1, 0.68, 1] }}
-          >
-            <ScrollExpandMedia
-              mediaType="video"
-              mediaSrc="https://me7aitdbxq.ufs.sh/f/2wsMIGDMQRdYuZ5R8ahEEZ4aQK56LizRdfBSqeDMsmUIrJN1"
-              posterSrc="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1280&q=80"
-              title="See How It Works"
-              date="Platform Tour"
-              scrollToExpand="Scroll to expand"
-              textBlend={false}
-              onExpanded={() => setVideoExpanded(true)}
-              onScrolledBack={goToHero}
-            >
-              <VideoSectionContent />
-            </ScrollExpandMedia>
+      {/* Video / Platform Tour */}
+      <ScrollExpandMedia
+        mediaType="video"
+        mediaSrc="https://me7aitdbxq.ufs.sh/f/2wsMIGDMQRdYuZ5R8ahEEZ4aQK56LizRdfBSqeDMsmUIrJN1"
+        posterSrc="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1280&q=80"
+        title="See How It Works"
+        date="Platform Tour"
+        scrollToExpand="Scroll to expand"
+        textBlend={false}
+      >
+        <VideoSectionContent />
+      </ScrollExpandMedia>
 
-            {/* Below-fold sections — visible after video fully expands */}
-            {videoExpanded && (
-              <>
-                {/* Problem → Solution narrative */}
-                <Wave from="#fff" to="#F7F8FC" shape="a" />
-                <ProblemSection />
-                <HowItWorksSection />
+      {/* Problem → Solution narrative */}
+      <Wave from="#fff" to="#F7F8FC" shape="a" />
+      <ProblemSection />
+      <HowItWorksSection />
 
-                {/* Products deep dive */}
-                <Wave from="#F7F8FC" to="#3C61A8" shape="b" />
-                <ServicesSection />
-                <Wave from="#3C61A8" to="#F7F8FC" shape="c" />
+      {/* Products deep dive */}
+      <Wave from="#F7F8FC" to="#3C61A8" shape="b" />
+      <ServicesSection />
+      <Wave from="#3C61A8" to="#F7F8FC" shape="c" />
 
-                {/* B2B — Institutional detail */}
-                <InstitutionDetailSection />
+      {/* B2B — Institutional detail */}
+      <InstitutionDetailSection />
 
-                {/* Trust + Pricing */}
-                <MissionVisionSection />
-                <PricingSection />
+      {/* Trust + Pricing */}
+      <MissionVisionSection />
+      <PricingSection />
 
-                {/* Final CTA — combined for individuals + institutions */}
-                <Wave from="#F7F8FC" to="#3C61A8" shape="b" />
-                <GetStartedSection />
-                <Wave from="#3C61A8" to="#F7F8FC" shape="c" />
-                <FAQSection />
-                <Wave from="#F7F8FC" to="#3C61A8" shape="a" />
-                <Footer />
-              </>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Final CTA */}
+      <Wave from="#F7F8FC" to="#3C61A8" shape="b" />
+      <GetStartedSection />
+      <Wave from="#3C61A8" to="#F7F8FC" shape="c" />
+      <FAQSection />
+      <Wave from="#F7F8FC" to="#3C61A8" shape="a" />
+      <Footer />
     </main>
   );
 }
