@@ -394,10 +394,10 @@ export default function IntroAnimation() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="absolute pointer-events-none"
             style={{
-              width: isMobile ? 300 : 500,
-              height: isMobile ? 200 : 280,
-              background: "radial-gradient(ellipse 100% 100% at 50% 50%, rgba(247,248,252,0.95) 0%, rgba(247,248,252,0.7) 40%, transparent 70%)",
-              filter: "blur(8px)",
+              width: isMobile ? 250 : 420,
+              height: isMobile ? 160 : 220,
+              background: "radial-gradient(ellipse 100% 100% at 50% 50%, rgba(247,248,252,0.7) 0%, rgba(247,248,252,0.4) 35%, transparent 65%)",
+              filter: "blur(12px)",
             }}
           />
 
