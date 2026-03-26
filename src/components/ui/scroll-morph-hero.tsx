@@ -437,7 +437,7 @@ export default function IntroAnimation() {
       <div className="flex h-full w-full flex-col items-center justify-center" style={{ perspective: "1000px" }}>
 
         {/* Hero headline — soft radial glow behind text for readability (no box) */}
-        <motion.div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[12%] md:top-0 md:bottom-0 md:justify-center" style={isMobile ? {} : { x: textTranslateX, y: textTranslateY }}>
+        <motion.div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[6%] md:top-0 md:bottom-0 md:justify-center" style={isMobile ? {} : { x: textTranslateX, y: textTranslateY }}>
 
           {/* Soft radial glow — invisible container, just light behind text */}
           <motion.div
@@ -575,9 +575,10 @@ export default function IntroAnimation() {
               const angle = (i / TOTAL_CARDS) * 360 - 90;
               const rad = (angle * Math.PI) / 180;
 
+              const mobileCircleOffsetY = isSmallPhone ? 50 : 60;
               target = {
                 x: Math.cos(rad) * circleRadius,
-                y: Math.sin(rad) * circleRadius,
+                y: Math.sin(rad) * circleRadius + mobileCircleOffsetY,
                 rotation: angle + 90,
                 scale: 1,
                 opacity: 1,
