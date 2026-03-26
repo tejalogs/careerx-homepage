@@ -36,7 +36,7 @@ const CARDS: CardData[] = [
   { id: "first-call",   bg: "#1B4332",  fg: "#fff",    muted: "rgba(255,255,255,0.7)",    border: "rgba(255,255,255,0.08)", iconBg: "rgba(255,255,255,0.1)",  iconFg: "#6EE7B7",  icon: Phone,       value: "11",      label: "Days to First Call" },
   { id: "salary-hike",  bg: "#f3f0ff",  fg: "#5b21b6", muted: "rgba(91,33,182,0.65)",    border: "rgba(91,33,182,0.08)",   iconBg: "rgba(91,33,182,0.1)",    iconFg: "#7c3aed",  icon: TrendingUp,  value: "70%",     label: "Salary Increase" },
   { id: "ready",        bg: "#E8634A",  fg: "#fff",    muted: "rgba(255,255,255,0.75)",   border: "rgba(255,255,255,0.1)",  iconBg: "rgba(255,255,255,0.12)", iconFg: "#FDE68A",  icon: CheckCircle, value: "98%",     label: "Interview Ready" },
-  { id: "companies",    bg: "#fff7ed",  fg: "#c2410c", muted: "rgba(194,65,12,0.65)",    border: "rgba(194,65,12,0.08)",   iconBg: "rgba(194,65,12,0.1)",    iconFg: "#ea580c",  icon: Building2,   value: "500+",    label: "Companies Hire" },
+  { id: "companies",    bg: "#fff7ed",  fg: "#c2410c", muted: "rgba(194,65,12,0.65)",    border: "rgba(194,65,12,0.08)",   iconBg: "rgba(194,65,12,0.1)",    iconFg: "#ea580c",  icon: Building2,   value: "300+",    label: "Employers" },
   { id: "start",        bg: "#fef3c7",  fg: "#92400e", muted: "rgba(146,64,14,0.65)",    border: "rgba(146,64,14,0.08)",   iconBg: "rgba(146,64,14,0.1)",    iconFg: "#b45309",  icon: Search,      value: "Free",    label: "Start Now" },
   { id: "accuracy",     bg: "#ecfeff",  fg: "#0e7490", muted: "rgba(14,116,144,0.65)",   border: "rgba(14,116,144,0.08)",  iconBg: "rgba(14,116,144,0.1)",   iconFg: "#0891b2",  icon: Target,      value: "99.9%",   label: "Role Accuracy" },
 ];
