@@ -137,21 +137,95 @@ export default function IntroAnimation() {
     if (autoAnimRef.current) { autoAnimRef.current.stop(); autoAnimRef.current = null; }
   };
 
-  // Desktop scroll handler — captures wheel delta for card animation, doesn't block page scroll
+  // Track whether hero animation is complete (reached end of scroll range)
+  const heroCompleteRef = useRef(false);
+
+  // Desktop scroll handler — captures wheel events to drive card animation
+  // preventDefault while animation is playing so page doesn't scroll underneath
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
     const isMob = containerSize.width > 0 && containerSize.width < 768;
-    if (isMob) return; // mobile doesn't use scroll
+    if (isMob) return;
 
     const handleWheel = (e: WheelEvent) => {
       cancelAuto();
-      const newScroll = Math.min(Math.max(scrollRef.current + e.deltaY, 0), MAX_SCROLL);
-      scrollRef.current = newScroll;
-      virtualScroll.set(newScroll);
+      const prev = scrollRef.current;
+      const newScroll = Math.min(Math.max(prev + e.deltaY, 0), MAX_SCROLL);
+
+      // If animation not finished, capture scroll
+      if (newScroll < MAX_SCROLL) {
+        e.preventDefault();
+        heroCompleteRef.current = false;
+        scrollRef.current = newScroll;
+        virtualScroll.set(newScroll);
+        return;
+      }
+
+      // Animation at max — scrolling down: let page scroll
+      if (e.deltaY > 0) {
+        heroCompleteRef.current = true;
+        scrollRef.current = MAX_SCROLL;
+        virtualScroll.set(MAX_SCROLL);
+        // don't preventDefault — let page scroll naturally
+        return;
+      }
+
+      // Scrolling back up while at max AND page is at top: re-capture
+      if (e.deltaY < 0 && window.scrollY <= 5) {
+        e.preventDefault();
+        heroCompleteRef.current = false;
+        const rewind = Math.min(Math.max(prev + e.deltaY, 0), MAX_SCROLL);
+        scrollRef.current = rewind;
+        virtualScroll.set(rewind);
+        return;
+      }
+
+      // Scrolling up but page not at top: let page scroll
     };
-    container.addEventListener("wheel", handleWheel, { passive: true });
-    return () => container.removeEventListener("wheel", handleWheel);
+
+    // Touch handlers for trackpad users
+    let touchStartY = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      cancelAuto();
+      touchStartY = e.touches[0].clientY;
+    };
+    const handleTouchMove = (e: TouchEvent) => {
+      const deltaY = touchStartY - e.touches[0].clientY;
+      touchStartY = e.touches[0].clientY;
+      const prev = scrollRef.current;
+      const newScroll = Math.min(Math.max(prev + deltaY, 0), MAX_SCROLL);
+
+      if (newScroll < MAX_SCROLL) {
+        e.preventDefault();
+        heroCompleteRef.current = false;
+        scrollRef.current = newScroll;
+        virtualScroll.set(newScroll);
+        return;
+      }
+      if (deltaY > 0) {
+        heroCompleteRef.current = true;
+        scrollRef.current = MAX_SCROLL;
+        virtualScroll.set(MAX_SCROLL);
+        return;
+      }
+      if (deltaY < 0 && window.scrollY <= 5) {
+        e.preventDefault();
+        heroCompleteRef.current = false;
+        const rewind = Math.min(Math.max(prev + deltaY, 0), MAX_SCROLL);
+        scrollRef.current = rewind;
+        virtualScroll.set(rewind);
+      }
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    container.addEventListener("touchstart", handleTouchStart, { passive: true });
+    container.addEventListener("touchmove", handleTouchMove, { passive: false });
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
+    };
   }, [virtualScroll, containerSize.width]);
 
   // Desktop: morph progress (circle → arc) and scroll-driven rotation
