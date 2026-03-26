@@ -480,33 +480,39 @@ export default function IntroAnimation() {
             </>
           )}
 
-          {/* Desktop: CTA + scroll indicator */}
+          {/* Desktop: scroll indicator only — CTA is positioned below the cards */}
           {!isMobile && (
-            <>
-              <motion.a
-                href="#get-started"
-                initial={{ opacity: 0, y: 10 }}
-                animate={circleReady && morphValue < 0.4
-                  ? { opacity: 1 - morphValue * 2.5, y: 0 }
-                  : { opacity: 0, y: 10 }
-                }
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="mt-5 inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto relative"
-                style={{ backgroundColor: "#3C61A8" }}
-              >
-                Find My Best Role <span className="text-xs">→</span>
-              </motion.a>
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={circleReady && morphValue < 0.3 ? { opacity: 0.4 } : { opacity: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="mt-3 text-[11px] font-medium text-gray-400 relative"
-              >
-                Scroll to explore ↓
-              </motion.p>
-            </>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={circleReady && morphValue < 0.3 ? { opacity: 0.4 } : { opacity: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="mt-4 text-[11px] font-medium text-gray-400 relative"
+            >
+              Scroll to explore ↓
+            </motion.p>
           )}
         </div>
+
+        {/* Desktop: CTA below card circle */}
+        {!isMobile && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={circleReady && morphValue < 0.3
+              ? { opacity: 1, y: 0 }
+              : { opacity: 0, y: 10 }
+            }
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="absolute bottom-[8%] z-20 flex flex-col items-center pointer-events-auto"
+          >
+            <a
+              href="#get-started"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
+              style={{ backgroundColor: "#3C61A8" }}
+            >
+              Find My Best Role <span className="text-xs">→</span>
+            </a>
+          </motion.div>
+        )}
 
         {/* Desktop arc headline — fades in when scrolled past circle */}
         {!isMobile && (
@@ -540,7 +546,7 @@ export default function IntroAnimation() {
             } else if (isMobile) {
               // ─── MOBILE: static circle, no scroll interaction ───────────
               const minDim = Math.min(containerSize.width, containerSize.height);
-              const circleRadius = isSmallPhone ? minDim * 0.28 : minDim * 0.31;
+              const circleRadius = isSmallPhone ? minDim * 0.32 : minDim * 0.35;
               const angle = (i / TOTAL_CARDS) * 360 - 90;
               const rad = (angle * Math.PI) / 180;
 
@@ -554,7 +560,7 @@ export default function IntroAnimation() {
             } else {
               // ─── DESKTOP: circle → arc morph with scroll rotation ──────
               const minDim = Math.min(containerSize.width, containerSize.height);
-              const circleRadius = Math.min(minDim * 0.32, 290);
+              const circleRadius = Math.min(minDim * 0.36, 320);
               const circleAngle = (i / TOTAL_CARDS) * 360;
               const circleRad = (circleAngle * Math.PI) / 180;
               const circlePos = {
