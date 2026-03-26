@@ -31,14 +31,14 @@ interface CardData {
 }
 
 const CARDS: CardData[] = [
-  { id: "placed",       bg: "#fff",     fg: "#0C0E14", muted: "rgba(0,0,0,0.35)",        border: "rgba(0,0,0,0.08)",       iconBg: "rgba(60,97,168,0.1)",    iconFg: "#3C61A8",  icon: Crosshair,   value: "92%",     label: "Placed" },
-  { id: "careers",      bg: "#F5D134",  fg: "#0C0E14", muted: "rgba(0,0,0,0.4)",         border: "rgba(0,0,0,0.06)",       iconBg: "rgba(0,0,0,0.08)",       iconFg: "#0C0E14",  icon: Zap,         value: "14k+",    label: "Careers Mapped" },
-  { id: "first-call",   bg: "#1B4332",  fg: "#fff",    muted: "rgba(255,255,255,0.4)",    border: "rgba(255,255,255,0.08)", iconBg: "rgba(255,255,255,0.1)",  iconFg: "#6EE7B7",  icon: Phone,       value: "11",      label: "Days to First Call" },
-  { id: "salary-hike",  bg: "#f3f0ff",  fg: "#5b21b6", muted: "rgba(91,33,182,0.45)",    border: "rgba(91,33,182,0.08)",   iconBg: "rgba(91,33,182,0.1)",    iconFg: "#7c3aed",  icon: TrendingUp,  value: "70%",     label: "Salary Increase" },
-  { id: "ready",        bg: "#E8634A",  fg: "#fff",    muted: "rgba(255,255,255,0.5)",    border: "rgba(255,255,255,0.1)",  iconBg: "rgba(255,255,255,0.12)", iconFg: "#FDE68A",  icon: CheckCircle, value: "98%",     label: "Interview Ready" },
-  { id: "companies",    bg: "#fff7ed",  fg: "#c2410c", muted: "rgba(194,65,12,0.45)",    border: "rgba(194,65,12,0.08)",   iconBg: "rgba(194,65,12,0.1)",    iconFg: "#ea580c",  icon: Building2,   value: "500+",    label: "Companies Hire" },
-  { id: "start",        bg: "#fef3c7",  fg: "#92400e", muted: "rgba(146,64,14,0.45)",    border: "rgba(146,64,14,0.08)",   iconBg: "rgba(146,64,14,0.1)",    iconFg: "#b45309",  icon: Search,      value: "Free",    label: "Start Now" },
-  { id: "accuracy",     bg: "#ecfeff",  fg: "#0e7490", muted: "rgba(14,116,144,0.45)",   border: "rgba(14,116,144,0.08)",  iconBg: "rgba(14,116,144,0.1)",   iconFg: "#0891b2",  icon: Target,      value: "99.9%",   label: "Role Accuracy" },
+  { id: "placed",       bg: "#fff",     fg: "#0C0E14", muted: "rgba(0,0,0,0.55)",        border: "rgba(0,0,0,0.08)",       iconBg: "rgba(60,97,168,0.1)",    iconFg: "#3C61A8",  icon: Crosshair,   value: "92%",     label: "Placed" },
+  { id: "careers",      bg: "#F5D134",  fg: "#0C0E14", muted: "rgba(0,0,0,0.6)",         border: "rgba(0,0,0,0.06)",       iconBg: "rgba(0,0,0,0.08)",       iconFg: "#0C0E14",  icon: Zap,         value: "14k+",    label: "Careers Mapped" },
+  { id: "first-call",   bg: "#1B4332",  fg: "#fff",    muted: "rgba(255,255,255,0.7)",    border: "rgba(255,255,255,0.08)", iconBg: "rgba(255,255,255,0.1)",  iconFg: "#6EE7B7",  icon: Phone,       value: "11",      label: "Days to First Call" },
+  { id: "salary-hike",  bg: "#f3f0ff",  fg: "#5b21b6", muted: "rgba(91,33,182,0.65)",    border: "rgba(91,33,182,0.08)",   iconBg: "rgba(91,33,182,0.1)",    iconFg: "#7c3aed",  icon: TrendingUp,  value: "70%",     label: "Salary Increase" },
+  { id: "ready",        bg: "#E8634A",  fg: "#fff",    muted: "rgba(255,255,255,0.75)",   border: "rgba(255,255,255,0.1)",  iconBg: "rgba(255,255,255,0.12)", iconFg: "#FDE68A",  icon: CheckCircle, value: "98%",     label: "Interview Ready" },
+  { id: "companies",    bg: "#fff7ed",  fg: "#c2410c", muted: "rgba(194,65,12,0.65)",    border: "rgba(194,65,12,0.08)",   iconBg: "rgba(194,65,12,0.1)",    iconFg: "#ea580c",  icon: Building2,   value: "500+",    label: "Companies Hire" },
+  { id: "start",        bg: "#fef3c7",  fg: "#92400e", muted: "rgba(146,64,14,0.65)",    border: "rgba(146,64,14,0.08)",   iconBg: "rgba(146,64,14,0.1)",    iconFg: "#b45309",  icon: Search,      value: "Free",    label: "Start Now" },
+  { id: "accuracy",     bg: "#ecfeff",  fg: "#0e7490", muted: "rgba(14,116,144,0.65)",   border: "rgba(14,116,144,0.08)",  iconBg: "rgba(14,116,144,0.1)",   iconFg: "#0891b2",  icon: Target,      value: "99.9%",   label: "Role Accuracy" },
 ];
 const TOTAL_CARDS = CARDS.length;
 
@@ -55,7 +55,7 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
   const iconSize = isMobile ? 20 : 26;
   const innerIcon = isMobile ? 10 : 13;
   const valueSize = card.value.length <= 4 ? (isMobile ? 22 : 28) : (isMobile ? 16 : 20);
-  const labelSize = isMobile ? 6 : 7;
+  const labelSize = isMobile ? 8 : 10;
   const radius = isMobile ? 14 : 18;
 
   // Is this a dark card?
