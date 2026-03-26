@@ -381,29 +381,59 @@ export default function IntroAnimation() {
 
       <div className="flex h-full w-full flex-col items-center justify-center" style={{ perspective: "1000px" }}>
 
-        {/* Hero headline — visible in circle phase, fades when morphing to arc on desktop */}
+        {/* Hero headline — frosted glass backdrop behind text for readability */}
         <div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[12%] md:top-0 md:bottom-0 md:justify-center">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={circleReady && morphValue < 0.3 ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-[10px] font-black tracking-[0.3em] uppercase mb-3"
-            style={{ color: "#3C61A8" }}
-          >
-            CareerXcelerator
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 30, scale: 0.92, filter: "blur(12px)" }}
-            animate={
-              circleReady && morphValue < 0.5
-                ? { opacity: 1 - morphValue * 2, y: 0, scale: 1, filter: "blur(0px)" }
-                : { opacity: 0, scale: 0.96, filter: "blur(12px)" }
+
+          {/* Frosted glass pill behind headline */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={circleReady && morphValue < 0.5
+              ? { opacity: 1 - morphValue * 2, scale: 1 }
+              : { opacity: 0, scale: 0.95 }
             }
-            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-gray-800"
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col items-center"
+            style={{
+              padding: isMobile ? "20px 24px 16px" : "28px 48px 20px",
+              borderRadius: isMobile ? 20 : 28,
+              background: "rgba(247,248,252,0.7)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1px solid rgba(255,255,255,0.6)",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02), inset 0 1px 0 rgba(255,255,255,0.8)",
+            }}
           >
-            Hiring, <span style={{ color: "#3C61A8" }}>decoded.</span>
-          </motion.h1>
+            <p
+              className="text-[10px] font-black tracking-[0.3em] uppercase mb-3"
+              style={{ color: "#3C61A8" }}
+            >
+              CareerXcelerator
+            </p>
+            <h1
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight"
+              style={{
+                color: "#1a1a2e",
+                lineHeight: 1.1,
+              }}
+            >
+              Hiring,{" "}
+              <span style={{
+                background: "linear-gradient(135deg, #3C61A8 0%, #5b7fc7 50%, #3C61A8 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}>
+                decoded.
+              </span>
+            </h1>
+
+            {/* Desktop: scroll hint */}
+            {!isMobile && (
+              <p className="mt-3 text-[11px] font-medium text-gray-400">
+                Scroll to explore ↓
+              </p>
+            )}
+          </motion.div>
 
           {/* Subtitle + CTA — mobile always visible, desktop fades with scroll */}
           {isMobile && circleReady && (
@@ -412,7 +442,7 @@ export default function IntroAnimation() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.5 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="mt-3 text-xs text-gray-500 max-w-sm"
+                className="mt-4 text-xs text-gray-500 max-w-sm"
               >
                 Role fit. Skill gaps. Interview readiness. All in one system.
               </motion.p>
@@ -429,8 +459,8 @@ export default function IntroAnimation() {
             </>
           )}
 
-          {/* Desktop: scroll indicator */}
-          {!isMobile && (
+          {/* Desktop: removed duplicate scroll indicator — now inside frosted pill */}
+          {!isMobile && false && (
             <motion.p
               initial={{ opacity: 0 }}
               animate={circleReady && morphValue < 0.3 ? { opacity: 0.4 } : { opacity: 0 }}
