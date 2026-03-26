@@ -67,14 +67,19 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
       position: "relative", overflow: "hidden",
       // Outer shell: layered shadows for physical depth
       boxShadow: [
-        "0 1px 1px rgba(0,0,0,0.03)",
-        "0 2px 4px rgba(0,0,0,0.04)",
-        "0 6px 12px rgba(0,0,0,0.06)",
-        "0 12px 24px rgba(0,0,0,0.05)",
-        "0 24px 48px rgba(0,0,0,0.04)",
-        // Edge highlight — simulates light catching the card edge
-        `inset 0 0.5px 0 rgba(255,255,255,${isDark ? 0.1 : 0.7})`,
-        `inset 0 -0.5px 0 rgba(0,0,0,${isDark ? 0.3 : 0.06})`,
+        "0 1px 2px rgba(0,0,0,0.04)",
+        "0 3px 6px rgba(0,0,0,0.05)",
+        "0 8px 16px rgba(0,0,0,0.06)",
+        "0 16px 32px rgba(0,0,0,0.05)",
+        "0 32px 64px rgba(0,0,0,0.04)",
+        // Top edge catch — bright highlight
+        `inset 0 1px 0 rgba(255,255,255,${isDark ? 0.15 : 0.85})`,
+        // Left edge catch
+        `inset 1px 0 0 rgba(255,255,255,${isDark ? 0.06 : 0.4})`,
+        // Bottom shadow edge
+        `inset 0 -1px 0 rgba(0,0,0,${isDark ? 0.35 : 0.08})`,
+        // Right shadow edge
+        `inset -1px 0 0 rgba(0,0,0,${isDark ? 0.15 : 0.03})`,
       ].join(", "),
       border: `1px solid ${card.border}`,
     }}>
@@ -92,11 +97,13 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
           background: card.iconBg,
           border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : card.border}`,
           display: "flex", alignItems: "center", justifyContent: "center",
-          // Embossed seal effect — raised with inner light
+          // Embossed seal effect — raised with strong inner light
           boxShadow: [
-            `0 2px 6px rgba(0,0,0,${isDark ? 0.3 : 0.08})`,
-            `inset 0 1px 0 rgba(255,255,255,${isDark ? 0.08 : 0.6})`,
-            `inset 0 -0.5px 0 rgba(0,0,0,${isDark ? 0.2 : 0.04})`,
+            `0 2px 4px rgba(0,0,0,${isDark ? 0.35 : 0.1})`,
+            `0 4px 8px rgba(0,0,0,${isDark ? 0.2 : 0.06})`,
+            `inset 0 1.5px 0 rgba(255,255,255,${isDark ? 0.12 : 0.75})`,
+            `inset 0 -1px 0 rgba(0,0,0,${isDark ? 0.25 : 0.06})`,
+            `inset 1px 0 0 rgba(255,255,255,${isDark ? 0.04 : 0.3})`,
           ].join(", "),
         }}>
           <Icon style={{ width: innerIcon, height: innerIcon, color: card.iconFg, strokeWidth: 2.2 }} />
@@ -123,27 +130,44 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
         </div>
       </div>
 
-      {/* Holographic sheen overlay — shifts with card rotation */}
-      <div style={{
+      {/* Holographic sheen — diagonal light band, visible on both dark and light */}
+      <div suppressHydrationWarning style={{
         position: "absolute", inset: 0, borderRadius: radius,
-        background: `linear-gradient(${angle}deg, transparent 20%, rgba(255,255,255,${isDark ? 0.06 : 0.15}) 40%, transparent 50%, rgba(255,255,255,${isDark ? 0.04 : 0.1}) 65%, transparent 80%)`,
+        background: isDark
+          ? `linear-gradient(${angle}deg, transparent 15%, rgba(255,255,255,0.18) 35%, rgba(255,255,255,0.25) 45%, transparent 55%, rgba(255,255,255,0.12) 68%, transparent 82%)`
+          : `linear-gradient(${angle}deg, transparent 15%, rgba(0,0,0,0.03) 30%, rgba(255,255,255,0.6) 42%, rgba(255,255,255,0.8) 48%, transparent 55%, rgba(255,255,255,0.4) 68%, rgba(0,0,0,0.02) 80%, transparent 90%)`,
         pointerEvents: "none", zIndex: 2,
-        mixBlendMode: isDark ? "soft-light" : "overlay",
       }} />
 
-      {/* Prismatic edge shimmer — faint rainbow at the edges */}
-      <div style={{
+      {/* Prismatic rainbow shimmer — visible iridescent tint */}
+      <div suppressHydrationWarning style={{
         position: "absolute", inset: 0, borderRadius: radius,
-        background: `conic-gradient(from ${angle}deg at 30% 30%, transparent 0deg, rgba(120,180,255,0.06) 60deg, rgba(200,150,255,0.05) 120deg, rgba(255,200,120,0.04) 180deg, rgba(120,255,200,0.05) 240deg, rgba(150,120,255,0.06) 300deg, transparent 360deg)`,
+        background: isDark
+          ? `conic-gradient(from ${angle}deg at 50% 50%, rgba(100,160,255,0.12) 0deg, rgba(160,100,255,0.1) 60deg, rgba(255,120,160,0.08) 120deg, rgba(255,200,80,0.1) 180deg, rgba(80,220,160,0.08) 240deg, rgba(100,140,255,0.12) 300deg, rgba(100,160,255,0.12) 360deg)`
+          : `conic-gradient(from ${angle}deg at 40% 40%, rgba(100,160,255,0.08) 0deg, rgba(180,100,255,0.07) 60deg, rgba(255,130,180,0.06) 120deg, rgba(255,200,100,0.08) 180deg, rgba(100,220,180,0.06) 240deg, rgba(120,140,255,0.08) 300deg, rgba(100,160,255,0.08) 360deg)`,
         pointerEvents: "none", zIndex: 3,
-        opacity: 0.6,
       }} />
 
-      {/* Top edge glint — simulates light catching the top edge */}
+      {/* Top edge glint — bright light catch on top edge */}
       <div style={{
-        position: "absolute", top: 0, left: "10%", right: "10%", height: "1px",
-        background: `linear-gradient(90deg, transparent, rgba(255,255,255,${isDark ? 0.15 : 0.5}), transparent)`,
+        position: "absolute", top: 0, left: "8%", right: "8%", height: isDark ? "2px" : "3px",
+        background: `linear-gradient(90deg, transparent 5%, rgba(255,255,255,${isDark ? 0.4 : 0.95}) 35%, rgba(255,255,255,${isDark ? 0.6 : 1}) 50%, rgba(255,255,255,${isDark ? 0.4 : 0.95}) 65%, transparent 95%)`,
+        zIndex: 4, borderRadius: "2px",
+        filter: isDark ? "blur(0.5px)" : "blur(0.3px)",
+      }} />
+
+      {/* Left edge glint — subtle side highlight */}
+      <div style={{
+        position: "absolute", top: "15%", bottom: "15%", left: 0, width: isDark ? "1.5px" : "2px",
+        background: `linear-gradient(180deg, transparent 5%, rgba(255,255,255,${isDark ? 0.2 : 0.7}) 40%, rgba(255,255,255,${isDark ? 0.3 : 0.8}) 50%, rgba(255,255,255,${isDark ? 0.2 : 0.7}) 60%, transparent 95%)`,
         zIndex: 4, borderRadius: "1px",
+      }} />
+
+      {/* Bottom edge shadow — grounds the card */}
+      <div style={{
+        position: "absolute", bottom: 0, left: "8%", right: "8%", height: "1.5px",
+        background: `linear-gradient(90deg, transparent, rgba(0,0,0,${isDark ? 0.3 : 0.1}), transparent)`,
+        zIndex: 4,
       }} />
     </div>
   );
