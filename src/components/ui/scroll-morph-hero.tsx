@@ -533,7 +533,7 @@ export default function IntroAnimation() {
         )}
 
         {/* Cards */}
-        <div className="relative flex items-center justify-center w-full h-full">
+        <div className="relative flex items-center justify-center w-full h-full" style={{ paddingTop: isMobile ? 0 : 30 }}>
           {CARDS.map((card, i) => {
             let target = { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 };
 
