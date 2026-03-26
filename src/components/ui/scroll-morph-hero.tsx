@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { motion, AnimatePresence, useSpring, useMotionValue } from "framer-motion";
+import { motion, useTransform, useSpring, useMotionValue, animate } from "framer-motion";
 import {
   Crosshair, Zap, Mic, DollarSign, CheckCircle,
   Building2, Search, BookOpen,
@@ -16,10 +16,7 @@ const CARD_H = 130;
 const CARD_W_MOBILE = 80;
 const CARD_H_MOBILE = 105;
 
-// ─── 8 Product Cards — each tells one clear story ────────────────────────────
-// Color psychology: blue=trust, yellow=energy, green=growth, purple=ambition,
-// dark=premium, coral=warmth, teal=clarity, mint=freshness
-
+// ─── 8 Product Cards ─────────────────────────────────────────────────────────
 interface CardData {
   id: string;
   bg: string;
@@ -45,6 +42,9 @@ const CARDS: CardData[] = [
 ];
 const TOTAL_CARDS = CARDS.length;
 
+// ─── Lerp ────────────────────────────────────────────────────────────────────
+const lerp = (a: number, b: number, t: number) => a * (1 - t) + b * t;
+
 // ─── Card Face ────────────────────────────────────────────────────────────────
 function CardFace({ card, isMobile }: { card: CardData; isMobile: boolean }) {
   const Icon = card.icon;
@@ -57,53 +57,27 @@ function CardFace({ card, isMobile }: { card: CardData; isMobile: boolean }) {
 
   return (
     <div style={{
-      width: w,
-      height: h,
-      background: card.bg,
+      width: w, height: h, background: card.bg,
       borderRadius: isMobile ? 14 : 18,
       padding: isMobile ? "10px" : "14px 13px",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
-      borderTop: `1px solid ${card.border}`,
-      borderLeft: `1px solid ${card.border}`,
-      borderRight: `1px solid ${card.border}`,
-      borderBottom: `2.5px solid ${card.border}`,
+      display: "flex", flexDirection: "column", justifyContent: "space-between",
+      borderTop: `1px solid ${card.border}`, borderLeft: `1px solid ${card.border}`,
+      borderRight: `1px solid ${card.border}`, borderBottom: `2.5px solid ${card.border}`,
       boxShadow: "0 2px 4px rgba(0,0,0,0.04), 0 8px 16px rgba(0,0,0,0.06), 0 16px 32px rgba(0,0,0,0.04)",
     }}>
-      {/* Icon */}
       <div style={{
-        width: iconSize,
-        height: iconSize,
-        borderRadius: isMobile ? 6 : 8,
-        background: card.iconBg,
-        border: `1px solid ${card.border}`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        width: iconSize, height: iconSize, borderRadius: isMobile ? 6 : 8,
+        background: card.iconBg, border: `1px solid ${card.border}`,
+        display: "flex", alignItems: "center", justifyContent: "center",
         boxShadow: `0 1px 3px rgba(0,0,0,0.06), 0 4px 8px ${card.border}, inset 0 1px 0 rgba(255,255,255,0.5)`,
       }}>
         <Icon style={{ width: innerIcon, height: innerIcon, color: card.iconFg, strokeWidth: 2.2 }} />
       </div>
-
-      {/* Value + Label */}
       <div>
-        <p style={{
-          fontSize: valueSize,
-          fontWeight: 900,
-          lineHeight: 1.1,
-          color: card.fg,
-          letterSpacing: "-0.03em",
-        }}>
+        <p style={{ fontSize: valueSize, fontWeight: 900, lineHeight: 1.1, color: card.fg, letterSpacing: "-0.03em" }}>
           {card.value}
         </p>
-        <p style={{
-          fontSize: labelSize,
-          fontWeight: 600,
-          color: card.muted,
-          marginTop: isMobile ? 2 : 3,
-          letterSpacing: "0.02em",
-        }}>
+        <p style={{ fontSize: labelSize, fontWeight: 600, color: card.muted, marginTop: isMobile ? 2 : 3, letterSpacing: "0.02em" }}>
           {card.label}
         </p>
       </div>
@@ -111,7 +85,7 @@ function CardFace({ card, isMobile }: { card: CardData; isMobile: boolean }) {
   );
 }
 
-// ─── Single Card with spring animation ────────────────────────────────────────
+// ─── Animated Card ────────────────────────────────────────────────────────────
 function HeroCard({ card, target, staggerDelay = 0, isMobile }: {
   card: CardData;
   target: { x: number; y: number; rotation: number; scale: number; opacity: number };
@@ -122,15 +96,15 @@ function HeroCard({ card, target, staggerDelay = 0, isMobile }: {
     <motion.div
       animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
       transition={{ type: "spring", stiffness: 45, damping: 16, delay: staggerDelay }}
-      style={{
-        position: "absolute",
-        willChange: "transform",
-      }}
+      style={{ position: "absolute", willChange: "transform" }}
     >
       <CardFace card={card} isMobile={isMobile} />
     </motion.div>
   );
 }
+
+// ─── Desktop scroll range ─────────────────────────────────────────────────────
+const MAX_SCROLL = 3000;
 
 // ─── Main Hero Component ──────────────────────────────────────────────────────
 export default function IntroAnimation() {
@@ -154,30 +128,80 @@ export default function IntroAnimation() {
     return () => observer.disconnect();
   }, []);
 
-  // Subtle mouse parallax for desktop
+  // ── Desktop: virtual scroll for arc morph ──────────────────────────────────
+  const virtualScroll = useMotionValue(0);
+  const scrollRef = useRef(0);
+  const autoAnimRef = useRef<ReturnType<typeof animate> | null>(null);
+
+  const cancelAuto = () => {
+    if (autoAnimRef.current) { autoAnimRef.current.stop(); autoAnimRef.current = null; }
+  };
+
+  // Desktop scroll handler — captures wheel delta for card animation, doesn't block page scroll
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const isMob = containerSize.width > 0 && containerSize.width < 768;
+    if (isMob) return; // mobile doesn't use scroll
+
+    const handleWheel = (e: WheelEvent) => {
+      cancelAuto();
+      const newScroll = Math.min(Math.max(scrollRef.current + e.deltaY, 0), MAX_SCROLL);
+      scrollRef.current = newScroll;
+      virtualScroll.set(newScroll);
+    };
+    container.addEventListener("wheel", handleWheel, { passive: true });
+    return () => container.removeEventListener("wheel", handleWheel);
+  }, [virtualScroll, containerSize.width]);
+
+  // Desktop: morph progress (circle → arc) and scroll-driven rotation
+  const morphProgress = useTransform(virtualScroll, [0, 600], [0, 1]);
+  const smoothMorph = useSpring(morphProgress, { stiffness: 40, damping: 20 });
+  const scrollRotate = useTransform(virtualScroll, [600, MAX_SCROLL], [0, 360]);
+  const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 40, damping: 20 });
+
+  // Mouse parallax (desktop only)
   const mouseX = useMotionValue(0);
   const smoothMouseX = useSpring(mouseX, { stiffness: 30, damping: 20 });
-  const [parallaxValue, setParallaxValue] = useState(0);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
-      mouseX.set(((e.clientX - rect.left) / rect.width * 2 - 1) * 30);
+      mouseX.set(((e.clientX - rect.left) / rect.width * 2 - 1) * 100);
     };
     container.addEventListener("mousemove", handleMouseMove);
     return () => container.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX]);
 
+  // Track spring values as state for card position calculations
+  const [morphValue, setMorphValue] = useState(0);
+  const [rotateValue, setRotateValue] = useState(0);
+  const [parallaxValue, setParallaxValue] = useState(0);
+
   useEffect(() => {
-    const unsub = smoothMouseX.on("change", setParallaxValue);
-    return () => unsub();
-  }, [smoothMouseX]);
+    const u1 = smoothMorph.on("change", setMorphValue);
+    const u2 = smoothScrollRotate.on("change", setRotateValue);
+    const u3 = smoothMouseX.on("change", setParallaxValue);
+    return () => { u1(); u2(); u3(); };
+  }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
+
+  // Desktop: headline fades out as user scrolls into arc
+  const contentOpacity = useTransform(smoothMorph, [0.8, 1], [0, 1]);
+  const contentY = useTransform(smoothMorph, [0.8, 1], [20, 0]);
+  const [arcHeadOpacity, setArcHeadOpacity] = useState(0);
+  const [arcHeadY, setArcHeadY] = useState(20);
+
+  useEffect(() => {
+    const u1 = contentOpacity.on("change", setArcHeadOpacity);
+    const u2 = contentY.on("change", setArcHeadY);
+    return () => { u1(); u2(); };
+  }, [contentOpacity, contentY]);
 
   const [circleReady, setCircleReady] = useState(false);
 
-  // Animation sequence: scatter → line → circle
+  // Intro animation sequence
   useEffect(() => {
     const t1 = setTimeout(() => setIntroPhase("line"), 500);
     const t2 = setTimeout(() => setIntroPhase("circle"), 2200);
@@ -195,7 +219,7 @@ export default function IntroAnimation() {
     }
   }, [introPhase]);
 
-  // Scatter positions (randomized on mount)
+  // Scatter positions
   const scatterPositions = useMemo(() => CARDS.map(() => ({
     x: (Math.random() - 0.5) * 1200,
     y: (Math.random() - 0.5) * 800,
@@ -206,6 +230,21 @@ export default function IntroAnimation() {
 
   const isMobile = containerSize.width > 0 && containerSize.width < 768;
   const isSmallPhone = containerSize.width > 0 && containerSize.width < 390;
+
+  // Mobile: auto-scroll to next section after circle forms
+  useEffect(() => {
+    if (!circleReady || !isMobile) return;
+    const t = setTimeout(() => {
+      const heroEl = containerRef.current?.closest("section");
+      if (heroEl) {
+        const nextSection = heroEl.nextElementSibling;
+        if (nextSection) {
+          nextSection.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }, 2500); // show circle for 2.5s then auto-scroll
+    return () => clearTimeout(t);
+  }, [circleReady, isMobile]);
 
   return (
     <div ref={containerRef} className="relative w-full h-full overflow-hidden" style={{ background: "radial-gradient(ellipse 70% 55% at 50% 62%, rgba(60,97,168,0.07) 0%, transparent 70%), #F7F8FC" }}>
@@ -219,11 +258,11 @@ export default function IntroAnimation() {
 
       <div className="flex h-full w-full flex-col items-center justify-center" style={{ perspective: "1000px" }}>
 
-        {/* Hero headline — always centered, fades as cards settle */}
+        {/* Hero headline — visible in circle phase, fades when morphing to arc on desktop */}
         <div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[12%] md:top-0 md:bottom-0 md:justify-center">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
-            animate={circleReady ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 10 }}
+            animate={circleReady && morphValue < 0.3 ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-[10px] font-black tracking-[0.3em] uppercase mb-3"
             style={{ color: "#3C61A8" }}
@@ -232,32 +271,71 @@ export default function IntroAnimation() {
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 30, scale: 0.92, filter: "blur(12px)" }}
-            animate={circleReady ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : { opacity: 0, scale: 0.96, filter: "blur(12px)" }}
+            animate={
+              circleReady && morphValue < 0.5
+                ? { opacity: 1 - morphValue * 2, y: 0, scale: 1, filter: "blur(0px)" }
+                : { opacity: 0, scale: 0.96, filter: "blur(12px)" }
+            }
             transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-gray-800"
           >
             Hiring, <span style={{ color: "#3C61A8" }}>decoded.</span>
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={circleReady ? { opacity: 0.5 } : { opacity: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-3 text-xs sm:text-sm text-gray-500 max-w-sm"
-          >
-            Role fit. Skill gaps. Interview readiness. All in one system.
-          </motion.p>
-          <motion.a
-            href="#get-started"
-            initial={{ opacity: 0, y: 10 }}
-            animate={circleReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="mt-5 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto"
-            style={{ backgroundColor: "#3C61A8" }}
-          >
-            Find My Best Role
-            <span className="text-xs">→</span>
-          </motion.a>
+
+          {/* Subtitle + CTA — mobile always visible, desktop fades with scroll */}
+          {isMobile && circleReady && (
+            <>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.5 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-3 text-xs text-gray-500 max-w-sm"
+              >
+                Role fit. Skill gaps. Interview readiness. All in one system.
+              </motion.p>
+              <motion.a
+                href="#get-started"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="mt-5 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto"
+                style={{ backgroundColor: "#3C61A8" }}
+              >
+                Find My Best Role <span className="text-xs">→</span>
+              </motion.a>
+            </>
+          )}
+
+          {/* Desktop: scroll indicator */}
+          {!isMobile && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={circleReady && morphValue < 0.3 ? { opacity: 0.4 } : { opacity: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="mt-4 text-[11px] font-medium text-gray-400"
+            >
+              Scroll to explore ↓
+            </motion.p>
+          )}
         </div>
+
+        {/* Desktop arc headline — fades in when scrolled past circle */}
+        {!isMobile && (
+          <div
+            className="absolute top-[14%] z-10 hidden md:flex flex-col items-center justify-center text-center pointer-events-none px-4"
+            style={{ opacity: arcHeadOpacity, transform: `translateY(${arcHeadY}px)` }}
+          >
+            <p className="text-[10px] font-black tracking-[0.25em] uppercase text-gray-400 mb-3">
+              CareerXcelerator
+            </p>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
+              Role fit. Skill gaps.<br />Interview readiness.
+            </h2>
+            <p className="text-sm text-gray-500 max-w-md leading-relaxed font-medium">
+              Everything you need to go from career clarity to job offer. In one system.
+            </p>
+          </div>
+        )}
 
         {/* Cards */}
         <div className="relative flex items-center justify-center w-full h-full">
@@ -270,24 +348,59 @@ export default function IntroAnimation() {
               const spacing = isMobile ? 55 : 75;
               const totalW = TOTAL_CARDS * spacing;
               target = { x: i * spacing - totalW / 2, y: 0, rotation: 0, scale: 1, opacity: 1 };
-            } else {
-              // Circle layout
+            } else if (isMobile) {
+              // ─── MOBILE: static circle, no scroll interaction ───────────
               const minDim = Math.min(containerSize.width, containerSize.height);
-              const circleRadius = isSmallPhone
-                ? minDim * 0.33
-                : isMobile
-                  ? minDim * 0.36
-                  : Math.min(minDim * 0.38, 340);
-
-              const angleStep = 360 / TOTAL_CARDS;
-              const angle = i * angleStep - 90; // start from top
+              const circleRadius = isSmallPhone ? minDim * 0.33 : minDim * 0.36;
+              const angle = (i / TOTAL_CARDS) * 360 - 90;
               const rad = (angle * Math.PI) / 180;
 
               target = {
-                x: Math.cos(rad) * circleRadius + (isMobile ? 0 : parallaxValue * 0.3),
+                x: Math.cos(rad) * circleRadius,
                 y: Math.sin(rad) * circleRadius,
                 rotation: angle + 90,
                 scale: 1,
+                opacity: 1,
+              };
+            } else {
+              // ─── DESKTOP: circle → arc morph with scroll rotation ──────
+              const minDim = Math.min(containerSize.width, containerSize.height);
+              const circleRadius = Math.min(minDim * 0.38, 340);
+              const circleAngle = (i / TOTAL_CARDS) * 360;
+              const circleRad = (circleAngle * Math.PI) / 180;
+              const circlePos = {
+                x: Math.cos(circleRad) * circleRadius,
+                y: Math.sin(circleRad) * circleRadius,
+                rotation: circleAngle + 90,
+              };
+
+              // Arc layout
+              const baseRadius = Math.min(containerSize.width, containerSize.height * 1.5);
+              const arcRadius = baseRadius * 1.1;
+              const arcApexY = containerSize.height * 0.25;
+              const arcCenterY = arcApexY + arcRadius;
+
+              const spreadAngle = 130;
+              const startAngle = -90 - spreadAngle / 2;
+              const step = spreadAngle / (TOTAL_CARDS - 1);
+
+              const scrollProg = Math.min(Math.max(rotateValue / 360, 0), 1);
+              const boundedRotation = -scrollProg * spreadAngle * 0.8;
+              const currentArcAngle = startAngle + i * step + boundedRotation;
+              const arcRad = (currentArcAngle * Math.PI) / 180;
+
+              const arcPos = {
+                x: Math.cos(arcRad) * arcRadius + parallaxValue,
+                y: Math.sin(arcRad) * arcRadius + arcCenterY,
+                rotation: currentArcAngle + 90,
+                scale: 1.6,
+              };
+
+              target = {
+                x: lerp(circlePos.x, arcPos.x, morphValue),
+                y: lerp(circlePos.y, arcPos.y, morphValue),
+                rotation: lerp(circlePos.rotation, arcPos.rotation, morphValue),
+                scale: lerp(1, arcPos.scale, morphValue),
                 opacity: 1,
               };
             }
