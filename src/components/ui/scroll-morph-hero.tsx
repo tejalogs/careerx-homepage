@@ -45,8 +45,10 @@ const TOTAL_CARDS = CARDS.length;
 // ─── Lerp ────────────────────────────────────────────────────────────────────
 const lerp = (a: number, b: number, t: number) => a * (1 - t) + b * t;
 
-// ─── Card Face ────────────────────────────────────────────────────────────────
-function CardFace({ card, isMobile }: { card: CardData; isMobile: boolean }) {
+// ─── Premium Card Face with holographic sheen ────────────────────────────────
+function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boolean; holoAngle?: number }) {
+  // Use fixed angle on server, dynamic on client to avoid hydration mismatch
+  const angle = holoAngle ?? 45;
   const Icon = card.icon;
   const w = isMobile ? CARD_W_MOBILE : CARD_W;
   const h = isMobile ? CARD_H_MOBILE : CARD_H;
@@ -54,33 +56,95 @@ function CardFace({ card, isMobile }: { card: CardData; isMobile: boolean }) {
   const innerIcon = isMobile ? 10 : 13;
   const valueSize = card.value.length <= 4 ? (isMobile ? 22 : 28) : (isMobile ? 16 : 20);
   const labelSize = isMobile ? 6 : 7;
+  const radius = isMobile ? 14 : 18;
+
+  // Is this a dark card?
+  const isDark = card.bg === "#0C0E14" || card.bg === "#3C61A8";
 
   return (
     <div style={{
-      width: w, height: h, background: card.bg,
-      borderRadius: isMobile ? 14 : 18,
-      padding: isMobile ? "10px" : "14px 13px",
-      display: "flex", flexDirection: "column", justifyContent: "space-between",
-      borderTop: `1px solid ${card.border}`, borderLeft: `1px solid ${card.border}`,
-      borderRight: `1px solid ${card.border}`, borderBottom: `2.5px solid ${card.border}`,
-      boxShadow: "0 2px 4px rgba(0,0,0,0.04), 0 8px 16px rgba(0,0,0,0.06), 0 16px 32px rgba(0,0,0,0.04)",
+      width: w, height: h, borderRadius: radius,
+      position: "relative", overflow: "hidden",
+      // Outer shell: layered shadows for physical depth
+      boxShadow: [
+        "0 1px 1px rgba(0,0,0,0.03)",
+        "0 2px 4px rgba(0,0,0,0.04)",
+        "0 6px 12px rgba(0,0,0,0.06)",
+        "0 12px 24px rgba(0,0,0,0.05)",
+        "0 24px 48px rgba(0,0,0,0.04)",
+        // Edge highlight — simulates light catching the card edge
+        `inset 0 0.5px 0 rgba(255,255,255,${isDark ? 0.1 : 0.7})`,
+        `inset 0 -0.5px 0 rgba(0,0,0,${isDark ? 0.3 : 0.06})`,
+      ].join(", "),
+      border: `1px solid ${card.border}`,
     }}>
+      {/* Card base layer */}
       <div style={{
-        width: iconSize, height: iconSize, borderRadius: isMobile ? 6 : 8,
-        background: card.iconBg, border: `1px solid ${card.border}`,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        boxShadow: `0 1px 3px rgba(0,0,0,0.06), 0 4px 8px ${card.border}, inset 0 1px 0 rgba(255,255,255,0.5)`,
+        width: "100%", height: "100%", background: card.bg,
+        borderRadius: radius,
+        padding: isMobile ? "10px" : "14px 13px",
+        display: "flex", flexDirection: "column", justifyContent: "space-between",
+        position: "relative", zIndex: 1,
       }}>
-        <Icon style={{ width: innerIcon, height: innerIcon, color: card.iconFg, strokeWidth: 2.2 }} />
+        {/* Seal/emboss icon */}
+        <div style={{
+          width: iconSize, height: iconSize, borderRadius: isMobile ? 6 : 8,
+          background: card.iconBg,
+          border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : card.border}`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          // Embossed seal effect — raised with inner light
+          boxShadow: [
+            `0 2px 6px rgba(0,0,0,${isDark ? 0.3 : 0.08})`,
+            `inset 0 1px 0 rgba(255,255,255,${isDark ? 0.08 : 0.6})`,
+            `inset 0 -0.5px 0 rgba(0,0,0,${isDark ? 0.2 : 0.04})`,
+          ].join(", "),
+        }}>
+          <Icon style={{ width: innerIcon, height: innerIcon, color: card.iconFg, strokeWidth: 2.2 }} />
+        </div>
+
+        {/* Value + Label */}
+        <div>
+          <p style={{
+            fontSize: valueSize, fontWeight: 900, lineHeight: 1.1,
+            color: card.fg, letterSpacing: "-0.03em",
+            // Subtle emboss on the number
+            textShadow: isDark
+              ? "0 1px 2px rgba(0,0,0,0.3)"
+              : "0 0.5px 0 rgba(255,255,255,0.8), 0 -0.5px 0 rgba(0,0,0,0.04)",
+          }}>
+            {card.value}
+          </p>
+          <p style={{
+            fontSize: labelSize, fontWeight: 600, color: card.muted,
+            marginTop: isMobile ? 2 : 3, letterSpacing: "0.02em",
+          }}>
+            {card.label}
+          </p>
+        </div>
       </div>
-      <div>
-        <p style={{ fontSize: valueSize, fontWeight: 900, lineHeight: 1.1, color: card.fg, letterSpacing: "-0.03em" }}>
-          {card.value}
-        </p>
-        <p style={{ fontSize: labelSize, fontWeight: 600, color: card.muted, marginTop: isMobile ? 2 : 3, letterSpacing: "0.02em" }}>
-          {card.label}
-        </p>
-      </div>
+
+      {/* Holographic sheen overlay — shifts with card rotation */}
+      <div style={{
+        position: "absolute", inset: 0, borderRadius: radius,
+        background: `linear-gradient(${angle}deg, transparent 20%, rgba(255,255,255,${isDark ? 0.06 : 0.15}) 40%, transparent 50%, rgba(255,255,255,${isDark ? 0.04 : 0.1}) 65%, transparent 80%)`,
+        pointerEvents: "none", zIndex: 2,
+        mixBlendMode: isDark ? "soft-light" : "overlay",
+      }} />
+
+      {/* Prismatic edge shimmer — faint rainbow at the edges */}
+      <div style={{
+        position: "absolute", inset: 0, borderRadius: radius,
+        background: `conic-gradient(from ${angle}deg at 30% 30%, transparent 0deg, rgba(120,180,255,0.06) 60deg, rgba(200,150,255,0.05) 120deg, rgba(255,200,120,0.04) 180deg, rgba(120,255,200,0.05) 240deg, rgba(150,120,255,0.06) 300deg, transparent 360deg)`,
+        pointerEvents: "none", zIndex: 3,
+        opacity: 0.6,
+      }} />
+
+      {/* Top edge glint — simulates light catching the top edge */}
+      <div style={{
+        position: "absolute", top: 0, left: "10%", right: "10%", height: "1px",
+        background: `linear-gradient(90deg, transparent, rgba(255,255,255,${isDark ? 0.15 : 0.5}), transparent)`,
+        zIndex: 4, borderRadius: "1px",
+      }} />
     </div>
   );
 }
@@ -92,13 +156,16 @@ function HeroCard({ card, target, staggerDelay = 0, isMobile }: {
   staggerDelay?: number;
   isMobile: boolean;
 }) {
+  // Use the card's rotation angle to drive the holographic sheen direction
+  const holoAngle = ((target.rotation % 360) + 360) % 360;
+
   return (
     <motion.div
       animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
       transition={{ type: "spring", stiffness: 45, damping: 16, delay: staggerDelay }}
       style={{ position: "absolute", willChange: "transform" }}
     >
-      <CardFace card={card} isMobile={isMobile} />
+      <CardFace card={card} isMobile={isMobile} holoAngle={holoAngle} />
     </motion.div>
   );
 }
