@@ -284,17 +284,37 @@ export default function KYBEntryPage() {
       {/* ─── MAIN CONTENT (renders behind splash, revealed when splash exits) ─── */}
       <div
         className="min-h-screen relative overflow-hidden"
-        style={{ background: "linear-gradient(180deg, #FAFBFF 0%, #FFFFFF 40%)" }}
+        style={{ background: "linear-gradient(180deg, #EEF1FA 0%, #F5F3FF 25%, #FFFDF5 50%, #FFFFFF 80%)" }}
       >
         {!showSplash && <KYBNavbar />}
 
-        {/* soft radial glow */}
+        {/* brand blue glow — top left */}
         <div
           className="absolute pointer-events-none"
           style={{
-            top: "5%", left: "50%", transform: "translateX(-50%)",
-            width: 800, height: 600,
-            background: "radial-gradient(ellipse at 50% 25%, rgba(101,85,193,0.03), transparent 60%)",
+            top: "-5%", left: "-10%",
+            width: 700, height: 700,
+            background: "radial-gradient(ellipse at 50% 50%, rgba(60,96,168,0.08), transparent 65%)",
+          }}
+        />
+
+        {/* brand yellow glow — top right */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: "-5%", right: "-10%",
+            width: 600, height: 600,
+            background: "radial-gradient(ellipse at 50% 50%, rgba(245,209,52,0.07), transparent 65%)",
+          }}
+        />
+
+        {/* center glow for hero area */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: "15%", left: "50%", transform: "translateX(-50%)",
+            width: 900, height: 500,
+            background: "radial-gradient(ellipse at 50% 40%, rgba(60,96,168,0.04), transparent 60%)",
           }}
         />
 
@@ -302,7 +322,7 @@ export default function KYBEntryPage() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: "radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(rgba(60,96,168,0.04) 1px, transparent 1px)",
             backgroundSize: "24px 24px",
           }}
         />
