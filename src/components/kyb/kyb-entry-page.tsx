@@ -8,6 +8,7 @@ import {
 import Link from "next/link";
 import { BrandLogoMark } from "@/components/ui/brand-logo";
 import { ShaderAnimation } from "@/components/ui/shader-animation";
+import SpotlightBackground from "@/components/ui/spotlight-background";
 
 /* ─── palette ─────────────────────────────────────────────────────── */
 const GOLD_GRADIENT = "linear-gradient(135deg, #B8860B, #DAA520, #F0C040)";
@@ -422,40 +423,6 @@ export default function KYBEntryPage() {
           background: "linear-gradient(180deg, #F7F8FC 0%, #FFFDF7 40%, #F0F4FF 70%, #F7F8FC 100%)",
         }}
       >
-        {/* Animated floating gradient blobs */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-          <motion.div
-            className="absolute rounded-full"
-            style={{
-              width: 500, height: 500, top: "5%", left: "-10%",
-              background: "radial-gradient(ellipse, rgba(60,97,168,0.06), transparent 70%)",
-              filter: "blur(40px)",
-            }}
-            animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute rounded-full"
-            style={{
-              width: 400, height: 400, top: "30%", right: "-8%",
-              background: "radial-gradient(ellipse, rgba(245,209,52,0.05), transparent 70%)",
-              filter: "blur(40px)",
-            }}
-            animate={{ x: [0, -50, 0], y: [0, 60, 0] }}
-            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute rounded-full"
-            style={{
-              width: 350, height: 350, bottom: "10%", left: "20%",
-              background: "radial-gradient(ellipse, rgba(60,97,168,0.04), transparent 70%)",
-              filter: "blur(40px)",
-            }}
-            animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
-            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
-
         {/* Subtle dot grid texture */}
         <div
           className="absolute inset-0 pointer-events-none z-0"
@@ -464,6 +431,9 @@ export default function KYBEntryPage() {
             backgroundSize: "32px 32px",
           }}
         />
+
+        {/* Cursor spotlight — brand yellow glow */}
+        <SpotlightBackground />
 
         <KYBNavbar />
 
