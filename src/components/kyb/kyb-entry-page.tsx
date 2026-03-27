@@ -454,43 +454,38 @@ export default function KYBEntryPage() {
             {/* ═══ HERO SECTION — compact, tight spacing ═══ */}
             <div className="relative w-full flex flex-col items-center overflow-hidden pt-24 sm:pt-28 pb-10 px-6">
 
-              {/* Badge + Headline as tight unit */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 text-center"
-              >
+              {/* Headline — no parent animation wrapper to avoid conflict */}
+              <div className="relative z-10 text-center">
                 <h1
                   className="text-[40px] sm:text-[52px] md:text-[64px] leading-[1.05] font-bold tracking-tight"
                   style={{ color: "#0C0E14" }}
                 >
-                  {/* "Interests to" — slide up with blur clear */}
+                  {/* "Interests to" — character-by-character blur reveal */}
                   {"Interests to ".split("").map((char, i) => (
                     <motion.span
                       key={`it-${i}`}
                       className="inline-block"
                       style={{ whiteSpace: char === " " ? "pre" : undefined }}
-                      initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+                      initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
                       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      transition={{ duration: 0.4, delay: 0.15 + i * 0.025, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.5, delay: 0.2 + i * 0.035, ease: [0.22, 1, 0.36, 1] }}
                     >
                       {char === " " ? "\u00A0" : char}
                     </motion.span>
                   ))}
                   <br className="sm:hidden" />
-                  {/* "Outcomes." — each letter scales in with glow */}
+                  {/* "Outcomes." — each letter scales in with glow, staggered after "Interests to" */}
                   <span className="relative inline-block" style={{ filter: "url(#glow-light)" }}>
                     {"Outcomes.".split("").map((char, i) => (
                       <motion.span
                         key={`o-${i}`}
                         className="inline-block"
                         style={{ color: "#1e3a6e" }}
-                        initial={{ opacity: 0, y: 24, scale: 0.7, filter: "blur(10px)" }}
+                        initial={{ opacity: 0, y: 30, scale: 0.6, filter: "blur(12px)" }}
                         animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
                         transition={{
-                          duration: 0.5,
-                          delay: 0.55 + i * 0.04,
+                          duration: 0.6,
+                          delay: 0.7 + i * 0.05,
                           ease: [0.22, 1, 0.36, 1],
                         }}
                       >
@@ -499,7 +494,7 @@ export default function KYBEntryPage() {
                     ))}
                   </span>
                 </h1>
-              </motion.div>
+              </div>
 
               {/* Subheading — tight to headline */}
               <motion.p
@@ -511,35 +506,6 @@ export default function KYBEntryPage() {
               >
                 Turn your interests into smarter job targets and better interview outcomes.
               </motion.p>
-
-              {/* Social proof — tight below subline */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                className="flex items-center gap-3 mt-5 relative z-10"
-              >
-                <div className="flex -space-x-2">
-                  {AVATARS.map((src, i) => (
-                    <img
-                      key={i}
-                      src={src}
-                      alt=""
-                      className="w-7 h-7 rounded-full border-2 border-white object-cover"
-                      style={{ zIndex: AVATARS.length - i }}
-                    />
-                  ))}
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="flex gap-0.5">
-                    {[1, 2, 3, 4, 5].map((s) => (
-                      <Star key={s} size={10} fill="#F5D134" stroke="#F5D134" />
-                    ))}
-                  </div>
-                  <span className="text-[12px] font-bold" style={{ color: "#0C0E14" }}>4.9</span>
-                  <span className="text-[11px]" style={{ color: MUTED_LIGHT }}>· 2,000+ found direction</span>
-                </div>
-              </motion.div>
 
               {/* Visual anchor — minimal frosted pill stats */}
               <motion.div
@@ -574,12 +540,12 @@ export default function KYBEntryPage() {
                 </div>
               </motion.div>
 
-              {/* CTA — after anchor card */}
+              {/* CTA + Social proof — side by side */}
               <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.15, ease: [0.22, 1, 0.36, 1] }}
-                className="flex justify-center mt-8 relative z-10"
+                className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mt-8 relative z-10"
               >
                 <a
                   href="#"
@@ -603,6 +569,32 @@ export default function KYBEntryPage() {
                     <ArrowRight size={15} strokeWidth={2.5} />
                   </i>
                 </a>
+
+                {/* Social proof — next to CTA */}
+                <div className="flex items-center gap-3">
+                  <div className="flex -space-x-2">
+                    {AVATARS.map((src, i) => (
+                      <img
+                        key={i}
+                        src={src}
+                        alt=""
+                        className="w-7 h-7 rounded-full border-2 border-white object-cover"
+                        style={{ zIndex: AVATARS.length - i }}
+                      />
+                    ))}
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-1">
+                      <div className="flex gap-0.5">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <Star key={s} size={9} fill="#F5D134" stroke="#F5D134" />
+                        ))}
+                      </div>
+                      <span className="text-[11px] font-bold" style={{ color: "#0C0E14" }}>4.9</span>
+                    </div>
+                    <span className="text-[10px]" style={{ color: MUTED_LIGHT }}>2,000+ found direction</span>
+                  </div>
+                </div>
               </motion.div>
 
               {/* SVG glow filter — stronger for visibility */}
