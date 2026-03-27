@@ -463,8 +463,13 @@ export default function KYBEntryPage() {
                 />
               </div>
 
-              {/* Badge */}
-              <motion.div {...fadeUp(0.15)} className="flex justify-center relative z-10">
+              {/* Badge — slides up with slight bounce */}
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="flex justify-center relative z-10"
+              >
                 <span
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[12px] font-semibold uppercase tracking-wider"
                   style={{ background: "rgba(60,97,168,0.08)", color: BRAND_BLUE }}
@@ -474,19 +479,40 @@ export default function KYBEntryPage() {
                 </span>
               </motion.div>
 
-              {/* Headline — short with illuminated glow on "Outcomes" */}
-              <motion.div {...fadeUp(0.25)} className="text-center mt-8 relative z-10">
+              {/* Headline — word-by-word stagger with spring */}
+              <div className="text-center mt-8 relative z-10">
                 <h1
                   className="text-[48px] sm:text-[64px] md:text-[80px] leading-[1.05] font-semibold tracking-tight"
                   style={{ color: "#0C0E14" }}
                 >
-                  Interests to{" "}
+                  {["Interests", "to"].map((word, i) => (
+                    <motion.span
+                      key={word}
+                      className="inline-block mr-[0.25em]"
+                      initial={{ opacity: 0, y: 40, rotateX: 40 }}
+                      animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                      transition={{
+                        duration: 0.8,
+                        delay: 0.25 + i * 0.12,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
                   <br className="sm:hidden" />
-                  <span
+                  <motion.span
                     className="relative inline-block"
                     style={{ filter: "url(#glow-light)" }}
+                    initial={{ opacity: 0, y: 50, scale: 0.85 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{
+                      duration: 1,
+                      delay: 0.55,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
                   >
-                    {/* Glow overlay — fades in */}
+                    {/* Glow overlay — fades in after word lands */}
                     <span
                       className="absolute inset-0 opacity-0"
                       style={{
@@ -494,20 +520,22 @@ export default function KYBEntryPage() {
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         backgroundClip: "text",
-                        animation: "onloadopacity 1s ease-out forwards",
+                        animation: "onloadopacity 1.2s ease-out 0.8s forwards",
                       }}
                       aria-hidden="true"
                     >
                       Outcomes.
                     </span>
                     <span style={{ color: "#2a4a80" }}>Outcomes.</span>
-                  </span>
+                  </motion.span>
                 </h1>
-              </motion.div>
+              </div>
 
-              {/* Subheading */}
+              {/* Subheading — fades up after headline */}
               <motion.p
-                {...fadeUp(0.3)}
+                initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.7, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
                 className="text-center mx-auto mt-6 leading-[1.7] relative z-10"
                 style={{ color: MUTED, fontSize: 17 }}
               >
@@ -515,7 +543,12 @@ export default function KYBEntryPage() {
               </motion.p>
 
               {/* Modern CTA — pill with animated arrow slide */}
-              <motion.div {...fadeUp(0.4)} className="flex justify-center mt-10 relative z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: 1.05, ease: [0.22, 1, 0.36, 1] }}
+                className="flex justify-center mt-10 relative z-10"
+              >
                 <a
                   href="#"
                   className="group relative overflow-hidden inline-flex items-center h-14 sm:h-16 rounded-full text-[16px] sm:text-[17px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-300 hover:shadow-lg"
