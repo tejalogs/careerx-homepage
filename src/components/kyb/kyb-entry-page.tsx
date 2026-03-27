@@ -297,9 +297,9 @@ function VideoSection() {
 /*  WHAT YOU GET — 3 compact feature cards                             */
 /* ═══════════════════════════════════════════════════════════════════ */
 const FEATURES = [
-  { icon: Target, title: "Role Fit Analysis", desc: "See which roles match your profile based on real market data" },
-  { icon: BarChart3, title: "Skill Gap Map", desc: "Know exactly what to build before you start applying" },
-  { icon: Zap, title: "Instant Clarity", desc: "Get actionable career direction in under 10 minutes" },
+  { icon: Target, title: "Role Fit Analysis", desc: "See which roles match your profile based on real market data", accent: BRAND_BLUE, accentBg: "rgba(60,97,168,0.08)", glow: "rgba(60,97,168,0.06)" },
+  { icon: BarChart3, title: "Skill Gap Map", desc: "Know exactly what to build before you start applying", accent: "#7c3aed", accentBg: "rgba(124,58,237,0.08)", glow: "rgba(124,58,237,0.06)" },
+  { icon: Zap, title: "Instant Clarity", desc: "Get actionable career direction in under 10 minutes", accent: "#B8860B", accentBg: "rgba(184,134,11,0.08)", glow: "rgba(184,134,11,0.06)" },
 ];
 
 function WhatYouGet() {
@@ -316,22 +316,35 @@ function WhatYouGet() {
               key={f.title}
               initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-0.5"
+              transition={{ duration: 0.6, delay: 0.1 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1 cursor-default overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.6)",
-                border: "1px solid rgba(0,0,0,0.04)",
-                backdropFilter: "blur(8px)",
+                background: "rgba(255,255,255,0.7)",
+                border: "1px solid rgba(0,0,0,0.05)",
+                backdropFilter: "blur(12px)",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.03)",
               }}
             >
+              {/* Hover glow */}
               <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-4"
-                style={{ background: "rgba(60,97,168,0.07)" }}
-              >
-                <Icon size={20} style={{ color: BRAND_BLUE }} />
+                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{ background: `radial-gradient(ellipse at 50% 0%, ${f.glow}, transparent 70%)` }}
+              />
+              {/* Top accent line */}
+              <div
+                className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-0 group-hover:w-1/2 transition-all duration-500 rounded-full"
+                style={{ background: f.accent }}
+              />
+              <div className="relative z-10">
+                <div
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110"
+                  style={{ background: f.accentBg }}
+                >
+                  <Icon size={22} style={{ color: f.accent }} />
+                </div>
+                <h3 className="text-[15px] font-bold mb-2" style={{ color: "#0C0E14" }}>{f.title}</h3>
+                <p className="text-[13px] leading-relaxed" style={{ color: MUTED }}>{f.desc}</p>
               </div>
-              <h3 className="text-[15px] font-bold mb-1.5" style={{ color: "#0C0E14" }}>{f.title}</h3>
-              <p className="text-[13px] leading-relaxed" style={{ color: MUTED }}>{f.desc}</p>
             </motion.div>
           );
         })}
@@ -448,51 +461,43 @@ export default function KYBEntryPage() {
                 transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="relative z-10 text-center"
               >
-                <span
-                  className="inline-block px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
-                  style={{ background: "rgba(60,97,168,0.07)", color: BRAND_BLUE }}
-                >
-                  Career Discovery
-                </span>
-
                 <h1
                   className="text-[40px] sm:text-[52px] md:text-[64px] leading-[1.05] font-bold tracking-tight"
                   style={{ color: "#0C0E14" }}
                 >
-                  {["Interests", "to"].map((word, i) => (
+                  {/* "Interests to" — slide up with blur clear */}
+                  {"Interests to ".split("").map((char, i) => (
                     <motion.span
-                      key={word}
-                      className="inline-block mr-[0.22em]"
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.7, delay: 0.2 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                      key={`it-${i}`}
+                      className="inline-block"
+                      style={{ whiteSpace: char === " " ? "pre" : undefined }}
+                      initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      transition={{ duration: 0.4, delay: 0.15 + i * 0.025, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      {word}
+                      {char === " " ? "\u00A0" : char}
                     </motion.span>
                   ))}
                   <br className="sm:hidden" />
-                  <motion.span
-                    className="relative inline-block"
-                    style={{ filter: "url(#glow-light)" }}
-                    initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <span
-                      className="absolute inset-0 opacity-0"
-                      style={{
-                        background: "linear-gradient(0deg, #1e3a6e 0%, #3C61A8 40%, #6b9be0 100%)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        backgroundClip: "text",
-                        animation: "onloadopacity 1s ease-out 0.6s forwards",
-                      }}
-                      aria-hidden="true"
-                    >
-                      Outcomes.
-                    </span>
-                    <span style={{ color: "#1e3a6e" }}>Outcomes.</span>
-                  </motion.span>
+                  {/* "Outcomes." — each letter scales in with glow */}
+                  <span className="relative inline-block" style={{ filter: "url(#glow-light)" }}>
+                    {"Outcomes.".split("").map((char, i) => (
+                      <motion.span
+                        key={`o-${i}`}
+                        className="inline-block"
+                        style={{ color: "#1e3a6e" }}
+                        initial={{ opacity: 0, y: 24, scale: 0.7, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                        transition={{
+                          duration: 0.5,
+                          delay: 0.55 + i * 0.04,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                      >
+                        {char}
+                      </motion.span>
+                    ))}
+                  </span>
                 </h1>
               </motion.div>
 
