@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
-  ArrowRight, Compass, Star, Play,
+  ArrowRight, Compass, Star, Play, Target, BarChart3, Zap,
 } from "lucide-react";
 import Link from "next/link";
 import { BrandLogoMark } from "@/components/ui/brand-logo";
@@ -293,6 +293,53 @@ function VideoSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════ */
+/*  WHAT YOU GET — 3 compact feature cards                             */
+/* ═══════════════════════════════════════════════════════════════════ */
+const FEATURES = [
+  { icon: Target, title: "Role Fit Analysis", desc: "See which roles match your profile based on real market data" },
+  { icon: BarChart3, title: "Skill Gap Map", desc: "Know exactly what to build before you start applying" },
+  { icon: Zap, title: "Instant Clarity", desc: "Get actionable career direction in under 10 minutes" },
+];
+
+function WhatYouGet() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <div ref={ref} className="max-w-4xl mx-auto px-6 py-16">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        {FEATURES.map((f, i) => {
+          const Icon = f.icon;
+          return (
+            <motion.div
+              key={f.title}
+              initial={{ opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              className="rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-0.5"
+              style={{
+                background: "rgba(255,255,255,0.6)",
+                border: "1px solid rgba(0,0,0,0.04)",
+                backdropFilter: "blur(8px)",
+              }}
+            >
+              <div
+                className="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-4"
+                style={{ background: "rgba(60,97,168,0.07)" }}
+              >
+                <Icon size={20} style={{ color: BRAND_BLUE }} />
+              </div>
+              <h3 className="text-[15px] font-bold mb-1.5" style={{ color: "#0C0E14" }}>{f.title}</h3>
+              <p className="text-[13px] leading-relaxed" style={{ color: MUTED }}>{f.desc}</p>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
 /*  BEGIN KYB CTA (animated slide button)                              */
 /* ═══════════════════════════════════════════════════════════════════ */
 function BeginKYBCTA() {
@@ -359,8 +406,8 @@ export default function KYBEntryPage() {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), SPLASH_DURATION);
-    return () => clearTimeout(timer);
+    // No cleanup — must survive React Strict Mode double-mount
+    setTimeout(() => setShowSplash(false), SPLASH_DURATION);
   }, []);
 
   return (
@@ -370,11 +417,20 @@ export default function KYBEntryPage() {
       )}
 
       <div
-        className="min-h-screen relative overflow-hidden"
+        className="min-h-screen relative"
         style={{
           background: "linear-gradient(135deg, rgba(60,96,168,0.08) 0%, rgba(245,209,52,0.06) 50%, rgba(60,96,168,0.04) 100%)",
         }}
       >
+        {/* Subtle dot grid texture */}
+        <div
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{
+            backgroundImage: "radial-gradient(rgba(60,97,168,0.03) 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+          }}
+        />
+
         <KYBNavbar />
 
         <div className="relative z-10">
@@ -389,19 +445,19 @@ export default function KYBEntryPage() {
                 }}
               />
 
-              {/* Dramatic glow cones — top (warm white/cream) and bottom (soft gold) */}
+              {/* Soft glow cones — brand blue (top) and brand gold (bottom) */}
               <div className="absolute h-full w-full max-w-[44em] pointer-events-none left-1/2 -translate-x-1/2">
                 <div
                   className="absolute size-full scale-[1.2] rounded-[100em] opacity-0"
                   style={{
-                    boxShadow: "0 0 160px 80px rgba(255,250,240,0.5), 0 0 300px 150px rgba(255,245,225,0.25), 0 0 500px 200px rgba(255,240,210,0.1)",
+                    boxShadow: "0 0 200px 100px rgba(60,97,168,0.06), 0 0 400px 200px rgba(60,97,168,0.03)",
                     animation: "onloadbgt 1s ease-in-out forwards",
                   }}
                 />
                 <div
                   className="absolute size-full scale-[1.2] rounded-[100em] opacity-0"
                   style={{
-                    boxShadow: "0 0 140px 70px rgba(255,245,220,0.4), 0 0 280px 120px rgba(245,230,190,0.2), 0 0 450px 180px rgba(240,220,170,0.08)",
+                    boxShadow: "0 0 180px 90px rgba(245,209,52,0.06), 0 0 360px 160px rgba(245,209,52,0.03)",
                     animation: "onloadbgb 1s ease-in-out forwards",
                   }}
                 />
@@ -452,10 +508,10 @@ export default function KYBEntryPage() {
               {/* Subheading */}
               <motion.p
                 {...fadeUp(0.3)}
-                className="text-center mx-auto mt-6 leading-[1.7] relative z-10 max-w-md"
+                className="text-center mx-auto mt-6 leading-[1.7] relative z-10"
                 style={{ color: MUTED, fontSize: 17 }}
               >
-                Turn your interests into smarter job targets<br className="hidden sm:block" /> and better interview outcomes.
+                Turn your interests into smarter job targets and better interview outcomes.
               </motion.p>
 
               {/* Modern CTA — pill with animated arrow slide */}
@@ -500,21 +556,21 @@ export default function KYBEntryPage() {
                     <feGaussianBlur in="SourceGraphic" stdDeviation="19" result="blur19" />
                     <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur9" />
                     <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur30" />
-                    {/* Layer 0 — tight warm white glow */}
-                    <feColorMatrix in="blur4" result="c0" type="matrix" values="1 0 0 0 0  0 0.98 0 0 0  0 0 0.94 0 0  0 0 0 0.6 0" />
+                    {/* Layer 0 — tight brand blue glow */}
+                    <feColorMatrix in="blur4" result="c0" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.3 0" />
                     <feOffset in="c0" result="o0" dx="0" dy="0" />
-                    {/* Layer 1 — medium cream/gold halo */}
-                    <feColorMatrix in="blur19" result="c1" type="matrix" values="0.96 0 0 0 0  0 0.85 0 0 0  0 0 0.55 0 0  0 0 0 0.4 0" />
+                    {/* Layer 1 — medium brand blue spread */}
+                    <feColorMatrix in="blur19" result="c1" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.15 0" />
                     <feOffset in="c1" result="o1" dx="0" dy="2" />
-                    {/* Layer 2 — soft golden spread */}
-                    <feColorMatrix in="blur9" result="c2" type="matrix" values="0.96 0 0 0 0  0 0.82 0 0 0  0 0 0.40 0 0  0 0 0 0.3 0" />
+                    {/* Layer 2 — soft brand gold accent */}
+                    <feColorMatrix in="blur9" result="c2" type="matrix" values="0.96 0 0 0 0  0 0.82 0 0 0  0 0 0.20 0 0  0 0 0 0.1 0" />
                     <feOffset in="c2" result="o2" dx="0" dy="2" />
-                    {/* Layer 3 — wide warm amber */}
-                    <feColorMatrix in="blur30" result="c3" type="matrix" values="0.92 0 0 0 0  0 0.72 0 0 0  0 0 0.32 0 0  0 0 0 0.2 0" />
+                    {/* Layer 3 — wide subtle blue */}
+                    <feColorMatrix in="blur30" result="c3" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.08 0" />
                     <feOffset in="c3" result="o3" dx="0" dy="4" />
-                    {/* Layer 4 — subtle floor warmth */}
-                    <feColorMatrix in="blur30" result="c4" type="matrix" values="0.85 0 0 0 0  0 0.65 0 0 0  0 0 0.30 0 0  0 0 0 0.1 0" />
-                    <feOffset in="c4" result="o4" dx="0" dy="12" />
+                    {/* Layer 4 — barely visible floor */}
+                    <feColorMatrix in="blur30" result="c4" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.04 0" />
+                    <feOffset in="c4" result="o4" dx="0" dy="8" />
                     <feMerge>
                       <feMergeNode in="o0" />
                       <feMergeNode in="o1" />
@@ -528,6 +584,9 @@ export default function KYBEntryPage() {
                 </defs>
               </svg>
             </div>
+
+            {/* ═══ WHAT YOU GET ═══ */}
+            <WhatYouGet />
 
             {/* ═══ VIDEO SECTION ═══ */}
             <VideoSection />
