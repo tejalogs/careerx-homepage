@@ -288,86 +288,44 @@ function VideoSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════ */
-/*  BEGIN KYB CTA (hand-written circle animation)                      */
+/*  BEGIN KYB CTA (animated slide button)                              */
 /* ═══════════════════════════════════════════════════════════════════ */
-const drawVariant = {
-  hidden: { pathLength: 0, opacity: 0 },
-  visible: {
-    pathLength: 1,
-    opacity: 1,
-    transition: {
-      pathLength: { duration: 2.5, ease: [0.43, 0.13, 0.23, 0.96] },
-      opacity: { duration: 0.5 },
-    },
-  },
-};
-
 function BeginKYBCTA() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
     <div ref={ref} className="max-w-4xl mx-auto px-6 py-20">
-      <div className="relative w-full max-w-lg mx-auto" style={{ minHeight: 280 }}>
-        {/* Hand-drawn circle SVG */}
-        <motion.svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 600 300"
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="absolute inset-0 w-full h-full"
-          preserveAspectRatio="xMidYMid meet"
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="flex justify-center"
+      >
+        <a
+          href="#"
+          className="group relative overflow-hidden inline-flex items-center h-14 sm:h-16 rounded-xl text-[17px] sm:text-[19px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2 transition-all duration-200"
+          style={{
+            background: GOLD_GRADIENT,
+            boxShadow: `0 4px 14px ${GOLD_SHADOW}`,
+            paddingLeft: 32,
+            paddingRight: 60,
+          }}
         >
-          <title>Begin KYB</title>
-          <motion.path
-            d="M 480 50
-               C 580 120, 560 240, 300 260
-               C 120 260, 40 220, 40 150
-               C 40 80, 150 40, 300 40
-               C 450 40, 500 100, 480 100"
-            fill="none"
-            strokeWidth="4"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            variants={drawVariant}
-            className="text-[#3C61A8] opacity-60"
-          />
-        </motion.svg>
-
-        {/* Content centered inside the circle */}
-        <div className="relative z-10 flex flex-col items-center justify-center text-center" style={{ minHeight: 280 }}>
-          <motion.h2
-            className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            style={{ color: "#0C0E14" }}
-          >
+          <span className="mr-4 transition-opacity duration-500 group-hover:opacity-0">
             Begin KYB
-          </motion.h2>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 1, duration: 0.6 }}
+          </span>
+          <i
+            className="absolute right-1.5 top-1.5 bottom-1.5 rounded-lg z-10 grid place-items-center transition-all duration-500 group-hover:w-[calc(100%-0.75rem)] group-active:scale-95"
+            style={{
+              width: 44,
+              background: "rgba(255,255,255,0.2)",
+            }}
           >
-            <motion.a
-              href="#"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-[16px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2"
-              style={{
-                background: GOLD_GRADIENT,
-                boxShadow: `0 4px 14px ${GOLD_SHADOW}`,
-              }}
-              whileHover={{ scale: 1.02, boxShadow: `0 6px 20px ${GOLD_HOVER}` }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Start Now
-              <ArrowRight size={17} />
-            </motion.a>
-          </motion.div>
-        </div>
-      </div>
+            <ArrowRight size={18} strokeWidth={2.5} />
+          </i>
+        </a>
+      </motion.div>
     </div>
   );
 }
@@ -376,21 +334,12 @@ function BeginKYBCTA() {
 /*  MAIN PAGE                                                         */
 /* ═══════════════════════════════════════════════════════════════════ */
 export default function KYBEntryPage() {
-  const [showSplash, setShowSplash] = useState(() => {
-    if (typeof window === "undefined") return true;
-    // Skip splash on HMR re-renders (dev only)
-    if (sessionStorage.getItem("kyb-splash-seen")) return false;
-    return true;
-  });
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    if (!showSplash) return;
-    const timer = setTimeout(() => {
-      sessionStorage.setItem("kyb-splash-seen", "1");
-      setShowSplash(false);
-    }, SPLASH_DURATION);
+    const timer = setTimeout(() => setShowSplash(false), SPLASH_DURATION);
     return () => clearTimeout(timer);
-  }, [showSplash]);
+  }, []);
 
   return (
     <>
@@ -402,7 +351,6 @@ export default function KYBEntryPage() {
         className="min-h-screen relative overflow-hidden"
         style={{
           background: "linear-gradient(135deg, rgba(60,96,168,0.08) 0%, rgba(245,209,52,0.06) 50%, rgba(60,96,168,0.04) 100%)",
-          visibility: showSplash ? "hidden" : "visible",
         }}
       >
         <KYBNavbar />
