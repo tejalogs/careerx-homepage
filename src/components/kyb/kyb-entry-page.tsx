@@ -440,32 +440,7 @@ export default function KYBEntryPage() {
         <div className="relative z-10">
             {/* ═══ ILLUMINATED HERO SECTION ═══ */}
             <div className="relative w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-6 min-h-[80vh]">
-              {/* Frosted backdrop */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: "radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.7) 0%, rgba(247,248,252,0.4) 60%, transparent 100%)",
-                  backdropFilter: "blur(1px)",
-                }}
-              />
-
-              {/* Soft glow cones — brand blue (top) and brand gold (bottom) */}
-              <div className="absolute h-full w-full max-w-[44em] pointer-events-none left-1/2 -translate-x-1/2">
-                <div
-                  className="absolute size-full scale-[1.2] rounded-[100em] opacity-0"
-                  style={{
-                    boxShadow: "0 0 200px 100px rgba(60,97,168,0.06), 0 0 400px 200px rgba(60,97,168,0.03)",
-                    animation: "onloadbgt 1s ease-in-out forwards",
-                  }}
-                />
-                <div
-                  className="absolute size-full scale-[1.2] rounded-[100em] opacity-0"
-                  style={{
-                    boxShadow: "0 0 180px 90px rgba(245,209,52,0.06), 0 0 360px 160px rgba(245,209,52,0.03)",
-                    animation: "onloadbgb 1s ease-in-out forwards",
-                  }}
-                />
-              </div>
+              {/* Clean — spotlight handles the visual interest */}
 
               {/* Badge — slides up with slight bounce */}
               <motion.div
