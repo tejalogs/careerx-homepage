@@ -507,14 +507,75 @@ export default function KYBEntryPage() {
                 Turn your interests into smarter job targets and better interview outcomes.
               </motion.p>
 
-              {/* CTA + Social proof as compact row */}
+              {/* Social proof — tight below subline */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-center gap-3 mt-5 relative z-10"
+              >
+                <div className="flex -space-x-2">
+                  {AVATARS.map((src, i) => (
+                    <img
+                      key={i}
+                      src={src}
+                      alt=""
+                      className="w-7 h-7 rounded-full border-2 border-white object-cover"
+                      style={{ zIndex: AVATARS.length - i }}
+                    />
+                  ))}
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="flex gap-0.5">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star key={s} size={10} fill="#F5D134" stroke="#F5D134" />
+                    ))}
+                  </div>
+                  <span className="text-[12px] font-bold" style={{ color: "#0C0E14" }}>4.9</span>
+                  <span className="text-[11px]" style={{ color: MUTED_LIGHT }}>· 2,000+ found direction</span>
+                </div>
+              </motion.div>
+
+              {/* Visual anchor — minimal frosted pill stats */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-10 mt-8"
+              >
+                <div
+                  className="inline-flex items-center gap-4 sm:gap-6 px-6 sm:px-8 py-3 sm:py-4 rounded-full"
+                  style={{
+                    background: "rgba(255,255,255,0.55)",
+                    border: "1px solid rgba(0,0,0,0.04)",
+                    backdropFilter: "blur(12px)",
+                    boxShadow: "0 1px 12px rgba(0,0,0,0.03)",
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-[18px] sm:text-[20px] font-black" style={{ color: "#0C0E14" }}>96%</span>
+                    <span className="text-[11px]" style={{ color: MUTED }}>Accuracy</span>
+                  </div>
+                  <div className="w-px h-5" style={{ background: "rgba(0,0,0,0.08)" }} />
+                  <div className="flex items-center gap-2">
+                    <span className="text-[18px] sm:text-[20px] font-black" style={{ color: "#0C0E14" }}>14k+</span>
+                    <span className="text-[11px]" style={{ color: MUTED }}>Mapped</span>
+                  </div>
+                  <div className="w-px h-5" style={{ background: "rgba(0,0,0,0.08)" }} />
+                  <div className="flex items-center gap-2">
+                    <span className="text-[18px] sm:text-[20px] font-black" style={{ color: "#0C0E14" }}>Free</span>
+                    <span className="text-[11px]" style={{ color: MUTED }}>Always</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* CTA — after anchor card */}
               <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="flex flex-col items-center gap-5 mt-7 relative z-10"
+                transition={{ duration: 0.6, delay: 1.15, ease: [0.22, 1, 0.36, 1] }}
+                className="flex justify-center mt-8 relative z-10"
               >
-                {/* CTA — compact pill */}
                 <a
                   href="#"
                   className="group relative overflow-hidden inline-flex items-center h-12 rounded-full text-[15px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-300 hover:shadow-md"
@@ -537,65 +598,6 @@ export default function KYBEntryPage() {
                     <ArrowRight size={15} strokeWidth={2.5} />
                   </i>
                 </a>
-
-                {/* Social proof — inline with CTA */}
-                <div className="flex items-center gap-3">
-                  <div className="flex -space-x-2">
-                    {AVATARS.map((src, i) => (
-                      <img
-                        key={i}
-                        src={src}
-                        alt=""
-                        className="w-7 h-7 rounded-full border-2 border-white object-cover"
-                        style={{ zIndex: AVATARS.length - i }}
-                      />
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="flex gap-0.5">
-                      {[1, 2, 3, 4, 5].map((s) => (
-                        <Star key={s} size={10} fill="#F5D134" stroke="#F5D134" />
-                      ))}
-                    </div>
-                    <span className="text-[12px] font-bold" style={{ color: "#0C0E14" }}>4.9</span>
-                    <span className="text-[11px]" style={{ color: MUTED_LIGHT }}>· 2,000+ found direction</span>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Visual anchor card — grounds the floating text */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 mt-10 w-full max-w-2xl"
-              >
-                <div
-                  className="rounded-2xl p-6 sm:p-8 text-center"
-                  style={{
-                    background: "rgba(255,255,255,0.6)",
-                    border: "1px solid rgba(0,0,0,0.04)",
-                    backdropFilter: "blur(8px)",
-                    boxShadow: "0 2px 20px rgba(0,0,0,0.03)",
-                  }}
-                >
-                  <div className="flex items-center justify-center gap-6 sm:gap-10 flex-wrap">
-                    <div className="text-center">
-                      <p className="text-[24px] sm:text-[28px] font-black" style={{ color: "#0C0E14" }}>92%</p>
-                      <p className="text-[11px] mt-0.5" style={{ color: MUTED }}>Role accuracy</p>
-                    </div>
-                    <div className="w-px h-10" style={{ background: "rgba(0,0,0,0.06)" }} />
-                    <div className="text-center">
-                      <p className="text-[24px] sm:text-[28px] font-black" style={{ color: "#0C0E14" }}>10 min</p>
-                      <p className="text-[11px] mt-0.5" style={{ color: MUTED }}>To complete</p>
-                    </div>
-                    <div className="w-px h-10" style={{ background: "rgba(0,0,0,0.06)" }} />
-                    <div className="text-center">
-                      <p className="text-[24px] sm:text-[28px] font-black" style={{ color: "#0C0E14" }}>Free</p>
-                      <p className="text-[11px] mt-0.5" style={{ color: MUTED }}>No card required</p>
-                    </div>
-                  </div>
-                </div>
               </motion.div>
 
               {/* SVG glow filter — stronger for visibility */}

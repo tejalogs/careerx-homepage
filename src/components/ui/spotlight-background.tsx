@@ -22,9 +22,9 @@ const SpotlightBackground = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-[1]">
       <div
-        className="absolute rounded-full pointer-events-none transition-all duration-300 ease-out"
+        className="fixed rounded-full pointer-events-none transition-all duration-300 ease-out"
         style={{
           left: mouse.x,
           top: mouse.y,
