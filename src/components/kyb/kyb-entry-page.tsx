@@ -438,42 +438,34 @@ export default function KYBEntryPage() {
         <KYBNavbar />
 
         <div className="relative z-10">
-            {/* ═══ ILLUMINATED HERO SECTION ═══ */}
-            <div className="relative w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-6 min-h-[80vh]">
-              {/* Clean — spotlight handles the visual interest */}
+            {/* ═══ HERO SECTION — compact, tight spacing ═══ */}
+            <div className="relative w-full flex flex-col items-center overflow-hidden pt-24 sm:pt-28 pb-10 px-6">
 
-              {/* Badge — slides up with slight bounce */}
+              {/* Badge + Headline as tight unit */}
               <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="flex justify-center relative z-10"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-10 text-center"
               >
                 <span
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[12px] font-semibold uppercase tracking-wider"
-                  style={{ background: "rgba(60,97,168,0.08)", color: BRAND_BLUE }}
+                  className="inline-block px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
+                  style={{ background: "rgba(60,97,168,0.07)", color: BRAND_BLUE }}
                 >
                   Career Discovery
                 </span>
-              </motion.div>
 
-              {/* Headline — word-by-word stagger with spring */}
-              <div className="text-center mt-8 relative z-10">
                 <h1
-                  className="text-[48px] sm:text-[64px] md:text-[80px] leading-[1.05] font-semibold tracking-tight"
+                  className="text-[40px] sm:text-[52px] md:text-[64px] leading-[1.05] font-bold tracking-tight"
                   style={{ color: "#0C0E14" }}
                 >
                   {["Interests", "to"].map((word, i) => (
                     <motion.span
                       key={word}
-                      className="inline-block mr-[0.25em]"
-                      initial={{ opacity: 0, y: 40, rotateX: 40 }}
-                      animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                      transition={{
-                        duration: 0.8,
-                        delay: 0.25 + i * 0.12,
-                        ease: [0.22, 1, 0.36, 1],
-                      }}
+                      className="inline-block mr-[0.22em]"
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.7, delay: 0.2 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                     >
                       {word}
                     </motion.span>
@@ -482,112 +474,147 @@ export default function KYBEntryPage() {
                   <motion.span
                     className="relative inline-block"
                     style={{ filter: "url(#glow-light)" }}
-                    initial={{ opacity: 0, y: 50, scale: 0.85 }}
+                    initial={{ opacity: 0, y: 30, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{
-                      duration: 1,
-                      delay: 0.55,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
+                    transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    {/* Glow overlay — fades in after word lands */}
                     <span
                       className="absolute inset-0 opacity-0"
                       style={{
-                        background: "linear-gradient(0deg, #2a4a80 0%, #3C61A8 50%, #5b8ad4 100%)",
+                        background: "linear-gradient(0deg, #1e3a6e 0%, #3C61A8 40%, #6b9be0 100%)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         backgroundClip: "text",
-                        animation: "onloadopacity 1.2s ease-out 0.8s forwards",
+                        animation: "onloadopacity 1s ease-out 0.6s forwards",
                       }}
                       aria-hidden="true"
                     >
                       Outcomes.
                     </span>
-                    <span style={{ color: "#2a4a80" }}>Outcomes.</span>
+                    <span style={{ color: "#1e3a6e" }}>Outcomes.</span>
                   </motion.span>
                 </h1>
-              </div>
+              </motion.div>
 
-              {/* Subheading — fades up after headline */}
+              {/* Subheading — tight to headline */}
               <motion.p
-                initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 0.7, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                className="text-center mx-auto mt-6 leading-[1.7] relative z-10"
-                style={{ color: MUTED, fontSize: 17 }}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="text-center mx-auto mt-4 leading-[1.6] relative z-10 max-w-lg"
+                style={{ color: MUTED, fontSize: 16 }}
               >
                 Turn your interests into smarter job targets and better interview outcomes.
               </motion.p>
 
-              {/* Modern CTA — pill with animated arrow slide */}
+              {/* CTA + Social proof as compact row */}
               <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.6, delay: 1.05, ease: [0.22, 1, 0.36, 1] }}
-                className="flex justify-center mt-10 relative z-10"
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="flex flex-col items-center gap-5 mt-7 relative z-10"
               >
+                {/* CTA — compact pill */}
                 <a
                   href="#"
-                  className="group relative overflow-hidden inline-flex items-center h-14 sm:h-16 rounded-full text-[16px] sm:text-[17px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-300 hover:shadow-lg"
+                  className="group relative overflow-hidden inline-flex items-center h-12 rounded-full text-[15px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-300 hover:shadow-md"
                   style={{
                     background: BRAND_BLUE,
-                    paddingLeft: 28,
-                    paddingRight: 56,
+                    paddingLeft: 24,
+                    paddingRight: 48,
                   }}
                 >
-                  <span className="transition-all duration-500 group-hover:opacity-0 group-hover:-translate-x-2">
+                  <span className="transition-all duration-400 group-hover:opacity-0 group-hover:-translate-x-1">
                     Begin KYB
                   </span>
-                  <span className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100 font-semibold">
+                  <span className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-400 group-hover:opacity-100 font-semibold text-[14px]">
                     Let&apos;s go
                   </span>
                   <i
-                    className="absolute right-1.5 top-1.5 bottom-1.5 rounded-full z-10 grid place-items-center transition-all duration-500 group-hover:w-[calc(100%-0.75rem)] group-active:scale-95"
-                    style={{
-                      width: 44,
-                      background: "rgba(255,255,255,0.15)",
-                    }}
+                    className="absolute right-1 top-1 bottom-1 rounded-full z-10 grid place-items-center transition-all duration-400 group-hover:w-[calc(100%-0.5rem)] group-active:scale-95"
+                    style={{ width: 38, background: "rgba(255,255,255,0.15)" }}
                   >
-                    <ArrowRight size={17} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                    <ArrowRight size={15} strokeWidth={2.5} />
                   </i>
                 </a>
+
+                {/* Social proof — inline with CTA */}
+                <div className="flex items-center gap-3">
+                  <div className="flex -space-x-2">
+                    {AVATARS.map((src, i) => (
+                      <img
+                        key={i}
+                        src={src}
+                        alt=""
+                        className="w-7 h-7 rounded-full border-2 border-white object-cover"
+                        style={{ zIndex: AVATARS.length - i }}
+                      />
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="flex gap-0.5">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <Star key={s} size={10} fill="#F5D134" stroke="#F5D134" />
+                      ))}
+                    </div>
+                    <span className="text-[12px] font-bold" style={{ color: "#0C0E14" }}>4.9</span>
+                    <span className="text-[11px]" style={{ color: MUTED_LIGHT }}>· 2,000+ found direction</span>
+                  </div>
+                </div>
               </motion.div>
 
-              {/* Social Proof */}
-              <div className="relative z-10 w-full mt-2">
-                <SocialProofRow />
-              </div>
+              {/* Visual anchor card — grounds the floating text */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-10 mt-10 w-full max-w-2xl"
+              >
+                <div
+                  className="rounded-2xl p-6 sm:p-8 text-center"
+                  style={{
+                    background: "rgba(255,255,255,0.6)",
+                    border: "1px solid rgba(0,0,0,0.04)",
+                    backdropFilter: "blur(8px)",
+                    boxShadow: "0 2px 20px rgba(0,0,0,0.03)",
+                  }}
+                >
+                  <div className="flex items-center justify-center gap-6 sm:gap-10 flex-wrap">
+                    <div className="text-center">
+                      <p className="text-[24px] sm:text-[28px] font-black" style={{ color: "#0C0E14" }}>92%</p>
+                      <p className="text-[11px] mt-0.5" style={{ color: MUTED }}>Role accuracy</p>
+                    </div>
+                    <div className="w-px h-10" style={{ background: "rgba(0,0,0,0.06)" }} />
+                    <div className="text-center">
+                      <p className="text-[24px] sm:text-[28px] font-black" style={{ color: "#0C0E14" }}>10 min</p>
+                      <p className="text-[11px] mt-0.5" style={{ color: MUTED }}>To complete</p>
+                    </div>
+                    <div className="w-px h-10" style={{ background: "rgba(0,0,0,0.06)" }} />
+                    <div className="text-center">
+                      <p className="text-[24px] sm:text-[28px] font-black" style={{ color: "#0C0E14" }}>Free</p>
+                      <p className="text-[11px] mt-0.5" style={{ color: MUTED }}>No card required</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
 
-              {/* SVG glow filter — multi-layer blur for illuminated text */}
+              {/* SVG glow filter — stronger for visibility */}
               <svg className="absolute -z-10 h-0 w-0" width="0" height="0" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <filter id="glow-light" colorInterpolationFilters="sRGB" x="-50%" y="-200%" width="200%" height="500%">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur4" />
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="19" result="blur19" />
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur9" />
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur30" />
-                    {/* Layer 0 — tight brand blue glow */}
-                    <feColorMatrix in="blur4" result="c0" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.3 0" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur3" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur10" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur25" />
+                    <feColorMatrix in="blur3" result="c0" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.5 0" />
                     <feOffset in="c0" result="o0" dx="0" dy="0" />
-                    {/* Layer 1 — medium brand blue spread */}
-                    <feColorMatrix in="blur19" result="c1" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.15 0" />
+                    <feColorMatrix in="blur10" result="c1" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.35 0" />
                     <feOffset in="c1" result="o1" dx="0" dy="2" />
-                    {/* Layer 2 — soft brand gold accent */}
-                    <feColorMatrix in="blur9" result="c2" type="matrix" values="0.96 0 0 0 0  0 0.82 0 0 0  0 0 0.20 0 0  0 0 0 0.1 0" />
-                    <feOffset in="c2" result="o2" dx="0" dy="2" />
-                    {/* Layer 3 — wide subtle blue */}
-                    <feColorMatrix in="blur30" result="c3" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.08 0" />
-                    <feOffset in="c3" result="o3" dx="0" dy="4" />
-                    {/* Layer 4 — barely visible floor */}
-                    <feColorMatrix in="blur30" result="c4" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.04 0" />
-                    <feOffset in="c4" result="o4" dx="0" dy="8" />
+                    <feColorMatrix in="blur25" result="c2" type="matrix" values="0.96 0 0 0 0  0 0.82 0 0 0  0 0 0.20 0 0  0 0 0 0.2 0" />
+                    <feOffset in="c2" result="o2" dx="0" dy="6" />
                     <feMerge>
                       <feMergeNode in="o0" />
                       <feMergeNode in="o1" />
                       <feMergeNode in="o2" />
-                      <feMergeNode in="o3" />
-                      <feMergeNode in="o4" />
                       <feMergeNode in="o0" />
                       <feMergeNode in="SourceGraphic" />
                     </feMerge>
