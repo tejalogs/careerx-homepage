@@ -362,20 +362,20 @@ export default function KYBEntryPage() {
 
         <div className="relative z-10">
             {/* ═══ ILLUMINATED HERO SECTION ═══ */}
-            <div className="relative w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-6">
-              {/* Background glow orbs (light theme — blue/gold) */}
-              <div className="absolute h-full w-full max-w-[44em] pointer-events-none">
+            <div className="relative w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-6 min-h-[80vh]">
+              {/* Dramatic glow cones — top (blue) and bottom (gold) */}
+              <div className="absolute h-full w-full max-w-[44em] pointer-events-none left-1/2 -translate-x-1/2">
                 <div
-                  className="absolute size-full rounded-[100em] opacity-0"
+                  className="absolute size-full scale-[1.2] rounded-[100em] opacity-0"
                   style={{
-                    boxShadow: "0 0 120px 60px rgba(60,97,168,0.12), 0 0 200px 100px rgba(60,97,168,0.06)",
+                    boxShadow: "0 0 160px 80px rgba(60,97,168,0.18), 0 0 300px 150px rgba(60,97,168,0.08), 0 0 500px 200px rgba(60,97,168,0.03)",
                     animation: "onloadbgt 1s ease-in-out forwards",
                   }}
                 />
                 <div
-                  className="absolute size-full rounded-[100em] opacity-0"
+                  className="absolute size-full scale-[1.2] rounded-[100em] opacity-0"
                   style={{
-                    boxShadow: "0 0 120px 60px rgba(245,209,52,0.1), 0 0 200px 100px rgba(245,209,52,0.05)",
+                    boxShadow: "0 0 140px 70px rgba(245,209,52,0.14), 0 0 280px 120px rgba(245,209,52,0.06), 0 0 450px 180px rgba(245,209,52,0.02)",
                     animation: "onloadbgb 1s ease-in-out forwards",
                   }}
                 />
@@ -392,27 +392,23 @@ export default function KYBEntryPage() {
                 </span>
               </motion.div>
 
-              {/* Headline with illuminated glow on key phrase */}
-              <motion.h1 {...fadeUp(0.25)} className="text-center mt-6 relative z-10 max-w-4xl" aria-hidden="true">
-                <span
-                  className="block text-[32px] sm:text-[40px] md:text-[48px] leading-[1.15] font-semibold"
+              {/* Headline — short with illuminated glow on "Outcomes" */}
+              <motion.div {...fadeUp(0.25)} className="text-center mt-8 relative z-10">
+                <h1
+                  className="text-[48px] sm:text-[64px] md:text-[80px] leading-[1.05] font-semibold tracking-tight"
                   style={{ color: "#0C0E14" }}
                 >
-                  See the link between your interests
-                </span>
-                <span
-                  className="block text-[32px] sm:text-[40px] md:text-[48px] leading-[1.15] font-semibold"
-                  style={{ color: "#0C0E14" }}
-                >
-                  and the{" "}
+                  Interests to{" "}
+                  <br className="sm:hidden" />
                   <span
                     className="relative inline-block"
                     style={{ filter: "url(#glow-light)" }}
                   >
+                    {/* Glow overlay — fades in */}
                     <span
                       className="absolute inset-0 opacity-0"
                       style={{
-                        background: "linear-gradient(0deg, #3C61A8 0%, #1a3a6e 50%)",
+                        background: "linear-gradient(0deg, #2a4a80 0%, #3C61A8 50%, #5b8ad4 100%)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         backgroundClip: "text",
@@ -420,67 +416,86 @@ export default function KYBEntryPage() {
                       }}
                       aria-hidden="true"
                     >
-                      career outcomes
+                      Outcomes.
                     </span>
-                    <span style={{ color: "#1a3a6e" }}>career outcomes</span>
+                    <span style={{ color: "#2a4a80" }}>Outcomes.</span>
                   </span>
-                  {" "}they create
-                </span>
-              </motion.h1>
-
-              {/* Accessible h1 (visually hidden) */}
-              <h1 className="sr-only">
-                See the link between your interests and the career outcomes they create
-              </h1>
+                </h1>
+              </motion.div>
 
               {/* Subheading */}
               <motion.p
                 {...fadeUp(0.3)}
-                className="text-center mx-auto mt-5 leading-[1.65] relative z-10"
-                style={{ maxWidth: 500, color: MUTED, fontSize: 17 }}
+                className="text-center mx-auto mt-6 leading-[1.7] relative z-10"
+                style={{ maxWidth: 460, color: MUTED, fontSize: 17 }}
               >
-                Turn that insight into smarter job targets and better interview outcomes.
+                Turn your interests into smarter job targets and better interview outcomes.
               </motion.p>
 
-              {/* Primary CTA */}
-              <motion.div {...fadeUp(0.38)} className="flex justify-center mt-8 relative z-10">
-                <motion.a
+              {/* Modern CTA — pill with animated arrow slide */}
+              <motion.div {...fadeUp(0.4)} className="flex justify-center mt-10 relative z-10">
+                <a
                   href="#"
-                  className="inline-flex items-center gap-2 px-9 py-[18px] rounded-xl text-[18px] font-semibold text-white transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2"
+                  className="group relative overflow-hidden inline-flex items-center h-14 sm:h-16 rounded-full text-[16px] sm:text-[17px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-300 hover:shadow-lg"
                   style={{
-                    background: GOLD_GRADIENT,
-                    boxShadow: `0 4px 14px ${GOLD_SHADOW}`,
+                    background: "#0C0E14",
+                    paddingLeft: 28,
+                    paddingRight: 56,
                   }}
-                  whileHover={{ scale: 1.02, boxShadow: `0 6px 20px ${GOLD_HOVER}` }}
-                  whileTap={{ scale: 0.98 }}
                 >
-                  Discover My Best Role
-                  <ArrowRight size={18} />
-                </motion.a>
+                  <span className="transition-all duration-500 group-hover:opacity-0 group-hover:-translate-x-2">
+                    Discover My Best Role
+                  </span>
+                  <span className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100 font-semibold">
+                    Let&apos;s go
+                  </span>
+                  <i
+                    className="absolute right-1.5 top-1.5 bottom-1.5 rounded-full z-10 grid place-items-center transition-all duration-500 group-hover:w-[calc(100%-0.75rem)] group-active:scale-95"
+                    style={{
+                      width: 44,
+                      background: "rgba(255,255,255,0.1)",
+                    }}
+                  >
+                    <ArrowRight size={17} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </i>
+                </a>
               </motion.div>
 
               {/* Social Proof */}
-              <div className="relative z-10 w-full">
+              <div className="relative z-10 w-full mt-2">
                 <SocialProofRow />
               </div>
 
-              {/* SVG glow filter (light theme — blue tint) */}
+              {/* SVG glow filter — multi-layer blur for illuminated text */}
               <svg className="absolute -z-10 h-0 w-0" width="0" height="0" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <filter id="glow-light" colorInterpolationFilters="sRGB" x="-50%" y="-200%" width="200%" height="500%">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur3" />
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur12" />
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur20" />
-                    <feColorMatrix in="blur3" result="c0" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.6 0" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur4" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="19" result="blur19" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur9" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur30" />
+                    {/* Layer 0 — tight bright blue */}
+                    <feColorMatrix in="blur4" result="c0" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.7 0" />
                     <feOffset in="c0" result="o0" dx="0" dy="0" />
-                    <feColorMatrix in="blur12" result="c1" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.4 0" />
+                    {/* Layer 1 — medium warm gold */}
+                    <feColorMatrix in="blur19" result="c1" type="matrix" values="0.82 0 0 0 0  0 0.62 0 0 0  0 0 0.26 0 0  0 0 0 0.5 0" />
                     <feOffset in="c1" result="o1" dx="0" dy="2" />
-                    <feColorMatrix in="blur20" result="c2" type="matrix" values="0.96 0 0 0 0  0 0.82 0 0 0  0 0 0.20 0 0  0 0 0 0.25 0" />
-                    <feOffset in="c2" result="o2" dx="0" dy="4" />
+                    {/* Layer 2 — soft amber glow */}
+                    <feColorMatrix in="blur9" result="c2" type="matrix" values="0.96 0 0 0 0  0 0.82 0 0 0  0 0 0.36 0 0  0 0 0 0.35 0" />
+                    <feOffset in="c2" result="o2" dx="0" dy="2" />
+                    {/* Layer 3 — wide warm spread */}
+                    <feColorMatrix in="blur30" result="c3" type="matrix" values="0.96 0 0 0 0  0 0.60 0 0 0  0 0 0.39 0 0  0 0 0 0.3 0" />
+                    <feOffset in="c3" result="o3" dx="0" dy="4" />
+                    {/* Layer 4 — deep floor reflection */}
+                    <feColorMatrix in="blur30" result="c4" type="matrix" values="0.24 0 0 0 0  0 0.16 0 0 0  0 0 0.08 0 0  0 0 0 0.15 0" />
+                    <feOffset in="c4" result="o4" dx="0" dy="16" />
                     <feMerge>
                       <feMergeNode in="o0" />
                       <feMergeNode in="o1" />
                       <feMergeNode in="o2" />
+                      <feMergeNode in="o3" />
+                      <feMergeNode in="o4" />
+                      <feMergeNode in="o0" />
                       <feMergeNode in="SourceGraphic" />
                     </feMerge>
                   </filter>
