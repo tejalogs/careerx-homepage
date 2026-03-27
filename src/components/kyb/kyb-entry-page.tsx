@@ -467,63 +467,61 @@ export default function KYBEntryPage() {
                 }}
               />
 
-              {/* Beat 2+3: Headline */}
+              {/* Headline — mask reveal, 2 lines */}
               <div className="relative z-10 text-center">
                 <h1
-                  className="text-[44px] sm:text-[68px] md:text-[88px] leading-[1.0] font-bold tracking-tight"
+                  className="text-[44px] sm:text-[68px] md:text-[88px] leading-[1.08] font-bold tracking-tight"
                   style={{ color: "#0C0E14" }}
                 >
-                  {/* Word-by-word for "Interests to" — faster, more dramatic */}
-                  {["Interests", "to"].map((word, i) => (
+                  {/* Line 1: "Interests to" — rises from mask */}
+                  <div style={{ overflow: "hidden", display: "block" }}>
                     <motion.span
-                      key={word}
-                      className="inline-block mr-[0.2em]"
-                      initial={{ opacity: 0, y: 40, filter: "blur(16px)" }}
-                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      transition={{ duration: 0.65, delay: 0.1 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                      className="block"
+                      initial={{ y: "105%" }}
+                      animate={{ y: "0%" }}
+                      transition={{ duration: 0.8, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      {word}
+                      Interests to
                     </motion.span>
-                  ))}
-                  <br className="sm:hidden" />
-                  {/* Letter-by-letter for "Outcomes." — the dramatic beat */}
-                  <span className="relative inline-block" style={{ filter: "url(#glow-light)" }}>
-                    {"Outcomes.".split("").map((char, i) => (
-                      <motion.span
-                        key={`o-${i}`}
-                        className="inline-block"
-                        style={{ color: "#5b8dd9" }}
-                        initial={{ opacity: 0, y: 50, scale: 0.5, filter: "blur(16px)" }}
-                        animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-                        transition={{
-                          duration: 0.7,
-                          delay: 0.5 + i * 0.055,
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
-                      >
-                        {char}
-                      </motion.span>
-                    ))}
-                  </span>
+                  </div>
+
+                  {/* Line 2: "Outcomes." — rises from mask, gradient blue */}
+                  <div style={{ overflow: "hidden", display: "block" }}>
+                    <motion.span
+                      className="block"
+                      style={{
+                        filter: "url(#glow-light)",
+                        background: "linear-gradient(135deg, #4a7cc9 0%, #6fa3e8 45%, #8bbcf0 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                      initial={{ y: "105%" }}
+                      animate={{ y: "0%" }}
+                      transition={{ duration: 0.8, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      Outcomes.
+                    </motion.span>
+                  </div>
                 </h1>
               </div>
 
-              {/* Beat 4a: Subheading */}
+              {/* Subheading */}
               <motion.p
-                initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 0.7, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 className="text-center mx-auto mt-6 leading-[1.6] relative z-10 max-w-xl"
                 style={{ color: MUTED, fontSize: 17 }}
               >
                 Turn your interests into smarter job targets and better interview outcomes.
               </motion.p>
 
-              {/* Beat 4b: Stats pill */}
+              {/* Stats pill */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.3, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.6, delay: 0.88, ease: [0.22, 1, 0.36, 1] }}
                 className="relative z-10 mt-6"
               >
                 <div
@@ -552,11 +550,11 @@ export default function KYBEntryPage() {
                 </div>
               </motion.div>
 
-              {/* Beat 4c: CTA + Social proof */}
+              {/* CTA + Social proof */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.45, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.6, delay: 1.02, ease: [0.22, 1, 0.36, 1] }}
                 className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 mt-5 relative z-10"
               >
                 <a
