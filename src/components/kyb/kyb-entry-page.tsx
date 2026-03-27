@@ -448,7 +448,7 @@ export default function KYBEntryPage() {
                 >
                   {/* Line 1: each word clips up from below */}
                   <span className="block">
-                    {["Interests", "to"].map((word, i) => (
+                    {["Know", "Your"].map((word, i) => (
                       <span
                         key={word}
                         style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom", marginRight: i === 0 ? "0.28em" : 0 }}
@@ -479,7 +479,7 @@ export default function KYBEntryPage() {
                     animate={heroReady ? { opacity: 1, scale: 1, y: 0, rotate: -0.6 } : {}}
                     transition={{ duration: 0.75, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    Outcomes.
+                    Career Fit.
                   </motion.span>
                 </h1>
 
@@ -491,7 +491,7 @@ export default function KYBEntryPage() {
                   className="mt-7 text-[16px] sm:text-[18px] leading-[1.7] max-w-md"
                   style={{ color: MUTED }}
                 >
-                  Turn your interests into smarter job targets and better interview outcomes. Powered by AI. Done in 10 minutes.
+                  A short discovery process that analyzes real job market data to identify roles that match your skills, interests, and career goals.
                 </motion.p>
 
                 {/* ── Stats strip ── */}
