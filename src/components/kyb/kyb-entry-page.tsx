@@ -448,7 +448,7 @@ export default function KYBEntryPage() {
                 >
                   {/* Line 1: each word clips up from below */}
                   <span className="block">
-                    {["Know", "Your"].map((word, i) => (
+                    {["Find", "Your"].map((word, i) => (
                       <span
                         key={word}
                         style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom", marginRight: i === 0 ? "0.28em" : 0 }}
@@ -479,7 +479,7 @@ export default function KYBEntryPage() {
                     animate={heroReady ? { opacity: 1, scale: 1, y: 0, rotate: -0.6 } : {}}
                     transition={{ duration: 0.75, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    Career Fit.
+                    Best Role.
                   </motion.span>
                 </h1>
 
