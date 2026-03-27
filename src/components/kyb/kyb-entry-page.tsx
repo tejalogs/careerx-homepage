@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
-  ArrowRight, Compass, Star, Play, Target, BarChart3, Zap,
+  ArrowRight, Star, Play, Target, BarChart3, Zap,
 } from "lucide-react";
 import Link from "next/link";
 import { BrandLogoMark } from "@/components/ui/brand-logo";
@@ -29,12 +29,6 @@ const AVATARS = [
   "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face",
 ];
 
-/* ─── animation helpers ───────────────────────────────────────────── */
-const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 24, filter: "blur(8px)" },
-  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-  transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
-});
 
 /* ═══════════════════════════════════════════════════════════════════ */
 /*  SHADER SPLASH SCREEN                                              */
@@ -153,51 +147,6 @@ function KYBNavbar() {
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════════ */
-/*  SOCIAL PROOF ROW                                                   */
-/* ═══════════════════════════════════════════════════════════════════ */
-function SocialProofRow() {
-  return (
-    <motion.div {...fadeUp(0.45)} className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mt-10">
-      {/* Avatar stack + rating */}
-      <div className="flex items-center gap-3">
-        <div className="flex -space-x-2.5">
-          {AVATARS.map((src, i) => (
-            <img
-              key={i}
-              src={src}
-              alt=""
-              className="w-8 h-8 rounded-full border-2 border-white object-cover"
-              style={{ zIndex: AVATARS.length - i }}
-            />
-          ))}
-        </div>
-        <div className="flex flex-col">
-          <div className="flex items-center gap-0.5">
-            {[1, 2, 3, 4, 5].map((s) => (
-              <Star key={s} size={12} fill="#F5D134" stroke="#F5D134" />
-            ))}
-            <span className="text-[12px] font-bold ml-1" style={{ color: "#0C0E14" }}>4.9</span>
-          </div>
-          <span className="text-[11px]" style={{ color: MUTED_LIGHT }}>
-            2,000+ found their direction
-          </span>
-        </div>
-      </div>
-
-      {/* Divider */}
-      <span className="hidden sm:block w-px h-8" style={{ background: "rgba(0,0,0,0.08)" }} />
-
-      {/* Trust badge */}
-      <div className="flex items-center gap-2">
-        <Compass size={14} style={{ color: BRAND_BLUE }} />
-        <span className="text-[12px] font-medium" style={{ color: MUTED }}>
-          Free · No credit card required
-        </span>
-      </div>
-    </motion.div>
-  );
-}
 
 /* ═══════════════════════════════════════════════════════════════════ */
 /*  VIDEO SECTION (scroll triggered)                                   */
@@ -452,196 +401,164 @@ export default function KYBEntryPage() {
 
         <div className="relative z-10">
             {/* ═══ HERO SECTION ═══ */}
-            <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 py-20 sm:py-0">
+            <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 pt-28 pb-20">
 
-              {/* Beat 1: ambient glow reveal behind headline */}
-              <motion.div
-                className="absolute pointer-events-none z-0"
-                initial={{ opacity: 0, scale: 0.7 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+              {/* Grid background */}
+              <div
+                className="absolute inset-0 pointer-events-none z-0"
                 style={{
-                  width: 700, height: 400,
-                  background: "radial-gradient(ellipse at 50% 50%, rgba(60,97,168,0.07) 0%, rgba(245,209,52,0.04) 50%, transparent 70%)",
-                  filter: "blur(40px)",
+                  backgroundImage: `linear-gradient(rgba(60,97,168,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(60,97,168,0.055) 1px, transparent 1px)`,
+                  backgroundSize: "64px 64px",
+                  maskImage: "radial-gradient(ellipse 90% 90% at 50% 50%, black 30%, transparent 100%)",
+                  WebkitMaskImage: "radial-gradient(ellipse 90% 90% at 50% 50%, black 30%, transparent 100%)",
                 }}
               />
 
-              {/* Headline — mask reveal, 2 lines */}
-              <div className="relative z-10 text-center">
-                <h1
-                  className="text-[44px] sm:text-[68px] md:text-[88px] leading-[1.08] font-bold tracking-tight"
+              {/* Ambient centre glow */}
+              <div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0"
+                style={{
+                  width: 900,
+                  height: 560,
+                  background: "radial-gradient(ellipse at 50% 40%, rgba(60,97,168,0.1) 0%, rgba(245,209,52,0.05) 45%, transparent 70%)",
+                  filter: "blur(72px)",
+                }}
+              />
+
+              <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto w-full">
+
+                {/* ── Badge pill ── */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="mb-7"
+                >
+                  <div
+                    className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full"
+                    style={{
+                      background: "rgba(60,97,168,0.06)",
+                      border: "1px solid rgba(60,97,168,0.15)",
+                    }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#22c55e", boxShadow: "0 0 6px #22c55e" }} />
+                    <span className="text-[12px] font-semibold tracking-wide" style={{ color: BRAND_BLUE }}>
+                      Know Yourself Better · Free to start
+                    </span>
+                  </div>
+                </motion.div>
+
+                {/* ── Headline ── */}
+                <motion.h1
+                  initial={{ opacity: 0, y: 28, filter: "blur(14px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{ duration: 0.85, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  className="text-[52px] sm:text-[80px] md:text-[108px] font-bold leading-[1.04] tracking-tight"
                   style={{ color: "#0C0E14" }}
                 >
-                  {/* Line 1: "Interests to" — rises from mask */}
-                  <div style={{ overflow: "hidden", display: "block" }}>
-                    <motion.span
-                      className="block"
-                      initial={{ y: "105%" }}
-                      animate={{ y: "0%" }}
-                      transition={{ duration: 0.8, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                      Interests to
-                    </motion.span>
-                  </div>
-
-                  {/* Line 2: "Outcomes." — rises from mask, gradient blue */}
-                  <div style={{ overflow: "hidden", display: "block" }}>
-                    <motion.span
-                      className="block"
-                      style={{
-                        filter: "url(#glow-light)",
-                        background: "linear-gradient(135deg, #4a7cc9 0%, #6fa3e8 45%, #8bbcf0 100%)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        backgroundClip: "text",
-                      }}
-                      initial={{ y: "105%" }}
-                      animate={{ y: "0%" }}
-                      transition={{ duration: 0.8, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                      Outcomes.
-                    </motion.span>
-                  </div>
-                </h1>
-              </div>
-
-              {/* Subheading */}
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="text-center mx-auto mt-6 leading-[1.6] relative z-10 max-w-xl"
-                style={{ color: MUTED, fontSize: 17 }}
-              >
-                Turn your interests into smarter job targets and better interview outcomes.
-              </motion.p>
-
-              {/* Stats pill */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.88, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 mt-6"
-              >
-                <div
-                  className="inline-flex items-center gap-3 sm:gap-6 px-5 sm:px-8 py-2.5 sm:py-3 rounded-full"
-                  style={{
-                    background: "rgba(255,255,255,0.55)",
-                    border: "1px solid rgba(0,0,0,0.04)",
-                    backdropFilter: "blur(12px)",
-                    boxShadow: "0 1px 12px rgba(0,0,0,0.03)",
-                  }}
-                >
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[15px] sm:text-[18px] font-black" style={{ color: "#0C0E14" }}>96%</span>
-                    <span className="text-[10px] sm:text-[11px]" style={{ color: MUTED }}>Accuracy</span>
-                  </div>
-                  <div className="w-px h-4" style={{ background: "rgba(0,0,0,0.08)" }} />
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[15px] sm:text-[18px] font-black" style={{ color: "#0C0E14" }}>14k+</span>
-                    <span className="text-[10px] sm:text-[11px]" style={{ color: MUTED }}>Mapped</span>
-                  </div>
-                  <div className="w-px h-4" style={{ background: "rgba(0,0,0,0.08)" }} />
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[15px] sm:text-[18px] font-black" style={{ color: "#0C0E14" }}>Free</span>
-                    <span className="text-[10px] sm:text-[11px]" style={{ color: MUTED }}>Always</span>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* CTA + Social proof */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.02, ease: [0.22, 1, 0.36, 1] }}
-                className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 mt-5 relative z-10"
-              >
-                <a
-                  href="#"
-                  className="group relative overflow-hidden inline-flex items-center h-11 sm:h-12 rounded-full text-[14px] sm:text-[15px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-300 hover:shadow-md"
-                  style={{
-                    background: BRAND_BLUE,
-                    paddingLeft: 22,
-                    paddingRight: 44,
-                  }}
-                >
-                  <span className="transition-all duration-400 group-hover:opacity-0 group-hover:-translate-x-1">
-                    Begin KYB
-                  </span>
-                  <span className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-400 group-hover:opacity-100 font-semibold text-[14px]">
-                    Let&apos;s go
-                  </span>
-                  <i
-                    className="absolute right-1 top-1 bottom-1 rounded-full z-10 grid place-items-center transition-all duration-400 group-hover:w-[calc(100%-0.5rem)] group-active:scale-95"
-                    style={{ width: 34, background: "rgba(255,255,255,0.15)" }}
+                  Interests to
+                  <br />
+                  <span
+                    style={{
+                      display: "inline-block",
+                      backgroundColor: "#F5D134",
+                      color: "#0C0E14",
+                      borderRadius: 12,
+                      padding: "0 16px 6px",
+                      transform: "rotate(-0.6deg)",
+                      lineHeight: 1.15,
+                    }}
                   >
-                    <ArrowRight size={14} strokeWidth={2.5} />
-                  </i>
-                </a>
+                    Outcomes.
+                  </span>
+                </motion.h1>
 
-                {/* Divider on desktop */}
-                <div className="hidden sm:block w-px h-8" style={{ background: "rgba(0,0,0,0.08)" }} />
+                {/* ── Subline ── */}
+                <motion.p
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                  className="mt-6 text-[16px] sm:text-[18px] leading-[1.7] max-w-md"
+                  style={{ color: MUTED }}
+                >
+                  Turn your interests into smarter job targets and better interview outcomes. Powered by AI. Done in 10 minutes.
+                </motion.p>
 
-                {/* Social proof */}
-                <div className="flex items-center gap-2.5">
-                  <div className="flex -space-x-2">
-                    {AVATARS.map((src, i) => (
-                      <img
-                        key={i}
-                        src={src}
-                        alt=""
-                        className="w-6 h-6 rounded-full border-[1.5px] border-white object-cover"
-                        style={{ zIndex: AVATARS.length - i }}
-                      />
-                    ))}
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="flex items-center gap-1">
-                      <div className="flex gap-0.5">
-                        {[1, 2, 3, 4, 5].map((s) => (
-                          <Star key={s} size={8} fill="#F5D134" stroke="#F5D134" />
-                        ))}
+                {/* ── Stats strip ── */}
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                  className="mt-9 flex items-center gap-0"
+                >
+                  {[
+                    { value: "96%", label: "Accuracy" },
+                    { value: "14k+", label: "Careers Mapped" },
+                    { value: "Free", label: "Always" },
+                  ].map((stat, i) => (
+                    <div key={stat.value} className="flex items-center">
+                      {i > 0 && (
+                        <div className="w-px h-8 mx-6" style={{ background: "rgba(0,0,0,0.09)" }} />
+                      )}
+                      <div className="flex flex-col items-center">
+                        <span className="text-[22px] sm:text-[26px] font-black leading-none" style={{ color: "#0C0E14" }}>
+                          {stat.value}
+                        </span>
+                        <span className="text-[11px] mt-1 font-medium" style={{ color: MUTED }}>
+                          {stat.label}
+                        </span>
                       </div>
-                      <span className="text-[10px] font-bold" style={{ color: "#0C0E14" }}>4.9</span>
                     </div>
-                    <span className="text-[9px]" style={{ color: MUTED_LIGHT }}>2,000+ found direction</span>
-                  </div>
-                </div>
-              </motion.div>
+                  ))}
+                </motion.div>
 
-              {/* SVG glow filter — soft blue tuned to #5b8dd9 */}
-              <svg className="absolute -z-10 h-0 w-0" width="0" height="0" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <filter id="glow-light" colorInterpolationFilters="sRGB" x="-60%" y="-300%" width="220%" height="700%">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur3" />
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur10" />
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="28" result="blur28" />
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="55" result="blur55" />
-                    {/* tight halo — pure soft blue */}
-                    <feColorMatrix in="blur3"  result="c0" type="matrix" values="0.36 0 0 0 0  0 0.55 0 0 0  0 0 0.85 0 0  0 0 0 1.0 0" />
-                    <feOffset in="c0" result="o0" dx="0" dy="0" />
-                    {/* mid glow — slightly cooler */}
-                    <feColorMatrix in="blur10" result="c1" type="matrix" values="0.36 0 0 0 0  0 0.55 0 0 0  0 0 0.85 0 0  0 0 0 0.7 0" />
-                    <feOffset in="c1" result="o1" dx="0" dy="2" />
-                    {/* wide bloom — sky blue */}
-                    <feColorMatrix in="blur28" result="c2" type="matrix" values="0.50 0 0 0 0  0 0.70 0 0 0  0 0 1.00 0 0  0 0 0 0.45 0" />
-                    <feOffset in="c2" result="o2" dx="0" dy="4" />
-                    {/* outer aura — very faint blue-white */}
-                    <feColorMatrix in="blur55" result="c3" type="matrix" values="0.70 0 0 0 0  0 0.82 0 0 0  0 0 1.00 0 0  0 0 0 0.18 0" />
-                    <feOffset in="c3" result="o3" dx="0" dy="8" />
-                    <feMerge>
-                      <feMergeNode in="o3" />
-                      <feMergeNode in="o2" />
-                      <feMergeNode in="o1" />
-                      <feMergeNode in="o0" />
-                      <feMergeNode in="o0" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-              </svg>
-            </div>
+                {/* ── CTA + Social proof ── */}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.56, ease: [0.22, 1, 0.36, 1] }}
+                  className="mt-8 flex flex-col sm:flex-row items-center gap-4 sm:gap-6"
+                >
+                  {/* Primary CTA */}
+                  <a
+                    href="#"
+                    className="group inline-flex items-center gap-2 h-12 sm:h-13 px-7 rounded-full text-[15px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 active:scale-[0.98]"
+                    style={{
+                      background: BRAND_BLUE,
+                      boxShadow: "0 4px 18px rgba(60,97,168,0.32)",
+                    }}
+                  >
+                    Begin KYB
+                    <ArrowRight size={15} strokeWidth={2.5} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                  </a>
+
+                  {/* Social proof */}
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex -space-x-2">
+                      {AVATARS.map((src, i) => (
+                        <img
+                          key={i}
+                          src={src}
+                          alt=""
+                          className="w-7 h-7 rounded-full border-2 border-white object-cover"
+                          style={{ zIndex: AVATARS.length - i }}
+                        />
+                      ))}
+                    </div>
+                    <div className="flex flex-col text-left">
+                      <div className="flex items-center gap-0.5">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <Star key={s} size={10} fill="#F5D134" stroke="#F5D134" />
+                        ))}
+                        <span className="text-[11px] font-bold ml-1" style={{ color: "#0C0E14" }}>4.9</span>
+                      </div>
+                      <span className="text-[10px] mt-0.5" style={{ color: MUTED_LIGHT }}>2,000+ found direction</span>
+                    </div>
+                  </div>
+                </motion.div>
+
+              </div>
+            </section>
 
             {/* ═══ VIDEO SECTION ═══ */}
             <VideoSection />
