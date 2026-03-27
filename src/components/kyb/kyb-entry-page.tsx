@@ -443,12 +443,12 @@ export default function KYBEntryPage() {
 
                 {/* ── Headline — word-by-word reveal ── */}
                 <h1
-                  className="text-[36px] sm:text-[62px] md:text-[82px] font-bold leading-[1.08] tracking-tight"
+                  className="text-[52px] sm:text-[76px] md:text-[100px] font-bold leading-[1.06] tracking-tight"
                   style={{ color: "#0C0E14" }}
                 >
                   {/* Line 1: each word clips up from below */}
                   <span className="block">
-                    {["Your", "Interests"].map((word, i) => (
+                    {["Know", "Your"].map((word, i) => (
                       <span
                         key={word}
                         style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom", marginRight: i === 0 ? "0.28em" : 0 }}
@@ -479,7 +479,7 @@ export default function KYBEntryPage() {
                     animate={heroReady ? { opacity: 1, scale: 1, y: 0, rotate: -0.6 } : {}}
                     transition={{ duration: 0.75, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    Have a Job Title.
+                    Career Fit.
                   </motion.span>
                 </h1>
 
