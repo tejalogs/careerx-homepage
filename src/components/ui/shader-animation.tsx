@@ -22,26 +22,44 @@ export function ShaderAnimation() {
       `;
 
       const fragmentShader = `
-        #define TWO_PI 6.2831853072
-        #define PI 3.14159265359
-
         precision highp float;
         uniform vec2 resolution;
         uniform float time;
 
+        // Brand colors: Yellow #F5D134, Blue #3C60A8
+        vec3 brandYellow = vec3(0.961, 0.820, 0.204);
+        vec3 brandBlue   = vec3(0.235, 0.376, 0.659);
+        vec3 bgColor     = vec3(0.97, 0.975, 0.99); // light off-white #F7F8FC
+
         void main(void) {
           vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
-          float t = time * 0.05;
-          float lineWidth = 0.002;
+          float t = time * 0.03;
 
-          vec3 color = vec3(0.0);
-          for(int j = 0; j < 3; j++){
-            for(int i = 0; i < 5; i++){
-              color[j] += lineWidth * float(i * i) / abs(fract(t - 0.01 * float(j) + float(i) * 0.01) * 5.0 - length(uv) + mod(uv.x + uv.y, 0.2));
-            }
+          // soft flowing waves using brand colors on light bg
+          vec3 color = bgColor;
+
+          for(int i = 0; i < 4; i++){
+            float fi = float(i);
+            float wave1 = sin(uv.x * 2.0 + t * (1.0 + fi * 0.3) + fi * 1.5) * cos(uv.y * 1.5 + t * 0.7 + fi);
+            float wave2 = cos(uv.y * 2.5 + t * (0.8 + fi * 0.2) - fi * 0.8) * sin(uv.x * 1.8 - t * 0.5 + fi * 2.0);
+            float blend = wave1 * wave2;
+
+            // mix yellow and blue waves
+            float yellowStr = smoothstep(-0.2, 0.4, blend) * 0.4;
+            float blueStr   = smoothstep(-0.4, 0.2, -blend) * 0.45;
+
+            color += brandYellow * yellowStr * (1.0 - fi * 0.1);
+            color += brandBlue * blueStr * (1.0 - fi * 0.1);
           }
 
-          gl_FragColor = vec4(color[0], color[1], color[2], 1.0);
+          // soft radial vignette
+          float vignette = 1.0 - length(uv) * 0.2;
+          color *= vignette;
+
+          // allow richer color while staying light
+          color = clamp(color, vec3(0.7), vec3(1.0));
+
+          gl_FragColor = vec4(color, 1.0);
         }
       `;
 
@@ -113,7 +131,7 @@ export function ShaderAnimation() {
     <div
       ref={containerRef}
       className="w-full h-full"
-      style={{ background: "#000", overflow: "hidden" }}
+      style={{ background: "#F7F8FC", overflow: "hidden" }}
     />
   );
 }

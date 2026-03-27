@@ -101,10 +101,11 @@ function ShaderSplash({ onComplete }: { onComplete: () => void }) {
               : {}
           }
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tight text-white"
-          style={{ textShadow: "0 4px 40px rgba(0,0,0,0.5)" }}
+          className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tight"
+          style={{ color: "#0C0E14", textShadow: "0 2px 20px rgba(60,96,168,0.15)" }}
         >
-          Know Yourself.
+          Know Yourself{" "}
+          <span style={{ color: "#3C60A8" }}>Better</span>
         </motion.h1>
 
         <motion.p
@@ -115,7 +116,8 @@ function ShaderSplash({ onComplete }: { onComplete: () => void }) {
               : {}
           }
           transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-4 text-lg sm:text-xl text-white/60 font-medium tracking-wide"
+          className="mt-4 text-lg sm:text-xl font-medium tracking-wide"
+          style={{ color: "rgba(0,0,0,0.45)" }}
         >
           Your career journey starts here
         </motion.p>
@@ -123,9 +125,10 @@ function ShaderSplash({ onComplete }: { onComplete: () => void }) {
 
       {/* progress bar at bottom */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-        <div className="w-48 h-[2px] bg-white/10 rounded-full overflow-hidden">
+        <div className="w-48 h-[2px] rounded-full overflow-hidden" style={{ background: "rgba(60,96,168,0.1)" }}>
           <motion.div
-            className="h-full bg-white/40 rounded-full"
+            className="h-full rounded-full"
+            style={{ background: "linear-gradient(90deg, #3C60A8, #F5D134)" }}
             initial={{ width: "0%" }}
             animate={{ width: "100%" }}
             transition={{ duration: SPLASH_DURATION / 1000, ease: "linear" }}
