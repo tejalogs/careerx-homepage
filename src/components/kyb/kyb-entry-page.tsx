@@ -186,7 +186,7 @@ function SocialProofRow() {
       <div className="flex items-center gap-2">
         <Sparkles size={14} style={{ color: BRAND_BLUE }} />
         <span className="text-[12px] font-medium" style={{ color: MUTED }}>
-          Free · No signup required
+          Free · No credit card required
         </span>
       </div>
     </motion.div>
@@ -288,56 +288,73 @@ function VideoSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════ */
-/*  REGISTER CTA SECTION                                               */
+/*  BEGIN KYB CTA (hand-written circle animation)                      */
 /* ═══════════════════════════════════════════════════════════════════ */
-function RegisterCTA() {
+const drawVariant = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    transition: {
+      pathLength: { duration: 2.5, ease: [0.43, 0.13, 0.23, 0.96] },
+      opacity: { duration: 0.5 },
+    },
+  },
+};
+
+function BeginKYBCTA() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <div ref={ref} className="max-w-3xl mx-auto px-6 py-16">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="relative rounded-2xl p-8 sm:p-12 text-center overflow-hidden"
-        style={{ background: "#0C0E14" }}
-      >
-        {/* Subtle glow */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "radial-gradient(ellipse at 50% 0%, rgba(60,97,168,0.15), transparent 70%)",
-          }}
-        />
+    <div ref={ref} className="max-w-4xl mx-auto px-6 py-20">
+      <div className="relative w-full max-w-lg mx-auto" style={{ minHeight: 280 }}>
+        {/* Hand-drawn circle SVG */}
+        <motion.svg
+          width="100%"
+          height="100%"
+          viewBox="0 0 600 300"
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="absolute inset-0 w-full h-full"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <title>Begin KYB</title>
+          <motion.path
+            d="M 480 50
+               C 580 120, 560 240, 300 260
+               C 120 260, 40 220, 40 150
+               C 40 80, 150 40, 300 40
+               C 450 40, 500 100, 480 100"
+            fill="none"
+            strokeWidth="4"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            variants={drawVariant}
+            className="text-[#3C61A8] opacity-60"
+          />
+        </motion.svg>
 
-        <div className="relative z-10">
-          <h2 className="text-[24px] sm:text-[30px] font-bold mb-4" style={{ color: "#fff" }}>
-            Ready to find your role?
-          </h2>
-          <p
-            className="text-[16px] leading-[1.7] mx-auto mb-8"
-            style={{ color: "rgba(255,255,255,0.6)", maxWidth: 420 }}
+        {/* Content centered inside the circle */}
+        <div className="relative z-10 flex flex-col items-center justify-center text-center" style={{ minHeight: 280 }}>
+          <motion.h2
+            className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            style={{ color: "#0C0E14" }}
           >
-            Create your free account and discover which career path
-            matches your skills, interests, and goals.
-          </p>
-
-          {/* Email input + CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              aria-label="Email address"
-              className="w-full sm:flex-1 px-5 py-4 rounded-xl text-[15px] outline-none focus:ring-2 focus:ring-yellow-500"
-              style={{
-                background: "rgba(255,255,255,0.08)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "#fff",
-              }}
-            />
-            <motion.button
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl text-[15px] font-semibold text-white whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-yellow-500"
+            Begin KYB
+          </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 1, duration: 0.6 }}
+          >
+            <motion.a
+              href="#"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-[16px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2"
               style={{
                 background: GOLD_GRADIENT,
                 boxShadow: `0 4px 14px ${GOLD_SHADOW}`,
@@ -345,16 +362,12 @@ function RegisterCTA() {
               whileHover={{ scale: 1.02, boxShadow: `0 6px 20px ${GOLD_HOVER}` }}
               whileTap={{ scale: 0.98 }}
             >
-              Get Started
-              <ArrowRight size={16} />
-            </motion.button>
-          </div>
-
-          <p className="mt-4 text-[12px]" style={{ color: "rgba(255,255,255,0.35)" }}>
-            Free forever · No credit card required
-          </p>
+              Start Now
+              <ArrowRight size={17} />
+            </motion.a>
+          </motion.div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -463,8 +476,8 @@ export default function KYBEntryPage() {
             {/* ═══ VIDEO SECTION ═══ */}
             <VideoSection />
 
-            {/* ═══ REGISTER CTA ═══ */}
-            <RegisterCTA />
+            {/* ═══ BEGIN KYB CTA ═══ */}
+            <BeginKYBCTA />
 
             <div style={{ height: 40 }} />
           </div>
