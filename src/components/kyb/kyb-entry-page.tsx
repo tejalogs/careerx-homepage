@@ -3,8 +3,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
-  Compass, BookOpen, MessageSquare, Rocket,
-  Clock, ArrowRight, Sparkles,
+  ArrowRight, Sparkles, Target, TrendingUp, Shield, Users, Compass,
 } from "lucide-react";
 import Link from "next/link";
 import { BrandLogoMark } from "@/components/ui/brand-logo";
@@ -14,49 +13,32 @@ import { ShaderAnimation } from "@/components/ui/shader-animation";
 const GOLD_GRADIENT = "linear-gradient(135deg, #B8860B, #DAA520, #F0C040)";
 const GOLD_SHADOW   = "rgba(212, 160, 18, 0.25)";
 const GOLD_HOVER    = "rgba(212, 160, 18, 0.35)";
-const BRAND_PURPLE  = "#6555C1";
+const BRAND_BLUE    = "#3C61A8";
 const MUTED         = "rgba(0,0,0,0.55)";
 const MUTED_LIGHT   = "rgba(0,0,0,0.4)";
 
-const SPLASH_DURATION = 3200; // ms before auto-transition
+const SPLASH_DURATION = 3200;
 
-/* ─── journey steps ───────────────────────────────────────────────── */
-const STEPS = [
+/* ─── commitment stats ────────────────────────────────────────────── */
+const STATS = [
+  { value: "92%", label: "of users discover a role they never considered", icon: Target },
+  { value: "3x", label: "more likely to land interviews with role clarity", icon: TrendingUp },
+  { value: "14,000+", label: "professionals have already mapped their career", icon: Users },
+];
+
+/* ─── what you will uncover ──────────────────────────────────────── */
+const INSIGHTS = [
   {
-    num: "01",
-    icon: Compass,
-    title: "Discover",
-    subtitle: "Know Yourself Better",
-    benefit: "Map your skills to real market demand",
-    active: true,
-    color: BRAND_PURPLE,
+    title: "Your true role fit",
+    description: "Based on real job market data, not assumptions. See exactly which roles match your strengths.",
   },
   {
-    num: "02",
-    icon: BookOpen,
-    title: "Prepare",
-    subtitle: "Career Track",
-    benefit: "Build your personalized learning roadmap",
-    active: false,
-    color: "#3C61A8",
+    title: "Skills that set you apart",
+    description: "Identify the skills employers are actively hiring for and where you already stand out.",
   },
   {
-    num: "03",
-    icon: MessageSquare,
-    title: "Validate",
-    subtitle: "Interview Simulator",
-    benefit: "Practice with AI-powered mock interviews",
-    active: false,
-    color: "#0891b2",
-  },
-  {
-    num: "04",
-    icon: Rocket,
-    title: "Activate",
-    subtitle: "Career Opportunities",
-    benefit: "Connect with matched job opportunities",
-    active: false,
-    color: "#ea580c",
+    title: "Your market position",
+    description: "Understand where you rank against other candidates and what gives you an edge.",
   },
 ];
 
@@ -71,14 +53,27 @@ const fadeUp = (delay: number) => ({
 /*  SHADER SPLASH SCREEN                                              */
 /* ═══════════════════════════════════════════════════════════════════ */
 function ShaderSplash({ onComplete }: { onComplete: () => void }) {
-  const [textPhase, setTextPhase] = useState(0); // 0=hidden, 1=show, 2=exit
+  const [textPhase, setTextPhase] = useState(0);
+  const calledRef = useRef(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setTextPhase(1), 400);       // text appears
-    const t2 = setTimeout(() => setTextPhase(2), 2400);      // text begins exit
-    const t3 = setTimeout(() => onComplete(), SPLASH_DURATION); // transition out
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-  }, [onComplete]);
+    let t1: ReturnType<typeof setTimeout>;
+    let t2: ReturnType<typeof setTimeout>;
+    let t3: ReturnType<typeof setTimeout>;
+
+    t1 = setTimeout(() => setTextPhase(1), 400);
+    t2 = setTimeout(() => setTextPhase(2), 2400);
+    t3 = setTimeout(() => {
+      if (!calledRef.current) {
+        calledRef.current = true;
+        onComplete();
+      }
+    }, SPLASH_DURATION);
+
+    // Do NOT clean up timers — let them fire even on strict-mode remount
+    return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <motion.div
@@ -86,12 +81,10 @@ function ShaderSplash({ onComplete }: { onComplete: () => void }) {
       exit={{ opacity: 0, scale: 1.05 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
-      {/* shader background */}
       <div className="absolute inset-0">
         <ShaderAnimation />
       </div>
 
-      {/* overlay text */}
       <div className="relative z-10 flex flex-col items-center text-center pointer-events-none px-6">
         <motion.h1
           initial={{ opacity: 0, y: 40, filter: "blur(16px)" }}
@@ -123,7 +116,6 @@ function ShaderSplash({ onComplete }: { onComplete: () => void }) {
         </motion.p>
       </div>
 
-      {/* progress bar at bottom */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
         <div className="w-48 h-[2px] rounded-full overflow-hidden" style={{ background: "rgba(60,96,168,0.1)" }}>
           <motion.div
@@ -160,7 +152,7 @@ function KYBNavbar() {
         <Link href="/" className="flex items-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
           <BrandLogoMark size={22} />
           <span className="text-[15px] font-bold tracking-tight" style={{ color: "#0C0E14" }}>
-            Career<span style={{ color: "#3C61A8" }}>X</span>celerator
+            Career<span style={{ color: BRAND_BLUE }}>X</span>celerator
           </span>
         </Link>
         <Link
@@ -176,90 +168,76 @@ function KYBNavbar() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════ */
-/*  STEP CARD                                                         */
+/*  STAT CARD                                                         */
 /* ═══════════════════════════════════════════════════════════════════ */
-function StepCard({ step, index }: { step: (typeof STEPS)[0]; index: number }) {
+function StatCard({ stat, index }: { stat: (typeof STATS)[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
-  const Icon = step.icon;
+  const Icon = stat.icon;
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
-      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.6, delay: 0.3 + index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-      className="relative group"
-      style={{ flex: "1 1 0", minWidth: 0 }}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: 0.2 + index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      className="text-center"
     >
       <div
-        className="relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-0.5"
-        style={{
-          background: step.active ? "#fff" : "#F8F9FA",
-          boxShadow: step.active ? "0 4px 20px rgba(0,0,0,0.08)" : "none",
-          borderLeft: step.active ? `3px solid ${step.color}` : "3px solid transparent",
-          transform: step.active ? "scale(1.02)" : undefined,
-        }}
+        className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4"
+        style={{ background: "rgba(60,97,168,0.08)" }}
       >
-        <span
-          className="text-[11px] font-bold tracking-wider uppercase mb-4 block"
-          style={{ color: step.active ? step.color : "rgba(0,0,0,0.25)" }}
-        >
-          {step.num}
-        </span>
-        <div
-          className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-          style={{ background: step.active ? `${step.color}12` : "rgba(0,0,0,0.04)" }}
-        >
-          <Icon size={22} style={{ color: step.active ? step.color : "rgba(0,0,0,0.3)" }} />
-        </div>
-        <h3 className="text-lg font-bold mb-1" style={{ color: step.active ? step.color : "rgba(0,0,0,0.7)" }}>
-          {step.title}
-        </h3>
-        <p className="text-[13px] font-medium mb-2" style={{ color: step.active ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.45)" }}>
-          {step.subtitle}
-        </p>
-        <p className="text-[12px] leading-relaxed" style={{ color: step.active ? "rgba(0,0,0,0.55)" : "rgba(0,0,0,0.35)" }}>
-          {step.benefit}
-        </p>
-        {step.active && (
-          <div
-            className="absolute inset-0 rounded-2xl pointer-events-none"
-            style={{ background: `radial-gradient(ellipse at 20% 20%, ${step.color}08, transparent 70%)` }}
-          />
-        )}
+        <Icon size={22} style={{ color: BRAND_BLUE }} />
       </div>
+      <p className="text-3xl sm:text-4xl font-black mb-2" style={{ color: "#0C0E14" }}>
+        {stat.value}
+      </p>
+      <p className="text-[14px] leading-relaxed" style={{ color: MUTED, maxWidth: 220, margin: "0 auto" }}>
+        {stat.label}
+      </p>
     </motion.div>
   );
 }
 
 /* ═══════════════════════════════════════════════════════════════════ */
-/*  CONNECTORS                                                        */
+/*  INSIGHT CARD                                                      */
 /* ═══════════════════════════════════════════════════════════════════ */
-function ConnectorLine({ activeSegment }: { activeSegment: boolean }) {
-  return (
-    <div className="hidden lg:flex items-center" style={{ width: 32 }}>
-      <div
-        className="w-full h-[2px]"
-        style={{
-          background: activeSegment ? `linear-gradient(90deg, ${BRAND_PURPLE}, #3C61A8)` : "#E0E0E0",
-          opacity: activeSegment ? 1 : 0.6,
-        }}
-      />
-    </div>
-  );
-}
+function InsightCard({ insight, index }: { insight: (typeof INSIGHTS)[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
-function MobileConnector({ active }: { active: boolean }) {
   return (
-    <div className="lg:hidden flex justify-center" style={{ height: 24 }}>
-      <div
-        className="w-[2px] h-full"
-        style={{
-          background: active ? `linear-gradient(180deg, ${BRAND_PURPLE}, #3C61A8)` : "#E0E0E0",
-        }}
-      />
-    </div>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: 0.15 + index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      className="relative p-6 rounded-2xl transition-all duration-300 hover:-translate-y-0.5"
+      style={{
+        background: "#fff",
+        boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+        border: "1px solid rgba(0,0,0,0.05)",
+      }}
+    >
+      <div className="flex items-start gap-4">
+        <div
+          className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+          style={{ background: "rgba(60,97,168,0.08)" }}
+        >
+          <span className="text-[13px] font-black" style={{ color: BRAND_BLUE }}>
+            {String(index + 1).padStart(2, "0")}
+          </span>
+        </div>
+        <div>
+          <h3 className="text-[16px] font-bold mb-1.5" style={{ color: "#0C0E14" }}>
+            {insight.title}
+          </h3>
+          <p className="text-[14px] leading-relaxed" style={{ color: MUTED }}>
+            {insight.description}
+          </p>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -270,177 +248,192 @@ export default function KYBEntryPage() {
   const [showSplash, setShowSplash] = useState(true);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  const handleSplashComplete = useCallback(() => {
-    setShowSplash(false);
+  useEffect(() => {
+    // Use requestAnimationFrame loop to check time elapsed
+    const start = performance.now();
+    let raf: number;
+    const tick = () => {
+      if (performance.now() - start >= SPLASH_DURATION) {
+        setShowSplash(false);
+        return;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
     <>
-      {/* ─── SHADER SPLASH ─── */}
-      <AnimatePresence>
-        {showSplash && <ShaderSplash onComplete={handleSplashComplete} />}
-      </AnimatePresence>
+      {showSplash && (
+        <ShaderSplash onComplete={() => setShowSplash(false)} />
+      )}
 
-      {/* ─── MAIN CONTENT (renders behind splash, revealed when splash exits) ─── */}
       <div
         className="min-h-screen relative overflow-hidden"
-        style={{ background: "linear-gradient(180deg, #EEF1FA 0%, #F5F3FF 25%, #FFFDF5 50%, #FFFFFF 80%)" }}
+        style={{ background: "linear-gradient(135deg, rgba(60,96,168,0.08) 0%, rgba(245,209,52,0.06) 50%, rgba(60,96,168,0.04) 100%)" }}
       >
         {!showSplash && <KYBNavbar />}
 
-        {/* brand blue glow — top left */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top: "-5%", left: "-10%",
-            width: 700, height: 700,
-            background: "radial-gradient(ellipse at 50% 50%, rgba(60,96,168,0.08), transparent 65%)",
-          }}
-        />
-
-        {/* brand yellow glow — top right */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top: "-5%", right: "-10%",
-            width: 600, height: 600,
-            background: "radial-gradient(ellipse at 50% 50%, rgba(245,209,52,0.07), transparent 65%)",
-          }}
-        />
-
-        {/* center glow for hero area */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top: "15%", left: "50%", transform: "translateX(-50%)",
-            width: 900, height: 500,
-            background: "radial-gradient(ellipse at 50% 40%, rgba(60,96,168,0.04), transparent 60%)",
-          }}
-        />
-
-        {/* dot grid texture */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: "radial-gradient(rgba(60,96,168,0.04) 1px, transparent 1px)",
-            backgroundSize: "24px 24px",
-          }}
-        />
-
-        {/* ──── CONTENT ──── */}
         {!showSplash && (
-          <div className="relative z-10 max-w-5xl mx-auto px-6" ref={heroRef}>
-            <div style={{ height: 64 }} />
+          <div className="relative z-10" ref={heroRef}>
+            {/* ═══ HERO SECTION ═══ */}
+            <div className="max-w-4xl mx-auto px-6 pt-32 pb-16">
+              {/* Badge */}
+              <motion.div {...fadeUp(0.15)} className="flex justify-center">
+                <span
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[12px] font-semibold uppercase tracking-wider"
+                  style={{ background: "rgba(60,97,168,0.08)", color: BRAND_BLUE }}
+                >
+                  <Compass size={14} />
+                  Step 1: Discover
+                </span>
+              </motion.div>
 
-            {/* BADGE */}
-            <motion.div {...fadeUp(0.15)} className="flex justify-center" style={{ marginTop: 80 }}>
-              <span
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[12px] font-semibold uppercase tracking-wider"
-                style={{ background: "rgba(101, 85, 193, 0.08)", color: BRAND_PURPLE }}
+              {/* Headline */}
+              <motion.h1 {...fadeUp(0.25)} className="text-center mt-6">
+                <span
+                  className="block text-[36px] sm:text-[44px] md:text-[52px] leading-[1.1] font-light"
+                  style={{ color: "#0C0E14" }}
+                >
+                  The job market has
+                </span>
+                <span
+                  className="block text-[36px] sm:text-[44px] md:text-[52px] leading-[1.1] font-extrabold"
+                  style={{ color: "#0C0E14" }}
+                >
+                  thousands of roles.
+                </span>
+                <span
+                  className="block text-[36px] sm:text-[44px] md:text-[52px] leading-[1.1] font-extrabold mt-1"
+                  style={{
+                    background: GOLD_GRADIENT,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  Which one is yours?
+                </span>
+              </motion.h1>
+
+              {/* Subheading */}
+              <motion.p
+                {...fadeUp(0.3)}
+                className="text-center mx-auto mt-6 leading-[1.7]"
+                style={{ maxWidth: 500, color: MUTED, fontSize: 17 }}
               >
-                <Sparkles size={14} />
-                How CareerXcelerator Works
-              </span>
-            </motion.div>
+                Most people guess. We analyze real job market data to show you
+                exactly where you belong and what it takes to get there.
+              </motion.p>
 
-            {/* HEADLINE */}
-            <motion.h1 {...fadeUp(0.25)} className="text-center" style={{ maxWidth: 700, margin: "16px auto 0" }}>
-              <span
-                className="block text-[36px] sm:text-[44px] md:text-[52px] leading-[1.1]"
-                style={{ color: "#0C0E14", fontWeight: 400 }}
-              >
-                Start Your
-              </span>
-              <span
-                className="block text-[36px] sm:text-[44px] md:text-[52px] leading-[1.1] font-extrabold"
-                style={{
-                  background: GOLD_GRADIENT,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Career Discovery
-              </span>
-            </motion.h1>
+              {/* Primary CTA */}
+              <motion.div {...fadeUp(0.4)} className="flex flex-col items-center mt-10">
+                <motion.a
+                  href="#"
+                  className="inline-flex items-center gap-2 px-9 py-[18px] rounded-xl text-[18px] font-semibold text-white transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2"
+                  style={{
+                    background: GOLD_GRADIENT,
+                    boxShadow: `0 4px 14px ${GOLD_SHADOW}`,
+                    minWidth: 280,
+                    justifyContent: "center",
+                  }}
+                  whileHover={{ scale: 1.02, boxShadow: `0 6px 20px ${GOLD_HOVER}` }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Discover My Best Role
+                  <ArrowRight size={18} />
+                </motion.a>
+                <p className="mt-3 text-[13px]" style={{ color: MUTED_LIGHT }}>
+                  Free · No credit card required
+                </p>
+              </motion.div>
+            </div>
 
-            {/* SUBHEADING */}
-            <motion.p
-              {...fadeUp(0.3)}
-              className="text-center mx-auto mt-5 leading-[1.65]"
-              style={{ maxWidth: 540, color: MUTED, fontSize: 17 }}
-            >
-              A short discovery process that analyzes real job market data to
-              identify roles that match your skills, interests, and career goals.
-            </motion.p>
-
-            {/* JOURNEY ROADMAP */}
-            <div className="mt-14">
-              <div className="hidden lg:flex items-stretch gap-0">
-                {STEPS.map((step, i) => (
-                  <div key={step.num} className="flex items-stretch" style={{ flex: "1 1 0" }}>
-                    <StepCard step={step} index={i} />
-                    {i < STEPS.length - 1 && <ConnectorLine activeSegment={i === 0} />}
-                  </div>
-                ))}
-              </div>
-              <div className="lg:hidden flex flex-col">
-                {STEPS.map((step, i) => (
-                  <div key={step.num}>
-                    <StepCard step={step} index={i} />
-                    {i < STEPS.length - 1 && <MobileConnector active={i === 0} />}
-                  </div>
+            {/* ═══ SOCIAL PROOF STATS ═══ */}
+            <div className="max-w-4xl mx-auto px-6 py-16">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+                {STATS.map((stat, i) => (
+                  <StatCard key={stat.value} stat={stat} index={i} />
                 ))}
               </div>
             </div>
 
-            {/* TIME EXPECTATION */}
-            <motion.div {...fadeUp(0.6)} className="flex justify-center mt-12">
-              <div
-                className="inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-6 px-8 py-4 rounded-xl"
-                style={{ background: "#fff", border: "1px solid rgba(0,0,0,0.06)" }}
-              >
-                <div className="flex items-center gap-2">
-                  <Clock size={15} style={{ color: BRAND_PURPLE }} />
-                  <span style={{ color: MUTED_LIGHT, fontSize: 14 }}>
-                    Initial Setup:{" "}
-                    <strong style={{ color: BRAND_PURPLE, fontWeight: 700 }}>1-2 minutes</strong>
-                  </span>
-                </div>
-                <span className="hidden sm:block text-[10px]" style={{ color: "rgba(0,0,0,0.15)" }}>|</span>
-                <div className="flex items-center gap-2">
-                  <Clock size={15} style={{ color: BRAND_PURPLE }} />
-                  <span style={{ color: MUTED_LIGHT, fontSize: 14 }}>
-                    Market Analysis:{" "}
-                    <strong style={{ color: BRAND_PURPLE, fontWeight: 700 }}>up to 10 minutes</strong>
-                  </span>
-                </div>
+            {/* ═══ WHAT YOU WILL UNCOVER ═══ */}
+            <div className="max-w-3xl mx-auto px-6 py-16">
+              <motion.div {...fadeUp(0.1)} className="text-center mb-10">
+                <h2 className="text-[28px] sm:text-[34px] font-bold" style={{ color: "#0C0E14" }}>
+                  What you will uncover
+                </h2>
+                <p className="mt-3 text-[16px]" style={{ color: MUTED, maxWidth: 440, margin: "12px auto 0" }}>
+                  In a few focused minutes, you will gain clarity that most people
+                  spend months trying to figure out on their own.
+                </p>
+              </motion.div>
+
+              <div className="flex flex-col gap-4">
+                {INSIGHTS.map((insight, i) => (
+                  <InsightCard key={insight.title} insight={insight} index={i} />
+                ))}
               </div>
-            </motion.div>
+            </div>
 
-            {/* PRIMARY CTA */}
-            <motion.div {...fadeUp(0.7)} className="flex flex-col items-center mt-12">
-              <motion.a
-                href="#"
-                className="inline-flex items-center gap-2 px-9 py-[18px] rounded-xl text-[18px] font-semibold text-white transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2"
+            {/* ═══ COMMITMENT SECTION ═══ */}
+            <div className="max-w-3xl mx-auto px-6 py-16">
+              <motion.div
+                {...fadeUp(0.1)}
+                className="relative rounded-2xl p-8 sm:p-12 text-center overflow-hidden"
                 style={{
-                  background: GOLD_GRADIENT,
-                  boxShadow: `0 4px 14px ${GOLD_SHADOW}`,
-                  minWidth: 300,
-                  justifyContent: "center",
+                  background: "#0C0E14",
                 }}
-                whileHover={{ scale: 1.02, boxShadow: `0 6px 20px ${GOLD_HOVER}` }}
-                whileTap={{ scale: 0.98 }}
               >
-                Start My Career Discovery
-                <ArrowRight size={18} />
-              </motion.a>
-              <p className="mt-3 text-[13px]" style={{ color: MUTED_LIGHT }}>
-                Takes less than 2 minutes · No credit card required
-              </p>
-            </motion.div>
+                {/* subtle gradient overlay */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: "radial-gradient(ellipse at 50% 0%, rgba(60,97,168,0.15), transparent 70%)",
+                  }}
+                />
 
-            <div style={{ height: 80 }} />
+                <div className="relative z-10">
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-6"
+                    style={{ background: "rgba(255,255,255,0.08)" }}
+                  >
+                    <Shield size={22} style={{ color: "#F5D134" }} />
+                  </div>
+
+                  <h2 className="text-[24px] sm:text-[30px] font-bold mb-4" style={{ color: "#fff" }}>
+                    This is not a quiz.
+                  </h2>
+                  <p
+                    className="text-[16px] leading-[1.7] mx-auto mb-8"
+                    style={{ color: "rgba(255,255,255,0.6)", maxWidth: 440 }}
+                  >
+                    Your answers shape your entire career path on CareerXcelerator.
+                    The more honest and thoughtful you are, the more accurate your
+                    role mapping will be. Take this seriously.
+                  </p>
+
+                  <motion.a
+                    href="#"
+                    className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-[16px] font-semibold transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500"
+                    style={{
+                      background: GOLD_GRADIENT,
+                      color: "#fff",
+                      boxShadow: `0 4px 14px ${GOLD_SHADOW}`,
+                    }}
+                    whileHover={{ scale: 1.02, boxShadow: `0 6px 20px ${GOLD_HOVER}` }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    I am ready. Let's begin.
+                    <ArrowRight size={17} />
+                  </motion.a>
+                </div>
+              </motion.div>
+            </div>
+
+            <div style={{ height: 40 }} />
           </div>
         )}
       </div>
