@@ -492,7 +492,7 @@ export default function KYBEntryPage() {
                       <motion.span
                         key={`o-${i}`}
                         className="inline-block"
-                        style={{ color: "#1e3a6e" }}
+                        style={{ color: "#5b8dd9" }}
                         initial={{ opacity: 0, y: 50, scale: 0.5, filter: "blur(16px)" }}
                         animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
                         transition={{
@@ -612,23 +612,31 @@ export default function KYBEntryPage() {
                 </div>
               </motion.div>
 
-              {/* SVG glow filter — boosted opacity for visibility */}
+              {/* SVG glow filter — soft blue tuned to #5b8dd9 */}
               <svg className="absolute -z-10 h-0 w-0" width="0" height="0" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                  <filter id="glow-light" colorInterpolationFilters="sRGB" x="-50%" y="-200%" width="200%" height="500%">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur4" />
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur12" />
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur30" />
-                    <feColorMatrix in="blur4" result="c0" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.7 0" />
+                  <filter id="glow-light" colorInterpolationFilters="sRGB" x="-60%" y="-300%" width="220%" height="700%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur3" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur10" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="28" result="blur28" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="55" result="blur55" />
+                    {/* tight halo — pure soft blue */}
+                    <feColorMatrix in="blur3"  result="c0" type="matrix" values="0.36 0 0 0 0  0 0.55 0 0 0  0 0 0.85 0 0  0 0 0 1.0 0" />
                     <feOffset in="c0" result="o0" dx="0" dy="0" />
-                    <feColorMatrix in="blur12" result="c1" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.5 0" />
-                    <feOffset in="c1" result="o1" dx="0" dy="3" />
-                    <feColorMatrix in="blur30" result="c2" type="matrix" values="0.96 0 0 0 0  0 0.82 0 0 0  0 0 0.20 0 0  0 0 0 0.35 0" />
-                    <feOffset in="c2" result="o2" dx="0" dy="8" />
+                    {/* mid glow — slightly cooler */}
+                    <feColorMatrix in="blur10" result="c1" type="matrix" values="0.36 0 0 0 0  0 0.55 0 0 0  0 0 0.85 0 0  0 0 0 0.7 0" />
+                    <feOffset in="c1" result="o1" dx="0" dy="2" />
+                    {/* wide bloom — sky blue */}
+                    <feColorMatrix in="blur28" result="c2" type="matrix" values="0.50 0 0 0 0  0 0.70 0 0 0  0 0 1.00 0 0  0 0 0 0.45 0" />
+                    <feOffset in="c2" result="o2" dx="0" dy="4" />
+                    {/* outer aura — very faint blue-white */}
+                    <feColorMatrix in="blur55" result="c3" type="matrix" values="0.70 0 0 0 0  0 0.82 0 0 0  0 0 1.00 0 0  0 0 0 0.18 0" />
+                    <feOffset in="c3" result="o3" dx="0" dy="8" />
                     <feMerge>
-                      <feMergeNode in="o0" />
-                      <feMergeNode in="o1" />
+                      <feMergeNode in="o3" />
                       <feMergeNode in="o2" />
+                      <feMergeNode in="o1" />
+                      <feMergeNode in="o0" />
                       <feMergeNode in="o0" />
                       <feMergeNode in="SourceGraphic" />
                     </feMerge>
