@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
-  ArrowRight, Sparkles, Star, Play,
+  ArrowRight, Compass, Star, Play,
 } from "lucide-react";
 import Link from "next/link";
 import { BrandLogoMark } from "@/components/ui/brand-logo";
@@ -189,7 +189,7 @@ function SocialProofRow() {
 
       {/* Trust badge */}
       <div className="flex items-center gap-2">
-        <Sparkles size={14} style={{ color: BRAND_BLUE }} />
+        <Compass size={14} style={{ color: BRAND_BLUE }} />
         <span className="text-[12px] font-medium" style={{ color: MUTED }}>
           Free · No credit card required
         </span>
@@ -300,34 +300,51 @@ function BeginKYBCTA() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <div ref={ref} className="max-w-4xl mx-auto px-6 py-20">
+    <div ref={ref} className="max-w-3xl mx-auto px-6 py-20">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="flex justify-center"
+        className="flex flex-col items-center text-center"
       >
+        {/* Supporting line */}
+        <p
+          className="text-[22px] sm:text-[26px] font-semibold mb-2"
+          style={{ color: "#0C0E14" }}
+        >
+          Your next career move starts with clarity.
+        </p>
+        <p
+          className="text-[15px] mb-8"
+          style={{ color: MUTED }}
+        >
+          It takes 10 minutes. The insight lasts a lifetime.
+        </p>
+
+        {/* CTA button — dark pill with slide animation */}
         <a
           href="#"
-          className="group relative overflow-hidden inline-flex items-center h-14 sm:h-16 rounded-xl text-[17px] sm:text-[19px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2 transition-all duration-200"
+          className="group relative overflow-hidden inline-flex items-center h-14 sm:h-16 rounded-full text-[16px] sm:text-[17px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-300 hover:shadow-lg"
           style={{
-            background: GOLD_GRADIENT,
-            boxShadow: `0 4px 14px ${GOLD_SHADOW}`,
-            paddingLeft: 32,
-            paddingRight: 60,
+            background: "#0C0E14",
+            paddingLeft: 28,
+            paddingRight: 56,
           }}
         >
-          <span className="mr-4 transition-opacity duration-500 group-hover:opacity-0">
+          <span className="transition-all duration-500 group-hover:opacity-0 group-hover:-translate-x-2">
             Begin KYB
           </span>
+          <span className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100 font-semibold">
+            Let&apos;s go
+          </span>
           <i
-            className="absolute right-1.5 top-1.5 bottom-1.5 rounded-lg z-10 grid place-items-center transition-all duration-500 group-hover:w-[calc(100%-0.75rem)] group-active:scale-95"
+            className="absolute right-1.5 top-1.5 bottom-1.5 rounded-full z-10 grid place-items-center transition-all duration-500 group-hover:w-[calc(100%-0.75rem)] group-active:scale-95"
             style={{
               width: 44,
-              background: "rgba(255,255,255,0.2)",
+              background: "rgba(255,255,255,0.1)",
             }}
           >
-            <ArrowRight size={18} strokeWidth={2.5} />
+            <ArrowRight size={17} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-0.5" />
           </i>
         </a>
       </motion.div>
@@ -363,19 +380,28 @@ export default function KYBEntryPage() {
         <div className="relative z-10">
             {/* ═══ ILLUMINATED HERO SECTION ═══ */}
             <div className="relative w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-6 min-h-[80vh]">
-              {/* Dramatic glow cones — top (blue) and bottom (gold) */}
+              {/* Frosted backdrop */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.7) 0%, rgba(247,248,252,0.4) 60%, transparent 100%)",
+                  backdropFilter: "blur(1px)",
+                }}
+              />
+
+              {/* Dramatic glow cones — top (warm white/cream) and bottom (soft gold) */}
               <div className="absolute h-full w-full max-w-[44em] pointer-events-none left-1/2 -translate-x-1/2">
                 <div
                   className="absolute size-full scale-[1.2] rounded-[100em] opacity-0"
                   style={{
-                    boxShadow: "0 0 160px 80px rgba(60,97,168,0.18), 0 0 300px 150px rgba(60,97,168,0.08), 0 0 500px 200px rgba(60,97,168,0.03)",
+                    boxShadow: "0 0 160px 80px rgba(255,250,240,0.5), 0 0 300px 150px rgba(255,245,225,0.25), 0 0 500px 200px rgba(255,240,210,0.1)",
                     animation: "onloadbgt 1s ease-in-out forwards",
                   }}
                 />
                 <div
                   className="absolute size-full scale-[1.2] rounded-[100em] opacity-0"
                   style={{
-                    boxShadow: "0 0 140px 70px rgba(245,209,52,0.14), 0 0 280px 120px rgba(245,209,52,0.06), 0 0 450px 180px rgba(245,209,52,0.02)",
+                    boxShadow: "0 0 140px 70px rgba(255,245,220,0.4), 0 0 280px 120px rgba(245,230,190,0.2), 0 0 450px 180px rgba(240,220,170,0.08)",
                     animation: "onloadbgb 1s ease-in-out forwards",
                   }}
                 />
@@ -387,7 +413,7 @@ export default function KYBEntryPage() {
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[12px] font-semibold uppercase tracking-wider"
                   style={{ background: "rgba(60,97,168,0.08)", color: BRAND_BLUE }}
                 >
-                  <Sparkles size={14} />
+                  <Compass size={14} />
                   Career Discovery
                 </span>
               </motion.div>
@@ -426,10 +452,10 @@ export default function KYBEntryPage() {
               {/* Subheading */}
               <motion.p
                 {...fadeUp(0.3)}
-                className="text-center mx-auto mt-6 leading-[1.7] relative z-10"
-                style={{ maxWidth: 460, color: MUTED, fontSize: 17 }}
+                className="text-center mx-auto mt-6 leading-[1.7] relative z-10 max-w-md"
+                style={{ color: MUTED, fontSize: 17 }}
               >
-                Turn your interests into smarter job targets and better interview outcomes.
+                Turn your interests into smarter job targets<br className="hidden sm:block" /> and better interview outcomes.
               </motion.p>
 
               {/* Modern CTA — pill with animated arrow slide */}
@@ -444,7 +470,7 @@ export default function KYBEntryPage() {
                   }}
                 >
                   <span className="transition-all duration-500 group-hover:opacity-0 group-hover:-translate-x-2">
-                    Discover My Best Role
+                    Begin KYB
                   </span>
                   <span className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100 font-semibold">
                     Let&apos;s go
@@ -474,21 +500,21 @@ export default function KYBEntryPage() {
                     <feGaussianBlur in="SourceGraphic" stdDeviation="19" result="blur19" />
                     <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur9" />
                     <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur30" />
-                    {/* Layer 0 — tight bright blue */}
-                    <feColorMatrix in="blur4" result="c0" type="matrix" values="0.24 0 0 0 0  0 0.38 0 0 0  0 0 0.66 0 0  0 0 0 0.7 0" />
+                    {/* Layer 0 — tight warm white glow */}
+                    <feColorMatrix in="blur4" result="c0" type="matrix" values="1 0 0 0 0  0 0.98 0 0 0  0 0 0.94 0 0  0 0 0 0.6 0" />
                     <feOffset in="c0" result="o0" dx="0" dy="0" />
-                    {/* Layer 1 — medium warm gold */}
-                    <feColorMatrix in="blur19" result="c1" type="matrix" values="0.82 0 0 0 0  0 0.62 0 0 0  0 0 0.26 0 0  0 0 0 0.5 0" />
+                    {/* Layer 1 — medium cream/gold halo */}
+                    <feColorMatrix in="blur19" result="c1" type="matrix" values="0.96 0 0 0 0  0 0.85 0 0 0  0 0 0.55 0 0  0 0 0 0.4 0" />
                     <feOffset in="c1" result="o1" dx="0" dy="2" />
-                    {/* Layer 2 — soft amber glow */}
-                    <feColorMatrix in="blur9" result="c2" type="matrix" values="0.96 0 0 0 0  0 0.82 0 0 0  0 0 0.36 0 0  0 0 0 0.35 0" />
+                    {/* Layer 2 — soft golden spread */}
+                    <feColorMatrix in="blur9" result="c2" type="matrix" values="0.96 0 0 0 0  0 0.82 0 0 0  0 0 0.40 0 0  0 0 0 0.3 0" />
                     <feOffset in="c2" result="o2" dx="0" dy="2" />
-                    {/* Layer 3 — wide warm spread */}
-                    <feColorMatrix in="blur30" result="c3" type="matrix" values="0.96 0 0 0 0  0 0.60 0 0 0  0 0 0.39 0 0  0 0 0 0.3 0" />
+                    {/* Layer 3 — wide warm amber */}
+                    <feColorMatrix in="blur30" result="c3" type="matrix" values="0.92 0 0 0 0  0 0.72 0 0 0  0 0 0.32 0 0  0 0 0 0.2 0" />
                     <feOffset in="c3" result="o3" dx="0" dy="4" />
-                    {/* Layer 4 — deep floor reflection */}
-                    <feColorMatrix in="blur30" result="c4" type="matrix" values="0.24 0 0 0 0  0 0.16 0 0 0  0 0 0.08 0 0  0 0 0 0.15 0" />
-                    <feOffset in="c4" result="o4" dx="0" dy="16" />
+                    {/* Layer 4 — subtle floor warmth */}
+                    <feColorMatrix in="blur30" result="c4" type="matrix" values="0.85 0 0 0 0  0 0.65 0 0 0  0 0 0.30 0 0  0 0 0 0.1 0" />
+                    <feOffset in="c4" result="o4" dx="0" dy="12" />
                     <feMerge>
                       <feMergeNode in="o0" />
                       <feMergeNode in="o1" />
