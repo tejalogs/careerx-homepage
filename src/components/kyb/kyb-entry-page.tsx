@@ -39,13 +39,14 @@ const fadeUp = (delay: number) => ({
 /*  SHADER SPLASH SCREEN                                              */
 /* ═══════════════════════════════════════════════════════════════════ */
 function ShaderSplash({ onComplete }: { onComplete: () => void }) {
-  const [textPhase, setTextPhase] = useState(0);
+  const [textPhase, setTextPhase] = useState(0);  // 0=hidden, 1=show, 2=exit text, 3=fade out
   const calledRef = useRef(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setTextPhase(1), 400);
-    const t2 = setTimeout(() => setTextPhase(2), 2400);
-    const t3 = setTimeout(() => {
+    const t1 = setTimeout(() => setTextPhase(1), 400);       // text appears
+    const t2 = setTimeout(() => setTextPhase(2), 2200);      // text fades
+    const t3 = setTimeout(() => setTextPhase(3), 2600);      // whole splash fades
+    const t4 = setTimeout(() => {
       if (!calledRef.current) {
         calledRef.current = true;
         onComplete();
@@ -58,8 +59,12 @@ function ShaderSplash({ onComplete }: { onComplete: () => void }) {
   return (
     <motion.div
       className="fixed inset-0 z-[100] flex items-center justify-center"
-      exit={{ opacity: 0, scale: 1.05 }}
+      animate={{
+        opacity: textPhase >= 3 ? 0 : 1,
+        scale: textPhase >= 3 ? 1.02 : 1,
+      }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      style={{ pointerEvents: textPhase >= 3 ? "none" : "auto" }}
     >
       <div className="absolute inset-0">
         <ShaderAnimation />
@@ -70,7 +75,7 @@ function ShaderSplash({ onComplete }: { onComplete: () => void }) {
           initial={{ opacity: 0, y: 40, filter: "blur(16px)" }}
           animate={
             textPhase >= 1
-              ? { opacity: textPhase === 2 ? 0 : 1, y: textPhase === 2 ? -20 : 0, filter: "blur(0px)" }
+              ? { opacity: textPhase >= 2 ? 0 : 1, y: textPhase >= 2 ? -20 : 0, filter: "blur(0px)" }
               : {}
           }
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
@@ -85,7 +90,7 @@ function ShaderSplash({ onComplete }: { onComplete: () => void }) {
           initial={{ opacity: 0, y: 20 }}
           animate={
             textPhase >= 1
-              ? { opacity: textPhase === 2 ? 0 : 0.6, y: textPhase === 2 ? -10 : 0 }
+              ? { opacity: textPhase >= 2 ? 0 : 0.6, y: textPhase >= 2 ? -10 : 0 }
               : {}
           }
           transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
@@ -372,21 +377,27 @@ export default function KYBEntryPage() {
               {/* Headline */}
               <motion.h1 {...fadeUp(0.25)} className="text-center mt-6">
                 <span
-                  className="block text-[38px] sm:text-[48px] md:text-[56px] leading-[1.08] font-bold"
+                  className="block text-[32px] sm:text-[40px] md:text-[48px] leading-[1.15] font-bold"
                   style={{ color: "#0C0E14" }}
                 >
-                  Find your
+                  See the link between your interests
                 </span>
                 <span
-                  className="block text-[38px] sm:text-[48px] md:text-[56px] leading-[1.08] font-extrabold"
-                  style={{
-                    background: GOLD_GRADIENT,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
+                  className="block text-[32px] sm:text-[40px] md:text-[48px] leading-[1.15] font-bold"
+                  style={{ color: "#0C0E14" }}
                 >
-                  best role.
+                  and the{" "}
+                  <span
+                    style={{
+                      background: GOLD_GRADIENT,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    career outcomes
+                  </span>
+                  {" "}they create
                 </span>
               </motion.h1>
 
@@ -394,10 +405,9 @@ export default function KYBEntryPage() {
               <motion.p
                 {...fadeUp(0.3)}
                 className="text-center mx-auto mt-5 leading-[1.65]"
-                style={{ maxWidth: 440, color: MUTED, fontSize: 17 }}
+                style={{ maxWidth: 500, color: MUTED, fontSize: 17 }}
               >
-                Answer a few questions. We will analyze real job market data
-                and show you the roles that truly fit.
+                Turn that insight into smarter job targets and better interview outcomes.
               </motion.p>
 
               {/* Primary CTA */}
