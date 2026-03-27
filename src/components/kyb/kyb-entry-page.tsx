@@ -157,7 +157,7 @@ function VideoSection() {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <div ref={ref} className="max-w-4xl mx-auto px-6 py-20">
+    <div ref={ref} className="max-w-4xl mx-auto px-6 py-10">
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.96 }}
         animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
@@ -256,7 +256,7 @@ function WhatYouGet() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <div ref={ref} className="max-w-4xl mx-auto px-6 py-16">
+    <div ref={ref} className="max-w-4xl mx-auto px-6 py-8">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         {FEATURES.map((f, i) => {
           const Icon = f.icon;
@@ -310,7 +310,7 @@ function BeginKYBCTA() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <div ref={ref} className="max-w-3xl mx-auto px-6 py-20">
+    <div ref={ref} className="max-w-3xl mx-auto px-6 py-12">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -384,17 +384,17 @@ export default function KYBEntryPage() {
       )}
 
       <div
-        className="min-h-screen relative"
+        className="relative"
         style={{
           background: "linear-gradient(180deg, #F7F8FC 0%, #FFFDF7 40%, #F0F4FF 70%, #F7F8FC 100%)",
         }}
       >
-        {/* Subtle dot grid texture */}
+        {/* Grid background — spans entire page */}
         <div
-          className="absolute inset-0 pointer-events-none z-0"
+          className="fixed inset-0 pointer-events-none z-0"
           style={{
-            backgroundImage: "radial-gradient(rgba(60,97,168,0.025) 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
+            backgroundImage: `linear-gradient(rgba(60,97,168,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(60,97,168,0.045) 1px, transparent 1px)`,
+            backgroundSize: "64px 64px",
           }}
         />
 
@@ -405,26 +405,15 @@ export default function KYBEntryPage() {
 
         <div className="relative z-10">
             {/* ═══ HERO SECTION ═══ */}
-            <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 pt-28 pb-20">
+            <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 pt-24 pb-12">
 
-              {/* Grid background */}
-              <div
-                className="absolute inset-0 pointer-events-none z-0"
-                style={{
-                  backgroundImage: `linear-gradient(rgba(60,97,168,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(60,97,168,0.055) 1px, transparent 1px)`,
-                  backgroundSize: "64px 64px",
-                  maskImage: "radial-gradient(ellipse 90% 90% at 50% 50%, black 30%, transparent 100%)",
-                  WebkitMaskImage: "radial-gradient(ellipse 90% 90% at 50% 50%, black 30%, transparent 100%)",
-                }}
-              />
-
-              {/* Ambient centre glow */}
+              {/* Ambient centre glow — hero only */}
               <div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0"
                 style={{
                   width: 900,
                   height: 560,
-                  background: "radial-gradient(ellipse at 50% 40%, rgba(60,97,168,0.1) 0%, rgba(245,209,52,0.05) 45%, transparent 70%)",
+                  background: "radial-gradient(ellipse at 50% 40%, rgba(60,97,168,0.09) 0%, rgba(245,209,52,0.04) 45%, transparent 70%)",
                   filter: "blur(72px)",
                 }}
               />
@@ -590,7 +579,7 @@ export default function KYBEntryPage() {
             {/* ═══ BEGIN KYB CTA ═══ */}
             <BeginKYBCTA />
 
-            <div style={{ height: 40 }} />
+            <div style={{ height: 20 }} />
           </div>
       </div>
     </>
