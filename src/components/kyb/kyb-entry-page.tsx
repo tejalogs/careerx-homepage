@@ -451,39 +451,53 @@ export default function KYBEntryPage() {
         <KYBNavbar />
 
         <div className="relative z-10">
-            {/* ═══ HERO SECTION — consistent 20px vertical rhythm ═══ */}
-            <div className="relative w-full min-h-[calc(100vh-64px)] flex flex-col items-center justify-center overflow-hidden px-6 py-12 sm:py-0">
+            {/* ═══ HERO SECTION ═══ */}
+            <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 py-20 sm:py-0">
 
-              {/* Headline */}
+              {/* Beat 1: ambient glow reveal behind headline */}
+              <motion.div
+                className="absolute pointer-events-none z-0"
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+                style={{
+                  width: 700, height: 400,
+                  background: "radial-gradient(ellipse at 50% 50%, rgba(60,97,168,0.07) 0%, rgba(245,209,52,0.04) 50%, transparent 70%)",
+                  filter: "blur(40px)",
+                }}
+              />
+
+              {/* Beat 2+3: Headline */}
               <div className="relative z-10 text-center">
                 <h1
-                  className="text-[36px] sm:text-[52px] md:text-[64px] leading-[1.05] font-bold tracking-tight"
+                  className="text-[44px] sm:text-[68px] md:text-[88px] leading-[1.0] font-bold tracking-tight"
                   style={{ color: "#0C0E14" }}
                 >
-                  {"Interests to ".split("").map((char, i) => (
+                  {/* Word-by-word for "Interests to" — faster, more dramatic */}
+                  {["Interests", "to"].map((word, i) => (
                     <motion.span
-                      key={`it-${i}`}
-                      className="inline-block"
-                      style={{ whiteSpace: char === " " ? "pre" : undefined }}
-                      initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
+                      key={word}
+                      className="inline-block mr-[0.2em]"
+                      initial={{ opacity: 0, y: 40, filter: "blur(16px)" }}
                       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      transition={{ duration: 0.5, delay: 0.2 + i * 0.035, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.65, delay: 0.1 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      {char === " " ? "\u00A0" : char}
+                      {word}
                     </motion.span>
                   ))}
                   <br className="sm:hidden" />
+                  {/* Letter-by-letter for "Outcomes." — the dramatic beat */}
                   <span className="relative inline-block" style={{ filter: "url(#glow-light)" }}>
                     {"Outcomes.".split("").map((char, i) => (
                       <motion.span
                         key={`o-${i}`}
                         className="inline-block"
                         style={{ color: "#1e3a6e" }}
-                        initial={{ opacity: 0, y: 30, scale: 0.6, filter: "blur(12px)" }}
+                        initial={{ opacity: 0, y: 50, scale: 0.5, filter: "blur(16px)" }}
                         animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
                         transition={{
-                          duration: 0.6,
-                          delay: 0.7 + i * 0.05,
+                          duration: 0.7,
+                          delay: 0.5 + i * 0.055,
                           ease: [0.22, 1, 0.36, 1],
                         }}
                       >
@@ -494,23 +508,23 @@ export default function KYBEntryPage() {
                 </h1>
               </div>
 
-              {/* Subheading — 16px gap, single line on desktop */}
+              {/* Beat 4a: Subheading */}
               <motion.p
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="text-center mx-auto mt-4 leading-[1.6] relative z-10 max-w-xl"
-                style={{ color: MUTED, fontSize: 16 }}
+                initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.7, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                className="text-center mx-auto mt-6 leading-[1.6] relative z-10 max-w-xl"
+                style={{ color: MUTED, fontSize: 17 }}
               >
                 Turn your interests into smarter job targets and better interview outcomes.
               </motion.p>
 
-              {/* Stats pill — 20px gap from subline, grouped with CTA below */}
+              {/* Beat 4b: Stats pill */}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 mt-5"
+                transition={{ duration: 0.6, delay: 1.3, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-10 mt-6"
               >
                 <div
                   className="inline-flex items-center gap-3 sm:gap-6 px-5 sm:px-8 py-2.5 sm:py-3 rounded-full"
@@ -538,11 +552,11 @@ export default function KYBEntryPage() {
                 </div>
               </motion.div>
 
-              {/* CTA + Social proof — 20px gap from stats, centered */}
+              {/* Beat 4c: CTA + Social proof */}
               <motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.15, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.6, delay: 1.45, ease: [0.22, 1, 0.36, 1] }}
                 className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 mt-5 relative z-10"
               >
                 <a
