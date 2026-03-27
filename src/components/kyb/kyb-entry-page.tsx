@@ -56,9 +56,9 @@ function ShaderSplash({ onComplete }: { onComplete: () => void }) {
       className="fixed inset-0 z-[100] flex items-center justify-center"
       animate={{
         opacity: textPhase >= 3 ? 0 : 1,
-        scale: textPhase >= 3 ? 1.02 : 1,
+        scale: textPhase >= 3 ? 1.015 : 1,
       }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
       style={{ pointerEvents: textPhase >= 3 ? "none" : "auto" }}
     >
       <div className="absolute inset-0">
@@ -367,10 +367,14 @@ function BeginKYBCTA() {
 /* ═══════════════════════════════════════════════════════════════════ */
 export default function KYBEntryPage() {
   const [showSplash, setShowSplash] = useState(true);
+  // heroReady fires 600ms before splash fully fades — creates a butter-smooth crossfade
+  const [heroReady, setHeroReady] = useState(false);
 
   useEffect(() => {
-    // No cleanup — must survive React Strict Mode double-mount
-    setTimeout(() => setShowSplash(false), SPLASH_DURATION);
+    const t1 = setTimeout(() => setHeroReady(true), SPLASH_DURATION - 600);
+    // Keep splash mounted until its opacity animation finishes (~800ms after it starts)
+    const t2 = setTimeout(() => setShowSplash(false), SPLASH_DURATION + 600);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
   return (
@@ -429,10 +433,10 @@ export default function KYBEntryPage() {
 
                 {/* ── Badge pill ── */}
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={heroReady ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="mb-7"
+                  className="mb-8"
                 >
                   <div
                     className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full"
@@ -448,37 +452,54 @@ export default function KYBEntryPage() {
                   </div>
                 </motion.div>
 
-                {/* ── Headline ── */}
-                <motion.h1
-                  initial={{ opacity: 0, y: 28, filter: "blur(14px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ duration: 0.85, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+                {/* ── Headline — word-by-word reveal ── */}
+                <h1
                   className="text-[52px] sm:text-[80px] md:text-[108px] font-bold leading-[1.04] tracking-tight"
                   style={{ color: "#0C0E14" }}
                 >
-                  Interests to
-                  <br />
-                  <span
+                  {/* Line 1: each word clips up from below */}
+                  <span className="block">
+                    {["Interests", "to"].map((word, i) => (
+                      <span
+                        key={word}
+                        style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom", marginRight: i === 0 ? "0.28em" : 0 }}
+                      >
+                        <motion.span
+                          style={{ display: "inline-block" }}
+                          initial={{ y: "110%", opacity: 0 }}
+                          animate={heroReady ? { y: "0%", opacity: 1 } : {}}
+                          transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                          {word}
+                        </motion.span>
+                      </span>
+                    ))}
+                  </span>
+
+                  {/* Line 2: yellow marker block pops in */}
+                  <motion.span
                     style={{
                       display: "inline-block",
                       backgroundColor: "#F5D134",
                       color: "#0C0E14",
                       borderRadius: 12,
                       padding: "0 16px 6px",
-                      transform: "rotate(-0.6deg)",
                       lineHeight: 1.15,
                     }}
+                    initial={{ opacity: 0, scale: 0.86, y: 20, rotate: -0.6 }}
+                    animate={heroReady ? { opacity: 1, scale: 1, y: 0, rotate: -0.6 } : {}}
+                    transition={{ duration: 0.75, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
                   >
                     Outcomes.
-                  </span>
-                </motion.h1>
+                  </motion.span>
+                </h1>
 
                 {/* ── Subline ── */}
                 <motion.p
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                  className="mt-6 text-[16px] sm:text-[18px] leading-[1.7] max-w-md"
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={heroReady ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.65, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                  className="mt-7 text-[16px] sm:text-[18px] leading-[1.7] max-w-md"
                   style={{ color: MUTED }}
                 >
                   Turn your interests into smarter job targets and better interview outcomes. Powered by AI. Done in 10 minutes.
@@ -486,10 +507,10 @@ export default function KYBEntryPage() {
 
                 {/* ── Stats strip ── */}
                 <motion.div
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
-                  className="mt-9 flex items-center gap-0"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={heroReady ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="mt-9 flex items-center"
                 >
                   {[
                     { value: "96%", label: "Accuracy" },
@@ -512,27 +533,14 @@ export default function KYBEntryPage() {
                   ))}
                 </motion.div>
 
-                {/* ── CTA + Social proof ── */}
+                {/* ── Social proof first, then CTA ── */}
                 <motion.div
                   initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.56, ease: [0.22, 1, 0.36, 1] }}
+                  animate={heroReady ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.62, ease: [0.22, 1, 0.36, 1] }}
                   className="mt-8 flex flex-col sm:flex-row items-center gap-4 sm:gap-6"
                 >
-                  {/* Primary CTA */}
-                  <a
-                    href="#"
-                    className="group inline-flex items-center gap-2 h-12 sm:h-13 px-7 rounded-full text-[15px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 active:scale-[0.98]"
-                    style={{
-                      background: BRAND_BLUE,
-                      boxShadow: "0 4px 18px rgba(60,97,168,0.32)",
-                    }}
-                  >
-                    Begin KYB
-                    <ArrowRight size={15} strokeWidth={2.5} className="transition-transform duration-200 group-hover:translate-x-0.5" />
-                  </a>
-
-                  {/* Social proof */}
+                  {/* Social proof — comes first */}
                   <div className="flex items-center gap-2.5">
                     <div className="flex -space-x-2">
                       {AVATARS.map((src, i) => (
@@ -555,6 +563,19 @@ export default function KYBEntryPage() {
                       <span className="text-[10px] mt-0.5" style={{ color: MUTED_LIGHT }}>2,000+ found direction</span>
                     </div>
                   </div>
+
+                  {/* CTA — comes second */}
+                  <a
+                    href="#"
+                    className="group inline-flex items-center gap-2 h-12 px-7 rounded-full text-[15px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 active:scale-[0.98]"
+                    style={{
+                      background: BRAND_BLUE,
+                      boxShadow: "0 4px 18px rgba(60,97,168,0.32)",
+                    }}
+                  >
+                    Begin KYB
+                    <ArrowRight size={15} strokeWidth={2.5} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                  </a>
                 </motion.div>
 
               </div>
