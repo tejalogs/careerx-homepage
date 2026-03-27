@@ -81,7 +81,7 @@ function VideoSectionContent() {
             From role discovery to interview prep to job offers — a structured, AI-powered path to your next career move.
           </p>
           <a
-            href="#get-started"
+            href="/kyb"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold text-white transition-all hover:opacity-85 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             style={{ backgroundColor: "#3C61A8" }}
           >

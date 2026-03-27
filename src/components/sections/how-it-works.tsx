@@ -130,7 +130,7 @@ export function HowItWorksSection() {
           className="text-center mt-10"
         >
           <a
-            href="#get-started"
+            href="/kyb"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold text-white transition-all hover:opacity-85 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             style={{ backgroundColor: BLUE }}
           >

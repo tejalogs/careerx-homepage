@@ -138,7 +138,7 @@ export function CompanyLogosSection() {
             className="inline-flex flex-col items-center"
           >
             <a
-              href="#get-started"
+              href="/kyb"
               className="group relative flex items-center gap-2.5 px-8 py-4 rounded-full text-sm font-black overflow-hidden transition-all hover:-translate-y-0.5 active:translate-y-0"
               style={{ backgroundColor: "#F5D134", color: "#0C0E14" }}
             >

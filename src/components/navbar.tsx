@@ -94,7 +94,7 @@ export default function Navbar() {
 
           {/* CTA pill */}
           <a
-            href="#get-started"
+            href="/kyb"
             className="ml-1 inline-flex items-center gap-1 h-[32px] px-4 rounded-full text-[12.5px] font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-[1px] active:scale-[0.97] whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             style={{
               background: `linear-gradient(135deg, ${DARK} 0%, #1a1e2e 100%)`,
@@ -205,7 +205,7 @@ export default function Navbar() {
                   Login
                 </a>
                 <a
-                  href="#get-started"
+                  href="/kyb"
                   onClick={() => setMobileOpen(false)}
                   className="mt-1.5 flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-[14px] font-semibold outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   style={{

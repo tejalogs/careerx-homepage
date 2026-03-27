@@ -499,7 +499,7 @@ export default function IntroAnimation() {
                 Role fit. Skill gaps. Interview readiness. All in one system.
               </motion.p>
               <motion.a
-                href="#get-started"
+                href="/kyb"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
@@ -515,7 +515,7 @@ export default function IntroAnimation() {
           {!isMobile && (
             <>
               <motion.a
-                href="#get-started"
+                href="/kyb"
                 initial={{ opacity: 0, y: 10 }}
                 animate={circleReady && morphValue < 0.4
                   ? { opacity: 1 - morphValue * 2.5, y: 0 }

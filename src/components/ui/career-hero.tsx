@@ -331,7 +331,7 @@ export default function CareerHero({
           {/* CTAs */}
           <div className="flex items-center gap-3 mt-2">
             <a
-              href="#get-started"
+              href="/kyb"
               className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white shadow-lg hover:opacity-90 hover:shadow-xl transition-all duration-200"
               style={{ backgroundColor: "#4267B2" }}
             >
