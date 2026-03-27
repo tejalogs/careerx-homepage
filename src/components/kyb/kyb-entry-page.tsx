@@ -357,23 +357,23 @@ function BeginKYBCTA() {
         {/* Supporting line */}
         <p
           className="text-[22px] sm:text-[26px] font-semibold mb-2"
-          style={{ color: "#0C0E14" }}
+          style={{ color: BRAND_BLUE }}
         >
-          Your next career move starts with clarity.
+          Clarity is just 10 minutes away.
         </p>
         <p
           className="text-[15px] mb-8"
           style={{ color: MUTED }}
         >
-          It takes 10 minutes. The insight lasts a lifetime.
+          Know your role fit, skill gaps, and market position before you apply anywhere.
         </p>
 
-        {/* CTA button — dark pill with slide animation */}
+        {/* CTA button — brand blue pill with slide animation */}
         <a
           href="#"
           className="group relative overflow-hidden inline-flex items-center h-14 sm:h-16 rounded-full text-[16px] sm:text-[17px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-300 hover:shadow-lg"
           style={{
-            background: "#0C0E14",
+            background: BRAND_BLUE,
             paddingLeft: 28,
             paddingRight: 56,
           }}
@@ -388,7 +388,7 @@ function BeginKYBCTA() {
             className="absolute right-1.5 top-1.5 bottom-1.5 rounded-full z-10 grid place-items-center transition-all duration-500 group-hover:w-[calc(100%-0.75rem)] group-active:scale-95"
             style={{
               width: 44,
-              background: "rgba(255,255,255,0.1)",
+              background: "rgba(255,255,255,0.15)",
             }}
           >
             <ArrowRight size={17} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -553,7 +553,7 @@ export default function KYBEntryPage() {
                   href="#"
                   className="group relative overflow-hidden inline-flex items-center h-14 sm:h-16 rounded-full text-[16px] sm:text-[17px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-300 hover:shadow-lg"
                   style={{
-                    background: "#0C0E14",
+                    background: BRAND_BLUE,
                     paddingLeft: 28,
                     paddingRight: 56,
                   }}
@@ -568,7 +568,7 @@ export default function KYBEntryPage() {
                     className="absolute right-1.5 top-1.5 bottom-1.5 rounded-full z-10 grid place-items-center transition-all duration-500 group-hover:w-[calc(100%-0.75rem)] group-active:scale-95"
                     style={{
                       width: 44,
-                      background: "rgba(255,255,255,0.1)",
+                      background: "rgba(255,255,255,0.15)",
                     }}
                   >
                     <ArrowRight size={17} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -618,11 +618,11 @@ export default function KYBEntryPage() {
               </svg>
             </div>
 
-            {/* ═══ WHAT YOU GET ═══ */}
-            <WhatYouGet />
-
             {/* ═══ VIDEO SECTION ═══ */}
             <VideoSection />
+
+            {/* ═══ WHAT YOU GET ═══ */}
+            <WhatYouGet />
 
             {/* ═══ BEGIN KYB CTA ═══ */}
             <BeginKYBCTA />
