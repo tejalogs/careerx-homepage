@@ -554,8 +554,8 @@ export default function KYBEntryPage() {
                   </div>
 
                   {/* CTA — comes second */}
-                  <a
-                    href="#"
+                  <Link
+                    href="/kyb/start"
                     className="group inline-flex items-center gap-2 h-12 px-7 rounded-full text-[15px] font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 active:scale-[0.98]"
                     style={{
                       background: BRAND_BLUE,
@@ -564,7 +564,7 @@ export default function KYBEntryPage() {
                   >
                     Begin KYB
                     <ArrowRight size={15} strokeWidth={2.5} className="transition-transform duration-200 group-hover:translate-x-0.5" />
-                  </a>
+                  </Link>
                 </motion.div>
 
               </div>
