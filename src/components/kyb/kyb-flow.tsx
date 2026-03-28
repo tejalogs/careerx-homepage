@@ -62,12 +62,13 @@ const STAGES = [
 /* ─── form/static data ────────────────────────────────────────── */
 const EXP = ["< 1 year", "1–3 years", "3–5 years", "5+ years"];
 const COUNTRIES = ["India","United States","United Kingdom","Canada","Australia","Germany","Singapore","UAE","Other"];
-const ROLE_TITLES = [
-  "Junior Data Engineer","Big Data Engineer",
-  "Data Platform Engineer","ETL Developer",
-  "Data Warehouse Engineer","Analytics Engineer",
-  "BI Engineer","Streaming Data Engineer",
-  "Data Infrastructure Eng.","Data Integration Engineer",
+/* ─── role title generations (5 max) ─────────────────────────── */
+const ROLE_TITLE_GENS: string[][] = [
+  ["Junior Data Engineer","Big Data Engineer","Data Platform Engineer","ETL Developer","Data Warehouse Engineer","Analytics Engineer","BI Engineer","Streaming Data Engineer","Data Infrastructure Eng.","Data Integration Engineer"],
+  ["ML Data Engineer","DataOps Engineer","Feature Engineer","Data Reliability Engineer","Data Quality Engineer","Cloud Data Engineer","Data Pipeline Engineer","Lakehouse Engineer","Reverse ETL Engineer","Data Mesh Engineer"],
+  ["AWS Data Engineer","Azure Data Engineer","GCP Data Engineer","Databricks Engineer","Snowflake Engineer","dbt Analytics Engineer","Spark Engineer","Kafka Engineer","Airflow Engineer","Flink Engineer"],
+  ["Senior Data Engineer","Lead Data Engineer","Staff Data Engineer","Principal Data Engineer","Data Engineering Manager","Data Architect","Solutions Architect — Data","Data Platform Lead","Head of Data Engineering","VP of Data Engineering"],
+  ["AI Data Engineer","LLM Data Engineer","MLOps Engineer","Knowledge Graph Engineer","Real-time Analytics Eng.","Semantic Layer Engineer","DataOps Lead","Quantitative Data Eng.","Data Science Engineer","Data Product Manager"],
 ];
 const PROCESSING_MSGS = [
   "Scanning 12,000+ job titles...",
@@ -388,13 +389,21 @@ function Step2({ form, setForm }: { form: Form; setForm: (f: Form) => void }) {
           </div>
         </div>
         <div>
-          <FieldLabel text="Visa sponsorship?" required />
-          <div className="flex gap-2 mt-2">
+          <div className="flex items-center gap-2">
+            <FieldLabel text="Visa sponsorship?" required />
+            {!form.country && (
+              <span className="text-[10px] font-semibold" style={{ color: "rgba(12,14,20,0.3)" }}>
+                select country first
+              </span>
+            )}
+          </div>
+          <div className="flex gap-2 mt-2 transition-opacity duration-200"
+            style={{ opacity: form.country ? 1 : 0.35, pointerEvents: form.country ? "auto" : "none" }}>
             {["Yes", "No"].map(opt => {
               const sel = form.visa === opt;
               return (
                 <motion.button key={opt} onClick={() => setForm({ ...form, visa: opt })}
-                  whileTap={{ scale: 0.96 }}
+                  whileTap={form.country ? { scale: 0.96 } : {}}
                   animate={{
                     background: sel ? DARK : "#fff",
                     boxShadow: sel ? "0 2px 8px rgba(12,14,20,0.2)" : "0 1px 4px rgba(12,14,20,0.06)",
@@ -403,6 +412,7 @@ function Step2({ form, setForm }: { form: Form; setForm: (f: Form) => void }) {
                   style={{
                     borderColor: sel ? DARK : "rgba(12,14,20,0.1)",
                     color: sel ? "#fff" : "rgba(12,14,20,0.45)",
+                    cursor: form.country ? "pointer" : "default",
                   }}>
                   {opt}
                 </motion.button>
@@ -433,13 +443,35 @@ function Step2({ form, setForm }: { form: Form; setForm: (f: Form) => void }) {
 }
 
 /* ─── Step 3 ──────────────────────────────────────────────────── */
+const MAX_GENS = 5;
+
 function Step3({ form, toggleRole }: { form: Form; toggleRole: (r: string) => void }) {
   const count = form.selectedRoles.length;
-  const MAX  = 10;
+  const MAX   = 10;
+
+  // generation history: starts with gen 0, user can unlock up to MAX_GENS
+  const [unlockedGens, setUnlockedGens] = useState(1); // how many gens have been generated
+  const [activeGen, setActiveGen]       = useState(0); // which gen is currently shown
+  const [genLoading, setGenLoading]     = useState(false);
+
+  const currentTitles = ROLE_TITLE_GENS[activeGen];
+  const gensLeft = MAX_GENS - unlockedGens;
+  const canExplore = gensLeft > 0 && !genLoading;
+
+  const exploreMore = () => {
+    if (!canExplore) return;
+    setGenLoading(true);
+    setTimeout(() => {
+      const next = unlockedGens;
+      setUnlockedGens(n => n + 1);
+      setActiveGen(next);
+      setGenLoading(false);
+    }, 900);
+  };
 
   return (
     <div>
-      <div className="flex items-start justify-between gap-4 mb-8">
+      <div className="flex items-start justify-between gap-4 mb-6">
         <div>
           <p className="text-[11px] font-black tracking-[0.2em] uppercase mb-3"
             style={{ color: "rgba(60,97,168,0.55)" }}>
@@ -472,63 +504,113 @@ function Step3({ form, toggleRole }: { form: Form; toggleRole: (r: string) => vo
         </div>
       </div>
 
+      {/* Generation tabs */}
+      {unlockedGens > 1 && (
+        <div className="flex items-center gap-1.5 mb-4">
+          {Array.from({ length: unlockedGens }).map((_, i) => (
+            <motion.button key={i} onClick={() => setActiveGen(i)}
+              whileTap={{ scale: 0.95 }}
+              animate={{
+                background: activeGen === i ? BLUE : "rgba(12,14,20,0.05)",
+                color: activeGen === i ? "#fff" : "rgba(12,14,20,0.45)",
+              }}
+              className="px-3 py-1 rounded-lg text-[11px] font-bold transition-colors">
+              Gen {i + 1}
+            </motion.button>
+          ))}
+          <span className="text-[11px] ml-1" style={{ color: "rgba(12,14,20,0.3)" }}>
+            — click to switch
+          </span>
+        </div>
+      )}
+
       {/* Role group header */}
       <div className="flex items-center gap-2 mb-3 px-1">
         <Zap size={12} style={{ color: BLUE }} />
         <span className="text-[12px] font-bold uppercase tracking-wider" style={{ color: BLUE }}>
-          {form.role || "Data Engineer"} — similar titles
+          {form.role || "Data Engineer"} — {activeGen === 0 ? "similar titles" : `variation ${activeGen + 1}`}
         </span>
       </div>
 
-      {/* Roles */}
-      <div className="space-y-1.5">
-        {ROLE_TITLES.map((role, i) => {
-          const sel = form.selectedRoles.includes(role);
-          return (
-            <motion.button key={role} onClick={() => toggleRole(role)}
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.03, ease }}
-              whileHover={{ x: 2 }}
-              whileTap={{ scale: 0.99 }}
-              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left"
-              style={{
-                background: sel ? "#fff" : "rgba(0,0,0,0)",
-                border: `1.5px solid ${sel ? BLUE : "rgba(0,0,0,0)"}`,
-                boxShadow: sel ? `0 0 0 3px rgba(60,97,168,0.08), 0 2px 8px rgba(60,97,168,0.1)` : "none",
-              }}>
-              <motion.div
-                animate={{ background: sel ? BLUE : "rgba(12,14,20,0.07)", borderColor: sel ? BLUE : "rgba(12,14,20,0.15)" }}
-                className="w-4.5 h-4.5 rounded-md border-2 flex items-center justify-center shrink-0 w-[18px] h-[18px]">
-                <AnimatePresence>
-                  {sel && (
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                      transition={{ type: "spring", stiffness: 600, damping: 25 }}>
-                      <Check size={9} strokeWidth={3} color="#fff" />
+      {/* Roles list */}
+      <AnimatePresence mode="wait">
+        <motion.div key={activeGen}
+          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25, ease }}
+          className="space-y-1.5">
+          {genLoading
+            ? Array.from({ length: 6 }).map((_, i) => (
+                <motion.div key={i} className="h-12 rounded-xl"
+                  style={{ background: "rgba(12,14,20,0.04)" }}
+                  animate={{ opacity: [0.4, 0.9, 0.4] }}
+                  transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.1 }} />
+              ))
+            : currentTitles.map((role, i) => {
+                const sel = form.selectedRoles.includes(role);
+                return (
+                  <motion.button key={role} onClick={() => toggleRole(role)}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.03, ease }}
+                    whileHover={{ x: 2 }}
+                    whileTap={{ scale: 0.99 }}
+                    className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left"
+                    style={{
+                      background: sel ? "#fff" : "rgba(0,0,0,0)",
+                      border: `1.5px solid ${sel ? BLUE : "rgba(0,0,0,0)"}`,
+                      boxShadow: sel ? `0 0 0 3px rgba(60,97,168,0.08), 0 2px 8px rgba(60,97,168,0.1)` : "none",
+                    }}>
+                    <motion.div
+                      animate={{ background: sel ? BLUE : "rgba(12,14,20,0.07)", borderColor: sel ? BLUE : "rgba(12,14,20,0.15)" }}
+                      className="w-[18px] h-[18px] rounded-md border-2 flex items-center justify-center shrink-0">
+                      <AnimatePresence>
+                        {sel && (
+                          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
+                            transition={{ type: "spring", stiffness: 600, damping: 25 }}>
+                            <Check size={9} strokeWidth={3} color="#fff" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-              <span className="text-[14px] font-medium flex-1"
-                style={{ color: sel ? DARK : "rgba(12,14,20,0.65)" }}>
-                {role}
-              </span>
-              {sel && (
-                <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  className="text-[11px] font-semibold shrink-0" style={{ color: BLUE }}>
-                  Added
-                </motion.span>
-              )}
-            </motion.button>
-          );
-        })}
-      </div>
+                    <span className="text-[14px] font-medium flex-1"
+                      style={{ color: sel ? DARK : "rgba(12,14,20,0.65)" }}>
+                      {role}
+                    </span>
+                    {sel && (
+                      <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                        className="text-[11px] font-semibold shrink-0" style={{ color: BLUE }}>
+                        Added
+                      </motion.span>
+                    )}
+                  </motion.button>
+                );
+              })
+          }
+        </motion.div>
+      </AnimatePresence>
 
-      <div className="mt-4 flex justify-end">
-        <motion.button whileHover={{ y: -1 }} whileTap={{ scale: 0.96 }}
-          className="inline-flex items-center gap-1.5 text-[12px] font-semibold px-4 py-2 rounded-xl"
-          style={{ border: `1.5px solid rgba(60,97,168,0.2)`, color: BLUE, background: "rgba(60,97,168,0.04)" }}>
-          <Sparkles size={11} /> Show related titles
+      {/* Explore more */}
+      <div className="mt-4 flex items-center justify-between">
+        <span className="text-[11px]" style={{ color: "rgba(12,14,20,0.3)" }}>
+          {gensLeft > 0 ? `${gensLeft} exploration${gensLeft === 1 ? "" : "s"} remaining` : "All generations used"}
+        </span>
+        <motion.button onClick={exploreMore} disabled={!canExplore}
+          whileHover={canExplore ? { y: -1 } : {}}
+          whileTap={canExplore ? { scale: 0.96 } : {}}
+          className="inline-flex items-center gap-1.5 text-[12px] font-semibold px-4 py-2 rounded-xl transition-all duration-150"
+          style={{
+            border: `1.5px solid ${canExplore ? "rgba(60,97,168,0.2)" : "rgba(12,14,20,0.08)"}`,
+            color: canExplore ? BLUE : "rgba(12,14,20,0.25)",
+            background: canExplore ? "rgba(60,97,168,0.04)" : "rgba(0,0,0,0)",
+            cursor: canExplore ? "pointer" : "not-allowed",
+          }}>
+          {genLoading
+            ? <><motion.div className="w-3 h-3 rounded-full border-2 border-t-transparent"
+                style={{ borderColor: `rgba(60,97,168,0.3)`, borderTopColor: BLUE }}
+                animate={{ rotate: 360 }} transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }} />
+                Generating...</>
+            : <><Sparkles size={11} /> Explore more</>
+          }
         </motion.button>
       </div>
     </div>
