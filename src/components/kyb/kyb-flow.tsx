@@ -1,64 +1,104 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen, GraduationCap, Briefcase, ArrowLeftRight,
-  Search, ChevronDown, ArrowRight, ArrowLeft, Check, Sparkles,
+  Search, ChevronDown, ArrowRight, ArrowLeft, Check,
+  Sparkles, Zap, Globe, Rocket, ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 import { BrandLogoMark } from "@/components/ui/brand-logo";
 
 /* ─── palette ─────────────────────────────────────────────────── */
-const BLUE  = "#3C61A8";
+const BLUE   = "#3C61A8";
 const YELLOW = "#F5D134";
-const DARK  = "#0C0E14";
-const MUTED = "rgba(12,14,20,0.45)";
+const DARK   = "#0C0E14";
+const TOTAL  = 3;
 
-const TOTAL = 3;
+/* ─── step meta ───────────────────────────────────────────────── */
+const STEPS = ["Your Profile", "Target Role", "Role Titles"];
 
-/* ─── data ────────────────────────────────────────────────────── */
+/* ─── persona data ────────────────────────────────────────────── */
 const STAGES = [
-  { id: "student",      Icon: BookOpen,        title: "Student / Fresher",       sub: "Currently studying" },
-  { id: "graduate",     Icon: GraduationCap,   title: "Recent Graduate",         sub: "Preparing for first job" },
-  { id: "professional", Icon: Briefcase,        title: "Working Professional",    sub: "Looking to advance" },
-  { id: "switcher",     Icon: ArrowLeftRight,   title: "Career Switcher",         sub: "Transitioning to a new field" },
+  {
+    id: "student",
+    Icon: BookOpen,
+    title: "Student or Fresher",
+    sub: "Still in college, or just graduated",
+    benefit: "Map your strengths before the job search starts",
+    color: "#4F46E5",
+    accent: "#EEF2FF",
+  },
+  {
+    id: "graduate",
+    Icon: GraduationCap,
+    title: "Recent Graduate",
+    sub: "Looking for your first role",
+    benefit: "Land your first role with targeted prep",
+    color: "#7C3AED",
+    accent: "#F5F3FF",
+  },
+  {
+    id: "professional",
+    Icon: Briefcase,
+    title: "Working Professional",
+    sub: "Currently employed, want to grow",
+    benefit: "Unlock the next level in your career",
+    color: "#047857",
+    accent: "#ECFDF5",
+  },
+  {
+    id: "switcher",
+    Icon: ArrowLeftRight,
+    title: "Career Switcher",
+    sub: "Changing industries or functions",
+    benefit: "Find exactly where your skills transfer",
+    color: "#B45309",
+    accent: "#FFFBEB",
+  },
 ];
 
-const EXP = ["0–1", "1–3", "3–5", "5+", "Other"];
-
+/* ─── form/static data ────────────────────────────────────────── */
+const EXP = ["< 1 year", "1–3 years", "3–5 years", "5+ years"];
 const COUNTRIES = ["India","United States","United Kingdom","Canada","Australia","Germany","Singapore","UAE","Other"];
-
 const ROLE_TITLES = [
-  "Junior Data Engineer",      "Big Data Engineer",
-  "Data Platform Engineer",    "ETL Developer",
-  "Data Warehouse Engineer",   "Analytics Engineer",
-  "BI Engineer",               "Streaming Data Engineer",
-  "Data Infrastructure Eng.",  "Data Integration Engineer",
+  "Junior Data Engineer","Big Data Engineer",
+  "Data Platform Engineer","ETL Developer",
+  "Data Warehouse Engineer","Analytics Engineer",
+  "BI Engineer","Streaming Data Engineer",
+  "Data Infrastructure Eng.","Data Integration Engineer",
+];
+const PROCESSING_MSGS = [
+  "Scanning 12,000+ job titles...",
+  "Matching your profile to market data...",
+  "Building your skill map...",
+  "Analyzing salary benchmarks...",
+  "Curating your best-fit roles...",
+  "Almost ready — finalizing your results...",
 ];
 
 /* ─── types ───────────────────────────────────────────────────── */
 type Form = {
   stage: string; role: string; experience: string;
-  country: string; visa: string; notes: string;
-  selectedRoles: string[];
+  country: string; visa: string; notes: string; selectedRoles: string[];
 };
-
 const INIT: Form = { stage:"", role:"", experience:"", country:"", visa:"", notes:"", selectedRoles:[] };
 
 /* ─── animation ───────────────────────────────────────────────── */
-const variants = {
-  initial: (d: number) => ({ x: d > 0 ? 48 : -48, opacity: 0, filter: "blur(6px)" }),
-  animate: { x: 0, opacity: 1, filter: "blur(0px)" },
-  exit:    (d: number) => ({ x: d > 0 ? -48 : 48, opacity: 0, filter: "blur(6px)" }),
+const ease = [0.22, 1, 0.36, 1] as const;
+const pageVariants = {
+  initial: (d: number) => ({ x: d > 0 ? 60 : -60, opacity: 0 }),
+  animate: { x: 0, opacity: 1 },
+  exit:    (d: number) => ({ x: d > 0 ? -60 : 60, opacity: 0 }),
 };
-const trans = { duration: 0.38, ease: [0.22, 1, 0.36, 1] as const };
+const pageTrans = { duration: 0.4, ease };
 
 /* ═══════════════════════════════════════════════════════════════ */
 export default function KYBFlow() {
-  const [step, setStep]           = useState(1);
-  const [dir, setDir]             = useState(1);
-  const [form, setForm]           = useState<Form>(INIT);
+  const [step, setStep]             = useState(1);
+  const [dir, setDir]               = useState(1);
+  const [form, setForm]             = useState<Form>(INIT);
   const [processing, setProcessing] = useState(false);
 
   const go = (n: number) => { setDir(n > step ? 1 : -1); setStep(n); };
@@ -82,96 +122,95 @@ export default function KYBFlow() {
     }));
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(160deg,#F7F8FC 0%,#EEF2FF 100%)" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "#F8F9FD" }}>
 
-      {/* Page-wide grid */}
-      <div className="fixed inset-0 pointer-events-none z-0" style={{
-        backgroundImage: `linear-gradient(rgba(60,97,168,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(60,97,168,0.04) 1px,transparent 1px)`,
-        backgroundSize: "64px 64px",
-      }} />
+      {/* Top progress bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 h-[3px]" style={{ background: "rgba(60,97,168,0.08)" }}>
+        <motion.div className="h-full" style={{ background: `linear-gradient(90deg, ${BLUE}, #7B9FE8)` }}
+          animate={{ width: processing ? "100%" : `${((step - 1) / TOTAL) * 100 + 10}%` }}
+          transition={{ duration: 0.6, ease }} />
+      </div>
 
       {/* Navbar */}
-      <nav className="relative z-10 h-16 flex items-center justify-between px-6 border-b"
-        style={{ background:"rgba(255,255,255,0.88)", backdropFilter:"blur(14px)", borderColor:"rgba(0,0,0,0.06)" }}>
+      <nav className="sticky top-0 z-40 h-14 flex items-center justify-between px-6 shrink-0"
+        style={{ background: "rgba(248,249,253,0.9)", backdropFilter: "blur(16px)", borderBottom: "1px solid rgba(12,14,20,0.06)" }}>
         <Link href="/kyb" className="flex items-center gap-2">
-          <BrandLogoMark size={22} />
-          <span className="text-[15px] font-bold" style={{ color: DARK }}>
-            Career<span style={{ color: BLUE }}>X</span>celerator
+          <BrandLogoMark size={20} />
+          <span className="text-[14px] font-bold" style={{ color: DARK }}>
+            Career<span style={{ color: YELLOW }}>X</span>celerator
           </span>
         </Link>
         {!processing && (
           <div className="flex items-center gap-3">
-            <span className="text-[12px] font-medium hidden sm:block" style={{ color: MUTED }}>
-              Step {step} of {TOTAL}
-            </span>
-            <div className="w-28 h-1.5 rounded-full overflow-hidden" style={{ background:"rgba(60,97,168,0.1)" }}>
-              <motion.div className="h-full rounded-full" style={{ background: BLUE }}
-                animate={{ width:`${(step/TOTAL)*100}%` }} transition={trans} />
-            </div>
+            {STEPS.map((label, i) => {
+              const n = i + 1;
+              const done = n < step;
+              const active = n === step;
+              return (
+                <div key={label} className="flex items-center gap-1.5">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center transition-all duration-300"
+                    style={{
+                      background: done ? BLUE : active ? "rgba(60,97,168,0.12)" : "rgba(0,0,0,0)",
+                      border: `1.5px solid ${done ? BLUE : active ? BLUE : "rgba(12,14,20,0.15)"}`,
+                    }}>
+                    {done
+                      ? <Check size={10} strokeWidth={3} color="#fff" />
+                      : <span className="text-[9px] font-bold" style={{ color: active ? BLUE : "rgba(12,14,20,0.3)" }}>{n}</span>
+                    }
+                  </div>
+                  <span className="text-[11px] font-semibold hidden sm:block"
+                    style={{ color: active ? DARK : "rgba(12,14,20,0.3)" }}>
+                    {label}
+                  </span>
+                  {i < STEPS.length - 1 && (
+                    <ChevronRight size={11} style={{ color: "rgba(12,14,20,0.2)" }} className="hidden sm:block" />
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
       </nav>
 
       {/* Main */}
-      <div className="relative z-10 flex-1 flex items-center justify-center px-4 py-10">
-        <div className="w-full max-w-2xl">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 py-12">
+        <div className="w-full max-w-xl">
           <AnimatePresence mode="wait" custom={dir}>
             {processing ? (
-              <ProcessingState key="done" />
+              <ProcessingState key="proc" />
             ) : (
-              <motion.div key={step} custom={dir} variants={variants}
-                initial="initial" animate="animate" exit="exit" transition={trans}
-                className="rounded-3xl overflow-hidden"
-                style={{ background:"#fff", boxShadow:"0 8px 48px rgba(12,14,20,0.09),0 1px 4px rgba(12,14,20,0.04)" }}>
+              <motion.div key={step} custom={dir} variants={pageVariants}
+                initial="initial" animate="animate" exit="exit" transition={pageTrans}>
 
-                {/* Card header */}
-                <div className="px-7 sm:px-10 pt-8 pb-5 border-b" style={{ borderColor:"rgba(0,0,0,0.06)" }}>
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h1 className="text-[20px] sm:text-[22px] font-bold" style={{ color: DARK }}>
-                        Know Yourself Better
-                      </h1>
-                      <p className="text-[13px] mt-1 leading-relaxed max-w-md" style={{ color: MUTED }}>
-                        Gain clarity on your strengths and preferences to access opportunities tailored to you.
-                      </p>
-                    </div>
-                    <span className="shrink-0 text-[13px] font-semibold mt-0.5 px-3 py-1 rounded-full"
-                      style={{ background:"rgba(60,97,168,0.08)", color: BLUE }}>
-                      Step {step}/{TOTAL}
-                    </span>
-                  </div>
-                </div>
+                {step === 1 && <Step1 form={form} setForm={setForm} />}
+                {step === 2 && <Step2 form={form} setForm={setForm} />}
+                {step === 3 && <Step3 form={form} toggleRole={toggleRole} />}
 
-                {/* Step body */}
-                <div className="px-7 sm:px-10 py-8">
-                  {step === 1 && <Step1 form={form} setForm={setForm} />}
-                  {step === 2 && <Step2 form={form} setForm={setForm} />}
-                  {step === 3 && <Step3 form={form} toggleRole={toggleRole} />}
-                </div>
-
-                {/* Footer nav */}
-                <div className="px-7 sm:px-10 pb-8 flex items-center justify-between">
-                  {step > 1 ? (
-                    <button onClick={() => go(step - 1)}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[14px] font-semibold transition-all hover:opacity-70"
-                      style={{ background:"rgba(60,97,168,0.07)", color: BLUE }}>
-                      <ArrowLeft size={14} /> Back
-                    </button>
-                  ) : <div />}
-
+                {/* CTA row */}
+                <div className={`flex items-center mt-8 ${step > 1 ? "justify-between" : "justify-end"}`}>
+                  {step > 1 && (
+                    <motion.button onClick={() => go(step - 1)}
+                      whileHover={{ x: -2 }} whileTap={{ scale: 0.97 }}
+                      className="inline-flex items-center gap-1.5 text-[13px] font-semibold px-4 py-2.5 rounded-xl"
+                      style={{ color: "rgba(12,14,20,0.45)", background: "rgba(12,14,20,0.05)" }}>
+                      <ArrowLeft size={13} /> Back
+                    </motion.button>
+                  )}
                   <motion.button onClick={onContinue} disabled={!canContinue}
-                    whileHover={canContinue ? { y:-2 } : {}}
-                    whileTap={canContinue ? { scale:0.97 } : {}}
-                    className="inline-flex items-center gap-2 px-7 py-3 rounded-xl text-[15px] font-semibold transition-colors duration-200"
+                    whileHover={canContinue ? { y: -2, boxShadow: "0 10px 32px rgba(245,209,52,0.55)" } : {}}
+                    whileTap={canContinue ? { scale: 0.97 } : {}}
+                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl text-[15px] font-bold transition-all duration-200"
                     style={{
-                      background: canContinue ? YELLOW : "rgba(0,0,0,0.06)",
-                      color:      canContinue ? DARK   : "rgba(0,0,0,0.3)",
-                      boxShadow:  canContinue ? "0 4px 16px rgba(245,209,52,0.4)" : "none",
-                      cursor:     canContinue ? "pointer" : "not-allowed",
+                      background:  canContinue ? YELLOW : "rgba(12,14,20,0.07)",
+                      color:       canContinue ? DARK   : "rgba(12,14,20,0.22)",
+                      boxShadow:   canContinue ? "0 4px 20px rgba(245,209,52,0.4)" : "none",
+                      cursor:      canContinue ? "pointer" : "not-allowed",
                     }}>
-                    {step === TOTAL ? "Submit" : "Continue"} <ArrowRight size={14} />
+                    {step === TOTAL ? "Analyze My Fit" : "Continue"}
+                    <ArrowRight size={15} />
                   </motion.button>
                 </div>
+
               </motion.div>
             )}
           </AnimatePresence>
@@ -185,32 +224,73 @@ export default function KYBFlow() {
 function Step1({ form, setForm }: { form: Form; setForm: (f: Form) => void }) {
   return (
     <div>
-      <h2 className="text-[17px] font-bold text-center mb-6" style={{ color: DARK }}>
-        What describes you best?
-      </h2>
-      <div className="grid grid-cols-2 gap-3">
-        {STAGES.map(({ id, Icon, title, sub }) => {
+      <div className="mb-8">
+        <p className="text-[11px] font-black tracking-[0.2em] uppercase mb-3"
+          style={{ color: "rgba(60,97,168,0.55)" }}>
+          About you
+        </p>
+        <h1 className="text-[34px] font-black leading-[1.1] tracking-tight mb-3" style={{ color: DARK }}>
+          What stage are<br />you at right now?
+        </h1>
+        <p className="text-[15px]" style={{ color: "rgba(12,14,20,0.45)", lineHeight: 1.6 }}>
+          We'll shape your results around where you are today.
+        </p>
+      </div>
+
+      <div className="space-y-2.5">
+        {STAGES.map(({ id, Icon, title, sub, benefit, color, accent }) => {
           const sel = form.stage === id;
           return (
-            <button key={id} onClick={() => setForm({ ...form, stage: id })}
-              className="relative flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl border-2 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-              style={{
-                borderColor: sel ? BLUE : "rgba(0,0,0,0.08)",
-                background:  sel ? "rgba(60,97,168,0.04)" : "#fff",
-              }}>
-              {sel && (
-                <div className="absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center"
-                  style={{ background: BLUE }}>
-                  <Check size={10} strokeWidth={3} color="#fff" />
-                </div>
-              )}
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center mb-3"
-                style={{ background: sel ? "rgba(60,97,168,0.1)" : "rgba(60,97,168,0.06)" }}>
-                <Icon size={24} style={{ color: BLUE }} strokeWidth={1.5} />
+            <motion.button key={id}
+              onClick={() => setForm({ ...form, stage: id })}
+              whileHover={{ x: 3 }}
+              whileTap={{ scale: 0.99 }}
+              animate={{
+                background: sel ? accent : "#fff",
+                boxShadow: sel
+                  ? `0 0 0 2px ${color}, 0 4px 24px ${color}18`
+                  : "0 1px 4px rgba(12,14,20,0.06), 0 0 0 1px rgba(12,14,20,0.07)",
+              }}
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-left cursor-pointer">
+
+              {/* Icon */}
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+                style={{ background: sel ? color : "rgba(12,14,20,0.05)" }}>
+                <Icon size={20} style={{ color: sel ? "#fff" : "rgba(12,14,20,0.4)" }} strokeWidth={1.8} />
               </div>
-              <span className="text-[13px] sm:text-[14px] font-bold leading-snug" style={{ color: DARK }}>{title}</span>
-              <span className="text-[11px] sm:text-[12px] mt-1" style={{ color: MUTED }}>{sub}</span>
-            </button>
+
+              {/* Text */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-[15px] font-bold" style={{ color: sel ? color : DARK }}>{title}</span>
+                </div>
+                <span className="text-[13px]" style={{ color: "rgba(12,14,20,0.45)" }}>{sub}</span>
+              </div>
+
+              {/* Benefit + check */}
+              <div className="shrink-0 flex items-center gap-3">
+                <AnimatePresence>
+                  {sel && (
+                    <motion.span
+                      initial={{ opacity: 0, x: 6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 6 }}
+                      className="text-[11px] font-semibold hidden sm:block"
+                      style={{ color: color }}>
+                      {benefit}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+                <motion.div
+                  animate={{
+                    background: sel ? color : "rgba(0,0,0,0)",
+                    borderColor: sel ? color : "rgba(12,14,20,0.15)",
+                    scale: sel ? 1 : 0.9,
+                  }}
+                  className="w-6 h-6 rounded-full border-2 flex items-center justify-center">
+                  {sel && <Check size={11} strokeWidth={3} color="#fff" />}
+                </motion.div>
+              </div>
+            </motion.button>
           );
         })}
       </div>
@@ -221,84 +301,133 @@ function Step1({ form, setForm }: { form: Form; setForm: (f: Form) => void }) {
 /* ─── Step 2 ──────────────────────────────────────────────────── */
 function Step2({ form, setForm }: { form: Form; setForm: (f: Form) => void }) {
   return (
-    <div className="space-y-5">
-      <h2 className="text-[17px] font-bold text-center" style={{ color: DARK }}>
-        Choose your role &amp; target market
-      </h2>
+    <div className="space-y-7">
+      <div className="mb-8">
+        <p className="text-[11px] font-black tracking-[0.2em] uppercase mb-3"
+          style={{ color: "rgba(60,97,168,0.55)" }}>
+          Your target
+        </p>
+        <h1 className="text-[34px] font-black leading-[1.1] tracking-tight mb-3" style={{ color: DARK }}>
+          What role are you<br />going after?
+        </h1>
+        <p className="text-[15px]" style={{ color: "rgba(12,14,20,0.45)", lineHeight: 1.6 }}>
+          We'll pull real job market data for this exact role.
+        </p>
+      </div>
 
-      {/* Role */}
-      <Field label="Role" required>
-        <div className="relative">
-          <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: MUTED }} />
-          <input type="text" placeholder="Select your interested area / domain"
+      {/* Role input */}
+      <div>
+        <FieldLabel text="Role you're targeting" required />
+        <div className="relative mt-2">
+          <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
+            style={{ color: "rgba(12,14,20,0.28)" }} />
+          <input type="text" placeholder="e.g. Data Engineer, Product Manager..."
             value={form.role} onChange={e => setForm({ ...form, role: e.target.value })}
-            className="w-full pl-10 pr-4 py-3 rounded-xl text-[14px] outline-none transition-all"
-            style={{ border:"1.5px solid rgba(0,0,0,0.1)", background:"#FAFAFA", color: DARK }} />
+            className="w-full pl-11 pr-4 py-3.5 rounded-2xl text-[14px] outline-none transition-all"
+            style={{
+              background: "#fff",
+              border: "1.5px solid rgba(12,14,20,0.1)",
+              color: DARK,
+              boxShadow: "0 1px 4px rgba(12,14,20,0.05)",
+            }}
+            onFocus={e => {
+              e.currentTarget.style.borderColor = BLUE;
+              e.currentTarget.style.boxShadow = `0 0 0 4px rgba(60,97,168,0.1)`;
+            }}
+            onBlur={e => {
+              e.currentTarget.style.borderColor = "rgba(12,14,20,0.1)";
+              e.currentTarget.style.boxShadow = "0 1px 4px rgba(12,14,20,0.05)";
+            }}
+          />
         </div>
-      </Field>
+      </div>
 
       {/* Experience */}
-      <Field label="Experience (Years)">
-        <div className="flex flex-wrap gap-2">
+      <div>
+        <FieldLabel text="Years of experience" />
+        <div className="flex flex-wrap gap-2 mt-2">
           {EXP.map(opt => {
             const sel = form.experience === opt;
             return (
-              <button key={opt} onClick={() => setForm({ ...form, experience: opt })}
-                className="px-4 py-2 rounded-full text-[13px] font-semibold transition-all duration-150"
-                style={{
-                  background:  sel ? BLUE : "rgba(60,97,168,0.06)",
-                  color:       sel ? "#fff" : BLUE,
-                  border:      `1.5px solid ${sel ? BLUE : "rgba(60,97,168,0.18)"}`,
-                }}>
+              <motion.button key={opt} onClick={() => setForm({ ...form, experience: opt })}
+                whileTap={{ scale: 0.95 }}
+                animate={{
+                  background: sel ? DARK : "#fff",
+                  color: sel ? "#fff" : "rgba(12,14,20,0.55)",
+                  boxShadow: sel ? "0 2px 8px rgba(12,14,20,0.2)" : "0 1px 4px rgba(12,14,20,0.06)",
+                }}
+                className="px-4 py-2.5 rounded-xl text-[13px] font-semibold border"
+                style={{ borderColor: sel ? DARK : "rgba(12,14,20,0.1)" }}>
                 {opt}
-              </button>
+              </motion.button>
             );
           })}
         </div>
-      </Field>
+      </div>
 
-      {/* Country */}
-      <Field label="Preferred Country" required>
-        <div className="relative">
-          <select value={form.country} onChange={e => setForm({ ...form, country: e.target.value })}
-            className="w-full px-4 py-3 rounded-xl text-[14px] outline-none appearance-none transition-all"
-            style={{
-              border:"1.5px solid rgba(0,0,0,0.1)", background:"#FAFAFA",
-              color: form.country ? DARK : "rgba(12,14,20,0.35)",
-            }}>
-            <option value="" disabled>Select your interested country</option>
-            {COUNTRIES.map(c => <option key={c}>{c}</option>)}
-          </select>
-          <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: MUTED }} />
+      {/* Country + Visa */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <FieldLabel text="Target country" required />
+          <div className="relative mt-2">
+            <Globe size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+              style={{ color: "rgba(12,14,20,0.28)" }} />
+            <select value={form.country} onChange={e => setForm({ ...form, country: e.target.value })}
+              className="w-full pl-10 pr-8 py-3.5 rounded-2xl text-[14px] outline-none appearance-none"
+              style={{
+                background: "#fff",
+                border: "1.5px solid rgba(12,14,20,0.1)",
+                color: form.country ? DARK : "rgba(12,14,20,0.35)",
+                boxShadow: "0 1px 4px rgba(12,14,20,0.05)",
+              }}>
+              <option value="" disabled>Select country</option>
+              {COUNTRIES.map(c => <option key={c}>{c}</option>)}
+            </select>
+            <ChevronDown size={13} className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+              style={{ color: "rgba(12,14,20,0.28)" }} />
+          </div>
         </div>
-      </Field>
-
-      {/* Visa */}
-      <Field label="Do you require visa sponsorship?" required>
-        <div className="flex gap-5">
-          {["Yes","No"].map(opt => {
-            const sel = form.visa === opt;
-            return (
-              <label key={opt} className="flex items-center gap-2.5 cursor-pointer"
-                onClick={() => setForm({ ...form, visa: opt })}>
-                <div className="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all"
-                  style={{ borderColor: sel ? BLUE : "rgba(0,0,0,0.2)", background: sel ? BLUE : "transparent" }}>
-                  {sel && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
-                </div>
-                <span className="text-[14px]" style={{ color: DARK }}>{opt}</span>
-              </label>
-            );
-          })}
+        <div>
+          <FieldLabel text="Visa sponsorship?" required />
+          <div className="flex gap-2 mt-2">
+            {["Yes", "No"].map(opt => {
+              const sel = form.visa === opt;
+              return (
+                <motion.button key={opt} onClick={() => setForm({ ...form, visa: opt })}
+                  whileTap={{ scale: 0.96 }}
+                  animate={{
+                    background: sel ? DARK : "#fff",
+                    boxShadow: sel ? "0 2px 8px rgba(12,14,20,0.2)" : "0 1px 4px rgba(12,14,20,0.06)",
+                  }}
+                  className="flex-1 py-3.5 rounded-2xl text-[13px] font-bold border transition-colors duration-150"
+                  style={{
+                    borderColor: sel ? DARK : "rgba(12,14,20,0.1)",
+                    color: sel ? "#fff" : "rgba(12,14,20,0.45)",
+                  }}>
+                  {opt}
+                </motion.button>
+              );
+            })}
+          </div>
         </div>
-      </Field>
+      </div>
 
       {/* Notes */}
-      <Field label="Additional Information" hint="Optional">
-        <textarea rows={3} placeholder="Add any extra info to help us customize your role titles..."
+      <div>
+        <FieldLabel text="Anything else?" hint="optional" />
+        <textarea rows={2} placeholder="Specialisations, industries, location preferences..."
           value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })}
-          className="w-full px-4 py-3 rounded-xl text-[14px] outline-none resize-none transition-all"
-          style={{ border:"1.5px solid rgba(0,0,0,0.1)", background:"#FAFAFA", color: DARK }} />
-      </Field>
+          className="w-full mt-2 px-4 py-3.5 rounded-2xl text-[14px] outline-none resize-none"
+          style={{
+            background: "#fff",
+            border: "1.5px solid rgba(12,14,20,0.1)",
+            color: DARK,
+            boxShadow: "0 1px 4px rgba(12,14,20,0.05)",
+          }}
+          onFocus={e => { e.currentTarget.style.borderColor = BLUE; e.currentTarget.style.boxShadow = `0 0 0 4px rgba(60,97,168,0.1)`; }}
+          onBlur={e => { e.currentTarget.style.borderColor = "rgba(12,14,20,0.1)"; e.currentTarget.style.boxShadow = "0 1px 4px rgba(12,14,20,0.05)"; }}
+        />
+      </div>
     </div>
   );
 }
@@ -306,60 +435,101 @@ function Step2({ form, setForm }: { form: Form; setForm: (f: Form) => void }) {
 /* ─── Step 3 ──────────────────────────────────────────────────── */
 function Step3({ form, toggleRole }: { form: Form; toggleRole: (r: string) => void }) {
   const count = form.selectedRoles.length;
+  const MAX  = 10;
+
   return (
     <div>
-      <div className="flex items-start justify-between gap-3 mb-6">
+      <div className="flex items-start justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-[17px] font-bold" style={{ color: DARK }}>Choose the roles you want to explore</h2>
-          <p className="text-[12px] mt-1" style={{ color: MUTED }}>
-            Don't see what you're looking for? Click "Get Better Titles"
+          <p className="text-[11px] font-black tracking-[0.2em] uppercase mb-3"
+            style={{ color: "rgba(60,97,168,0.55)" }}>
+            Role titles
+          </p>
+          <h1 className="text-[34px] font-black leading-[1.1] tracking-tight mb-3" style={{ color: DARK }}>
+            Pick the titles<br />you want to explore
+          </h1>
+          <p className="text-[15px]" style={{ color: "rgba(12,14,20,0.45)", lineHeight: 1.6 }}>
+            We'll map each against real job market data.
           </p>
         </div>
-        <div className="shrink-0 px-3 py-1.5 rounded-lg text-[10px] font-black tracking-widest uppercase"
-          style={{ background: YELLOW, color: DARK }}>
-          Credits Left: +{10 - count}
+
+        {/* Credits pill */}
+        <div className="shrink-0 mt-1">
+          <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl"
+            style={{ background: "#fff", border: "1px solid rgba(12,14,20,0.08)", boxShadow: "0 1px 4px rgba(12,14,20,0.06)" }}>
+            <div className="flex gap-0.5">
+              {Array.from({ length: MAX }).map((_, i) => (
+                <motion.div key={i}
+                  animate={{ background: i < count ? YELLOW : "rgba(12,14,20,0.1)", scale: i === count - 1 ? [1, 1.4, 1] : 1 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-1.5 h-1.5 rounded-full" />
+              ))}
+            </div>
+            <span className="text-[11px] font-bold" style={{ color: count >= 8 ? "#DC2626" : "rgba(12,14,20,0.5)" }}>
+              {count}/{MAX}
+            </span>
+          </div>
         </div>
       </div>
 
-      <div className="rounded-2xl p-5" style={{ border:"1.5px solid rgba(0,0,0,0.07)", background:"#FAFAFA" }}>
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-[15px] font-bold" style={{ color: BLUE }}>
-            {form.role || "Data Engineer"}
-          </span>
-          <span className="text-[12px] font-semibold px-3 py-1 rounded-full"
-            style={{ background:"rgba(60,97,168,0.08)", color: BLUE }}>
-            Selected: {count}/10
-          </span>
-        </div>
+      {/* Role group header */}
+      <div className="flex items-center gap-2 mb-3 px-1">
+        <Zap size={12} style={{ color: BLUE }} />
+        <span className="text-[12px] font-bold uppercase tracking-wider" style={{ color: BLUE }}>
+          {form.role || "Data Engineer"} — similar titles
+        </span>
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {ROLE_TITLES.map(role => {
-            const sel = form.selectedRoles.includes(role);
-            return (
-              <button key={role} onClick={() => toggleRole(role)}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-150 hover:shadow-sm"
-                style={{
-                  border:     `1.5px solid ${sel ? BLUE : "rgba(0,0,0,0.08)"}`,
-                  background: sel ? "rgba(60,97,168,0.05)" : "#fff",
-                }}>
-                <div className="w-4 h-4 rounded flex items-center justify-center shrink-0 transition-all"
-                  style={{ border:`2px solid ${sel ? BLUE:"rgba(0,0,0,0.2)"}`, background: sel ? BLUE:"transparent" }}>
-                  {sel && <Check size={9} strokeWidth={3} color="#fff" />}
-                </div>
-                <span className="text-[13px] font-medium leading-snug"
-                  style={{ color: sel ? BLUE : DARK }}>{role}</span>
-              </button>
-            );
-          })}
-        </div>
+      {/* Roles */}
+      <div className="space-y-1.5">
+        {ROLE_TITLES.map((role, i) => {
+          const sel = form.selectedRoles.includes(role);
+          return (
+            <motion.button key={role} onClick={() => toggleRole(role)}
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.03, ease }}
+              whileHover={{ x: 2 }}
+              whileTap={{ scale: 0.99 }}
+              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left"
+              style={{
+                background: sel ? "#fff" : "rgba(0,0,0,0)",
+                border: `1.5px solid ${sel ? BLUE : "rgba(0,0,0,0)"}`,
+                boxShadow: sel ? `0 0 0 3px rgba(60,97,168,0.08), 0 2px 8px rgba(60,97,168,0.1)` : "none",
+              }}>
+              <motion.div
+                animate={{ background: sel ? BLUE : "rgba(12,14,20,0.07)", borderColor: sel ? BLUE : "rgba(12,14,20,0.15)" }}
+                className="w-4.5 h-4.5 rounded-md border-2 flex items-center justify-center shrink-0 w-[18px] h-[18px]">
+                <AnimatePresence>
+                  {sel && (
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
+                      transition={{ type: "spring", stiffness: 600, damping: 25 }}>
+                      <Check size={9} strokeWidth={3} color="#fff" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+              <span className="text-[14px] font-medium flex-1"
+                style={{ color: sel ? DARK : "rgba(12,14,20,0.65)" }}>
+                {role}
+              </span>
+              {sel && (
+                <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  className="text-[11px] font-semibold shrink-0" style={{ color: BLUE }}>
+                  Added
+                </motion.span>
+              )}
+            </motion.button>
+          );
+        })}
+      </div>
 
-        <div className="flex justify-end mt-4">
-          <button className="inline-flex items-center gap-1.5 text-[13px] font-semibold px-4 py-2 rounded-lg transition-all hover:opacity-80"
-            style={{ border:`1.5px solid ${BLUE}`, color: BLUE, background:"rgba(60,97,168,0.04)" }}>
-            <Sparkles size={12} />
-            Get Better Titles
-          </button>
-        </div>
+      <div className="mt-4 flex justify-end">
+        <motion.button whileHover={{ y: -1 }} whileTap={{ scale: 0.96 }}
+          className="inline-flex items-center gap-1.5 text-[12px] font-semibold px-4 py-2 rounded-xl"
+          style={{ border: `1.5px solid rgba(60,97,168,0.2)`, color: BLUE, background: "rgba(60,97,168,0.04)" }}>
+          <Sparkles size={11} /> Show related titles
+        </motion.button>
       </div>
     </div>
   );
@@ -367,57 +537,98 @@ function Step3({ form, toggleRole }: { form: Form; toggleRole: (r: string) => vo
 
 /* ─── Processing state ────────────────────────────────────────── */
 function ProcessingState() {
+  const [msgIdx, setMsgIdx]     = useState(0);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const t1 = setInterval(() => setMsgIdx(i => Math.min(i + 1, PROCESSING_MSGS.length - 1)), 2200);
+    const t2 = setInterval(() => setProgress(p => Math.min(p + 2, 94)), 400);
+    return () => { clearInterval(t1); clearInterval(t2); };
+  }, []);
+
   return (
-    <motion.div key="processing" initial={{ opacity:0, scale:0.96 }} animate={{ opacity:1, scale:1 }}
-      transition={trans}
-      className="rounded-3xl text-center py-16 px-8"
-      style={{ background:"#fff", boxShadow:"0 8px 48px rgba(12,14,20,0.09),0 1px 4px rgba(12,14,20,0.04)" }}>
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease }} className="text-center py-8">
 
       {/* Spinner */}
       <div className="flex justify-center mb-8">
         <div className="relative w-20 h-20">
-          <motion.div className="absolute inset-0 rounded-full border-4 border-t-transparent"
-            style={{ borderColor:`rgba(60,97,168,0.15)`, borderTopColor: BLUE }}
-            animate={{ rotate: 360 }} transition={{ duration: 1.4, repeat: Infinity, ease:"linear" }} />
+          <motion.div className="absolute inset-0 rounded-full border-[2px]"
+            style={{ borderColor: "rgba(60,97,168,0.12)", borderTopColor: BLUE }}
+            animate={{ rotate: 360 }} transition={{ duration: 1.1, repeat: Infinity, ease: "linear" }} />
+          <motion.div className="absolute inset-2.5 rounded-full border-[2px]"
+            style={{ borderColor: "rgba(245,209,52,0.18)", borderTopColor: YELLOW }}
+            animate={{ rotate: -360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} />
           <div className="absolute inset-0 flex items-center justify-center">
-            <BrandLogoMark size={28} />
+            <Rocket size={20} style={{ color: BLUE }} />
           </div>
         </div>
       </div>
 
-      <h2 className="text-[22px] sm:text-[24px] font-bold mb-2" style={{ color: DARK }}>
-        Finding job listings for you
+      <h2 className="text-[28px] font-black tracking-tight mb-2" style={{ color: DARK }}>
+        Analyzing your career fit
       </h2>
-      <p className="text-[14px] mb-2" style={{ color: MUTED }}>
-        Analyzing real market data to match your profile.
-      </p>
-      <p className="text-[13px] mb-8 font-medium" style={{ color: MUTED }}>
-        This may take 30–60 minutes. Explore the dashboard meanwhile.
-      </p>
 
-      <motion.div whileHover={{ y:-2 }} whileTap={{ scale:0.97 }}>
+      <div className="h-7 flex items-center justify-center mb-6">
+        <AnimatePresence mode="wait">
+          <motion.p key={msgIdx} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.35 }}
+            className="text-[15px]" style={{ color: "rgba(12,14,20,0.45)" }}>
+            {PROCESSING_MSGS[msgIdx]}
+          </motion.p>
+        </AnimatePresence>
+      </div>
+
+      {/* Progress */}
+      <div className="w-full h-1 rounded-full overflow-hidden mb-2" style={{ background: "rgba(12,14,20,0.07)" }}>
+        <motion.div className="h-full rounded-full"
+          style={{ background: `linear-gradient(90deg, ${BLUE} 0%, #7B9FE8 60%, ${YELLOW} 100%)` }}
+          animate={{ width: `${progress}%` }} transition={{ duration: 0.8, ease: "easeOut" }} />
+      </div>
+      <p className="text-[12px] font-bold mb-10" style={{ color: BLUE }}>{progress}%</p>
+
+      {/* Skeleton preview */}
+      <div className="text-left mb-10">
+        <p className="text-[10px] font-black uppercase tracking-widest mb-3"
+          style={{ color: "rgba(12,14,20,0.2)" }}>
+          Your results — loading
+        </p>
+        <div className="space-y-2">
+          {[1, 2, 3].map(i => (
+            <motion.div key={i} className="rounded-2xl p-4 flex gap-3 items-center"
+              style={{ background: "#fff", border: "1px solid rgba(12,14,20,0.07)", boxShadow: "0 1px 4px rgba(12,14,20,0.05)" }}
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.3 }}>
+              <div className="w-9 h-9 rounded-xl shrink-0" style={{ background: "rgba(12,14,20,0.07)" }} />
+              <div className="flex-1 space-y-2">
+                <div className="h-3 rounded-full w-3/5" style={{ background: "rgba(12,14,20,0.08)" }} />
+                <div className="h-2.5 rounded-full w-2/5" style={{ background: "rgba(12,14,20,0.05)" }} />
+              </div>
+              <div className="h-3 rounded-full w-12" style={{ background: "rgba(12,14,20,0.06)" }} />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }} className="inline-block">
         <Link href="#"
-          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-[15px] font-semibold"
-          style={{ background: YELLOW, color: DARK, boxShadow:"0 4px 18px rgba(245,209,52,0.4)" }}>
-          Go to the Dashboard <ArrowRight size={15} />
+          className="inline-flex items-center gap-2 px-9 py-4 rounded-2xl text-[15px] font-bold"
+          style={{ background: YELLOW, color: DARK, boxShadow: "0 4px 24px rgba(245,209,52,0.45)" }}>
+          Go to Dashboard <ArrowRight size={16} />
         </Link>
       </motion.div>
     </motion.div>
   );
 }
 
-/* ─── Field wrapper ───────────────────────────────────────────── */
-function Field({ label, required, hint, children }: {
-  label: string; required?: boolean; hint?: string; children: React.ReactNode;
-}) {
+/* ─── Field label ─────────────────────────────────────────────── */
+function FieldLabel({ text, required, hint }: { text: string; required?: boolean; hint?: string }) {
   return (
-    <div>
-      <label className="text-[13px] font-semibold mb-2 flex items-center gap-1" style={{ color: DARK }}>
-        {label}
-        {required && <span style={{ color:"#e53e3e" }}>*</span>}
-        {hint && <span className="font-normal" style={{ color: MUTED }}>({hint})</span>}
-      </label>
-      {children}
-    </div>
+    <label className="text-[12px] font-semibold flex items-center gap-1"
+      style={{ color: "rgba(12,14,20,0.45)" }}>
+      {text}
+      {required && <span style={{ color: "#DC2626" }}>*</span>}
+      {hint && <span className="font-normal" style={{ color: "rgba(12,14,20,0.28)" }}>({hint})</span>}
+    </label>
   );
 }
