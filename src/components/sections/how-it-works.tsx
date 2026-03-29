@@ -458,7 +458,7 @@ export function HowItWorksSection() {
           cardHeight={280}
           initialSpeed={40}
           direction={1}
-          repeat={8}
+          repeat={4}
           cardGap={24}
           friction={0.98}
         />
