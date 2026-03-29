@@ -28,36 +28,34 @@ const STEPS = [
 function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) {
   const Icon = step.icon;
   const inputs: Record<number, { fields: string[]; tags: string[] }> = {
-    0: { fields: ["Interests", "Experience", "Education"], tags: ["Data", "Analytics", "Python"] },
-    1: { fields: ["Target Role", "Current Skills", "Timeline"], tags: ["SQL", "Cloud", "ETL"] },
-    2: { fields: ["Role Type", "Difficulty", "Format"], tags: ["System Design", "Behavioral"] },
-    3: { fields: ["Location", "Salary Range", "Work Type"], tags: ["Remote", "$130k+", "Full-time"] },
+    0: { fields: ["Your interests", "Years of experience", "Degree"], tags: ["Data", "Analytics", "Python"] },
+    1: { fields: ["Target role", "Skills you know", "Learning pace"], tags: ["SQL", "Cloud", "ETL"] },
+    2: { fields: ["Interview type", "Seniority level", "Focus areas"], tags: ["System Design", "Behavioral"] },
+    3: { fields: ["Preferred location", "Salary expectation", "Work model"], tags: ["Remote", "$130k+", "Full-time"] },
   };
   const data = inputs[idx] || inputs[0];
 
   return (
     <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
-      style={{ background: "linear-gradient(160deg, #ebeef5 0%, #e2e6f0 50%, #edf0f7 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.03)" }}>
-      <div className="absolute top-0 left-0 right-0 h-[40%] pointer-events-none rounded-t-[22px]"
-        style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%)" }} />
+      style={{ background: "#e8eaef", border: "1.5px dashed rgba(12,14,20,0.12)" }}>
 
-      <div className="relative p-4 flex flex-col flex-1">
+      <div className="p-4 flex flex-col flex-1">
         {/* Header */}
         <div className="flex items-center gap-2.5 mb-4">
-          <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(12,14,20,0.06)" }}>
-            <Icon size={15} style={{ color: "rgba(12,14,20,0.3)" }} />
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(12,14,20,0.05)" }}>
+            <Icon size={15} style={{ color: "rgba(12,14,20,0.22)" }} />
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "rgba(12,14,20,0.25)" }}>Stage {idx + 1}</p>
-            <p className="text-[13px] font-bold" style={{ color: "rgba(12,14,20,0.5)" }}>{step.product}</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "rgba(12,14,20,0.2)" }}>Stage {idx + 1}</p>
+            <p className="text-[13px] font-bold" style={{ color: "rgba(12,14,20,0.4)" }}>{step.product}</p>
           </div>
         </div>
 
         {/* Input fields */}
-        <div className="space-y-2 mb-4">
+        <div className="space-y-2.5 mb-4">
           {data.fields.map((f) => (
             <div key={f} className="flex items-center gap-2">
-              <span className="text-[10px] w-[70px] shrink-0" style={{ color: "rgba(12,14,20,0.25)" }}>{f}</span>
+              <span className="text-[10px] shrink-0" style={{ color: "rgba(12,14,20,0.2)", minWidth: 90 }}>{f}</span>
               <div className="flex-1 h-[7px] rounded-full" style={{ background: "rgba(12,14,20,0.05)" }} />
             </div>
           ))}
@@ -67,16 +65,16 @@ function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) 
         <div className="flex flex-wrap gap-1.5 mb-auto">
           {data.tags.map((t) => (
             <span key={t} className="px-2 py-0.5 rounded-md text-[9px] font-medium"
-              style={{ background: "rgba(12,14,20,0.04)", color: "rgba(12,14,20,0.3)" }}>
+              style={{ background: "rgba(12,14,20,0.04)", color: "rgba(12,14,20,0.22)", border: "1px dashed rgba(12,14,20,0.08)" }}>
               {t}
             </span>
           ))}
         </div>
 
         {/* Status */}
-        <div className="flex items-center gap-2 pt-3 mt-2" style={{ borderTop: "1px solid rgba(12,14,20,0.05)" }}>
-          <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: step.color, opacity: 0.5 }} />
-          <span className="text-[10px]" style={{ color: "rgba(12,14,20,0.2)" }}>Awaiting analysis...</span>
+        <div className="flex items-center gap-2 pt-3 mt-2" style={{ borderTop: "1px dashed rgba(12,14,20,0.06)" }}>
+          <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: step.color, opacity: 0.4 }} />
+          <span className="text-[10px]" style={{ color: "rgba(12,14,20,0.18)" }}>Awaiting analysis...</span>
         </div>
       </div>
     </div>
@@ -403,7 +401,7 @@ export function HowItWorksSection() {
             className="text-[14px] sm:text-[15px] max-w-md mx-auto"
             style={{ color: "rgba(12,14,20,0.4)", lineHeight: 1.6 }}
           >
-            Your raw career data flows in — our system processes it into clear, actionable outcomes.
+            From uncertainty to clarity — four steps that turn your ambitions into a career plan.
           </motion.p>
         </div>
       </div>
@@ -439,7 +437,7 @@ export function HowItWorksSection() {
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.45, delay: 0.3 + i * 0.06, ease: [0.33, 1, 0.68, 1] }}
                 className="bg-white rounded-2xl p-4 sm:p-5 flex flex-col hover:-translate-y-1 transition-transform duration-300 relative"
-                style={{ border: "1px solid rgba(12,14,20,0.07)", boxShadow: "0 2px 12px rgba(12,14,20,0.05)" }}
+                style={{ border: "1px solid rgba(12,14,20,0.07)", borderLeft: `3px solid ${step.color}`, boxShadow: "0 2px 12px rgba(12,14,20,0.05)" }}
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 shrink-0" style={{ backgroundColor: YELLOW }}>
                   <Icon className="w-5 h-5" style={{ color: DARK }} />

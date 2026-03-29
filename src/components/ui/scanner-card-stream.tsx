@@ -471,7 +471,7 @@ const ScannerCardStream = ({
           {cards.map((card) => {
             const content = useCustom ? cardContents[card.srcIdx] : null;
             return (
-              <div key={card.id} className="card-wrapper relative shrink-0" style={{ width: cardWidth, height: cardHeight }}>
+              <div key={card.id} className="card-wrapper relative shrink-0 rounded-[22px]" style={{ width: cardWidth, height: cardHeight, background: "#F7F8FC" }}>
                 {/* BEFORE — visible before scanner */}
                 <div
                   className="card-before absolute inset-0 rounded-[22px] overflow-hidden z-[2] [clip-path:inset(0_0_0_var(--clip-right,0%))]"
