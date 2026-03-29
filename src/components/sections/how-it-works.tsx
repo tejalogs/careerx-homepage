@@ -63,8 +63,8 @@ function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) 
         <div className="space-y-2.5 mb-4">
           {data.fields.map((f) => (
             <div key={f} className="flex items-center gap-2">
-              <span className="text-[10px] shrink-0" style={{ color: "rgba(12,14,20,0.18)", minWidth: 90 }}>{f}</span>
-              <div className="flex-1 h-[7px] rounded-full" style={{ background: "rgba(12,14,20,0.04)" }} />
+              <span className="text-[10px] shrink-0" style={{ color: "rgba(12,14,20,0.3)", minWidth: 90 }}>{f}</span>
+              <div className="flex-1 h-[7px] rounded-full" style={{ background: "rgba(12,14,20,0.07)" }} />
             </div>
           ))}
         </div>
@@ -459,7 +459,7 @@ export function HowItWorksSection() {
           initialSpeed={40}
           direction={1}
           repeat={8}
-          cardGap={50}
+          cardGap={24}
           friction={0.98}
         />
       </motion.div>
@@ -494,16 +494,16 @@ export function HowItWorksSection() {
           initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex items-center justify-between gap-1 sm:gap-2 mb-8"
+          className="flex items-center justify-between gap-0.5 sm:gap-2 mb-8 overflow-x-auto"
         >
           {STEPS.map((step, i) => {
             const Icon = step.icon;
             return (
-              <div key={step.stage} className="flex items-center gap-1 sm:gap-2 flex-1">
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0"
+              <div key={step.stage} className="flex items-center gap-0.5 sm:gap-2 flex-1 shrink-0">
+                <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0"
                     style={{ backgroundColor: `${step.color}12`, border: `1.5px solid ${step.color}25` }}>
-                    <Icon className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: step.color }} />
+                    <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" style={{ color: step.color }} />
                   </div>
                   <div className="min-w-0 hidden sm:block">
                     <p className="text-[9px] font-black uppercase tracking-wider" style={{ color: step.color }}>{step.stage}</p>
