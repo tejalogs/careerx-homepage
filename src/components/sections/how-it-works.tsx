@@ -93,10 +93,21 @@ function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) 
    AFTER cards — bright, vibrant, polished product UI
    ═══════════════════════════════════════════════════════════════ */
 
-function MetallicSheen() {
+function MetallicSheen({ accentColor }: { accentColor?: string }) {
   return (
-    <div className="absolute top-0 left-0 right-0 h-[50%] pointer-events-none rounded-t-[15px]"
-      style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.1) 40%, transparent 100%)" }} />
+    <>
+      {/* Top-down white sheen */}
+      <div className="absolute top-0 left-0 right-0 h-[55%] pointer-events-none rounded-t-[22px]"
+        style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.15) 35%, transparent 100%)" }} />
+      {/* Subtle accent glow at top */}
+      {accentColor && (
+        <div className="absolute top-0 left-0 right-0 h-[30%] pointer-events-none rounded-t-[22px]"
+          style={{ background: `linear-gradient(180deg, ${accentColor}08 0%, transparent 100%)` }} />
+      )}
+      {/* Bottom reflection */}
+      <div className="absolute bottom-0 left-0 right-0 h-[15%] pointer-events-none rounded-b-[22px]"
+        style={{ background: "linear-gradient(0deg, rgba(255,255,255,0.3) 0%, transparent 100%)" }} />
+    </>
   );
 }
 
@@ -108,8 +119,8 @@ function DiscoverOutcome() {
   ];
   return (
     <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
-      style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
-      <MetallicSheen />
+      style={{ background: "linear-gradient(150deg, #f4f5fa 0%, #e8ebf3 25%, #f1f3f9 50%, #e9ecf4 75%, #f5f6fb 100%)", boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.95), inset 0 -1px 2px rgba(0,0,0,0.03), 0 1px 4px rgba(0,0,0,0.05)" }}>
+      <MetallicSheen accentColor="#4F46E5" />
       {/* Colored accent strip */}
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #4F46E5, #818cf8)" }} />
       <div className="p-3.5 flex flex-col flex-1 relative">
@@ -173,8 +184,8 @@ function PrepareOutcome() {
   ];
   return (
     <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
-      style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
-      <MetallicSheen />
+      style={{ background: "linear-gradient(150deg, #f4f5fa 0%, #e8ebf3 25%, #f1f3f9 50%, #e9ecf4 75%, #f5f6fb 100%)", boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.95), inset 0 -1px 2px rgba(0,0,0,0.03), 0 1px 4px rgba(0,0,0,0.05)" }}>
+      <MetallicSheen accentColor="#047857" />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #047857, #34d399)" }} />
       <div className="p-3.5 flex flex-col flex-1 relative">
         <div className="flex items-center justify-between mb-2">
@@ -238,8 +249,8 @@ function ValidateOutcome() {
   ];
   return (
     <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
-      style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
-      <MetallicSheen />
+      style={{ background: "linear-gradient(150deg, #f4f5fa 0%, #e8ebf3 25%, #f1f3f9 50%, #e9ecf4 75%, #f5f6fb 100%)", boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.95), inset 0 -1px 2px rgba(0,0,0,0.03), 0 1px 4px rgba(0,0,0,0.05)" }}>
+      <MetallicSheen accentColor="#B45309" />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #B45309, #fbbf24)" }} />
       <div className="p-3.5 flex flex-col flex-1 relative">
         <div className="flex items-center justify-between mb-2">
@@ -305,8 +316,8 @@ function ActivateOutcome() {
   ];
   return (
     <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
-      style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
-      <MetallicSheen />
+      style={{ background: "linear-gradient(150deg, #f4f5fa 0%, #e8ebf3 25%, #f1f3f9 50%, #e9ecf4 75%, #f5f6fb 100%)", boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.95), inset 0 -1px 2px rgba(0,0,0,0.03), 0 1px 4px rgba(0,0,0,0.05)" }}>
+      <MetallicSheen accentColor="#DC2626" />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #DC2626, #f87171)" }} />
       <div className="p-3.5 flex flex-col flex-1 relative">
         <div className="flex items-center justify-between mb-2">
@@ -424,11 +435,11 @@ export function HowItWorksSection() {
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-1.5"
           style={{ color: "rgba(12,14,20,0.2)" }}>
           <span className="w-4 h-px" style={{ background: "rgba(12,14,20,0.15)" }} />
-          Your input
+          What you share
         </span>
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-1.5"
           style={{ color: "rgba(60,97,168,0.4)" }}>
-          Your outcome
+          What you get
           <span className="w-4 h-px" style={{ background: "rgba(60,97,168,0.3)" }} />
         </span>
       </motion.div>
