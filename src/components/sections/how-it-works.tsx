@@ -37,17 +37,25 @@ function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) 
 
   return (
     <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
-      style={{ background: "#e8eaef", border: "1.5px dashed rgba(12,14,20,0.12)" }}>
+      style={{
+        background: `linear-gradient(145deg, #e8eaef 0%, ${step.color}08 50%, #eceef3 100%)`,
+        border: "1.5px dashed rgba(12,14,20,0.1)",
+        backdropFilter: "blur(8px)",
+      }}>
+      {/* Frosted noise overlay */}
+      <div className="absolute inset-0 rounded-[22px] pointer-events-none"
+        style={{ background: "rgba(255,255,255,0.25)", backdropFilter: "blur(2px)" }} />
 
-      <div className="p-4 flex flex-col flex-1">
+      <div className="relative p-4 flex flex-col flex-1">
         {/* Header */}
         <div className="flex items-center gap-2.5 mb-4">
-          <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(12,14,20,0.05)" }}>
-            <Icon size={15} style={{ color: "rgba(12,14,20,0.22)" }} />
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center"
+            style={{ background: `${step.color}10`, border: `1px dashed ${step.color}20` }}>
+            <Icon size={15} style={{ color: `${step.color}50` }} />
           </div>
           <div>
             <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "rgba(12,14,20,0.2)" }}>Stage {idx + 1}</p>
-            <p className="text-[13px] font-bold" style={{ color: "rgba(12,14,20,0.4)" }}>{step.product}</p>
+            <p className="text-[13px] font-bold" style={{ color: "rgba(12,14,20,0.35)" }}>{step.product}</p>
           </div>
         </div>
 
@@ -55,8 +63,8 @@ function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) 
         <div className="space-y-2.5 mb-4">
           {data.fields.map((f) => (
             <div key={f} className="flex items-center gap-2">
-              <span className="text-[10px] shrink-0" style={{ color: "rgba(12,14,20,0.2)", minWidth: 90 }}>{f}</span>
-              <div className="flex-1 h-[7px] rounded-full" style={{ background: "rgba(12,14,20,0.05)" }} />
+              <span className="text-[10px] shrink-0" style={{ color: "rgba(12,14,20,0.18)", minWidth: 90 }}>{f}</span>
+              <div className="flex-1 h-[7px] rounded-full" style={{ background: "rgba(12,14,20,0.04)" }} />
             </div>
           ))}
         </div>
@@ -65,16 +73,16 @@ function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) 
         <div className="flex flex-wrap gap-1.5 mb-auto">
           {data.tags.map((t) => (
             <span key={t} className="px-2 py-0.5 rounded-md text-[9px] font-medium"
-              style={{ background: "rgba(12,14,20,0.04)", color: "rgba(12,14,20,0.22)", border: "1px dashed rgba(12,14,20,0.08)" }}>
+              style={{ background: `${step.color}08`, color: `${step.color}40`, border: `1px dashed ${step.color}15` }}>
               {t}
             </span>
           ))}
         </div>
 
         {/* Status */}
-        <div className="flex items-center gap-2 pt-3 mt-2" style={{ borderTop: "1px dashed rgba(12,14,20,0.06)" }}>
-          <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: step.color, opacity: 0.4 }} />
-          <span className="text-[10px]" style={{ color: "rgba(12,14,20,0.18)" }}>Awaiting analysis...</span>
+        <div className="flex items-center gap-2 pt-3 mt-2" style={{ borderTop: `1px dashed ${step.color}15` }}>
+          <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: step.color, opacity: 0.35 }} />
+          <span className="text-[10px]" style={{ color: "rgba(12,14,20,0.15)" }}>Awaiting analysis...</span>
         </div>
       </div>
     </div>
@@ -406,60 +414,115 @@ export function HowItWorksSection() {
         </div>
       </div>
 
-      {/* Scanner stream */}
+      {/* Before / After labels */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.5, delay: 0.15 }}
+        className="hidden sm:flex max-w-5xl mx-auto px-4 sm:px-6 justify-between mb-2"
+      >
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-1.5"
+          style={{ color: "rgba(12,14,20,0.2)" }}>
+          <span className="w-4 h-px" style={{ background: "rgba(12,14,20,0.15)" }} />
+          Your input
+        </span>
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-1.5"
+          style={{ color: "rgba(60,97,168,0.4)" }}>
+          Your outcome
+          <span className="w-4 h-px" style={{ background: "rgba(60,97,168,0.3)" }} />
+        </span>
+      </motion.div>
+
+      {/* Scanner stream — desktop */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ duration: 0.8, delay: 0.2 }}
+        className="hidden sm:block"
       >
         <ScannerCardStream
           cardContents={CARD_CONTENTS}
           height={320}
           cardWidth={360}
           cardHeight={280}
-          initialSpeed={80}
+          initialSpeed={40}
           direction={1}
           repeat={5}
           cardGap={50}
-          friction={0.97}
+          friction={0.98}
         />
       </motion.div>
 
-      {/* Stage cards */}
+      {/* Drag hint */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.4, delay: 0.6 }}
+        className="hidden sm:block text-center mt-2 text-[10px]"
+        style={{ color: "rgba(12,14,20,0.2)" }}
+      >
+        ← drag to explore →
+      </motion.p>
+
+      {/* Mobile: static before→after pairs */}
+      <div className="sm:hidden px-4 space-y-4">
+        {STEPS.map((step, i) => (
+          <motion.div key={step.stage}
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.2 + i * 0.08 }}
+            className="flex gap-2 items-stretch"
+          >
+            <div className="flex-1 h-[200px]">
+              <BeforeCard step={step} idx={i} />
+            </div>
+            <div className="flex items-center shrink-0 px-1">
+              <ArrowRight className="w-4 h-4" style={{ color: "rgba(12,14,20,0.15)" }} />
+            </div>
+            <div className="flex-1 h-[200px]">
+              {i === 0 ? <DiscoverOutcome /> : i === 1 ? <PrepareOutcome /> : i === 2 ? <ValidateOutcome /> : <ActivateOutcome />}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Horizontal stepper */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex items-center justify-between gap-1 sm:gap-2 mb-8"
+        >
           {STEPS.map((step, i) => {
             const Icon = step.icon;
             return (
-              <motion.div
-                key={step.stage}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.45, delay: 0.3 + i * 0.06, ease: [0.33, 1, 0.68, 1] }}
-                className="bg-white rounded-2xl p-4 sm:p-5 flex flex-col hover:-translate-y-1 transition-transform duration-300 relative"
-                style={{ border: "1px solid rgba(12,14,20,0.07)", borderLeft: `3px solid ${step.color}`, boxShadow: "0 2px 12px rgba(12,14,20,0.05)" }}
-              >
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 shrink-0" style={{ backgroundColor: YELLOW }}>
-                  <Icon className="w-5 h-5" style={{ color: DARK }} />
+              <div key={step.stage} className="flex items-center gap-1 sm:gap-2 flex-1">
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${step.color}12`, border: `1.5px solid ${step.color}25` }}>
+                    <Icon className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: step.color }} />
+                  </div>
+                  <div className="min-w-0 hidden sm:block">
+                    <p className="text-[9px] font-black uppercase tracking-wider" style={{ color: step.color }}>{step.stage}</p>
+                    <p className="text-[12px] font-bold truncate" style={{ color: DARK }}>{step.product}</p>
+                  </div>
                 </div>
-                <p className="text-[10px] font-black tracking-[0.22em] uppercase mb-1" style={{ color: "rgba(60,97,168,0.55)" }}>{step.stage}</p>
-                <h3 className="text-[14px] font-black mb-1.5 leading-snug" style={{ color: BLUE }}>{step.product}</h3>
-                <p className="text-[12px] leading-relaxed flex-1" style={{ color: "rgba(12,14,20,0.5)" }}>{step.description}</p>
                 {i < 3 && (
-                  <div className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10">
-                    <ArrowRight className="w-4 h-4 text-gray-300" />
+                  <div className="shrink-0 mx-1">
+                    <ChevronRight className="w-3.5 h-3.5" style={{ color: "rgba(12,14,20,0.15)" }} />
                   </div>
                 )}
-              </motion.div>
+              </div>
             );
           })}
-        </div>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.35 }}
-          className="text-center mt-10"
+          className="text-center"
         >
           <a href="/kyb"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold text-white transition-all hover:opacity-85 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
