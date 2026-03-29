@@ -38,13 +38,13 @@ function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) 
   return (
     <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
       style={{
-        background: `linear-gradient(145deg, #e8eaef 0%, ${step.color}08 50%, #eceef3 100%)`,
-        border: "1.5px dashed rgba(12,14,20,0.1)",
-        backdropFilter: "blur(8px)",
+        background: `linear-gradient(145deg, #dfe2ea 0%, ${step.color}10 50%, #e4e7ef 100%)`,
+        border: "1.5px dashed rgba(12,14,20,0.15)",
+        boxShadow: "0 4px 16px rgba(12,14,20,0.06), 0 1px 3px rgba(12,14,20,0.04)",
       }}>
-      {/* Frosted noise overlay */}
+      {/* Frosted overlay */}
       <div className="absolute inset-0 rounded-[22px] pointer-events-none"
-        style={{ background: "rgba(255,255,255,0.25)", backdropFilter: "blur(2px)" }} />
+        style={{ background: "rgba(255,255,255,0.15)" }} />
 
       <div className="relative p-4 flex flex-col flex-1">
         {/* Header */}
@@ -55,7 +55,7 @@ function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) 
           </div>
           <div>
             <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: `${step.color}50` }}>{step.stage}</p>
-            <p className="text-[13px] font-bold" style={{ color: "rgba(12,14,20,0.35)" }}>{step.product}</p>
+            <p className="text-[13px] font-bold" style={{ color: "rgba(12,14,20,0.45)" }}>{step.product}</p>
           </div>
         </div>
 
@@ -430,7 +430,7 @@ export function HowItWorksSection() {
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ duration: 0.5, delay: 0.15 }}
-        className="hidden sm:flex max-w-5xl mx-auto px-4 sm:px-6 justify-between -mb-4"
+        className="hidden sm:flex max-w-5xl mx-auto px-4 sm:px-6 justify-between mb-1"
       >
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-1.5"
           style={{ color: "rgba(12,14,20,0.2)" }}>
@@ -464,16 +464,7 @@ export function HowItWorksSection() {
         />
       </motion.div>
 
-      {/* Drag hint */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.4, delay: 0.6 }}
-        className="hidden sm:block text-center mt-2 text-[10px]"
-        style={{ color: "rgba(12,14,20,0.2)" }}
-      >
-        ← drag to explore →
-      </motion.p>
+{/* spacer */}
 
       {/* Mobile: static before→after pairs */}
       <div className="sm:hidden px-4 space-y-4">

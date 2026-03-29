@@ -94,7 +94,7 @@ const ScannerCardStream = ({
   const originalAscii = useRef(new Map<number, string>());
 
   const cardStreamState = useRef({
-    position: -((cardWidth + cardGap) * sourceCount * Math.floor(repeat / 2)),
+    position: -((cardWidth + cardGap) * sourceCount * 2),
     velocity: initialSpeed,
     direction: direction,
     isDragging: false,
