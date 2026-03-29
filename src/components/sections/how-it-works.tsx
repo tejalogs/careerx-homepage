@@ -72,6 +72,13 @@ function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) 
    AFTER cards — bright, vibrant, polished product UI
    ═══════════════════════════════════════════════════════════════ */
 
+function MetallicSheen() {
+  return (
+    <div className="absolute top-0 left-0 right-0 h-[50%] pointer-events-none rounded-t-[15px]"
+      style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.1) 40%, transparent 100%)" }} />
+  );
+}
+
 function DiscoverOutcome() {
   const roles = [
     { name: "Data Engineer", match: 92, trend: "+12%" },
@@ -79,7 +86,9 @@ function DiscoverOutcome() {
     { name: "Analytics Engineer", match: 78, trend: "+15%" },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden" style={{ background: "#fff" }}>
+    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden"
+      style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
+      <MetallicSheen />
       {/* Colored accent strip */}
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #4F46E5, #818cf8)" }} />
       <div className="p-4 flex flex-col flex-1">
@@ -142,7 +151,9 @@ function PrepareOutcome() {
     { name: "Cloud Architecture", status: "locked", pct: 0 },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden" style={{ background: "#fff" }}>
+    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden"
+      style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
+      <MetallicSheen />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #047857, #34d399)" }} />
       <div className="p-4 flex flex-col flex-1">
         <div className="flex items-center justify-between mb-2.5">
@@ -205,7 +216,9 @@ function ValidateOutcome() {
     { type: "Behavioral", score: 88, time: "28 min" },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden" style={{ background: "#fff" }}>
+    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden"
+      style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
+      <MetallicSheen />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #B45309, #fbbf24)" }} />
       <div className="p-4 flex flex-col flex-1">
         <div className="flex items-center justify-between mb-2.5">
@@ -270,7 +283,9 @@ function ActivateOutcome() {
     { company: "Linear", role: "Data Infrastructure", location: "Remote", salary: "$130k–$165k", fit: 91 },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden" style={{ background: "#fff" }}>
+    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden"
+      style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
+      <MetallicSheen />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #DC2626, #f87171)" }} />
       <div className="p-4 flex flex-col flex-1">
         <div className="flex items-center justify-between mb-2.5">
@@ -328,11 +343,14 @@ function ActivateOutcome() {
 }
 
 /* ─── card content array ─────────────────────────────────────── */
+/* Swapped: "before" div shows on the scanned side (right with dir=1),
+   "after" div shows on the unscanned side (left with dir=1).
+   So: before=outcome (revealed after scan), after=raw (visible before scan). */
 const CARD_CONTENTS: CardContent[] = [
-  { before: <BeforeCard step={STEPS[0]} idx={0} />, after: <DiscoverOutcome /> },
-  { before: <BeforeCard step={STEPS[1]} idx={1} />, after: <PrepareOutcome /> },
-  { before: <BeforeCard step={STEPS[2]} idx={2} />, after: <ValidateOutcome /> },
-  { before: <BeforeCard step={STEPS[3]} idx={3} />, after: <ActivateOutcome /> },
+  { before: <DiscoverOutcome />, after: <BeforeCard step={STEPS[0]} idx={0} /> },
+  { before: <PrepareOutcome />, after: <BeforeCard step={STEPS[1]} idx={1} /> },
+  { before: <ValidateOutcome />, after: <BeforeCard step={STEPS[2]} idx={2} /> },
+  { before: <ActivateOutcome />, after: <BeforeCard step={STEPS[3]} idx={3} /> },
 ];
 
 /* ═══════════════════════════════════════════════════════════════ */
@@ -383,11 +401,11 @@ export function HowItWorksSection() {
       >
         <ScannerCardStream
           cardContents={CARD_CONTENTS}
-          height={320}
+          height={360}
           cardWidth={360}
-          cardHeight={280}
+          cardHeight={320}
           initialSpeed={80}
-          direction={-1}
+          direction={1}
           repeat={5}
           cardGap={50}
           friction={0.97}

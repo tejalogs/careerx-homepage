@@ -152,7 +152,7 @@ const ScannerCardStream = ({
     renderer.setSize(cw, ch);
     renderer.setClearColor(0x000000, 0);
 
-    const particleCount = 400;
+    const particleCount = 0;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities = new Float32Array(particleCount);
@@ -210,8 +210,8 @@ const ScannerCardStream = ({
     const ctx = scannerCanvas.getContext("2d")!;
     scannerCanvas.width = cw;
     scannerCanvas.height = ch + 50;
-    const baseMax = 800;
-    const scanMax = 2500;
+    const baseMax = 0;
+    const scanMax = 0;
     let currentMax = baseMax;
     type SP = {
       x: number; y: number; vx: number; vy: number;
