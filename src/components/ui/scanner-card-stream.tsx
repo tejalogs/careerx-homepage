@@ -47,7 +47,6 @@ type ScannerCardStreamProps = {
   height?: number;
   cardWidth?: number;
   cardHeight?: number;
-  theme?: "dark" | "light";
 };
 
 /* ═══════════════════════════════════════════════════════════════ */
@@ -65,10 +64,8 @@ const ScannerCardStream = ({
   height = 300,
   cardWidth = 400,
   cardHeight = 250,
-  theme = "dark",
 }: ScannerCardStreamProps) => {
   const useCustom = !!cardContents;
-  const isLight = theme === "light";
   const [speed, setSpeed] = useState(initialSpeed);
   const [isPaused, setIsPaused] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
@@ -155,7 +152,7 @@ const ScannerCardStream = ({
     renderer.setSize(cw, ch);
     renderer.setClearColor(0x000000, 0);
 
-    const particleCount = isLight ? 0 : 400;
+    const particleCount = 400;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities = new Float32Array(particleCount);
@@ -167,17 +164,10 @@ const ScannerCardStream = ({
     const texCtx = texCanvas.getContext("2d")!;
     const half = 50;
     const grad = texCtx.createRadialGradient(half, half, 0, half, half, half);
-    if (isLight) {
-      grad.addColorStop(0.025, "hsl(217,61%,45%)");
-      grad.addColorStop(0.1, "hsl(217,61%,55%)");
-      grad.addColorStop(0.25, "hsl(217,64%,65%)");
-      grad.addColorStop(1, "transparent");
-    } else {
-      grad.addColorStop(0.025, "#fff");
-      grad.addColorStop(0.1, "hsl(217,61%,33%)");
-      grad.addColorStop(0.25, "hsl(217,64%,6%)");
-      grad.addColorStop(1, "transparent");
-    }
+    grad.addColorStop(0.025, "#fff");
+    grad.addColorStop(0.1, "hsl(217,61%,33%)");
+    grad.addColorStop(0.25, "hsl(217,64%,6%)");
+    grad.addColorStop(1, "transparent");
     texCtx.fillStyle = grad;
     texCtx.arc(half, half, half, 0, Math.PI * 2);
     texCtx.fill();
@@ -187,14 +177,11 @@ const ScannerCardStream = ({
       positions[i * 3] = (Math.random() - 0.5) * cw * 2;
       positions[i * 3 + 1] = (Math.random() - 0.5) * ch;
       velocities[i] = Math.random() * 60 + 30;
-      alphas[i] = isLight
-        ? (Math.random() * 3 + 1) / 10
-        : (Math.random() * 8 + 2) / 10;
+      alphas[i] = (Math.random() * 8 + 2) / 10;
     }
     geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute("alpha", new THREE.BufferAttribute(alphas, 1));
 
-    const pColor = isLight ? "0.235, 0.38, 0.66" : "1.0, 1.0, 1.0";
     const material = new THREE.ShaderMaterial({
       uniforms: { pointTexture: { value: texture } },
       vertexShader: `
@@ -203,17 +190,17 @@ const ScannerCardStream = ({
         void main() {
           vAlpha = alpha;
           vec4 mv = modelViewMatrix * vec4(position,1.0);
-          gl_PointSize = ${isLight ? "10.0" : "15.0"};
+          gl_PointSize = 15.0;
           gl_Position = projectionMatrix * mv;
         }`,
       fragmentShader: `
         uniform sampler2D pointTexture;
         varying float vAlpha;
         void main() {
-          gl_FragColor = vec4(${pColor}, vAlpha) * texture2D(pointTexture, gl_PointCoord);
+          gl_FragColor = vec4(1.0,1.0,1.0,vAlpha) * texture2D(pointTexture, gl_PointCoord);
         }`,
       transparent: true,
-      blending: isLight ? THREE.NormalBlending : THREE.AdditiveBlending,
+      blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
     const particles = new THREE.Points(geometry, material);
@@ -223,8 +210,8 @@ const ScannerCardStream = ({
     const ctx = scannerCanvas.getContext("2d")!;
     scannerCanvas.width = cw;
     scannerCanvas.height = ch + 50;
-    const baseMax = isLight ? 0 : 800;
-    const scanMax = isLight ? 0 : 2500;
+    const baseMax = 800;
+    const scanMax = 2500;
     let currentMax = baseMax;
     type SP = {
       x: number; y: number; vx: number; vy: number;
@@ -235,8 +222,8 @@ const ScannerCardStream = ({
       y: Math.random() * (ch + 50),
       vx: Math.random() * 0.8 + 0.2,
       vy: (Math.random() - 0.5) * 0.3,
-      radius: Math.random() * (isLight ? 0.5 : 0.6) + 0.3,
-      alpha: (Math.random() * 0.4 + 0.3) * (isLight ? 0.5 : 1),
+      radius: Math.random() * 0.6 + 0.4,
+      alpha: Math.random() * 0.4 + 0.6,
       life: 1,
       decay: Math.random() * 0.02 + 0.005,
     });
@@ -375,7 +362,7 @@ const ScannerCardStream = ({
         positions[i * 3] += velocities[i] * 0.016;
         if (positions[i * 3] > cw / 2 + 100) positions[i * 3] = -cw / 2 - 100;
         positions[i * 3 + 1] += Math.sin(t + i * 0.1) * 0.5;
-        alphas[i] = Math.max(0.05, Math.min(isLight ? 0.4 : 1, alphas[i] + (Math.random() - 0.5) * 0.05));
+        alphas[i] = Math.max(0.1, Math.min(1, alphas[i] + (Math.random() - 0.5) * 0.05));
       }
       geometry.attributes.position.needsUpdate = true;
       (geometry.attributes.alpha as THREE.BufferAttribute).needsUpdate = true;
@@ -386,14 +373,13 @@ const ScannerCardStream = ({
       currentMax += (target - currentMax) * 0.05;
       while (sParticles.length < currentMax) sParticles.push(mkP());
       while (sParticles.length > currentMax) sParticles.pop();
-      const pFill = isLight ? "rgba(60,97,168,0.4)" : "white";
       sParticles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
         p.life -= p.decay;
         if (p.life <= 0 || p.x > cw) Object.assign(p, mkP());
         ctx.globalAlpha = p.alpha * p.life;
-        ctx.fillStyle = pFill;
+        ctx.fillStyle = "white";
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fill();
@@ -418,10 +404,7 @@ const ScannerCardStream = ({
       material.dispose();
       texture.dispose();
     };
-  }, [isPaused, cards, cardGap, friction, scanEffect, height, useCustom, cardWidth, cardHeight, isLight]);
-
-  /* ── scanner line colors ───────────────────────────────────── */
-  const scanLineShadow = "0 0 10px #a78bfa, 0 0 20px #a78bfa, 0 0 30px #8b5cf6, 0 0 50px #6366f1";
+  }, [isPaused, cards, cardGap, friction, scanEffect, height, useCustom, cardWidth, cardHeight]);
 
   return (
     <div
@@ -449,40 +432,34 @@ const ScannerCardStream = ({
 
       {showControls && (
         <div className="absolute top-3 right-3 z-30 flex gap-2">
-          <button onClick={toggleAnimation} className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur">
-            {isPaused ? "Play" : "Pause"}
-          </button>
-          <button onClick={changeDirection} className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur">
-            Reverse
-          </button>
-          <button onClick={resetPosition} className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur">
-            Reset
-          </button>
+          <button onClick={toggleAnimation} className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur">{isPaused ? "Play" : "Pause"}</button>
+          <button onClick={changeDirection} className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur">Reverse</button>
+          <button onClick={resetPosition} className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur">Reset</button>
         </div>
       )}
 
       {showSpeed && (
-        <div className="absolute top-3 left-3 z-30 text-[10px] text-white/40 font-mono">
-          {speed} px/s
-        </div>
+        <div className="absolute top-3 left-3 z-30 text-[10px] text-white/40 font-mono">{speed} px/s</div>
       )}
 
       <canvas ref={particleCanvasRef} className="absolute inset-0 z-0 pointer-events-none" style={{ width: "100%", height }} />
       <canvas ref={scannerCanvasRef} className="absolute inset-0 z-10 pointer-events-none" style={{ width: "100%", height: height + 50 }} />
 
+      {/* Scanner line — original violet */}
       <div
         className={`
           absolute top-1/2 left-1/2 w-0.5 -translate-x-1/2 -translate-y-1/2
-          rounded-full transition-opacity duration-300 z-20 pointer-events-none animate-scan-pulse
+          bg-gradient-to-b from-transparent via-violet-500 to-transparent rounded-full
+          transition-opacity duration-300 z-20 pointer-events-none animate-scan-pulse
           ${isScanning ? "opacity-100" : "opacity-0"}
         `}
         style={{
           height: height + 30,
-          boxShadow: scanLineShadow,
-          background: "linear-gradient(to bottom, transparent, #a78bfa 50%, transparent)",
+          boxShadow: "0 0 10px #a78bfa, 0 0 20px #a78bfa, 0 0 30px #8b5cf6, 0 0 50px #6366f1",
         }}
       />
 
+      {/* Card stream */}
       <div className="absolute w-full flex items-center" style={{ height: cardHeight }}>
         <div
           ref={cardLineRef}
@@ -492,33 +469,26 @@ const ScannerCardStream = ({
           {cards.map((card) => {
             const content = useCustom ? cardContents[card.srcIdx] : null;
             return (
-              <div
-                key={card.id}
-                className="card-wrapper relative shrink-0"
-                style={{ width: cardWidth, height: cardHeight }}
-              >
+              <div key={card.id} className="card-wrapper relative shrink-0" style={{ width: cardWidth, height: cardHeight }}>
+                {/* BEFORE — visible before scanner */}
                 <div
                   className="card-before absolute inset-0 rounded-[15px] overflow-hidden z-[2] [clip-path:inset(0_0_0_var(--clip-right,0%))]"
-                  style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.06)" }}
+                  style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.4)" }}
                 >
-                  {useCustom ? (
-                    <div className="w-full h-full">{content!.before}</div>
-                  ) : (
-                    <img src={card.image} alt="Card" className="w-full h-full object-cover rounded-[15px] brightness-110 contrast-110" />
-                  )}
+                  {useCustom
+                    ? <div className="w-full h-full">{content!.before}</div>
+                    : <img src={card.image} alt="Card" className="w-full h-full object-cover rounded-[15px] brightness-110 contrast-110 hover:brightness-125 hover:contrast-125 transition-all duration-300" />
+                  }
                 </div>
-
+                {/* AFTER — revealed after scanner */}
                 <div
                   className="card-after absolute inset-0 rounded-[15px] overflow-hidden z-[1] [clip-path:inset(0_calc(100%-var(--clip-left,0%))_0_0)]"
-                  style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.06)" }}
+                  style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.3)" }}
                 >
-                  {useCustom ? (
-                    <div className="w-full h-full">{content!.after}</div>
-                  ) : (
-                    <pre className="ascii-content absolute inset-0 text-[rgba(220,210,255,0.6)] font-mono text-[11px] leading-[13px] overflow-hidden whitespace-pre m-0 p-0 text-left align-top box-border [mask-image:linear-gradient(to_right,rgba(0,0,0,1)_0%,rgba(0,0,0,0.8)_30%,rgba(0,0,0,0.6)_50%,rgba(0,0,0,0.4)_80%,rgba(0,0,0,0.2)_100%)] animate-glitch">
-                      {card.ascii}
-                    </pre>
-                  )}
+                  {useCustom
+                    ? <div className="w-full h-full">{content!.after}</div>
+                    : <pre className="ascii-content absolute inset-0 text-[rgba(220,210,255,0.6)] font-mono text-[11px] leading-[13px] overflow-hidden whitespace-pre m-0 p-0 text-left align-top box-border [mask-image:linear-gradient(to_right,rgba(0,0,0,1)_0%,rgba(0,0,0,0.8)_30%,rgba(0,0,0,0.6)_50%,rgba(0,0,0,0.4)_80%,rgba(0,0,0,0.2)_100%)] animate-glitch">{card.ascii}</pre>
+                  }
                 </div>
               </div>
             );
