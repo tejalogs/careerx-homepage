@@ -5,7 +5,8 @@ import { motion, useInView } from "framer-motion";
 import {
   Compass, BookOpen, Mic, Rocket, ArrowRight,
   Target, TrendingUp, BarChart3, Zap, CheckCircle2,
-  Briefcase, GraduationCap, LineChart, Star,
+  Briefcase, MapPin, Clock, ChevronRight, Play,
+  Star, FileText, Users, Award, Sparkles,
 } from "lucide-react";
 import { ScannerCardStream, type CardContent } from "@/components/ui/scanner-card-stream";
 
@@ -45,242 +46,335 @@ const STEPS = [
   },
 ];
 
-/* ─── before cards (text/terminal style) ─────────────────────── */
+/* ─── before cards (raw input / form-like) ───────────────────── */
 function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) {
-  const Icon = step.icon;
   return (
     <div
-      className="w-full h-full rounded-[15px] p-5 flex flex-col justify-between font-mono whitespace-normal"
-      style={{ background: "#111827", border: "1px solid rgba(255,255,255,0.06)" }}
+      className="w-full h-full rounded-2xl p-5 flex flex-col whitespace-normal"
+      style={{
+        background: "#fff",
+        border: "1px solid rgba(12,14,20,0.07)",
+      }}
     >
-      {/* Header */}
-      <div>
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-3 h-3 rounded-full" style={{ background: step.color, opacity: 0.7 }} />
-          <div className="w-3 h-3 rounded-full" style={{ background: "rgba(255,255,255,0.1)" }} />
-          <div className="w-3 h-3 rounded-full" style={{ background: "rgba(255,255,255,0.1)" }} />
+      {/* Top bar */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full" style={{ background: step.color, opacity: 0.5 }} />
+          <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: "rgba(12,14,20,0.25)" }}>
+            Stage {idx + 1}
+          </span>
         </div>
-
-        <p className="text-[10px] tracking-widest uppercase mb-1" style={{ color: "rgba(255,255,255,0.25)" }}>
-          {`// 0${idx + 1}`}
-        </p>
-        <p className="text-[18px] font-bold mb-1" style={{ color: step.color }}>
-          {step.stage}
-        </p>
-        <p className="text-[14px] font-bold text-white mb-3">
-          {step.product}
-        </p>
-        <p className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.35)" }}>
-          {step.description}
-        </p>
+        <span className="text-[9px] font-mono" style={{ color: "rgba(12,14,20,0.2)" }}>input</span>
       </div>
 
-      {/* Footer */}
-      <div className="flex items-center gap-2">
+      {/* Stage name */}
+      <p className="text-[11px] font-black tracking-[0.18em] uppercase mb-1" style={{ color: step.color }}>
+        {step.stage}
+      </p>
+      <p className="text-[16px] font-extrabold mb-2" style={{ color: DARK }}>
+        {step.product}
+      </p>
+      <p className="text-[11px] leading-relaxed mb-4" style={{ color: "rgba(12,14,20,0.4)" }}>
+        {step.description}
+      </p>
+
+      {/* Faux data rows */}
+      <div className="flex-1 flex flex-col justify-end gap-1.5">
+        {[75, 55, 40].map((w, i) => (
+          <div key={i} className="flex items-center gap-2">
+            <div className="h-[6px] rounded-full" style={{ width: `${w}%`, background: "rgba(12,14,20,0.05)" }} />
+            <div className="h-[6px] rounded-full flex-1" style={{ background: "rgba(12,14,20,0.03)" }} />
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom */}
+      <div className="flex items-center gap-1.5 mt-3 pt-3" style={{ borderTop: "1px solid rgba(12,14,20,0.05)" }}>
         <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: step.color }} />
-        <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.2)" }}>
-          awaiting scan...
+        <span className="text-[10px] font-medium" style={{ color: "rgba(12,14,20,0.25)" }}>
+          Awaiting analysis...
         </span>
       </div>
     </div>
   );
 }
 
-/* ─── after cards (polished outcome) ─────────────────────────── */
+/* ─── after cards (realistic product UI) ─────────────────────── */
 
 function DiscoverOutcome() {
   const roles = [
-    { name: "Data Engineer", match: 92 },
-    { name: "ML Engineer", match: 84 },
-    { name: "Analytics Engineer", match: 78 },
+    { name: "Data Engineer", match: 92, trend: "+12%" },
+    { name: "ML Engineer", match: 84, trend: "+8%" },
+    { name: "Analytics Engineer", match: 78, trend: "+15%" },
   ];
   return (
-    <div
-      className="w-full h-full rounded-[15px] p-5 flex flex-col justify-between whitespace-normal"
-      style={{ background: "linear-gradient(135deg, #1e1b4b, #312e81)", border: "1px solid rgba(99,102,241,0.2)" }}
-    >
-      <div>
-        <div className="flex items-center gap-2 mb-3">
-          <Target size={14} className="text-indigo-400" />
-          <span className="text-[10px] font-bold tracking-widest uppercase text-indigo-400">Career Fit Report</span>
+    <div className="w-full h-full rounded-2xl p-5 flex flex-col whitespace-normal"
+      style={{ background: "#fff", border: "1px solid rgba(12,14,20,0.07)" }}>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#EEF2FF" }}>
+            <Target size={13} style={{ color: "#4F46E5" }} />
+          </div>
+          <div>
+            <p className="text-[12px] font-bold" style={{ color: DARK }}>Career Fit Report</p>
+            <p className="text-[9px]" style={{ color: "rgba(12,14,20,0.35)" }}>Based on your profile</p>
+          </div>
         </div>
-        <div className="flex items-end gap-2 mb-4">
-          <span className="text-[36px] font-black leading-none text-white">92%</span>
-          <span className="text-[12px] font-semibold text-indigo-300 mb-1">Role Match</span>
-        </div>
-        <div className="space-y-2">
-          {roles.map((r) => (
-            <div key={r.name} className="flex items-center gap-2">
-              <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden">
-                <div className="h-full rounded-full" style={{ width: `${r.match}%`, background: "linear-gradient(90deg, #818cf8, #6366f1)" }} />
-              </div>
-              <span className="text-[10px] text-white/60 w-[110px] text-right truncate">{r.name}</span>
-            </div>
-          ))}
+        <div className="px-2 py-0.5 rounded-md text-[9px] font-bold" style={{ background: "#ECFDF5", color: "#047857" }}>
+          Complete
         </div>
       </div>
-      <div className="flex items-center gap-1.5">
-        <CheckCircle2 size={12} className="text-emerald-400" />
-        <span className="text-[10px] font-semibold text-emerald-400">Roadmap generated</span>
+
+      {/* Score */}
+      <div className="flex items-center gap-3 mb-3 px-3 py-2.5 rounded-xl" style={{ background: "#FAFBFE" }}>
+        <div className="relative w-11 h-11">
+          <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+            <circle cx="18" cy="18" r="14" fill="none" stroke="#EEF2FF" strokeWidth="3" />
+            <circle cx="18" cy="18" r="14" fill="none" stroke="#4F46E5" strokeWidth="3"
+              strokeDasharray={`${92 * 0.88} 100`} strokeLinecap="round" />
+          </svg>
+          <span className="absolute inset-0 flex items-center justify-center text-[10px] font-black" style={{ color: "#4F46E5" }}>92</span>
+        </div>
+        <div>
+          <p className="text-[13px] font-black" style={{ color: DARK }}>Strong Match</p>
+          <p className="text-[10px]" style={{ color: "rgba(12,14,20,0.4)" }}>Top 8% of candidates</p>
+        </div>
+      </div>
+
+      {/* Roles */}
+      <p className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: "rgba(12,14,20,0.3)" }}>
+        Best-fit roles
+      </p>
+      <div className="space-y-1.5 flex-1">
+        {roles.map((r, i) => (
+          <div key={r.name} className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg"
+            style={{ background: i === 0 ? "#EEF2FF" : "rgba(12,14,20,0.02)" }}>
+            <span className="text-[11px] font-semibold flex-1" style={{ color: i === 0 ? "#4F46E5" : "rgba(12,14,20,0.6)" }}>
+              {r.name}
+            </span>
+            <span className="text-[10px] font-bold" style={{ color: "#4F46E5" }}>{r.match}%</span>
+            <span className="text-[9px] font-medium" style={{ color: "#047857" }}>{r.trend}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between mt-2 pt-2" style={{ borderTop: "1px solid rgba(12,14,20,0.05)" }}>
+        <div className="flex items-center gap-1">
+          <CheckCircle2 size={11} style={{ color: "#047857" }} />
+          <span className="text-[10px] font-semibold" style={{ color: "#047857" }}>Roadmap ready</span>
+        </div>
+        <ChevronRight size={12} style={{ color: "rgba(12,14,20,0.2)" }} />
       </div>
     </div>
   );
 }
 
 function PrepareOutcome() {
-  const skills = [
-    { name: "SQL & dbt", pct: 85 },
-    { name: "Python", pct: 72 },
-    { name: "Cloud (AWS)", pct: 60 },
-    { name: "Data Modeling", pct: 45 },
+  const modules = [
+    { name: "SQL Fundamentals", status: "done", pct: 100 },
+    { name: "Python for Data", status: "active", pct: 68 },
+    { name: "Cloud Architecture", status: "locked", pct: 0 },
   ];
   return (
-    <div
-      className="w-full h-full rounded-[15px] p-5 flex flex-col justify-between whitespace-normal"
-      style={{ background: "linear-gradient(135deg, #052e16, #14532d)", border: "1px solid rgba(4,120,87,0.2)" }}
-    >
-      <div>
-        <div className="flex items-center gap-2 mb-3">
-          <TrendingUp size={14} className="text-emerald-400" />
-          <span className="text-[10px] font-bold tracking-widest uppercase text-emerald-400">Learning Path</span>
-        </div>
-        <div className="flex items-center gap-3 mb-4">
-          <span className="text-[28px] font-black leading-none text-white">47</span>
+    <div className="w-full h-full rounded-2xl p-5 flex flex-col whitespace-normal"
+      style={{ background: "#fff", border: "1px solid rgba(12,14,20,0.07)" }}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#ECFDF5" }}>
+            <TrendingUp size={13} style={{ color: "#047857" }} />
+          </div>
           <div>
-            <p className="text-[12px] font-bold text-emerald-300">Skills Mapped</p>
-            <p className="text-[10px] text-white/40">12 in progress</p>
+            <p className="text-[12px] font-bold" style={{ color: DARK }}>Your Learning Path</p>
+            <p className="text-[9px]" style={{ color: "rgba(12,14,20,0.35)" }}>Data Engineer Track</p>
           </div>
         </div>
-        <div className="space-y-2.5">
-          {skills.map((s) => (
-            <div key={s.name}>
-              <div className="flex justify-between mb-0.5">
-                <span className="text-[10px] text-white/50">{s.name}</span>
-                <span className="text-[10px] font-bold text-emerald-300">{s.pct}%</span>
-              </div>
-              <div className="h-1 rounded-full bg-white/10 overflow-hidden">
-                <div className="h-full rounded-full" style={{ width: `${s.pct}%`, background: "linear-gradient(90deg, #34d399, #059669)" }} />
-              </div>
+        <div className="text-[10px] font-bold" style={{ color: "#047857" }}>68%</div>
+      </div>
+
+      {/* Overall progress */}
+      <div className="h-1.5 rounded-full mb-4 overflow-hidden" style={{ background: "rgba(12,14,20,0.06)" }}>
+        <div className="h-full rounded-full" style={{ width: "68%", background: "linear-gradient(90deg, #34d399, #059669)" }} />
+      </div>
+
+      {/* Modules */}
+      <div className="space-y-2 flex-1">
+        {modules.map((m) => (
+          <div key={m.name} className="flex items-center gap-2.5 px-3 py-2 rounded-xl"
+            style={{ background: m.status === "active" ? "#ECFDF5" : "rgba(12,14,20,0.02)", opacity: m.status === "locked" ? 0.4 : 1 }}>
+            <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style={{
+              background: m.status === "done" ? "#059669" : m.status === "active" ? "#D1FAE5" : "rgba(12,14,20,0.08)",
+            }}>
+              {m.status === "done" ? <CheckCircle2 size={10} color="#fff" /> :
+               m.status === "active" ? <Play size={8} fill="#059669" color="#059669" /> :
+               <Clock size={9} style={{ color: "rgba(12,14,20,0.25)" }} />}
             </div>
-          ))}
+            <div className="flex-1 min-w-0">
+              <p className="text-[11px] font-semibold truncate" style={{ color: m.status === "active" ? "#047857" : "rgba(12,14,20,0.55)" }}>
+                {m.name}
+              </p>
+              {m.status === "active" && (
+                <div className="h-1 rounded-full mt-1 overflow-hidden" style={{ background: "rgba(4,120,87,0.1)" }}>
+                  <div className="h-full rounded-full" style={{ width: `${m.pct}%`, background: "#059669" }} />
+                </div>
+              )}
+            </div>
+            {m.status === "done" && <span className="text-[9px] font-bold" style={{ color: "#059669" }}>Done</span>}
+            {m.status === "active" && <span className="text-[9px] font-bold" style={{ color: "#047857" }}>{m.pct}%</span>}
+          </div>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between mt-2 pt-2" style={{ borderTop: "1px solid rgba(12,14,20,0.05)" }}>
+        <div className="flex items-center gap-1">
+          <Award size={11} style={{ color: BLUE }} />
+          <span className="text-[10px] font-semibold" style={{ color: BLUE }}>3 certificates earned</span>
         </div>
+        <ChevronRight size={12} style={{ color: "rgba(12,14,20,0.2)" }} />
       </div>
     </div>
   );
 }
 
 function ValidateOutcome() {
-  const areas = [
-    { label: "Technical", score: 94 },
-    { label: "Behavioral", score: 87 },
-    { label: "System Design", score: 78 },
+  const sessions = [
+    { type: "System Design", score: 94, time: "32 min" },
+    { type: "Behavioral", score: 88, time: "28 min" },
   ];
   return (
-    <div
-      className="w-full h-full rounded-[15px] p-5 flex flex-col justify-between whitespace-normal"
-      style={{ background: "linear-gradient(135deg, #451a03, #78350f)", border: "1px solid rgba(180,83,9,0.2)" }}
-    >
-      <div>
-        <div className="flex items-center gap-2 mb-3">
-          <BarChart3 size={14} className="text-amber-400" />
-          <span className="text-[10px] font-bold tracking-widest uppercase text-amber-400">Interview Score</span>
+    <div className="w-full h-full rounded-2xl p-5 flex flex-col whitespace-normal"
+      style={{ background: "#fff", border: "1px solid rgba(12,14,20,0.07)" }}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#FFFBEB" }}>
+            <BarChart3 size={13} style={{ color: "#B45309" }} />
+          </div>
+          <div>
+            <p className="text-[12px] font-bold" style={{ color: DARK }}>Interview Readiness</p>
+            <p className="text-[9px]" style={{ color: "rgba(12,14,20,0.35)" }}>AI Mock Interviews</p>
+          </div>
         </div>
-        <div className="flex items-end gap-2 mb-4">
-          <span className="text-[36px] font-black leading-none text-white">94%</span>
-          <span className="text-[12px] font-semibold text-amber-300 mb-1">Ready</span>
+        <div className="flex items-center gap-0.5">
+          {[1,2,3,4,5].map((s) => (
+            <Star key={s} size={9} fill={s <= 4 ? "#F59E0B" : "none"} stroke={s <= 4 ? "#F59E0B" : "rgba(12,14,20,0.15)"} />
+          ))}
         </div>
-        <div className="space-y-2.5">
-          {areas.map((a) => (
-            <div key={a.label} className="flex items-center gap-3">
-              <span className="text-[10px] text-white/45 w-[80px]">{a.label}</span>
-              <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden">
-                <div className="h-full rounded-full" style={{ width: `${a.score}%`, background: "linear-gradient(90deg, #fbbf24, #d97706)" }} />
+      </div>
+
+      {/* Overall score */}
+      <div className="flex items-center gap-4 mb-3 px-3 py-3 rounded-xl" style={{ background: "#FFFBEB" }}>
+        <div>
+          <p className="text-[28px] font-black leading-none" style={{ color: "#B45309" }}>94</p>
+          <p className="text-[9px] font-bold uppercase tracking-wider mt-0.5" style={{ color: "#D97706" }}>Score</p>
+        </div>
+        <div className="flex-1 space-y-1.5">
+          {[{ label: "Technical", val: 96 }, { label: "Communication", val: 91 }, { label: "Problem Solving", val: 94 }].map((s) => (
+            <div key={s.label} className="flex items-center gap-2">
+              <span className="text-[9px] w-[72px] text-right" style={{ color: "rgba(12,14,20,0.4)" }}>{s.label}</span>
+              <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(180,83,9,0.1)" }}>
+                <div className="h-full rounded-full" style={{ width: `${s.val}%`, background: "#F59E0B" }} />
               </div>
-              <span className="text-[10px] font-bold text-amber-200 w-[28px] text-right">{a.score}</span>
             </div>
           ))}
         </div>
       </div>
-      <div className="flex items-center gap-2">
-        <div className="flex -space-x-0.5">
-          {[1,2,3,4,5].map((s) => (
-            <Star key={s} size={10} fill="#fbbf24" className="text-amber-400" />
-          ))}
-        </div>
-        <span className="text-[10px] text-white/30">Top 6% of candidates</span>
+
+      {/* Recent sessions */}
+      <p className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: "rgba(12,14,20,0.3)" }}>
+        Recent sessions
+      </p>
+      <div className="space-y-1.5 flex-1">
+        {sessions.map((s) => (
+          <div key={s.type} className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: "rgba(12,14,20,0.02)" }}>
+            <Mic size={10} style={{ color: "#B45309" }} />
+            <span className="text-[11px] font-medium flex-1" style={{ color: "rgba(12,14,20,0.6)" }}>{s.type}</span>
+            <span className="text-[10px] font-bold" style={{ color: "#B45309" }}>{s.score}</span>
+            <span className="text-[9px]" style={{ color: "rgba(12,14,20,0.25)" }}>{s.time}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between mt-2 pt-2" style={{ borderTop: "1px solid rgba(12,14,20,0.05)" }}>
+        <span className="text-[10px] font-semibold" style={{ color: "#B45309" }}>Interview ready ✓</span>
+        <ChevronRight size={12} style={{ color: "rgba(12,14,20,0.2)" }} />
       </div>
     </div>
   );
 }
 
 function ActivateOutcome() {
-  const matches = [
-    { company: "Stripe", role: "Data Engineer", fit: "98%" },
-    { company: "Vercel", role: "Platform Eng.", fit: "94%" },
-    { company: "Linear", role: "Data Infra", fit: "91%" },
+  const jobs = [
+    { company: "Stripe", role: "Data Engineer", location: "Remote", salary: "$145k–$185k", fit: 98 },
+    { company: "Vercel", role: "Platform Engineer", location: "SF / Remote", salary: "$135k–$170k", fit: 94 },
+    { company: "Linear", role: "Data Infrastructure", location: "Remote", salary: "$130k–$165k", fit: 91 },
   ];
   return (
-    <div
-      className="w-full h-full rounded-[15px] p-5 flex flex-col justify-between whitespace-normal"
-      style={{ background: "linear-gradient(135deg, #450a0a, #7f1d1d)", border: "1px solid rgba(220,38,38,0.2)" }}
-    >
-      <div>
-        <div className="flex items-center gap-2 mb-3">
-          <Zap size={14} className="text-red-400" />
-          <span className="text-[10px] font-bold tracking-widest uppercase text-red-400">Active Matches</span>
-        </div>
-        <div className="flex items-center gap-3 mb-4">
-          <span className="text-[28px] font-black leading-none text-white">3</span>
+    <div className="w-full h-full rounded-2xl p-5 flex flex-col whitespace-normal"
+      style={{ background: "#fff", border: "1px solid rgba(12,14,20,0.07)" }}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#FEF2F2" }}>
+            <Zap size={13} style={{ color: "#DC2626" }} />
+          </div>
           <div>
-            <p className="text-[12px] font-bold text-red-300">Ready to Apply</p>
-            <p className="text-[10px] text-white/40">Matched to your profile</p>
+            <p className="text-[12px] font-bold" style={{ color: DARK }}>Job Matches</p>
+            <p className="text-[9px]" style={{ color: "rgba(12,14,20,0.35)" }}>3 new matches today</p>
           </div>
         </div>
-        <div className="space-y-2">
-          {matches.map((m) => (
-            <div
-              key={m.company}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg"
-              style={{ background: "rgba(255,255,255,0.06)" }}
-            >
-              <div className="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center">
-                <Briefcase size={11} className="text-white/50" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-[11px] font-bold text-white truncate">{m.company}</p>
-                <p className="text-[9px] text-white/35 truncate">{m.role}</p>
-              </div>
-              <span className="text-[10px] font-bold text-red-300">{m.fit}</span>
-            </div>
-          ))}
+        <div className="px-2 py-0.5 rounded-md text-[9px] font-bold" style={{ background: "#FEF2F2", color: "#DC2626" }}>
+          3 New
         </div>
       </div>
-      <div className="flex items-center gap-1.5">
-        <CheckCircle2 size={12} className="text-emerald-400" />
-        <span className="text-[10px] font-semibold text-emerald-400">Profile activated</span>
+
+      <div className="space-y-2 flex-1">
+        {jobs.map((j, i) => (
+          <div key={j.company} className="px-3 py-2.5 rounded-xl" style={{
+            background: i === 0 ? "#FEF2F2" : "rgba(12,14,20,0.02)",
+            border: i === 0 ? "1px solid rgba(220,38,38,0.1)" : "1px solid transparent",
+          }}>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-5 h-5 rounded-md flex items-center justify-center" style={{ background: "rgba(12,14,20,0.06)" }}>
+                <Briefcase size={9} style={{ color: "rgba(12,14,20,0.4)" }} />
+              </div>
+              <span className="text-[12px] font-bold flex-1" style={{ color: DARK }}>{j.company}</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{
+                background: j.fit >= 95 ? "#DCFCE7" : "#F3F4F6",
+                color: j.fit >= 95 ? "#047857" : "rgba(12,14,20,0.5)",
+              }}>
+                {j.fit}% fit
+              </span>
+            </div>
+            <div className="flex items-center gap-3 ml-7">
+              <span className="text-[10px]" style={{ color: "rgba(12,14,20,0.5)" }}>{j.role}</span>
+              <span className="text-[9px] flex items-center gap-0.5" style={{ color: "rgba(12,14,20,0.3)" }}>
+                <MapPin size={7} /> {j.location}
+              </span>
+            </div>
+            <div className="ml-7 mt-1">
+              <span className="text-[10px] font-semibold" style={{ color: "#047857" }}>{j.salary}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between mt-2 pt-2" style={{ borderTop: "1px solid rgba(12,14,20,0.05)" }}>
+        <div className="flex items-center gap-1">
+          <Sparkles size={11} style={{ color: BLUE }} />
+          <span className="text-[10px] font-semibold" style={{ color: BLUE }}>Profile activated</span>
+        </div>
+        <ChevronRight size={12} style={{ color: "rgba(12,14,20,0.2)" }} />
       </div>
     </div>
   );
 }
 
-/* ─── card content array for the scanner stream ──────────────── */
+/* ─── card content array ─────────────────────────────────────── */
 const CARD_CONTENTS: CardContent[] = [
-  {
-    before: <BeforeCard step={STEPS[0]} idx={0} />,
-    after:  <DiscoverOutcome />,
-  },
-  {
-    before: <BeforeCard step={STEPS[1]} idx={1} />,
-    after:  <PrepareOutcome />,
-  },
-  {
-    before: <BeforeCard step={STEPS[2]} idx={2} />,
-    after:  <ValidateOutcome />,
-  },
-  {
-    before: <BeforeCard step={STEPS[3]} idx={3} />,
-    after:  <ActivateOutcome />,
-  },
+  { before: <BeforeCard step={STEPS[0]} idx={0} />, after: <DiscoverOutcome /> },
+  { before: <BeforeCard step={STEPS[1]} idx={1} />, after: <PrepareOutcome /> },
+  { before: <BeforeCard step={STEPS[2]} idx={2} />, after: <ValidateOutcome /> },
+  { before: <BeforeCard step={STEPS[3]} idx={3} />, after: <ActivateOutcome /> },
 ];
 
 /* ═══════════════════════════════════════════════════════════════ */
@@ -289,8 +383,8 @@ export function HowItWorksSection() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section id="how-it-works" className="w-full py-14 md:py-24 overflow-hidden" style={{ backgroundColor: DARK }}>
-      <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section id="how-it-works" className="w-full py-14 md:py-24 overflow-hidden" style={{ backgroundColor: "#F7F8FC" }}>
+      <div ref={ref} className="max-w-5xl mx-auto px-4 sm:px-6">
 
         {/* Header */}
         <div className="text-center mb-6 sm:mb-10">
@@ -299,7 +393,7 @@ export function HowItWorksSection() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.4 }}
             className="text-[10px] font-black tracking-[0.3em] uppercase mb-3"
-            style={{ color: "rgba(245,209,52,0.6)" }}
+            style={{ color: "rgba(60,97,168,0.45)" }}
           >
             How It Works
           </motion.p>
@@ -307,24 +401,25 @@ export function HowItWorksSection() {
             initial={{ opacity: 0, y: 14 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3 text-white"
+            className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3"
+            style={{ color: DARK }}
           >
             Four stages.{" "}
-            <span style={{ color: YELLOW }}>One structured system.</span>
+            <span style={{ color: BLUE }}>One structured system.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 8 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="text-[14px] sm:text-[15px] max-w-lg mx-auto"
-            style={{ color: "rgba(255,255,255,0.4)", lineHeight: 1.6 }}
+            className="text-[14px] sm:text-[15px] max-w-md mx-auto"
+            style={{ color: "rgba(12,14,20,0.4)", lineHeight: 1.6 }}
           >
-            Raw input on the right, scanner processes it, polished career outcome on the left.
+            Your raw career data flows in — our system processes it into clear, actionable outcomes.
           </motion.p>
         </div>
       </div>
 
-      {/* Scanner stream — full bleed, custom before/after cards */}
+      {/* Scanner stream */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
@@ -332,19 +427,20 @@ export function HowItWorksSection() {
       >
         <ScannerCardStream
           cardContents={CARD_CONTENTS}
-          height={310}
-          cardWidth={380}
-          cardHeight={260}
-          initialSpeed={100}
+          height={320}
+          cardWidth={360}
+          cardHeight={280}
+          initialSpeed={80}
           direction={-1}
           repeat={5}
-          cardGap={50}
+          cardGap={40}
           friction={0.97}
+          theme="light"
         />
       </motion.div>
 
       {/* Stage cards below */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {STEPS.map((step, i) => {
             const Icon = step.icon;
@@ -353,38 +449,33 @@ export function HowItWorksSection() {
                 key={step.stage}
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.45, delay: 0.3 + i * 0.08, ease: [0.33, 1, 0.68, 1] }}
-                className="rounded-2xl p-4 sm:p-5 flex flex-col hover:-translate-y-1 transition-transform duration-300 relative"
+                transition={{ duration: 0.45, delay: 0.3 + i * 0.06, ease: [0.33, 1, 0.68, 1] }}
+                className="bg-white rounded-2xl p-4 sm:p-5 flex flex-col hover:-translate-y-1 transition-transform duration-300 relative"
                 style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(12,14,20,0.07)",
+                  boxShadow: "0 2px 12px rgba(12,14,20,0.05)",
                 }}
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: `${step.color}20`, border: `1px solid ${step.color}30` }}
-                  >
-                    <Icon className="w-5 h-5" style={{ color: step.color }} />
-                  </div>
-                  <span className="text-[11px] font-black tracking-[0.15em] uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>
-                    Stage {i + 1}
-                  </span>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 shrink-0"
+                  style={{ backgroundColor: YELLOW }}>
+                  <Icon className="w-5 h-5" style={{ color: DARK }} />
                 </div>
 
-                <p className="text-[10px] font-black tracking-[0.22em] uppercase mb-1" style={{ color: step.color }}>
+                <p className="text-[10px] font-black tracking-[0.22em] uppercase mb-1"
+                  style={{ color: "rgba(60,97,168,0.55)" }}>
                   {step.stage}
                 </p>
-                <h3 className="text-[15px] font-black mb-2 leading-snug text-white">
+                <h3 className="text-[14px] font-black mb-1.5 leading-snug" style={{ color: BLUE }}>
                   {step.product}
                 </h3>
-                <p className="text-[12px] leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.4)" }}>
+                <p className="text-[12px] leading-relaxed flex-1"
+                  style={{ color: "rgba(12,14,20,0.5)" }}>
                   {step.description}
                 </p>
 
                 {i < 3 && (
                   <div className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10">
-                    <ArrowRight className="w-4 h-4" style={{ color: "rgba(255,255,255,0.15)" }} />
+                    <ArrowRight className="w-4 h-4 text-gray-300" />
                   </div>
                 )}
               </motion.div>
@@ -396,13 +487,13 @@ export function HowItWorksSection() {
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.55 }}
+          transition={{ duration: 0.5, delay: 0.35 }}
           className="text-center mt-10"
         >
           <a
             href="/kyb"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold transition-all hover:opacity-85 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2"
-            style={{ backgroundColor: YELLOW, color: DARK }}
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold text-white transition-all hover:opacity-85 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            style={{ backgroundColor: BLUE }}
           >
             Find My Best Role
             <ArrowRight className="w-4 h-4" />
