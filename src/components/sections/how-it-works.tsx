@@ -54,7 +54,7 @@ function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) 
             <Icon size={15} style={{ color: `${step.color}50` }} />
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "rgba(12,14,20,0.2)" }}>Stage {idx + 1}</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: `${step.color}50` }}>{step.stage}</p>
             <p className="text-[13px] font-bold" style={{ color: "rgba(12,14,20,0.35)" }}>{step.product}</p>
           </div>
         </div>
@@ -439,7 +439,7 @@ export function HowItWorksSection() {
         </span>
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-1.5"
           style={{ color: "rgba(60,97,168,0.4)" }}>
-          Personalized results
+          Personalized outcomes
           <span className="w-4 h-px" style={{ background: "rgba(60,97,168,0.3)" }} />
         </span>
       </motion.div>
