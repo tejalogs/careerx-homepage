@@ -420,7 +420,7 @@ export function HowItWorksSection() {
             className="text-[14px] sm:text-[15px] max-w-md mx-auto"
             style={{ color: "rgba(12,14,20,0.4)", lineHeight: 1.6 }}
           >
-            Answer a few questions. Get a personalized career roadmap — from role fit to job matches.
+            Get a personalized career roadmap — from role fit to job matches.
           </motion.p>
         </div>
       </div>
