@@ -410,8 +410,8 @@ export function HowItWorksSection() {
             className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3"
             style={{ color: DARK }}
           >
-            Four stages.{" "}
-            <span style={{ color: BLUE }}>One structured system.</span>
+            Your career,{" "}
+            <span style={{ color: BLUE }}>decoded.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 8 }}
@@ -420,7 +420,7 @@ export function HowItWorksSection() {
             className="text-[14px] sm:text-[15px] max-w-md mx-auto"
             style={{ color: "rgba(12,14,20,0.4)", lineHeight: 1.6 }}
           >
-            From uncertainty to clarity — four steps that turn your ambitions into a career plan.
+            Answer a few questions. Get a personalized career roadmap — from role fit to job matches.
           </motion.p>
         </div>
       </div>
