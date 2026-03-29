@@ -435,11 +435,11 @@ export function HowItWorksSection() {
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-1.5"
           style={{ color: "rgba(12,14,20,0.2)" }}>
           <span className="w-4 h-px" style={{ background: "rgba(12,14,20,0.15)" }} />
-          You answer
+          Quick assessment
         </span>
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-1.5"
           style={{ color: "rgba(60,97,168,0.4)" }}>
-          You discover
+          Personalized results
           <span className="w-4 h-px" style={{ background: "rgba(60,97,168,0.3)" }} />
         </span>
       </motion.div>

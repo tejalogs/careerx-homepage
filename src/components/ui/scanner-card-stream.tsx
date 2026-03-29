@@ -210,22 +210,22 @@ const ScannerCardStream = ({
     const ctx = scannerCanvas.getContext("2d")!;
     scannerCanvas.width = cw;
     scannerCanvas.height = ch + 50;
-    const baseMax = 0;
-    const scanMax = 0;
+    const baseMax = 200;
+    const scanMax = 600;
     let currentMax = baseMax;
     type SP = {
       x: number; y: number; vx: number; vy: number;
       radius: number; alpha: number; life: number; decay: number;
     };
     const mkP = (): SP => ({
-      x: cw / 2 + (Math.random() - 0.5) * 6,
+      x: cw / 2 + (Math.random() - 0.5) * 4,
       y: Math.random() * (ch + 50),
-      vx: (Math.random() - 0.3) * 1.5,
-      vy: (Math.random() - 0.5) * 0.8,
-      radius: Math.random() * 1.2 + 0.5,
-      alpha: Math.random() * 0.6 + 0.4,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.4,
+      radius: Math.random() * 0.7 + 0.3,
+      alpha: Math.random() * 0.3 + 0.15,
       life: 1,
-      decay: Math.random() * 0.015 + 0.004,
+      decay: Math.random() * 0.02 + 0.008,
     });
     let sParticles: SP[] = Array.from({ length: baseMax }, mkP);
 
