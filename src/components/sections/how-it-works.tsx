@@ -324,29 +324,29 @@ function ActivateOutcome() {
 
         <div className="space-y-1 flex-1">
           {jobs.map((j, i) => (
-            <div key={j.company} className="px-2.5 py-1.5 rounded-xl" style={{
+            <div key={j.company} className="flex items-center gap-2 px-2.5 py-2 rounded-xl" style={{
               background: i === 0 ? "#FEF2F2" : "rgba(12,14,20,0.02)",
               border: i === 0 ? "1px solid rgba(220,38,38,0.08)" : "1px solid transparent",
             }}>
-              <div className="flex items-center gap-2 mb-0.5">
-                <div className="w-5 h-5 rounded-md bg-gray-100 flex items-center justify-center">
-                  <Briefcase size={9} className="text-gray-400" />
+              <div className="w-5 h-5 rounded-md bg-gray-100 flex items-center justify-center shrink-0">
+                <Briefcase size={9} className="text-gray-400" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[11px] font-bold" style={{ color: DARK }}>{j.company}</span>
+                  <span className="text-[9px]" style={{ color: "rgba(12,14,20,0.35)" }}>· {j.role}</span>
                 </div>
-                <span className="text-[11px] font-bold flex-1" style={{ color: DARK }}>{j.company}</span>
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{
-                  background: j.fit >= 95 ? "#DCFCE7" : "#F3F4F6",
-                  color: j.fit >= 95 ? "#047857" : "rgba(12,14,20,0.5)",
-                }}>{j.fit}%</span>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="text-[9px] flex items-center gap-0.5" style={{ color: "rgba(12,14,20,0.3)" }}>
+                    <MapPin size={7} /> {j.location}
+                  </span>
+                  <span className="text-[9px] font-semibold" style={{ color: "#047857" }}>{j.salary}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-3 ml-7">
-                <span className="text-[10px]" style={{ color: "rgba(12,14,20,0.5)" }}>{j.role}</span>
-                <span className="text-[9px] flex items-center gap-0.5" style={{ color: "rgba(12,14,20,0.3)" }}>
-                  <MapPin size={7} /> {j.location}
-                </span>
-              </div>
-              <div className="ml-7 mt-0.5">
-                <span className="text-[10px] font-semibold" style={{ color: "#047857" }}>{j.salary}</span>
-              </div>
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded shrink-0" style={{
+                background: j.fit >= 95 ? "#DCFCE7" : "#F3F4F6",
+                color: j.fit >= 95 ? "#047857" : "rgba(12,14,20,0.5)",
+              }}>{j.fit}%</span>
             </div>
           ))}
         </div>
