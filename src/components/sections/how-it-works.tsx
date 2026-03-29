@@ -26,42 +26,57 @@ const STEPS = [
    BEFORE cards — dark, muted, "raw data" aesthetic
    ═══════════════════════════════════════════════════════════════ */
 function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) {
+  const Icon = step.icon;
+  const inputs: Record<number, { fields: string[]; tags: string[] }> = {
+    0: { fields: ["Interests", "Experience", "Education"], tags: ["Data", "Analytics", "Python"] },
+    1: { fields: ["Target Role", "Current Skills", "Timeline"], tags: ["SQL", "Cloud", "ETL"] },
+    2: { fields: ["Role Type", "Difficulty", "Format"], tags: ["System Design", "Behavioral"] },
+    3: { fields: ["Location", "Salary Range", "Work Type"], tags: ["Remote", "$130k+", "Full-time"] },
+  };
+  const data = inputs[idx] || inputs[0];
+
   return (
-    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden"
-      style={{ background: "#1a1d2e" }}>
-      {/* Noise grain overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }} />
+    <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
+      style={{ background: "linear-gradient(160deg, #ebeef5 0%, #e2e6f0 50%, #edf0f7 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.03)" }}>
+      <div className="absolute top-0 left-0 right-0 h-[40%] pointer-events-none rounded-t-[22px]"
+        style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%)" }} />
 
-      {/* Subtle grid */}
-      <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
-        style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
-
-      <div className="relative p-5 flex flex-col flex-1">
-        {/* Terminal dots */}
-        <div className="flex items-center gap-1.5 mb-5">
-          <div className="w-2.5 h-2.5 rounded-full bg-red-500/40" />
-          <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/30" />
-          <div className="w-2.5 h-2.5 rounded-full bg-green-500/25" />
-          <span className="ml-auto text-[9px] font-mono text-white/15">stage_{idx + 1}.raw</span>
+      <div className="relative p-4 flex flex-col flex-1">
+        {/* Header */}
+        <div className="flex items-center gap-2.5 mb-4">
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(12,14,20,0.06)" }}>
+            <Icon size={15} style={{ color: "rgba(12,14,20,0.3)" }} />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "rgba(12,14,20,0.25)" }}>Stage {idx + 1}</p>
+            <p className="text-[13px] font-bold" style={{ color: "rgba(12,14,20,0.5)" }}>{step.product}</p>
+          </div>
         </div>
 
-        {/* Content */}
-        <p className="text-[9px] font-mono text-white/20 mb-1">{'>'} {step.stage.toLowerCase()}.analyze()</p>
-        <h3 className="text-[18px] font-bold text-white/70 mb-2 leading-tight">{step.product}</h3>
-        <p className="text-[11px] leading-relaxed text-white/25 mb-auto">{step.description}</p>
-
-        {/* Skeleton data rows */}
+        {/* Input fields */}
         <div className="space-y-2 mb-4">
-          {[80, 60, 45, 30].map((w, i) => (
-            <div key={i} className="h-[5px] rounded-full" style={{ width: `${w}%`, background: `rgba(255,255,255,${0.04 + i * 0.01})` }} />
+          {data.fields.map((f) => (
+            <div key={f} className="flex items-center gap-2">
+              <span className="text-[10px] w-[70px] shrink-0" style={{ color: "rgba(12,14,20,0.25)" }}>{f}</span>
+              <div className="flex-1 h-[7px] rounded-full" style={{ background: "rgba(12,14,20,0.05)" }} />
+            </div>
+          ))}
+        </div>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5 mb-auto">
+          {data.tags.map((t) => (
+            <span key={t} className="px-2 py-0.5 rounded-md text-[9px] font-medium"
+              style={{ background: "rgba(12,14,20,0.04)", color: "rgba(12,14,20,0.3)" }}>
+              {t}
+            </span>
           ))}
         </div>
 
         {/* Status */}
-        <div className="flex items-center gap-2 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-          <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: step.color, opacity: 0.6 }} />
-          <span className="text-[10px] font-mono text-white/20">processing...</span>
+        <div className="flex items-center gap-2 pt-3 mt-2" style={{ borderTop: "1px solid rgba(12,14,20,0.05)" }}>
+          <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: step.color, opacity: 0.5 }} />
+          <span className="text-[10px]" style={{ color: "rgba(12,14,20,0.2)" }}>Awaiting analysis...</span>
         </div>
       </div>
     </div>
@@ -86,7 +101,7 @@ function DiscoverOutcome() {
     { name: "Analytics Engineer", match: 78, trend: "+15%" },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden"
+    <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
       style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
       <MetallicSheen />
       {/* Colored accent strip */}
@@ -151,7 +166,7 @@ function PrepareOutcome() {
     { name: "Cloud Architecture", status: "locked", pct: 0 },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden"
+    <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
       style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
       <MetallicSheen />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #047857, #34d399)" }} />
@@ -216,7 +231,7 @@ function ValidateOutcome() {
     { type: "Behavioral", score: 88, time: "28 min" },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden"
+    <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
       style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
       <MetallicSheen />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #B45309, #fbbf24)" }} />
@@ -283,7 +298,7 @@ function ActivateOutcome() {
     { company: "Linear", role: "Data Infrastructure", location: "Remote", salary: "$130k–$165k", fit: 91 },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] flex flex-col whitespace-normal relative overflow-hidden"
+    <div className="w-full h-full rounded-[22px] flex flex-col whitespace-normal relative overflow-hidden"
       style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
       <MetallicSheen />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #DC2626, #f87171)" }} />

@@ -373,7 +373,7 @@ const ScannerCardStream = ({
       currentMax += (target - currentMax) * 0.05;
       while (sParticles.length < currentMax) sParticles.push(mkP());
       while (sParticles.length > currentMax) sParticles.pop();
-      const sparkleColors = ["#a78bfa", "#8b5cf6", "#7c3aed", "#6d28d9", "#c4b5fd"];
+      const sparkleColors = ["#F5D134", "#e6c42e", "#3C61A8", "#5b80c4", "#F5D134"];
       sParticles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
@@ -450,13 +450,14 @@ const ScannerCardStream = ({
       <div
         className={`
           absolute top-1/2 left-1/2 w-0.5 -translate-x-1/2 -translate-y-1/2
-          bg-gradient-to-b from-transparent via-violet-500 to-transparent rounded-full
+          rounded-full
           transition-opacity duration-300 z-20 pointer-events-none animate-scan-pulse
           ${isScanning ? "opacity-100" : "opacity-0"}
         `}
         style={{
           height: height + 30,
-          boxShadow: "0 0 10px #a78bfa, 0 0 20px #a78bfa, 0 0 30px #8b5cf6, 0 0 50px #6366f1",
+          background: "linear-gradient(to bottom, transparent, #F5D134 35%, #3C61A8 65%, transparent)",
+          boxShadow: "0 0 10px rgba(245,209,52,0.5), 0 0 20px rgba(60,97,168,0.4), 0 0 40px rgba(60,97,168,0.2)",
         }}
       />
 
@@ -473,17 +474,17 @@ const ScannerCardStream = ({
               <div key={card.id} className="card-wrapper relative shrink-0" style={{ width: cardWidth, height: cardHeight }}>
                 {/* BEFORE — visible before scanner */}
                 <div
-                  className="card-before absolute inset-0 rounded-[15px] overflow-hidden z-[2] [clip-path:inset(0_0_0_var(--clip-right,0%))]"
+                  className="card-before absolute inset-0 rounded-[22px] overflow-hidden z-[2] [clip-path:inset(0_0_0_var(--clip-right,0%))]"
                   style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.4)" }}
                 >
                   {useCustom
                     ? <div className="w-full h-full">{content!.before}</div>
-                    : <img src={card.image} alt="Card" className="w-full h-full object-cover rounded-[15px] brightness-110 contrast-110 hover:brightness-125 hover:contrast-125 transition-all duration-300" />
+                    : <img src={card.image} alt="Card" className="w-full h-full object-cover rounded-[22px] brightness-110 contrast-110 hover:brightness-125 hover:contrast-125 transition-all duration-300" />
                   }
                 </div>
                 {/* AFTER — revealed after scanner */}
                 <div
-                  className="card-after absolute inset-0 rounded-[15px] overflow-hidden z-[1] [clip-path:inset(0_calc(100%-var(--clip-left,0%))_0_0)]"
+                  className="card-after absolute inset-0 rounded-[22px] overflow-hidden z-[1] [clip-path:inset(0_calc(100%-var(--clip-left,0%))_0_0)]"
                   style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.3)" }}
                 >
                   {useCustom
