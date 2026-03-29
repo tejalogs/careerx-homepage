@@ -210,8 +210,8 @@ const ScannerCardStream = ({
     const ctx = scannerCanvas.getContext("2d")!;
     scannerCanvas.width = cw;
     scannerCanvas.height = ch + 50;
-    const baseMax = 0;
-    const scanMax = 0;
+    const baseMax = 800;
+    const scanMax = 2500;
     let currentMax = baseMax;
     type SP = {
       x: number; y: number; vx: number; vy: number;

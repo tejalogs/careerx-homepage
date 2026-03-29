@@ -91,8 +91,8 @@ function DiscoverOutcome() {
       <MetallicSheen />
       {/* Colored accent strip */}
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #4F46E5, #818cf8)" }} />
-      <div className="p-4 flex flex-col flex-1">
-        <div className="flex items-center justify-between mb-2.5">
+      <div className="p-3.5 flex flex-col flex-1 relative">
+        <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#EEF2FF" }}>
               <Target size={13} style={{ color: "#4F46E5" }} />
@@ -106,8 +106,8 @@ function DiscoverOutcome() {
         </div>
 
         {/* Score ring */}
-        <div className="flex items-center gap-3 mb-3 px-3 py-2.5 rounded-xl" style={{ background: "#FAFAFE" }}>
-          <div className="relative w-12 h-12 shrink-0">
+        <div className="flex items-center gap-3 mb-2 px-3 py-2 rounded-xl" style={{ background: "#FAFAFE" }}>
+          <div className="relative w-10 h-10 shrink-0">
             <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
               <circle cx="18" cy="18" r="14" fill="none" stroke="#EEF2FF" strokeWidth="3" />
               <circle cx="18" cy="18" r="14" fill="none" stroke="#4F46E5" strokeWidth="3" strokeDasharray="81 100" strokeLinecap="round" />
@@ -155,8 +155,8 @@ function PrepareOutcome() {
       style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
       <MetallicSheen />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #047857, #34d399)" }} />
-      <div className="p-4 flex flex-col flex-1">
-        <div className="flex items-center justify-between mb-2.5">
+      <div className="p-3.5 flex flex-col flex-1 relative">
+        <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#ECFDF5" }}>
               <TrendingUp size={13} style={{ color: "#047857" }} />
@@ -169,13 +169,13 @@ function PrepareOutcome() {
           <span className="text-[11px] font-bold" style={{ color: "#047857" }}>68%</span>
         </div>
 
-        <div className="h-1.5 rounded-full mb-3 overflow-hidden" style={{ background: "rgba(12,14,20,0.06)" }}>
+        <div className="h-1.5 rounded-full mb-2 overflow-hidden" style={{ background: "rgba(12,14,20,0.06)" }}>
           <div className="h-full rounded-full" style={{ width: "68%", background: "linear-gradient(90deg, #34d399, #059669)" }} />
         </div>
 
         <div className="space-y-1.5 flex-1">
           {modules.map((m) => (
-            <div key={m.name} className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl"
+            <div key={m.name} className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl"
               style={{ background: m.status === "active" ? "#ECFDF5" : "rgba(12,14,20,0.02)", opacity: m.status === "locked" ? 0.4 : 1 }}>
               <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style={{
                 background: m.status === "done" ? "#059669" : m.status === "active" ? "#D1FAE5" : "rgba(12,14,20,0.08)",
@@ -220,8 +220,8 @@ function ValidateOutcome() {
       style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
       <MetallicSheen />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #B45309, #fbbf24)" }} />
-      <div className="p-4 flex flex-col flex-1">
-        <div className="flex items-center justify-between mb-2.5">
+      <div className="p-3.5 flex flex-col flex-1 relative">
+        <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#FFFBEB" }}>
               <BarChart3 size={13} style={{ color: "#B45309" }} />
@@ -238,7 +238,7 @@ function ValidateOutcome() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4 mb-3 px-3 py-2.5 rounded-xl" style={{ background: "#FFFBEB" }}>
+        <div className="flex items-center gap-4 mb-2 px-3 py-2 rounded-xl" style={{ background: "#FFFBEB" }}>
           <div>
             <p className="text-[28px] font-black leading-none" style={{ color: "#B45309" }}>94</p>
             <p className="text-[9px] font-bold uppercase tracking-wider mt-0.5" style={{ color: "#D97706" }}>Score</p>
@@ -287,8 +287,8 @@ function ActivateOutcome() {
       style={{ background: "linear-gradient(145deg, #f0f2f8 0%, #e6e9f2 35%, #eef0f6 70%, #f5f6fa 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04)" }}>
       <MetallicSheen />
       <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #DC2626, #f87171)" }} />
-      <div className="p-4 flex flex-col flex-1">
-        <div className="flex items-center justify-between mb-2.5">
+      <div className="p-3.5 flex flex-col flex-1 relative">
+        <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#FEF2F2" }}>
               <Zap size={13} style={{ color: "#DC2626" }} />
@@ -301,9 +301,9 @@ function ActivateOutcome() {
           <div className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: "#FEF2F2", color: "#DC2626" }}>3 New</div>
         </div>
 
-        <div className="space-y-1.5 flex-1">
+        <div className="space-y-1 flex-1">
           {jobs.map((j, i) => (
-            <div key={j.company} className="px-2.5 py-2 rounded-xl" style={{
+            <div key={j.company} className="px-2.5 py-1.5 rounded-xl" style={{
               background: i === 0 ? "#FEF2F2" : "rgba(12,14,20,0.02)",
               border: i === 0 ? "1px solid rgba(220,38,38,0.08)" : "1px solid transparent",
             }}>
@@ -401,9 +401,9 @@ export function HowItWorksSection() {
       >
         <ScannerCardStream
           cardContents={CARD_CONTENTS}
-          height={360}
+          height={320}
           cardWidth={360}
-          cardHeight={320}
+          cardHeight={280}
           initialSpeed={80}
           direction={1}
           repeat={5}
