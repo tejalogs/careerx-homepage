@@ -421,11 +421,8 @@ const ScannerCardStream = ({
   }, [isPaused, cards, cardGap, friction, scanEffect, height, useCustom, cardWidth, cardHeight, isLight]);
 
   /* ── scanner line colors ───────────────────────────────────── */
-  const scanLineClass = isLight
-    ? "bg-gradient-to-b from-transparent via-blue-500 to-transparent"
-    : "bg-gradient-to-b from-transparent via-violet-500 to-transparent";
   const scanLineShadow = isLight
-    ? "0 0 8px rgba(60,97,168,0.4), 0 0 20px rgba(60,97,168,0.3), 0 0 40px rgba(60,97,168,0.15)"
+    ? "0 0 8px rgba(245,209,52,0.5), 0 0 18px rgba(60,97,168,0.4), 0 0 35px rgba(60,97,168,0.15)"
     : "0 0 10px #a78bfa, 0 0 20px #a78bfa, 0 0 30px #8b5cf6, 0 0 50px #6366f1";
 
   return (
@@ -478,11 +475,16 @@ const ScannerCardStream = ({
       <div
         className={`
           absolute top-1/2 left-1/2 w-0.5 -translate-x-1/2 -translate-y-1/2
-          ${scanLineClass} rounded-full
-          transition-opacity duration-300 z-20 pointer-events-none animate-scan-pulse
+          rounded-full transition-opacity duration-300 z-20 pointer-events-none animate-scan-pulse
           ${isScanning ? "opacity-100" : "opacity-0"}
         `}
-        style={{ height: height + 30, boxShadow: scanLineShadow }}
+        style={{
+          height: height + 30,
+          boxShadow: scanLineShadow,
+          background: isLight
+            ? "linear-gradient(to bottom, transparent, #F5D134 30%, #3C61A8 70%, transparent)"
+            : "linear-gradient(to bottom, transparent, #a78bfa 50%, transparent)",
+        }}
       />
 
       <div className="absolute w-full flex items-center" style={{ height: cardHeight }}>
@@ -500,19 +502,19 @@ const ScannerCardStream = ({
                 style={{ width: cardWidth, height: cardHeight }}
               >
                 <div
-                  className="card-before absolute inset-0 rounded-2xl overflow-hidden z-[2] [clip-path:inset(0_0_0_var(--clip-right,0%))]"
-                  style={{ boxShadow: isLight ? "0 4px 24px rgba(12,14,20,0.08)" : "0 15px 40px rgba(0,0,0,0.4)" }}
+                  className="card-before absolute inset-0 rounded-[15px] overflow-hidden z-[2] [clip-path:inset(0_0_0_var(--clip-right,0%))]"
+                  style={{ boxShadow: isLight ? "0 10px 40px rgba(12,14,20,0.12), 0 2px 8px rgba(12,14,20,0.06)" : "0 15px 40px rgba(0,0,0,0.4)" }}
                 >
                   {useCustom ? (
                     <div className="w-full h-full">{content!.before}</div>
                   ) : (
-                    <img src={card.image} alt="Card" className="w-full h-full object-cover rounded-2xl brightness-110 contrast-110" />
+                    <img src={card.image} alt="Card" className="w-full h-full object-cover rounded-[15px] brightness-110 contrast-110" />
                   )}
                 </div>
 
                 <div
-                  className="card-after absolute inset-0 rounded-2xl overflow-hidden z-[1] [clip-path:inset(0_calc(100%-var(--clip-left,0%))_0_0)]"
-                  style={{ boxShadow: isLight ? "0 4px 24px rgba(12,14,20,0.1)" : "0 15px 40px rgba(0,0,0,0.3)" }}
+                  className="card-after absolute inset-0 rounded-[15px] overflow-hidden z-[1] [clip-path:inset(0_calc(100%-var(--clip-left,0%))_0_0)]"
+                  style={{ boxShadow: isLight ? "0 10px 40px rgba(12,14,20,0.12), 0 2px 8px rgba(12,14,20,0.06)" : "0 15px 40px rgba(0,0,0,0.3)" }}
                 >
                   {useCustom ? (
                     <div className="w-full h-full">{content!.after}</div>

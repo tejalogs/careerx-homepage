@@ -50,10 +50,10 @@ const STEPS = [
 function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) {
   return (
     <div
-      className="w-full h-full rounded-2xl p-5 flex flex-col whitespace-normal"
+      className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal"
       style={{
         background: "#fff",
-        border: "1px solid rgba(12,14,20,0.07)",
+        boxShadow: "0 8px 30px rgba(12,14,20,0.08), inset 0 0 0 1px rgba(12,14,20,0.04)",
       }}
     >
       {/* Top bar */}
@@ -108,8 +108,8 @@ function DiscoverOutcome() {
     { name: "Analytics Engineer", match: 78, trend: "+15%" },
   ];
   return (
-    <div className="w-full h-full rounded-2xl p-5 flex flex-col whitespace-normal"
-      style={{ background: "#fff", border: "1px solid rgba(12,14,20,0.07)" }}>
+    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal"
+      style={{ background: "#fff", boxShadow: "0 8px 30px rgba(12,14,20,0.08), inset 0 0 0 1px rgba(12,14,20,0.04)" }}>
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
@@ -178,8 +178,8 @@ function PrepareOutcome() {
     { name: "Cloud Architecture", status: "locked", pct: 0 },
   ];
   return (
-    <div className="w-full h-full rounded-2xl p-5 flex flex-col whitespace-normal"
-      style={{ background: "#fff", border: "1px solid rgba(12,14,20,0.07)" }}>
+    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal"
+      style={{ background: "#fff", boxShadow: "0 8px 30px rgba(12,14,20,0.08), inset 0 0 0 1px rgba(12,14,20,0.04)" }}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#ECFDF5" }}>
@@ -243,8 +243,8 @@ function ValidateOutcome() {
     { type: "Behavioral", score: 88, time: "28 min" },
   ];
   return (
-    <div className="w-full h-full rounded-2xl p-5 flex flex-col whitespace-normal"
-      style={{ background: "#fff", border: "1px solid rgba(12,14,20,0.07)" }}>
+    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal"
+      style={{ background: "#fff", boxShadow: "0 8px 30px rgba(12,14,20,0.08), inset 0 0 0 1px rgba(12,14,20,0.04)" }}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#FFFBEB" }}>
@@ -310,8 +310,8 @@ function ActivateOutcome() {
     { company: "Linear", role: "Data Infrastructure", location: "Remote", salary: "$130k–$165k", fit: 91 },
   ];
   return (
-    <div className="w-full h-full rounded-2xl p-5 flex flex-col whitespace-normal"
-      style={{ background: "#fff", border: "1px solid rgba(12,14,20,0.07)" }}>
+    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal"
+      style={{ background: "#fff", boxShadow: "0 8px 30px rgba(12,14,20,0.08), inset 0 0 0 1px rgba(12,14,20,0.04)" }}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#FEF2F2" }}>
