@@ -430,7 +430,7 @@ export function HowItWorksSection() {
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ duration: 0.5, delay: 0.15 }}
-        className="hidden sm:flex max-w-5xl mx-auto px-4 sm:px-6 justify-between mb-2"
+        className="hidden sm:flex max-w-5xl mx-auto px-4 sm:px-6 justify-between -mb-4"
       >
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-1.5"
           style={{ color: "rgba(12,14,20,0.2)" }}>
