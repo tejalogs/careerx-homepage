@@ -210,8 +210,8 @@ const ScannerCardStream = ({
     const ctx = scannerCanvas.getContext("2d")!;
     scannerCanvas.width = cw;
     scannerCanvas.height = ch + 50;
-    const baseMax = 200;
-    const scanMax = 600;
+    const baseMax = 500;
+    const scanMax = 1200;
     let currentMax = baseMax;
     type SP = {
       x: number; y: number; vx: number; vy: number;
@@ -373,7 +373,7 @@ const ScannerCardStream = ({
       currentMax += (target - currentMax) * 0.05;
       while (sParticles.length < currentMax) sParticles.push(mkP());
       while (sParticles.length > currentMax) sParticles.pop();
-      const sparkleColors = ["#F5D134", "#e6c42e", "#3C61A8", "#5b80c4", "#F5D134"];
+      const sparkleColors = ["#3C61A8", "#5b80c4", "#7B9FE8", "#4A72B8", "#3C61A8"];
       sParticles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
@@ -456,8 +456,8 @@ const ScannerCardStream = ({
         `}
         style={{
           height: height + 30,
-          background: "linear-gradient(to bottom, transparent, #F5D134 35%, #3C61A8 65%, transparent)",
-          boxShadow: "0 0 10px rgba(245,209,52,0.5), 0 0 20px rgba(60,97,168,0.4), 0 0 40px rgba(60,97,168,0.2)",
+          background: "linear-gradient(to bottom, transparent, #7B9FE8 30%, #3C61A8 50%, #7B9FE8 70%, transparent)",
+          boxShadow: "0 0 10px rgba(60,97,168,0.5), 0 0 20px rgba(60,97,168,0.3), 0 0 40px rgba(60,97,168,0.15)",
         }}
       />
 
