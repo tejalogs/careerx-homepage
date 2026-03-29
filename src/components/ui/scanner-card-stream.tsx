@@ -218,14 +218,14 @@ const ScannerCardStream = ({
       radius: number; alpha: number; life: number; decay: number;
     };
     const mkP = (): SP => ({
-      x: cw / 2 + (Math.random() - 0.5) * 3,
+      x: cw / 2 + (Math.random() - 0.5) * 6,
       y: Math.random() * (ch + 50),
-      vx: Math.random() * 0.8 + 0.2,
-      vy: (Math.random() - 0.5) * 0.3,
-      radius: Math.random() * 0.6 + 0.4,
-      alpha: Math.random() * 0.4 + 0.6,
+      vx: (Math.random() - 0.3) * 1.5,
+      vy: (Math.random() - 0.5) * 0.8,
+      radius: Math.random() * 1.2 + 0.5,
+      alpha: Math.random() * 0.6 + 0.4,
       life: 1,
-      decay: Math.random() * 0.02 + 0.005,
+      decay: Math.random() * 0.015 + 0.004,
     });
     let sParticles: SP[] = Array.from({ length: baseMax }, mkP);
 
@@ -373,13 +373,14 @@ const ScannerCardStream = ({
       currentMax += (target - currentMax) * 0.05;
       while (sParticles.length < currentMax) sParticles.push(mkP());
       while (sParticles.length > currentMax) sParticles.pop();
+      const sparkleColors = ["#a78bfa", "#8b5cf6", "#7c3aed", "#6d28d9", "#c4b5fd"];
       sParticles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
         p.life -= p.decay;
         if (p.life <= 0 || p.x > cw) Object.assign(p, mkP());
         ctx.globalAlpha = p.alpha * p.life;
-        ctx.fillStyle = "white";
+        ctx.fillStyle = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fill();
