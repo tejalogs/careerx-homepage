@@ -475,7 +475,7 @@ const ScannerCardStream = ({
                 {/* BEFORE — visible before scanner */}
                 <div
                   className="card-before absolute inset-0 rounded-[22px] overflow-hidden z-[2] [clip-path:inset(0_0_0_var(--clip-right,0%))]"
-                  style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.4)" }}
+                  style={{ boxShadow: "0 6px 20px rgba(12,14,20,0.1), 0 2px 6px rgba(12,14,20,0.06)" }}
                 >
                   {useCustom
                     ? <div className="w-full h-full">{content!.before}</div>
@@ -485,7 +485,7 @@ const ScannerCardStream = ({
                 {/* AFTER — revealed after scanner */}
                 <div
                   className="card-after absolute inset-0 rounded-[22px] overflow-hidden z-[1] [clip-path:inset(0_calc(100%-var(--clip-left,0%))_0_0)]"
-                  style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.3)" }}
+                  style={{ boxShadow: "0 6px 20px rgba(12,14,20,0.1), 0 2px 6px rgba(12,14,20,0.06)" }}
                 >
                   {useCustom
                     ? <div className="w-full h-full">{content!.after}</div>
