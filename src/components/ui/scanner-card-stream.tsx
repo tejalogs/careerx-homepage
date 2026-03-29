@@ -155,7 +155,7 @@ const ScannerCardStream = ({
     renderer.setSize(cw, ch);
     renderer.setClearColor(0x000000, 0);
 
-    const particleCount = isLight ? 200 : 400;
+    const particleCount = isLight ? 0 : 400;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities = new Float32Array(particleCount);
@@ -223,8 +223,8 @@ const ScannerCardStream = ({
     const ctx = scannerCanvas.getContext("2d")!;
     scannerCanvas.width = cw;
     scannerCanvas.height = ch + 50;
-    const baseMax = isLight ? 400 : 800;
-    const scanMax = isLight ? 1200 : 2500;
+    const baseMax = isLight ? 0 : 800;
+    const scanMax = isLight ? 0 : 2500;
     let currentMax = baseMax;
     type SP = {
       x: number; y: number; vx: number; vy: number;
@@ -421,9 +421,7 @@ const ScannerCardStream = ({
   }, [isPaused, cards, cardGap, friction, scanEffect, height, useCustom, cardWidth, cardHeight, isLight]);
 
   /* ── scanner line colors ───────────────────────────────────── */
-  const scanLineShadow = isLight
-    ? "0 0 8px rgba(245,209,52,0.5), 0 0 18px rgba(60,97,168,0.4), 0 0 35px rgba(60,97,168,0.15)"
-    : "0 0 10px #a78bfa, 0 0 20px #a78bfa, 0 0 30px #8b5cf6, 0 0 50px #6366f1";
+  const scanLineShadow = "0 0 10px #a78bfa, 0 0 20px #a78bfa, 0 0 30px #8b5cf6, 0 0 50px #6366f1";
 
   return (
     <div
@@ -481,9 +479,7 @@ const ScannerCardStream = ({
         style={{
           height: height + 30,
           boxShadow: scanLineShadow,
-          background: isLight
-            ? "linear-gradient(to bottom, transparent, #F5D134 30%, #3C61A8 70%, transparent)"
-            : "linear-gradient(to bottom, transparent, #a78bfa 50%, transparent)",
+          background: "linear-gradient(to bottom, transparent, #a78bfa 50%, transparent)",
         }}
       />
 
@@ -503,7 +499,7 @@ const ScannerCardStream = ({
               >
                 <div
                   className="card-before absolute inset-0 rounded-[15px] overflow-hidden z-[2] [clip-path:inset(0_0_0_var(--clip-right,0%))]"
-                  style={{ boxShadow: isLight ? "0 10px 40px rgba(12,14,20,0.12), 0 2px 8px rgba(12,14,20,0.06)" : "0 15px 40px rgba(0,0,0,0.4)" }}
+                  style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.06)" }}
                 >
                   {useCustom ? (
                     <div className="w-full h-full">{content!.before}</div>
@@ -514,7 +510,7 @@ const ScannerCardStream = ({
 
                 <div
                   className="card-after absolute inset-0 rounded-[15px] overflow-hidden z-[1] [clip-path:inset(0_calc(100%-var(--clip-left,0%))_0_0)]"
-                  style={{ boxShadow: isLight ? "0 10px 40px rgba(12,14,20,0.12), 0 2px 8px rgba(12,14,20,0.06)" : "0 15px 40px rgba(0,0,0,0.3)" }}
+                  style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.06)" }}
                 >
                   {useCustom ? (
                     <div className="w-full h-full">{content!.after}</div>

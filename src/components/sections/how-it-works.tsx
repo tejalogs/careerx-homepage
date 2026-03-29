@@ -50,48 +50,56 @@ const STEPS = [
 function BeforeCard({ step, idx }: { step: typeof STEPS[number]; idx: number }) {
   return (
     <div
-      className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal"
+      className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal relative overflow-hidden"
       style={{
-        background: "#fff",
-        boxShadow: "0 8px 30px rgba(12,14,20,0.08), inset 0 0 0 1px rgba(12,14,20,0.04)",
+        background: "linear-gradient(145deg, #f0f1f5 0%, #e8eaf0 40%, #f4f5f8 100%)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(0,0,0,0.04)",
       }}
     >
+      {/* Metallic sheen */}
+      <div className="absolute top-0 left-0 right-0 h-[45%] pointer-events-none rounded-t-[15px]"
+        style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 100%)" }} />
+
       {/* Top bar */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="relative flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full" style={{ background: step.color, opacity: 0.5 }} />
-          <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: "rgba(12,14,20,0.25)" }}>
+          <div className="w-2 h-2 rounded-full" style={{ background: step.color, opacity: 0.6 }} />
+          <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: "rgba(12,14,20,0.3)" }}>
             Stage {idx + 1}
           </span>
         </div>
-        <span className="text-[9px] font-mono" style={{ color: "rgba(12,14,20,0.2)" }}>input</span>
+        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded" style={{ color: "rgba(12,14,20,0.25)", background: "rgba(12,14,20,0.04)" }}>
+          input
+        </span>
       </div>
 
       {/* Stage name */}
-      <p className="text-[11px] font-black tracking-[0.18em] uppercase mb-1" style={{ color: step.color }}>
-        {step.stage}
-      </p>
-      <p className="text-[16px] font-extrabold mb-2" style={{ color: DARK }}>
-        {step.product}
-      </p>
-      <p className="text-[11px] leading-relaxed mb-4" style={{ color: "rgba(12,14,20,0.4)" }}>
-        {step.description}
-      </p>
+      <div className="relative">
+        <p className="text-[11px] font-black tracking-[0.18em] uppercase mb-1" style={{ color: step.color }}>
+          {step.stage}
+        </p>
+        <p className="text-[16px] font-extrabold mb-2" style={{ color: DARK }}>
+          {step.product}
+        </p>
+        <p className="text-[11px] leading-relaxed mb-4" style={{ color: "rgba(12,14,20,0.4)" }}>
+          {step.description}
+        </p>
+      </div>
 
       {/* Faux data rows */}
-      <div className="flex-1 flex flex-col justify-end gap-1.5">
+      <div className="relative flex-1 flex flex-col justify-end gap-1.5">
         {[75, 55, 40].map((w, i) => (
           <div key={i} className="flex items-center gap-2">
-            <div className="h-[6px] rounded-full" style={{ width: `${w}%`, background: "rgba(12,14,20,0.05)" }} />
+            <div className="h-[6px] rounded-full" style={{ width: `${w}%`, background: "rgba(12,14,20,0.06)" }} />
             <div className="h-[6px] rounded-full flex-1" style={{ background: "rgba(12,14,20,0.03)" }} />
           </div>
         ))}
       </div>
 
       {/* Bottom */}
-      <div className="flex items-center gap-1.5 mt-3 pt-3" style={{ borderTop: "1px solid rgba(12,14,20,0.05)" }}>
+      <div className="relative flex items-center gap-1.5 mt-3 pt-3" style={{ borderTop: "1px solid rgba(12,14,20,0.06)" }}>
         <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: step.color }} />
-        <span className="text-[10px] font-medium" style={{ color: "rgba(12,14,20,0.25)" }}>
+        <span className="text-[10px] font-medium" style={{ color: "rgba(12,14,20,0.3)" }}>
           Awaiting analysis...
         </span>
       </div>
@@ -108,8 +116,13 @@ function DiscoverOutcome() {
     { name: "Analytics Engineer", match: 78, trend: "+15%" },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal"
-      style={{ background: "#fff", boxShadow: "0 8px 30px rgba(12,14,20,0.08), inset 0 0 0 1px rgba(12,14,20,0.04)" }}>
+    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal relative overflow-hidden"
+      style={{
+        background: "linear-gradient(145deg, #ffffff 0%, #f7f8fc 50%, #ffffff 100%)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.03)",
+      }}>
+      <div className="absolute top-0 left-0 right-0 h-[40%] pointer-events-none rounded-t-[15px]"
+        style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.6) 0%, transparent 100%)" }} />
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
@@ -178,8 +191,11 @@ function PrepareOutcome() {
     { name: "Cloud Architecture", status: "locked", pct: 0 },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal"
-      style={{ background: "#fff", boxShadow: "0 8px 30px rgba(12,14,20,0.08), inset 0 0 0 1px rgba(12,14,20,0.04)" }}>
+    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal relative overflow-hidden"
+      style={{
+        background: "linear-gradient(145deg, #ffffff 0%, #f7f8fc 50%, #ffffff 100%)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.03)",
+      }}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#ECFDF5" }}>
@@ -243,8 +259,11 @@ function ValidateOutcome() {
     { type: "Behavioral", score: 88, time: "28 min" },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal"
-      style={{ background: "#fff", boxShadow: "0 8px 30px rgba(12,14,20,0.08), inset 0 0 0 1px rgba(12,14,20,0.04)" }}>
+    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal relative overflow-hidden"
+      style={{
+        background: "linear-gradient(145deg, #ffffff 0%, #f7f8fc 50%, #ffffff 100%)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.03)",
+      }}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#FFFBEB" }}>
@@ -310,8 +329,11 @@ function ActivateOutcome() {
     { company: "Linear", role: "Data Infrastructure", location: "Remote", salary: "$130k–$165k", fit: 91 },
   ];
   return (
-    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal"
-      style={{ background: "#fff", boxShadow: "0 8px 30px rgba(12,14,20,0.08), inset 0 0 0 1px rgba(12,14,20,0.04)" }}>
+    <div className="w-full h-full rounded-[15px] p-5 flex flex-col whitespace-normal relative overflow-hidden"
+      style={{
+        background: "linear-gradient(145deg, #ffffff 0%, #f7f8fc 50%, #ffffff 100%)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.03)",
+      }}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#FEF2F2" }}>
