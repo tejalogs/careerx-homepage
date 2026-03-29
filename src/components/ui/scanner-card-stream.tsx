@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo, type ReactNode } from "react";
 import * as THREE from "three";
 
 /* ─── defaults ────────────────────────────────────────────────── */
@@ -13,14 +13,14 @@ const defaultCardImages = [
 ];
 
 /* ─── ascii helper ────────────────────────────────────────────── */
-const ASCII =
+const ASCII_CHARS =
   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(){}[]<>;:,._-+=!@#$%^&*|\\/\"'`~?";
 
 const generateCode = (w: number, h: number): string => {
   let out = "";
   for (let row = 0; row < h; row++) {
     for (let col = 0; col < w; col++) {
-      out += ASCII[Math.floor(Math.random() * ASCII.length)];
+      out += ASCII_CHARS[Math.floor(Math.random() * ASCII_CHARS.length)];
     }
     out += "\n";
   }
@@ -28,17 +28,25 @@ const generateCode = (w: number, h: number): string => {
 };
 
 /* ─── types ───────────────────────────────────────────────────── */
+export type CardContent = {
+  before: ReactNode;
+  after: ReactNode;
+};
+
 type ScannerCardStreamProps = {
   showControls?: boolean;
   showSpeed?: boolean;
   initialSpeed?: number;
   direction?: -1 | 1;
   cardImages?: string[];
+  cardContents?: CardContent[];
   repeat?: number;
   cardGap?: number;
   friction?: number;
   scanEffect?: "clip" | "scramble";
   height?: number;
+  cardWidth?: number;
+  cardHeight?: number;
 };
 
 /* ═══════════════════════════════════════════════════════════════ */
@@ -48,12 +56,16 @@ const ScannerCardStream = ({
   initialSpeed = 150,
   direction = -1,
   cardImages = defaultCardImages,
+  cardContents,
   repeat = 6,
   cardGap = 60,
   friction = 0.95,
   scanEffect = "scramble",
   height = 300,
+  cardWidth = 400,
+  cardHeight = 250,
 }: ScannerCardStreamProps) => {
+  const useCustom = !!cardContents;
   const [speed, setSpeed] = useState(initialSpeed);
   const [isPaused, setIsPaused] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
@@ -61,14 +73,19 @@ const ScannerCardStream = ({
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  const sourceCount = useCustom ? cardContents.length : cardImages.length;
+
   const cards = useMemo(() => {
-    const total = cardImages.length * repeat;
+    const total = sourceCount * repeat;
     return Array.from({ length: total }, (_, i) => ({
       id: i,
-      image: cardImages[i % cardImages.length],
-      ascii: mounted ? generateCode(Math.floor(400 / 6.5), Math.floor(250 / 13)) : "",
+      srcIdx: i % sourceCount,
+      image: useCustom ? "" : cardImages[i % sourceCount],
+      ascii: !useCustom && mounted
+        ? generateCode(Math.floor(cardWidth / 6.5), Math.floor(cardHeight / 13))
+        : "",
     }));
-  }, [cardImages, repeat, mounted]);
+  }, [sourceCount, repeat, mounted, useCustom, cardImages, cardWidth, cardHeight]);
 
   const cardLineRef = useRef<HTMLDivElement>(null);
   const particleCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -83,7 +100,7 @@ const ScannerCardStream = ({
     isDragging: false,
     lastMouseX: 0,
     lastTime: performance.now(),
-    cardLineWidth: (400 + cardGap) * cards.length,
+    cardLineWidth: (cardWidth + cardGap) * cards.length,
     friction: friction,
     minVelocity: 30,
   });
@@ -112,7 +129,9 @@ const ScannerCardStream = ({
 
     if (!cardLine || !particleCanvas || !scannerCanvas || !container) return;
 
-    cards.forEach((c) => originalAscii.current.set(c.id, c.ascii));
+    if (!useCustom) {
+      cards.forEach((c) => originalAscii.current.set(c.id, c.ascii));
+    }
     let animationFrameId: number;
 
     const cw = container.offsetWidth;
@@ -139,7 +158,6 @@ const ScannerCardStream = ({
     const velocities = new Float32Array(particleCount);
     const alphas = new Float32Array(particleCount);
 
-    /* particle texture */
     const texCanvas = document.createElement("canvas");
     texCanvas.width = 100;
     texCanvas.height = 100;
@@ -195,7 +213,10 @@ const ScannerCardStream = ({
     const baseMax = 800;
     const scanMax = 2500;
     let currentMax = baseMax;
-    type SP = { x:number; y:number; vx:number; vy:number; radius:number; alpha:number; life:number; decay:number };
+    type SP = {
+      x: number; y: number; vx: number; vy: number;
+      radius: number; alpha: number; life: number; decay: number;
+    };
     const mkP = (): SP => ({
       x: cw / 2 + (Math.random() - 0.5) * 3,
       y: Math.random() * (ch + 50),
@@ -208,14 +229,14 @@ const ScannerCardStream = ({
     });
     let sParticles: SP[] = Array.from({ length: baseMax }, mkP);
 
-    /* ── scramble effect ─────────────────────────────────────── */
+    /* ── scramble effect (image mode only) ────────────────────── */
     const runScramble = (el: HTMLElement, cardId: number) => {
       if (el.dataset.scrambling === "true") return;
       el.dataset.scrambling = "true";
       const orig = originalAscii.current.get(cardId) || "";
       let n = 0;
       const iv = setInterval(() => {
-        el.textContent = generateCode(Math.floor(400 / 6.5), Math.floor(250 / 13));
+        el.textContent = generateCode(Math.floor(cardWidth / 6.5), Math.floor(cardHeight / 13));
         if (++n >= 10) {
           clearInterval(iv);
           el.textContent = orig;
@@ -238,28 +259,28 @@ const ScannerCardStream = ({
         const localLeft = r.left - containerRect.left;
         const localRight = r.right - containerRect.left;
 
-        const norm = wrap.querySelector<HTMLElement>(".card-normal")!;
-        const ascii = wrap.querySelector<HTMLElement>(".card-ascii")!;
-        const pre = ascii?.querySelector<HTMLElement>("pre");
+        const before = wrap.querySelector<HTMLElement>(".card-before")!;
+        const after = wrap.querySelector<HTMLElement>(".card-after")!;
+        const pre = !useCustom ? after?.querySelector<HTMLElement>("pre") : null;
 
         if (localLeft < sR && localRight > sL) {
           any = true;
-          if (scanEffect === "scramble" && wrap.dataset.scanned !== "true" && pre) {
+          if (!useCustom && scanEffect === "scramble" && wrap.dataset.scanned !== "true" && pre) {
             runScramble(pre, idx);
           }
           wrap.dataset.scanned = "true";
           const iL = Math.max(sL - localLeft, 0);
           const iR = Math.min(sR - localLeft, r.width);
-          norm?.style.setProperty("--clip-right", `${(iL / r.width) * 100}%`);
-          ascii?.style.setProperty("--clip-left", `${(iR / r.width) * 100}%`);
+          before?.style.setProperty("--clip-right", `${(iL / r.width) * 100}%`);
+          after?.style.setProperty("--clip-left", `${(iR / r.width) * 100}%`);
         } else {
           delete wrap.dataset.scanned;
           if (localRight < sL) {
-            norm?.style.setProperty("--clip-right", "100%");
-            ascii?.style.setProperty("--clip-left", "100%");
+            before?.style.setProperty("--clip-right", "100%");
+            after?.style.setProperty("--clip-left", "100%");
           } else {
-            norm?.style.setProperty("--clip-right", "0%");
-            ascii?.style.setProperty("--clip-left", "0%");
+            before?.style.setProperty("--clip-right", "0%");
+            after?.style.setProperty("--clip-left", "0%");
           }
         }
       });
@@ -316,7 +337,6 @@ const ScannerCardStream = ({
 
     /* ── animation loop ──────────────────────────────────────── */
     const animate = (now: number) => {
-      const dt = (now - cardStreamState.current.lastTime) / 1000;
       cardStreamState.current.lastTime = now;
 
       if (!isPaused && !cardStreamState.current.isDragging) {
@@ -326,7 +346,7 @@ const ScannerCardStream = ({
         cardStreamState.current.position +=
           cardStreamState.current.velocity *
           cardStreamState.current.direction *
-          dt;
+          (1 / 60);
         setSpeed(Math.round(cardStreamState.current.velocity));
       }
 
@@ -372,7 +392,6 @@ const ScannerCardStream = ({
 
     animationFrameId = requestAnimationFrame(animate);
 
-    /* ── cleanup ─────────────────────────────────────────────── */
     return () => {
       cancelAnimationFrame(animationFrameId);
       cardLine.removeEventListener("mousedown", handleMouseDown);
@@ -387,7 +406,7 @@ const ScannerCardStream = ({
       material.dispose();
       texture.dispose();
     };
-  }, [isPaused, cards, cardGap, friction, scanEffect, height]);
+  }, [isPaused, cards, cardGap, friction, scanEffect, height, useCustom, cardWidth, cardHeight]);
 
   return (
     <div
@@ -413,25 +432,15 @@ const ScannerCardStream = ({
         }
       `}</style>
 
-      {/* Controls (hidden by default) */}
       {showControls && (
         <div className="absolute top-3 right-3 z-30 flex gap-2">
-          <button
-            onClick={toggleAnimation}
-            className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur"
-          >
+          <button onClick={toggleAnimation} className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur">
             {isPaused ? "Play" : "Pause"}
           </button>
-          <button
-            onClick={changeDirection}
-            className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur"
-          >
+          <button onClick={changeDirection} className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur">
             Reverse
           </button>
-          <button
-            onClick={resetPosition}
-            className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur"
-          >
+          <button onClick={resetPosition} className="px-3 py-1 text-xs rounded bg-white/10 text-white backdrop-blur">
             Reset
           </button>
         </div>
@@ -443,19 +452,8 @@ const ScannerCardStream = ({
         </div>
       )}
 
-      {/* Three.js particle canvas */}
-      <canvas
-        ref={particleCanvasRef}
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{ width: "100%", height }}
-      />
-
-      {/* Scanner 2d particle canvas */}
-      <canvas
-        ref={scannerCanvasRef}
-        className="absolute inset-0 z-10 pointer-events-none"
-        style={{ width: "100%", height: height + 50 }}
-      />
+      <canvas ref={particleCanvasRef} className="absolute inset-0 z-0 pointer-events-none" style={{ width: "100%", height }} />
+      <canvas ref={scannerCanvasRef} className="absolute inset-0 z-10 pointer-events-none" style={{ width: "100%", height: height + 50 }} />
 
       {/* Scanner line */}
       <div
@@ -467,39 +465,57 @@ const ScannerCardStream = ({
         `}
         style={{
           height: height + 30,
-          boxShadow:
-            "0 0 10px #a78bfa, 0 0 20px #a78bfa, 0 0 30px #8b5cf6, 0 0 50px #6366f1",
+          boxShadow: "0 0 10px #a78bfa, 0 0 20px #a78bfa, 0 0 30px #8b5cf6, 0 0 50px #6366f1",
         }}
       />
 
       {/* Card stream */}
-      <div className="absolute w-full flex items-center" style={{ height: 250 }}>
+      <div className="absolute w-full flex items-center" style={{ height: cardHeight }}>
         <div
           ref={cardLineRef}
           className="flex items-center whitespace-nowrap cursor-grab select-none will-change-transform"
           style={{ gap: `${cardGap}px` }}
         >
-          {cards.map((card) => (
-            <div
-              key={card.id}
-              className="card-wrapper relative w-[400px] h-[250px] shrink-0"
-            >
-              {/* Normal (image) layer */}
-              <div className="card-normal absolute inset-0 rounded-[15px] overflow-hidden bg-transparent shadow-[0_15px_40px_rgba(0,0,0,0.4)] z-[2] [clip-path:inset(0_0_0_var(--clip-right,0%))]">
-                <img
-                  src={card.image}
-                  alt="Card"
-                  className="w-full h-full object-cover rounded-[15px] transition-all duration-300 ease-in-out brightness-110 contrast-110 shadow-[inset_0_0_20px_rgba(0,0,0,0.1)] hover:brightness-125 hover:contrast-125"
-                />
+          {cards.map((card) => {
+            const content = useCustom ? cardContents[card.srcIdx] : null;
+            return (
+              <div
+                key={card.id}
+                className="card-wrapper relative shrink-0"
+                style={{ width: cardWidth, height: cardHeight }}
+              >
+                {/* BEFORE layer — visible BEFORE scanner (right side, clips away from left) */}
+                <div
+                  className="card-before absolute inset-0 rounded-[15px] overflow-hidden z-[2] [clip-path:inset(0_0_0_var(--clip-right,0%))]"
+                  style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.4)" }}
+                >
+                  {useCustom ? (
+                    <div className="w-full h-full">{content!.before}</div>
+                  ) : (
+                    <img
+                      src={card.image}
+                      alt="Card"
+                      className="w-full h-full object-cover rounded-[15px] brightness-110 contrast-110"
+                    />
+                  )}
+                </div>
+
+                {/* AFTER layer — revealed AFTER scanner (left side, reveals from left) */}
+                <div
+                  className="card-after absolute inset-0 rounded-[15px] overflow-hidden z-[1] [clip-path:inset(0_calc(100%-var(--clip-left,0%))_0_0)]"
+                  style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.3)" }}
+                >
+                  {useCustom ? (
+                    <div className="w-full h-full">{content!.after}</div>
+                  ) : (
+                    <pre className="ascii-content absolute inset-0 text-[rgba(220,210,255,0.6)] font-mono text-[11px] leading-[13px] overflow-hidden whitespace-pre m-0 p-0 text-left align-top box-border [mask-image:linear-gradient(to_right,rgba(0,0,0,1)_0%,rgba(0,0,0,0.8)_30%,rgba(0,0,0,0.6)_50%,rgba(0,0,0,0.4)_80%,rgba(0,0,0,0.2)_100%)] animate-glitch">
+                      {card.ascii}
+                    </pre>
+                  )}
+                </div>
               </div>
-              {/* ASCII layer */}
-              <div className="card-ascii absolute inset-0 rounded-[15px] overflow-hidden bg-transparent z-[1] [clip-path:inset(0_calc(100%-var(--clip-left,0%))_0_0)]">
-                <pre className="ascii-content absolute inset-0 text-[rgba(220,210,255,0.6)] font-mono text-[11px] leading-[13px] overflow-hidden whitespace-pre m-0 p-0 text-left align-top box-border [mask-image:linear-gradient(to_right,rgba(0,0,0,1)_0%,rgba(0,0,0,0.8)_30%,rgba(0,0,0,0.6)_50%,rgba(0,0,0,0.4)_80%,rgba(0,0,0,0.2)_100%)] animate-glitch">
-                  {card.ascii}
-                </pre>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
