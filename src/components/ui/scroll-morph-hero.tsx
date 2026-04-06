@@ -31,14 +31,14 @@ interface CardData {
 }
 
 const CARDS: CardData[] = [
-  { id: "placed",       bg: "#fff",     fg: "#0C0E14", muted: "rgba(0,0,0,0.55)",        border: "rgba(0,0,0,0.08)",       iconBg: "rgba(60,97,168,0.1)",    iconFg: "#3C61A8",  icon: Crosshair,   value: "92%",     label: "Placed" },
-  { id: "careers",      bg: "#F5D134",  fg: "#0C0E14", muted: "rgba(0,0,0,0.6)",         border: "rgba(0,0,0,0.06)",       iconBg: "rgba(0,0,0,0.08)",       iconFg: "#0C0E14",  icon: Zap,         value: "14k+",    label: "Careers Mapped" },
-  { id: "companies",    bg: "#fff7ed",  fg: "#c2410c", muted: "rgba(194,65,12,0.65)",    border: "rgba(194,65,12,0.08)",   iconBg: "rgba(194,65,12,0.1)",    iconFg: "#ea580c",  icon: Building2,   value: "300+",    label: "Employers" },
-  { id: "salary-hike",  bg: "#f3f0ff",  fg: "#5b21b6", muted: "rgba(91,33,182,0.65)",    border: "rgba(91,33,182,0.08)",   iconBg: "rgba(91,33,182,0.1)",    iconFg: "#7c3aed",  icon: TrendingUp,  value: "70%",     label: "Salary Increase" },
+  { id: "accuracy",     bg: "#fff",     fg: "#0C0E14", muted: "rgba(0,0,0,0.55)",        border: "rgba(0,0,0,0.08)",       iconBg: "rgba(60,97,168,0.1)",    iconFg: "#3C61A8",  icon: Target,      value: "14k+",    label: "Career Paths Mapped" },
+  { id: "role-fit",     bg: "#F5D134",  fg: "#0C0E14", muted: "rgba(0,0,0,0.6)",         border: "rgba(0,0,0,0.06)",       iconBg: "rgba(0,0,0,0.08)",       iconFg: "#0C0E14",  icon: Crosshair,   value: "92%",     label: "Role-Fit Accuracy" },
+  { id: "partners",     bg: "#fff7ed",  fg: "#c2410c", muted: "rgba(194,65,12,0.65)",    border: "rgba(194,65,12,0.08)",   iconBg: "rgba(194,65,12,0.1)",    iconFg: "#ea580c",  icon: Building2,   value: "500+",    label: "Industry Partners" },
+  { id: "salary-hike",  bg: "#f3f0ff",  fg: "#5b21b6", muted: "rgba(91,33,182,0.65)",    border: "rgba(91,33,182,0.08)",   iconBg: "rgba(91,33,182,0.1)",    iconFg: "#7c3aed",  icon: TrendingUp,  value: "70%",     label: "Avg Salary Uplift" },
   { id: "ready",        bg: "#E8634A",  fg: "#fff",    muted: "rgba(255,255,255,0.75)",   border: "rgba(255,255,255,0.1)",  iconBg: "rgba(255,255,255,0.12)", iconFg: "#FDE68A",  icon: CheckCircle, value: "98%",     label: "Interview Ready" },
-  { id: "first-call",   bg: "#1B4332",  fg: "#fff",    muted: "rgba(255,255,255,0.7)",    border: "rgba(255,255,255,0.08)", iconBg: "rgba(255,255,255,0.1)",  iconFg: "#6EE7B7",  icon: Phone,       value: "11",      label: "Days to First Call" },
+  { id: "guided",       bg: "#1B4332",  fg: "#fff",    muted: "rgba(255,255,255,0.7)",    border: "rgba(255,255,255,0.08)", iconBg: "rgba(255,255,255,0.1)",  iconFg: "#6EE7B7",  icon: Zap,         value: "2,000+",  label: "Professionals Guided" },
   { id: "start",        bg: "#fef3c7",  fg: "#92400e", muted: "rgba(146,64,14,0.65)",    border: "rgba(146,64,14,0.08)",   iconBg: "rgba(146,64,14,0.1)",    iconFg: "#b45309",  icon: Search,      value: "Free",    label: "Start Now" },
-  { id: "accuracy",     bg: "#ecfeff",  fg: "#0e7490", muted: "rgba(14,116,144,0.65)",   border: "rgba(14,116,144,0.08)",  iconBg: "rgba(14,116,144,0.1)",   iconFg: "#0891b2",  icon: Target,      value: "99.9%",   label: "Role Accuracy" },
+  { id: "match",        bg: "#ecfeff",  fg: "#0e7490", muted: "rgba(14,116,144,0.65)",   border: "rgba(14,116,144,0.08)",  iconBg: "rgba(14,116,144,0.1)",   iconFg: "#0891b2",  icon: CheckCircle, value: "99.9%",   label: "Match Accuracy" },
 ];
 const TOTAL_CARDS = CARDS.length;
 

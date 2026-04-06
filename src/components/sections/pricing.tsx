@@ -36,7 +36,7 @@ function LogoStrip() {
         className="text-center text-[9px] font-black tracking-[0.25em] uppercase mb-5"
         style={{ color: "rgba(60,97,168,0.4)" }}
       >
-        Where Our Members Work Today
+        Our Candidates Are Now At Leading Companies
       </p>
 
       <div className="relative max-w-full sm:max-w-xl mx-auto overflow-hidden">
@@ -370,7 +370,7 @@ export default function PricingSection() {
             className="text-center text-sm mt-5 w-full"
             style={{ color: "rgba(12,14,20,0.3)" }}
           >
-            Professionals guided by CareerXcelerator now work at Google, Amazon, Deloitte and more ✓
+            Trusted by candidates now at Google, Amazon, Deloitte and more ✓
           </p>
         </motion.div>
 
