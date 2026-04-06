@@ -6,7 +6,7 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const TRUST_POINTS = [
   "No commitment. Start with a free role discovery",
-  "10 minute assessment · 2,000+ careers accelerated",
+  "Quick assessment · 2,000+ careers accelerated",
   "Structured path from clarity to real opportunities",
 ];
 
@@ -87,7 +87,7 @@ export default function GetStartedSection() {
           transition={{ duration: 0.6, delay: 0.25 }}
           className="text-sm sm:text-base md:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10 md:mb-12 px-4 sm:px-2"
         >
-          Begin with Know Yourself Better. In 10 minutes, see which roles match your strengths, identify your skill gaps, and get a structured path forward.
+          Begin with Know Yourself Better. See which roles match your strengths, identify your skill gaps, and get a structured path forward.
         </motion.p>
 
         <motion.div

@@ -4,11 +4,11 @@ import KYBEntryPage from "@/components/kyb/kyb-entry-page";
 export const metadata: Metadata = {
   title: "Know Your Career Fit — CareerXcelerator",
   description:
-    "A short discovery process that analyzes real job market data to identify roles that match your skills, interests, and career goals.",
+    "A quick assessment built on real market data. See which roles fit your strengths and what to build next.",
   openGraph: {
     title: "Know Your Career Fit — CareerXcelerator",
     description:
-      "A short discovery process that analyzes real job market data to identify roles that match your skills, interests, and career goals.",
+      "A quick assessment built on real market data. See which roles fit your strengths and what to build next.",
   },
 };
 

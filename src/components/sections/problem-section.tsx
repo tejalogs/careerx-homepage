@@ -150,11 +150,11 @@ export function ProblemSection() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section className="w-full py-14 md:py-24 px-4 sm:px-6" style={{ backgroundColor: "#F7F8FC" }}>
+    <section className="w-full py-10 md:py-16 px-4 sm:px-6" style={{ backgroundColor: "#F7F8FC" }}>
       <div ref={ref} className="max-w-5xl mx-auto">
 
         {/* Header */}
-        <div className="text-center mb-10 sm:mb-14">
+        <div className="text-center mb-8 sm:mb-10">
           <motion.h2
             initial={{ opacity: 0, y: 14 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -162,8 +162,8 @@ export function ProblemSection() {
             className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4"
             style={{ color: DARK }}
           >
-            Many People Prepare Hard.{" "}
-            <span style={{ color: BLUE }}>Few Prepare Right.</span>
+            The gap{" "}
+            <span style={{ color: BLUE }}>nobody talks about.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -172,8 +172,8 @@ export function ProblemSection() {
             className="text-[14px] sm:text-[15px] max-w-2xl mx-auto"
             style={{ color: "rgba(12,14,20,0.45)", lineHeight: 1.7 }}
           >
-            People often learn skills, practice interviews, and apply for roles without understanding
-            whether their preparation aligns with real job requirements.
+            Most people prepare hard but never check if their preparation matches
+            what the industry actually looks for.
           </motion.p>
         </div>
 
@@ -226,7 +226,7 @@ export function ProblemSection() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="text-center text-sm font-black mt-10"
+          className="text-center text-sm font-black mt-6"
           style={{ color: BLUE }}
         >
           There is a better way ↓

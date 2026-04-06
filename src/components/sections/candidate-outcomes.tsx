@@ -158,7 +158,7 @@ export function CandidateOutcomesSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="w-full py-20 px-6" style={{ backgroundColor: "#3C61A8" }}>
+    <section className="w-full py-14 md:py-16 px-6" style={{ backgroundColor: "#3C61A8" }}>
         <div ref={ref} className="max-w-5xl mx-auto">
 
           {/* Top: left copy + right chart */}

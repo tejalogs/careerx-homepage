@@ -93,8 +93,11 @@ const ScannerCardStream = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const originalAscii = useRef(new Map<number, string>());
 
+  // One "set" = sourceCount cards. We need at least 2 full sets visible + 1 buffer.
+  const oneSetWidth = (cardWidth + cardGap) * sourceCount;
+
   const cardStreamState = useRef({
-    position: -((cardWidth + cardGap) * sourceCount),
+    position: -(oneSetWidth * 3),
     velocity: initialSpeed,
     direction: direction,
     isDragging: false,
@@ -289,57 +292,13 @@ const ScannerCardStream = ({
       scannerState.current.isScanning = any;
     };
 
-    /* ── drag / scroll handlers ──────────────────────────────── */
-    const handleMouseDown = (e: MouseEvent | TouchEvent) => {
-      const s = cardStreamState.current;
-      s.isDragging = true;
-      s.lastMouseX = "touches" in e ? e.touches[0].clientX : e.clientX;
-      s.lastTime = performance.now();
-      cardLine.style.cursor = "grabbing";
-    };
-
-    const handleMouseMove = (e: MouseEvent | TouchEvent) => {
-      const s = cardStreamState.current;
-      if (!s.isDragging) return;
-      const cx = "touches" in e ? e.touches[0].clientX : e.clientX;
-      const dx = cx - s.lastMouseX;
-      const now = performance.now();
-      const dt = (now - s.lastTime) / 1000;
-      s.position += dx;
-      if (dt > 0) {
-        s.velocity = Math.abs(dx / dt);
-        s.direction = dx > 0 ? 1 : -1;
-      }
-      s.lastMouseX = cx;
-      s.lastTime = now;
-    };
-
-    const handleMouseUp = () => {
-      cardStreamState.current.isDragging = false;
-      cardLine.style.cursor = "grab";
-    };
-
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      const s = cardStreamState.current;
-      s.velocity = Math.min(s.velocity + Math.abs(e.deltaY) * 0.5, 500);
-      if (e.deltaY > 0) s.direction = -1;
-      else s.direction = 1;
-    };
-
-    cardLine.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-    cardLine.addEventListener("touchstart", handleMouseDown, { passive: true });
-    window.addEventListener("touchmove", handleMouseMove, { passive: true });
-    window.addEventListener("touchend", handleMouseUp);
-    cardLine.addEventListener("wheel", handleWheel, { passive: false });
+    /* ── no drag/scroll — auto-scroll only ─────────────────── */
 
     /* ── animation loop ──────────────────────────────────────── */
     const animate = (now: number) => {
       cardStreamState.current.lastTime = now;
 
-      if (!isPaused && !cardStreamState.current.isDragging) {
+      if (!isPaused) {
         if (cardStreamState.current.velocity > cardStreamState.current.minVelocity) {
           cardStreamState.current.velocity *= cardStreamState.current.friction;
         }
@@ -350,9 +309,10 @@ const ScannerCardStream = ({
         setSpeed(Math.round(cardStreamState.current.velocity));
       }
 
-      const { position, cardLineWidth } = cardStreamState.current;
-      if (position < -cardLineWidth) cardStreamState.current.position = cw;
-      else if (position > cw) cardStreamState.current.position = -cardLineWidth;
+      // Seamless loop: snap position by one set width when it drifts
+      const setW = (cardWidth + cardGap) * sourceCount;
+      if (cardStreamState.current.position > -setW) cardStreamState.current.position -= setW;
+      if (cardStreamState.current.position < -(setW * (repeat - 2))) cardStreamState.current.position += setW;
 
       cardLine.style.transform = `translateX(${cardStreamState.current.position}px)`;
       updateCardEffects();
@@ -393,13 +353,6 @@ const ScannerCardStream = ({
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      cardLine.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-      cardLine.removeEventListener("touchstart", handleMouseDown);
-      window.removeEventListener("touchmove", handleMouseMove);
-      window.removeEventListener("touchend", handleMouseUp);
-      cardLine.removeEventListener("wheel", handleWheel);
       renderer.dispose();
       geometry.dispose();
       material.dispose();
@@ -465,7 +418,7 @@ const ScannerCardStream = ({
       <div className="absolute w-full flex items-center" style={{ height: cardHeight }}>
         <div
           ref={cardLineRef}
-          className="flex items-center whitespace-nowrap cursor-grab select-none will-change-transform"
+          className="flex items-center whitespace-nowrap select-none will-change-transform pointer-events-none"
           style={{ gap: `${cardGap}px` }}
         >
           {cards.map((card) => {

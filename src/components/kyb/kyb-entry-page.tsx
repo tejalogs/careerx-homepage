@@ -165,10 +165,10 @@ function VideoSection() {
         className="text-center mb-10"
       >
         <h2 className="text-[28px] sm:text-[34px] font-bold" style={{ color: "#0C0E14" }}>
-          See how it works
+          See it in action
         </h2>
         <p className="mt-3 text-[16px]" style={{ color: MUTED, maxWidth: 420, margin: "12px auto 0" }}>
-          Watch how CareerXcelerator maps your skills to real market opportunities in minutes.
+          Two minutes to understand how your profile maps to real roles.
         </p>
       </motion.div>
 
@@ -246,9 +246,9 @@ function VideoSection() {
 /*  WHAT YOU GET — 3 compact feature cards                             */
 /* ═══════════════════════════════════════════════════════════════════ */
 const FEATURES = [
-  { icon: Target, title: "Role Fit Analysis", desc: "See which roles match your profile based on real market data", accent: BRAND_BLUE, accentBg: "rgba(60,97,168,0.08)", glow: "rgba(60,97,168,0.06)" },
-  { icon: BarChart3, title: "Skill Gap Map", desc: "Know exactly what to build before you start applying", accent: "#7c3aed", accentBg: "rgba(124,58,237,0.08)", glow: "rgba(124,58,237,0.06)" },
-  { icon: Zap, title: "Instant Clarity", desc: "Get actionable career direction in under 10 minutes", accent: "#B8860B", accentBg: "rgba(184,134,11,0.08)", glow: "rgba(184,134,11,0.06)" },
+  { icon: Target, title: "Role Fit Analysis", desc: "Not just what you want. What you're actually built for, based on real data.", accent: BRAND_BLUE, accentBg: "rgba(60,97,168,0.08)", glow: "rgba(60,97,168,0.06)" },
+  { icon: BarChart3, title: "Skill Gap Map", desc: "See the exact gaps between where you are and where the role needs you.", accent: "#7c3aed", accentBg: "rgba(124,58,237,0.08)", glow: "rgba(124,58,237,0.06)" },
+  { icon: Zap, title: "Instant Clarity", desc: "No guesswork. One short assessment and you'll know your next move.", accent: "#B8860B", accentBg: "rgba(184,134,11,0.08)", glow: "rgba(184,134,11,0.06)" },
 ];
 
 function WhatYouGet() {
@@ -322,13 +322,13 @@ function BeginKYBCTA() {
           className="text-[22px] sm:text-[26px] font-semibold mb-2"
           style={{ color: BRAND_BLUE }}
         >
-          Clarity is just 10 minutes away.
+          Where do you actually fit?
         </p>
         <p
           className="text-[15px] mb-8"
           style={{ color: MUTED }}
         >
-          Know your role fit, skill gaps, and market position before you apply anywhere.
+          Your role fit, skill gaps, and where you stand in the market.
         </p>
 
         {/* CTA button — brand blue pill with slide animation */}
@@ -465,22 +465,24 @@ export default function KYBEntryPage() {
                     ))}
                   </span>
 
-                  {/* Line 2: yellow marker block pops in */}
-                  <motion.span
-                    style={{
-                      display: "inline-block",
-                      backgroundColor: "#F5D134",
-                      color: "#0C0E14",
-                      borderRadius: 10,
-                      padding: "0 10px 5px",
-                      lineHeight: 1.15,
-                    }}
-                    initial={{ opacity: 0, scale: 0.86, y: 20, rotate: -0.6 }}
-                    animate={heroReady ? { opacity: 1, scale: 1, y: 0, rotate: -0.6 } : {}}
-                    transition={{ duration: 0.75, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    Career Fit.
-                  </motion.span>
+                  {/* Line 2: "Career Fit." with brand blue accent */}
+                  <span className="block">
+                    {["Career", "Fit."].map((word, i) => (
+                      <span
+                        key={word}
+                        style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom", marginRight: i === 0 ? "0.28em" : 0 }}
+                      >
+                        <motion.span
+                          style={{ display: "inline-block", color: BRAND_BLUE }}
+                          initial={{ y: "110%", opacity: 0 }}
+                          animate={heroReady ? { y: "0%", opacity: 1 } : {}}
+                          transition={{ duration: 0.7, delay: 0.2 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                          {word}
+                        </motion.span>
+                      </span>
+                    ))}
+                  </span>
                 </h1>
 
                 {/* ── Subline ── */}
@@ -491,7 +493,7 @@ export default function KYBEntryPage() {
                   className="mt-7 text-[16px] sm:text-[18px] leading-[1.7] max-w-md"
                   style={{ color: MUTED }}
                 >
-                  A short discovery process that analyzes real job market data to identify roles that match your skills, interests, and career goals.
+                  A quick assessment built on real market data. See which roles actually fit you and what to build next.
                 </motion.p>
 
                 {/* ── Stats strip ── */}

@@ -266,7 +266,7 @@ export function AudienceSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="audience" className="w-full py-14 md:py-20 px-4 sm:px-6" style={{ backgroundColor: "#FFFFFF" }}>
+    <section id="audience" className="w-full py-10 md:py-14 px-4 sm:px-6" style={{ backgroundColor: "#FFFFFF" }}>
       <div ref={ref} className="max-w-5xl mx-auto">
 
         {/* Header */}
@@ -389,7 +389,7 @@ export function RoadmapSection() {
     <section id="roadmap" className="w-full bg-white overflow-x-hidden">
 
       {/* Header — normal flow, scrolls away */}
-      <div ref={headerRef} className="py-20 md:py-28 text-center px-6">
+      <div ref={headerRef} className="py-12 md:py-16 text-center px-6">
         <motion.p
           initial={{ opacity: 0 }}
           animate={headerInView ? { opacity: 1 } : {}}
@@ -507,7 +507,7 @@ export function OutcomesSection() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="outcomes" className="w-full py-24 px-6 overflow-hidden" style={{ backgroundColor: "#F5F7FF" }}>
+    <section id="outcomes" className="w-full py-14 md:py-16 px-6 overflow-hidden" style={{ backgroundColor: "#F5F7FF" }}>
       <div ref={ref} className="max-w-6xl mx-auto">
 
         <div className="flex flex-col items-center text-center mb-20">

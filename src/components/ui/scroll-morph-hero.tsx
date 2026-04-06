@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import { motion, useTransform, useSpring, useMotionValue, animate } from "framer-motion";
 import {
   Crosshair, Zap, Phone, TrendingUp, CheckCircle,
-  Building2, Search, Target,
+  Search, Target,
 } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -33,7 +33,7 @@ interface CardData {
 const CARDS: CardData[] = [
   { id: "accuracy",     bg: "#fff",     fg: "#0C0E14", muted: "rgba(0,0,0,0.55)",        border: "rgba(0,0,0,0.08)",       iconBg: "rgba(60,97,168,0.1)",    iconFg: "#3C61A8",  icon: Target,      value: "14k+",    label: "Career Paths Mapped" },
   { id: "role-fit",     bg: "#F5D134",  fg: "#0C0E14", muted: "rgba(0,0,0,0.6)",         border: "rgba(0,0,0,0.06)",       iconBg: "rgba(0,0,0,0.08)",       iconFg: "#0C0E14",  icon: Crosshair,   value: "92%",     label: "Role-Fit Accuracy" },
-  { id: "partners",     bg: "#fff7ed",  fg: "#c2410c", muted: "rgba(194,65,12,0.65)",    border: "rgba(194,65,12,0.08)",   iconBg: "rgba(194,65,12,0.1)",    iconFg: "#ea580c",  icon: Building2,   value: "500+",    label: "Industry Partners" },
+  { id: "interview",    bg: "#fff7ed",  fg: "#c2410c", muted: "rgba(194,65,12,0.65)",    border: "rgba(194,65,12,0.08)",   iconBg: "rgba(194,65,12,0.1)",    iconFg: "#ea580c",  icon: CheckCircle, value: "87%",     label: "First Interview Pass Rate" },
   { id: "salary-hike",  bg: "#f3f0ff",  fg: "#5b21b6", muted: "rgba(91,33,182,0.65)",    border: "rgba(91,33,182,0.08)",   iconBg: "rgba(91,33,182,0.1)",    iconFg: "#7c3aed",  icon: TrendingUp,  value: "70%",     label: "Avg Salary Uplift" },
   { id: "ready",        bg: "#E8634A",  fg: "#fff",    muted: "rgba(255,255,255,0.75)",   border: "rgba(255,255,255,0.1)",  iconBg: "rgba(255,255,255,0.12)", iconFg: "#FDE68A",  icon: CheckCircle, value: "98%",     label: "Interview Ready" },
   { id: "guided",       bg: "#1B4332",  fg: "#fff",    muted: "rgba(255,255,255,0.7)",    border: "rgba(255,255,255,0.08)", iconBg: "rgba(255,255,255,0.1)",  iconFg: "#6EE7B7",  icon: Zap,         value: "2,000+",  label: "Professionals Guided" },
@@ -155,10 +155,7 @@ function HeroCard({ card, target, staggerDelay = 0, isMobile }: {
   return (
     <motion.div
       animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
-      transition={staggerDelay > 0
-        ? { type: "spring", stiffness: 80, damping: 20, delay: staggerDelay }
-        : { type: "tween", duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }
-      }
+      transition={{ type: "spring", stiffness: 120, damping: 28, delay: staggerDelay }}
       style={{ position: "absolute", willChange: "transform" }}
     >
       <CardFace card={card} isMobile={isMobile} holoAngle={holoAngle} />
@@ -171,7 +168,7 @@ const MAX_SCROLL = 3000;
 
 // ─── Main Hero Component ──────────────────────────────────────────────────────
 export default function IntroAnimation() {
-  const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
+  const [introPhase, setIntroPhase] = useState<AnimationPhase>("line");
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [showStagger, setShowStagger] = useState(false);
   const staggerApplied = useRef(false);
@@ -275,9 +272,9 @@ export default function IntroAnimation() {
 
   // Desktop: morph progress (circle → arc) and scroll-driven rotation
   const morphProgress = useTransform(virtualScroll, [0, 600], [0, 1]);
-  const smoothMorph = useSpring(morphProgress, { stiffness: 60, damping: 30 });
+  const smoothMorph = useSpring(morphProgress, { stiffness: 80, damping: 35 });
   const scrollRotate = useTransform(virtualScroll, [600, MAX_SCROLL], [0, 360]);
-  const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 60, damping: 30 });
+  const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 80, damping: 35 });
 
   // Mouse parallax (desktop only) — X for arc, both X/Y for 3D depth
   const mouseNormX = useMotionValue(0); // -1 to 1
@@ -336,12 +333,11 @@ export default function IntroAnimation() {
 
   const [circleReady, setCircleReady] = useState(false);
 
-  // Intro animation sequence
+  // Intro animation sequence (starts at line, skips scatter)
   useEffect(() => {
-    const t1 = setTimeout(() => setIntroPhase("line"), 500);
-    const t2 = setTimeout(() => setIntroPhase("circle"), 2200);
-    const t3 = setTimeout(() => setCircleReady(true), 2800);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    const t1 = setTimeout(() => setIntroPhase("circle"), 1200);
+    const t2 = setTimeout(() => setCircleReady(true), 1800);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
   // Stagger on circle entry
@@ -432,7 +428,7 @@ export default function IntroAnimation() {
             initial={{ opacity: 0, y: 10 }}
             animate={circleReady && morphValue < 0.3 ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-[10px] font-black tracking-[0.3em] uppercase mb-3 relative"
+            className="text-[10px] font-black tracking-[0.3em] uppercase mb-1.5 relative"
             style={{ color: "#3C61A8" }}
           >
             CareerXcelerator
@@ -445,7 +441,7 @@ export default function IntroAnimation() {
                 : { opacity: 0, scale: 0.96, filter: "blur(12px)" }
             }
             transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight relative"
+            className="text-3xl sm:text-4xl md:text-[44px] font-black tracking-tight leading-tight relative"
             style={{ color: "#1a1a2e" }}
           >
             Your career,{" "}
@@ -475,7 +471,7 @@ export default function IntroAnimation() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
-                className="mt-5 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto relative"
+                className="mt-3 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto relative"
                 style={{ backgroundColor: "#3C61A8" }}
               >
                 Find My Best Role <span className="text-xs">→</span>
@@ -494,7 +490,7 @@ export default function IntroAnimation() {
                   : { opacity: 0, y: 10 }
                 }
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="mt-5 inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto relative"
+                className="mt-3 inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto relative"
                 style={{ backgroundColor: "#3C61A8" }}
               >
                 Find My Best Role <span className="text-xs">→</span>
@@ -503,7 +499,7 @@ export default function IntroAnimation() {
                 initial={{ opacity: 0 }}
                 animate={circleReady && morphValue < 0.3 ? { opacity: 0.4 } : { opacity: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="mt-3 text-[11px] font-medium text-gray-400 relative"
+                className="mt-1.5 text-[11px] font-medium text-gray-400 relative"
               >
                 Scroll to explore ↓
               </motion.p>
@@ -526,6 +522,22 @@ export default function IntroAnimation() {
             <p className="text-sm text-gray-500 max-w-md leading-relaxed font-medium">
               Understand what the market needs from you. Then close the gap.
             </p>
+            <div className="flex items-center gap-3 mt-5 pointer-events-auto">
+              <a
+                href="/kyb"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                style={{ backgroundColor: "#3C61A8" }}
+              >
+                Find My Best Role <span className="text-xs">→</span>
+              </a>
+              <a
+                href="#how-it-works"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold border-2 transition-all hover:bg-gray-50 active:scale-95"
+                style={{ borderColor: "#3C61A8", color: "#3C61A8" }}
+              >
+                See How It Works
+              </a>
+            </div>
           </div>
         )}
 
@@ -569,11 +581,11 @@ export default function IntroAnimation() {
 
               // Arc layout
               const baseRadius = Math.min(containerSize.width, containerSize.height * 1.5);
-              const arcRadius = baseRadius * 1.1;
+              const arcRadius = baseRadius * 0.65;
               const arcApexY = containerSize.height * 0.25;
               const arcCenterY = arcApexY + arcRadius;
 
-              const spreadAngle = 130;
+              const spreadAngle = 160;
               const startAngle = -90 - spreadAngle / 2;
               const step = spreadAngle / (TOTAL_CARDS - 1);
 
@@ -586,7 +598,7 @@ export default function IntroAnimation() {
                 x: Math.cos(arcRad) * arcRadius + parallaxValue,
                 y: Math.sin(arcRad) * arcRadius + arcCenterY,
                 rotation: currentArcAngle + 90,
-                scale: 1.6,
+                scale: 1.2,
               };
 
               target = {

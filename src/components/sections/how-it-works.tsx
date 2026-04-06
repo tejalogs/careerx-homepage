@@ -391,18 +391,9 @@ export function HowItWorksSection() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section id="how-it-works" className="w-full py-14 md:py-24 overflow-hidden" style={{ backgroundColor: "#F7F8FC" }}>
+    <section id="how-it-works" className="w-full py-10 md:py-16 overflow-hidden" style={{ backgroundColor: "#F7F8FC" }}>
       <div ref={ref} className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-6 sm:mb-10">
-          <motion.p
-            initial={{ opacity: 0, y: 8 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4 }}
-            className="text-[10px] font-black tracking-[0.3em] uppercase mb-3"
-            style={{ color: "rgba(60,97,168,0.45)" }}
-          >
-            How It Works
-          </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 14 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -410,8 +401,8 @@ export function HowItWorksSection() {
             className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3"
             style={{ color: DARK }}
           >
-            Your career,{" "}
-            <span style={{ color: BLUE }}>decoded.</span>
+            Built around how{" "}
+            <span style={{ color: BLUE }}>careers actually move.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 8 }}
@@ -420,7 +411,7 @@ export function HowItWorksSection() {
             className="text-[14px] sm:text-[15px] max-w-md mx-auto"
             style={{ color: "rgba(12,14,20,0.4)", lineHeight: 1.6 }}
           >
-            Four stages that align what you're good at with what the industry actually values.
+            Four stages that connect what you're good at with what the industry actually values.
           </motion.p>
         </div>
       </div>
@@ -458,7 +449,7 @@ export function HowItWorksSection() {
           cardHeight={280}
           initialSpeed={40}
           direction={1}
-          repeat={4}
+          repeat={8}
           cardGap={24}
           friction={0.98}
         />
