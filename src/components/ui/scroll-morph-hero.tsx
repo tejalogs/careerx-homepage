@@ -272,15 +272,15 @@ export default function IntroAnimation() {
 
   // Desktop: morph progress (circle → arc) and scroll-driven rotation
   const morphProgress = useTransform(virtualScroll, [0, 600], [0, 1]);
-  const smoothMorph = useSpring(morphProgress, { stiffness: 40, damping: 20 });
+  const smoothMorph = useSpring(morphProgress, { stiffness: 60, damping: 30 });
   const scrollRotate = useTransform(virtualScroll, [600, MAX_SCROLL], [0, 360]);
-  const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 40, damping: 20 });
+  const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 60, damping: 30 });
 
   // Mouse parallax (desktop only) — X for arc, both X/Y for 3D depth
   const mouseNormX = useMotionValue(0); // -1 to 1
   const mouseNormY = useMotionValue(0); // -1 to 1
   const mouseXArc = useMotionValue(0);  // -100 to 100 for arc parallax
-  const smoothMouseX = useSpring(mouseXArc, { stiffness: 30, damping: 20 });
+  const smoothMouseX = useSpring(mouseXArc, { stiffness: 50, damping: 28 });
   const smoothNormX = useSpring(mouseNormX, { stiffness: 80, damping: 30 });
   const smoothNormY = useSpring(mouseNormY, { stiffness: 80, damping: 30 });
 
@@ -575,7 +575,7 @@ export default function IntroAnimation() {
               const step = spreadAngle / (TOTAL_CARDS - 1);
 
               const scrollProg = Math.min(Math.max(rotateValue / 360, 0), 1);
-              const boundedRotation = -scrollProg * spreadAngle * 0.8;
+              const boundedRotation = -scrollProg * spreadAngle * 0.5;
               const currentArcAngle = startAngle + i * step + boundedRotation;
               const arcRad = (currentArcAngle * Math.PI) / 180;
 
