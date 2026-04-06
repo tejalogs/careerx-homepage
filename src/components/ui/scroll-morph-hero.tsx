@@ -155,7 +155,10 @@ function HeroCard({ card, target, staggerDelay = 0, isMobile }: {
   return (
     <motion.div
       animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
-      transition={{ type: "spring", stiffness: 45, damping: 16, delay: staggerDelay }}
+      transition={staggerDelay > 0
+        ? { type: "spring", stiffness: 80, damping: 20, delay: staggerDelay }
+        : { type: "tween", duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }
+      }
       style={{ position: "absolute", willChange: "transform" }}
     >
       <CardFace card={card} isMobile={isMobile} holoAngle={holoAngle} />
