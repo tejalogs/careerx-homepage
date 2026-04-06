@@ -12,15 +12,15 @@ const CARDS = [
     id: "mission",
     icon: Crosshair,
     eyebrow: "Our Mission",
-    headline: "Replace guesswork with a structured path to the right role.",
-    body: "People choose roles based on trends, take courses without understanding role expectations, and apply to jobs without knowing if they truly fit. We change that with a system that guides you from career discovery to job opportunities — built on real hiring data.",
+    headline: "Give every professional a clear path to the role they're built for.",
+    body: "People choose roles based on trends, prepare without understanding what's actually needed, and apply without knowing if they truly fit. We built a system that changes this. Structured around real industry requirements, not generic advice. When you're genuinely ready, the right opportunities follow.",
   },
   {
     id: "vision",
     icon: Globe,
     eyebrow: "Our Vision",
-    headline: "Career readiness infrastructure for every professional.",
-    body: "We are building the system where career preparation follows a structured path — not disconnected activities. Where hiring is based on verified readiness, and opportunity flows to those who are genuinely prepared.",
+    headline: "A world where career decisions are made with data, not guesswork.",
+    body: "We're building the system where career preparation follows a structured path, not disconnected activities. Where readiness is verified, not assumed. And where opportunity finds those who are genuinely prepared.",
   },
 ];
 

@@ -23,8 +23,8 @@ const STAGES = [
     color: "#2D6A4F",
     lightColor: "#ECFDF5",
     icon: "📚",
-    headline: "Build skills that match real job requirements.",
-    subline: "Focus only on what hiring actually demands — no generic courses, no wasted time.",
+    headline: "Build skills your target role actually requires.",
+    subline: "Focus only on what the role demands — no generic courses, no wasted time.",
   },
   {
     id: "validate",
@@ -33,7 +33,7 @@ const STAGES = [
     color: "#92400E",
     lightColor: "#FFF7ED",
     icon: "✅",
-    headline: "Practice interviews before facing employers.",
+    headline: "Test your readiness against real standards.",
     subline: "Know exactly how you perform under real conditions before it counts.",
   },
   {
@@ -43,8 +43,8 @@ const STAGES = [
     color: "#6B21A8",
     lightColor: "#F5F3FF",
     icon: "🚀",
-    headline: "Apply with clarity and confidence.",
-    subline: "Target the right opportunities at the right time — with proof of readiness.",
+    headline: "Access opportunities matched to your readiness.",
+    subline: "When your profile shows you're ready, the right roles find you.",
   },
 ] as const;
 
@@ -318,14 +318,13 @@ export default function CareerHero({
           className="mt-8 flex flex-col items-center gap-3"
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight max-w-2xl">
-            Career Readiness,{" "}
-            <span style={{ color: "#4267B2" }}>Built Step by Step</span>
+            Your career,{" "}
+            <span style={{ color: "#4267B2" }}>decoded.</span>
           </h1>
 
           <p className="text-sm sm:text-base text-gray-500 max-w-xl leading-relaxed">
-            A structured journey that helps you discover the right role, build
-            real capability, and prepare for interviews with clarity and
-            confidence.
+            Understand what the market actually needs from you. Then close the gap
+            with a structured path from self-assessment to real opportunities.
           </p>
 
           {/* CTAs */}

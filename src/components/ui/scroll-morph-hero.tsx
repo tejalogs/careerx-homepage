@@ -476,7 +476,7 @@ export default function IntroAnimation() {
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight relative"
             style={{ color: "#1a1a2e" }}
           >
-            Hiring,{" "}
+            Your career,{" "}
             <span style={{
               background: "linear-gradient(135deg, #3C61A8 0%, #5b7fc7 50%, #3C61A8 100%)",
               WebkitBackgroundClip: "text",
@@ -552,7 +552,7 @@ export default function IntroAnimation() {
               Role fit. Skill gaps.<br />Interview readiness.
             </h2>
             <p className="text-sm text-gray-500 max-w-md leading-relaxed font-medium">
-              Everything you need to go from career clarity to job offer. In one system.
+              Understand what the market needs from you. Then close the gap.
             </p>
           </div>
         )}

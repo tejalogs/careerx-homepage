@@ -85,7 +85,7 @@ export function CompanyLogosSection() {
             className="text-[10px] font-black tracking-[0.3em] uppercase mb-3"
             style={{ color: "rgba(60,97,168,0.45)" }}
           >
-            Trusted by candidates from global leaders
+            Trusted by professionals across industries
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 8 }}
@@ -94,7 +94,7 @@ export function CompanyLogosSection() {
             className="text-xl md:text-2xl font-black tracking-tight"
             style={{ color: "#0C0E14" }}
           >
-            Where our candidates landed
+            Where our members work today
           </motion.h2>
         </div>
 
@@ -147,7 +147,7 @@ export function CompanyLogosSection() {
               <ArrowRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
             </a>
             <p className="mt-4 text-xs font-medium" style={{ color: "rgba(12,14,20,0.4)" }}>
-              Join <span className="font-black" style={{ color: "#0C0E14" }}>2,000+</span> candidates already on track
+              Join <span className="font-black" style={{ color: "#0C0E14" }}>2,000+</span> professionals already on track
             </p>
           </motion.div>
         </div>

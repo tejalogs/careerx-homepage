@@ -13,17 +13,17 @@ const DARK   = "#0C0E14";
 const FAQS = [
   {
     q: "What is CareerXcelerator?",
-    a: "CareerXcelerator is a career acceleration platform powered by AI. It guides you through four stages — Discover, Prepare, Validate, and Activate — taking you from career clarity to real job opportunities in one structured system.",
+    a: "CareerXcelerator is a career intelligence platform powered by AI. It maps your strengths to roles the market actually values, identifies the gaps between where you are and where you need to be, and gives you a clear path to close them. Four stages: Discover, Prepare, Validate, Activate.",
     variant: "blue",
   },
   {
     q: "Is CareerXcelerator a job portal?",
-    a: "No. CareerXcelerator is a career preparation system, not a job board. We help you discover the right role, prepare with structured learning, validate your readiness through AI interviews, and then connect you with relevant opportunities.",
+    a: "No. We're a career readiness platform, not a job board. We help you understand what roles fit you, build the skills those roles actually need, and validate your readiness. When your profile shows you're prepared, you get access to matched opportunities. The jobs are the outcome of preparation, not the starting point.",
     variant: "yellow",
   },
   {
     q: "How does the platform help me find the right role?",
-    a: "It starts with Know Yourself Better (KYB) — a 10-minute assessment that maps your strengths against real job market data. You will see active roles, required skills, salary ranges, and hiring demand for roles that actually fit you.",
+    a: "It starts with Know Yourself Better (KYB), a 10-minute assessment that maps your strengths against real market data. You'll see which roles match your profile, what skills they require, salary ranges, and current demand. It's career clarity based on data, not guesswork.",
     variant: "yellow",
   },
   {
@@ -33,7 +33,7 @@ const FAQS = [
   },
   {
     q: "How is this different from courses or coaching?",
-    a: "Courses give content without context. CareerXcelerator gives you a structured system tied to real employer requirements. You discover your fit, prepare for that specific role, validate readiness through AI simulations, and activate into real opportunities.",
+    a: "Courses give content without context. CareerXcelerator gives you a structured system tied to real industry requirements. You discover your fit, prepare for that specific role, validate readiness through AI simulations, and access opportunities when you're genuinely ready.",
     variant: "blue",
   },
   {
@@ -42,7 +42,7 @@ const FAQS = [
     variant: "yellow",
   },
   {
-    q: "How long does it take to get offer-ready?",
+    q: "How long does it take to become career-ready?",
     a: "Career Builder provides 1 month of activation. Career Pro runs 3 months of full preparation. Career Elite covers 6 months with multi-role support. Most users see interview callbacks within 4 to 8 weeks of active preparation.",
     variant: "yellow",
   },

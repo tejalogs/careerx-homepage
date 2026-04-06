@@ -7,17 +7,17 @@ const caveat = Caveat({ subsets: ["latin"], variable: "--font-handwritten", disp
 const SITE_URL = "https://careerx-homepage.vercel.app";
 
 export const metadata: Metadata = {
-  title: "CareerXcelerator — Hiring, decoded.",
+  title: "CareerXcelerator — Your career, decoded.",
   description:
-    "CareerXcelerator is a Career Acceleration Infrastructure powered by AI that guides you from career discovery to real job opportunities.",
+    "CareerXcelerator is a career intelligence platform powered by AI that maps your strengths to roles the market values, closes skill gaps, and gets you career-ready.",
   metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "CareerXcelerator — Hiring, decoded.",
+    title: "CareerXcelerator — Your career, decoded.",
     description:
-      "CareerXcelerator is a Career Acceleration Infrastructure powered by AI that guides you from career discovery to real job opportunities.",
+      "CareerXcelerator is a career intelligence platform powered by AI that maps your strengths to roles the market values, closes skill gaps, and gets you career-ready.",
     url: SITE_URL,
     siteName: "CareerXcelerator",
     type: "website",
@@ -26,15 +26,15 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "CareerXcelerator — Hiring, decoded.",
+        alt: "CareerXcelerator — Your career, decoded.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CareerXcelerator — Hiring, decoded.",
+    title: "CareerXcelerator — Your career, decoded.",
     description:
-      "CareerXcelerator is a Career Acceleration Infrastructure powered by AI that guides you from career discovery to real job opportunities.",
+      "CareerXcelerator is a career intelligence platform powered by AI that maps your strengths to roles the market values, closes skill gaps, and gets you career-ready.",
     images: ["/og-image.png"],
   },
 };
@@ -56,7 +56,7 @@ const jsonLd = {
       name: "CareerXcelerator",
       url: SITE_URL,
       description:
-        "CareerXcelerator is a Career Acceleration Infrastructure powered by AI that guides you from career discovery to real job opportunities.",
+        "CareerXcelerator is a career intelligence platform powered by AI that maps your strengths to roles the market values, closes skill gaps, and gets you career-ready.",
       potentialAction: {
         "@type": "SearchAction",
         target: `${SITE_URL}/?q={search_term_string}`,

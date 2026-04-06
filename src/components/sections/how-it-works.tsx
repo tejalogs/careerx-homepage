@@ -16,10 +16,10 @@ const DARK   = "#0C0E14";
 
 /* ─── stage definitions ──────────────────────────────────────── */
 const STEPS = [
-  { stage: "Discover", product: "Know Yourself Better", description: "Find which roles fit your strengths using real job market data.", icon: Compass, color: "#4F46E5" },
-  { stage: "Prepare", product: "Career Track", description: "Close skill gaps with structured learning built for your target role.", icon: BookOpen, color: "#047857" },
-  { stage: "Validate", product: "Interview Simulator", description: "Measure your readiness through AI-powered interview simulations.", icon: Mic, color: "#B45309" },
-  { stage: "Activate", product: "Career Activation", description: "Connect with job opportunities matched to your profile and readiness.", icon: Rocket, color: "#DC2626" },
+  { stage: "Discover", product: "Know Yourself Better", description: "See which roles match your strengths, not just your interests.", icon: Compass, color: "#4F46E5" },
+  { stage: "Prepare", product: "Career Track", description: "Build only the skills your target roles actually require.", icon: BookOpen, color: "#047857" },
+  { stage: "Validate", product: "Interview Simulator", description: "Test your readiness against real interview standards.", icon: Mic, color: "#B45309" },
+  { stage: "Activate", product: "Career Activation", description: "Access opportunities matched to your verified readiness.", icon: Rocket, color: "#DC2626" },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -148,7 +148,7 @@ function DiscoverOutcome() {
           </div>
           <div>
             <p className="text-[13px] font-black" style={{ color: DARK }}>Strong Match</p>
-            <p className="text-[10px]" style={{ color: "rgba(12,14,20,0.4)" }}>Top 8% of candidates</p>
+            <p className="text-[10px]" style={{ color: "rgba(12,14,20,0.4)" }}>Top 8% readiness score</p>
           </div>
         </div>
 
@@ -420,7 +420,7 @@ export function HowItWorksSection() {
             className="text-[14px] sm:text-[15px] max-w-md mx-auto"
             style={{ color: "rgba(12,14,20,0.4)", lineHeight: 1.6 }}
           >
-            Get a personalized career roadmap — from role fit to job matches.
+            Four stages that align what you're good at with what the industry actually values.
           </motion.p>
         </div>
       </div>

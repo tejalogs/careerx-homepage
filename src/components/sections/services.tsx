@@ -28,7 +28,7 @@ const SERVICES = [
     icon: BarChart3,
     title: "Skill Gap Analysis",
     university: "Map cohort-wide gaps against live job requirements and guide targeted interventions.",
-    candidate: "See exactly what employers screen for in your target role. Close only the gaps that matter.",
+    candidate: "See exactly what your target role requires. Close only the gaps that matter.",
     accent: ["#FFF7ED", "#FED7AA"],
   },
   {
@@ -52,7 +52,7 @@ const SERVICES = [
     icon: BadgeCheck,
     title: "Verified Credentials",
     university: "Issue credentials backed by assessed competency, not just course completion.",
-    candidate: "Earn credentials that prove your readiness to hiring managers. Backed by real assessments.",
+    candidate: "Earn credentials that prove your readiness. Backed by real assessments, not just course completion.",
     accent: ["#FDF4FF", "#E9D5FF"],
   },
   {
@@ -67,8 +67,8 @@ const SERVICES = [
     id: "jobs",
     icon: BellRing,
     title: "Career Activation",
-    university: "Live employer pipeline. Connect students to 500+ hiring partners instantly.",
-    candidate: "Get matched with relevant job opportunities based on your role, readiness, and profile.",
+    university: "Connect students to 500+ industry partners through a live opportunity pipeline.",
+    candidate: "Get matched with relevant opportunities based on your role, readiness, and profile.",
     accent: ["#FFF1F2", "#FECDD3"],
   },
   {
@@ -76,7 +76,7 @@ const SERVICES = [
     icon: Mic,
     title: "Interview Preparation",
     university: "Standardise interview readiness across every programme and measure it at scale.",
-    candidate: "Practise with role-specific questions from real hiring patterns. Build confident, repeatable answers.",
+    candidate: "Practise with role-specific questions based on real industry patterns. Build confident, repeatable answers.",
     accent: ["#F0FDFA", "#99F6E4"],
   },
   {
@@ -266,7 +266,7 @@ export function ServicesSection() {
             className="text-[14px] mb-8"
             style={{ color: "rgba(255,255,255,0.6)" }}
           >
-            Everything you need to understand yourself, build your edge, and land the role.
+            Everything you need to understand yourself, build your edge, and prove you're ready.
           </motion.p>
 
           <motion.div

@@ -16,7 +16,7 @@ const PERSONAS = [
     label: "Students",
     tagline: "Starting out and need direction.",
     body: "You're talented but the market doesn't know it yet. We match you to the right roles, build the right skills, and get you interview-ready before the pressure is real.",
-    bullets: ["Role matching before you graduate", "Skills built around what employers screen for", "Interview practice before it counts", "Enter the market with a readiness profile"],
+    bullets: ["Role matching before you graduate", "Skills built around what the role actually requires", "Interview practice before it counts", "Enter the market with a readiness profile"],
     stat: "82%", statLabel: "of students receive an offer within 60 days of graduating",
     cta: "Start your assessment",
     ctaHref: "#get-started",
@@ -36,18 +36,18 @@ const PERSONAS = [
     label: "Universities",
     tagline: "Placement is your metric. Own it.",
     body: "Placement rates define institutional value. Our system gives every student a structured, measurable path and gives you the data to prove it's working.",
-    bullets: ["Real-time cohort placement tracking", "Measurable student progression by stage", "500+ partner employer network", "Report outcomes, not just graduation numbers"],
+    bullets: ["Real-time cohort readiness tracking", "Measurable student progression by stage", "500+ industry partner network", "Report outcomes, not just graduation numbers"],
     stat: "91%", statLabel: "placement rate across university cohorts using our system",
     cta: "Partner with us",
     ctaHref: "#get-started",
   },
   {
     id: "employers",
-    label: "Employers",
-    tagline: "Hire candidates who are actually ready.",
-    body: "Stop screening 200 CVs for one good candidate. Our candidates arrive pre-validated, role-matched, and prepared to contribute from day one.",
-    bullets: ["Pre-validated candidate pools by role", "Readiness scores replace gut-feel", "Cut interview cycles by up to 60%", "Continuous pipeline not a one-time search"],
-    stat: "60%", statLabel: "reduction in time-to-hire for our employer partners",
+    label: "Industry Partners",
+    tagline: "Access professionals who are actually ready.",
+    body: "Stop screening 200 CVs for one good match. Our members arrive pre-validated, role-matched, and prepared to contribute from day one.",
+    bullets: ["Pre-validated professional pools by role", "Readiness scores replace gut-feel", "Cut interview cycles by up to 60%", "Continuous pipeline not a one-time search"],
+    stat: "60%", statLabel: "reduction in time-to-hire for our industry partners",
     cta: "Access talent pipeline",
     ctaHref: "#get-started",
   },
@@ -64,7 +64,7 @@ const OUTCOMES = [
     n: "02",
     title: "You walk in already prepared.",
     body: "You've answered the exact questions you'll face under simulated pressure, with feedback. The real interview feels like a repeat.",
-    stat: "87% of our candidates pass the first interview round",
+    stat: "87% of our members pass the first interview round",
   },
   {
     n: "03",
@@ -537,7 +537,7 @@ export function OutcomesSection() {
             className="mt-4 text-lg max-w-xl"
             style={{ color: "rgba(12,14,20,0.7)" }}
           >
-            Don&apos;t just take our word for it. Here are the tangible transformations our candidates experience.
+            Don&apos;t just take our word for it. Here are the tangible transformations our members experience.
           </motion.p>
         </div>
 
@@ -587,8 +587,8 @@ export function OutcomesSection() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3" />
           {[
             { value: "3.2 wks", label: "to first offer" },
-            { value: "500+",    label: "hiring partners" },
-            { value: "2,000+",  label: "candidates placed" },
+            { value: "500+",    label: "industry partners" },
+            { value: "2,000+",  label: "professionals guided" },
             { value: "91%",     label: "role-fit accuracy" },
           ].map((s, i) => (
             <div key={s.label} className="text-center relative z-10">

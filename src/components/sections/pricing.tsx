@@ -36,7 +36,7 @@ function LogoStrip() {
         className="text-center text-[9px] font-black tracking-[0.25em] uppercase mb-5"
         style={{ color: "rgba(60,97,168,0.4)" }}
       >
-        Our Candidates Are Now At Leading Companies
+        Where Our Members Work Today
       </p>
 
       <div className="relative max-w-full sm:max-w-xl mx-auto overflow-hidden">
@@ -86,15 +86,15 @@ const FEATURE_TIPS: Record<string, string> = {
   "KYB Role Assessment": "Know Your Best. A structured assessment that maps your strengths to the roles where you will actually thrive.",
   "1 Full Career Track": "A curated learning and preparation programme built around one target role or industry.",
   "2 Full Career Tracks": "Dual-track preparation covering two distinct roles or industries simultaneously.",
-  "Skill development roadmap": "A personalised, sequenced plan that closes only the skill gaps your target employers actually screen for.",
+  "Skill development roadmap": "A personalised, sequenced plan that closes only the skill gaps your target role actually requires.",
   "1 Interview Simulator session": "One full AI-powered mock interview with real question banks and detailed performance feedback.",
   "3 months Interview PrepX": "Three months of unlimited AI mock interviews, question libraries, and weekly feedback cycles.",
   "6 months Interview PrepX": "Six months of unlimited AI mock interviews, question libraries, and weekly feedback cycles.",
   "1 Career Expert Session": "A 60-minute 1-on-1 session with a career strategist to review your positioning and preparation plan.",
   "2 Career Expert Sessions": "Two 60-minute 1-on-1 sessions with career strategists at key stages of your journey.",
-  "1 month Career Activation": "Guided job search support including targeted outreach, application strategy and employer introductions for 30 days.",
-  "3 months Career Activation": "Three months of guided job search with active employer introductions, application reviews and offer negotiation coaching.",
-  "6 months Career Activation": "Six months of full-service career activation with the highest level of hands-on employer access and coaching.",
+  "1 month Career Activation": "30 days of guided career activation including targeted outreach, application strategy and opportunity matching.",
+  "3 months Career Activation": "Three months of guided career activation with active opportunity matching, application reviews and offer negotiation coaching.",
+  "6 months Career Activation": "Six months of full-service career activation with the highest level of hands-on support, opportunity access and coaching.",
 };
 
 // ─── Feature with tooltip ───────────────────────────────────────────────────────
@@ -188,7 +188,7 @@ const PLANS = [
     name: "Career Elite",
     icon: <Rocket className="w-6 h-6" />,
     price: 799,
-    description: "The complete career acceleration system",
+    description: "The complete career readiness system",
     popular: false,
     features: [
       "KYB Role Assessment",
@@ -233,7 +233,7 @@ export default function PricingSection() {
             className="relative inline-block"
           >
             <h2 className="text-2xl sm:text-3xl md:text-5xl font-black" style={{ color: DARK }}>
-              One investment. From discovery to offer.
+              One investment. From clarity to career-ready.
             </h2>
             <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-48 h-3 rounded-full blur-sm rotate-[-1deg]"
               style={{ backgroundColor: `${YELLOW}55` }}
@@ -247,7 +247,7 @@ export default function PricingSection() {
             className="text-base"
             style={{ color: "rgba(12,14,20,0.5)" }}
           >
-            From role discovery to job offers. Everything included.
+            From role discovery to verified readiness. Everything included.
           </motion.p>
         </div>
 
@@ -370,7 +370,7 @@ export default function PricingSection() {
             className="text-center text-sm mt-5 w-full"
             style={{ color: "rgba(12,14,20,0.3)" }}
           >
-            Trusted by candidates now at Google, Amazon, Deloitte and more ✓
+            Professionals guided by CareerXcelerator now work at Google, Amazon, Deloitte and more ✓
           </p>
         </motion.div>
 

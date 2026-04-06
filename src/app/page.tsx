@@ -78,7 +78,7 @@ function VideoSectionContent() {
             </span>
           </h2>
           <p className="text-[14px] sm:text-[16px] text-black/60 leading-relaxed mb-8 max-w-xs">
-            From role discovery to interview prep to job offers — a structured, AI-powered path to your next career move.
+            From role discovery to interview prep to real opportunities. A structured, AI-powered path to your next career move.
           </p>
           <a
             href="/kyb"
@@ -106,7 +106,7 @@ function VideoSectionContent() {
             </div>
             <div className="text-left">
               <p className="text-[12px] font-bold text-black/70 leading-tight">2,000+ careers accelerated</p>
-              <p className="text-[11px] text-black/60 leading-tight">across 500+ hiring partners</p>
+              <p className="text-[11px] text-black/60 leading-tight">across 500+ industry partners</p>
             </div>
           </div>
 

@@ -186,7 +186,7 @@ export function CandidateOutcomesSection() {
               </h2>
 
               <p className="text-[15px] leading-relaxed" style={{ color: "rgba(255,255,255,0.65)" }}>
-                Preparation produces predictable results. These numbers reflect what changes when candidates truly know themselves and show up ready.
+                Preparation produces predictable results. These numbers reflect what changes when professionals truly know themselves and show up ready.
               </p>
             </motion.div>
 

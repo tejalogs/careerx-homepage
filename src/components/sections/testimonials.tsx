@@ -76,7 +76,7 @@ export default function TestimonialsSection() {
             className="mt-4 text-lg max-w-xl mx-auto"
             style={{ color: "rgba(12,14,20,0.6)" }}
           >
-            From first assessment to signed offer. Here&apos;s what candidates say about the process.
+            From first assessment to career clarity. Here&apos;s what our members say about the process.
           </motion.p>
         </div>
 
