@@ -130,38 +130,7 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
         </div>
       </div>
 
-      {/* Holographic sheen — diagonal light band, visible on both dark and light */}
-      <div suppressHydrationWarning style={{
-        position: "absolute", inset: 0, borderRadius: radius,
-        background: isDark
-          ? `linear-gradient(${angle}deg, transparent 15%, rgba(255,255,255,0.18) 35%, rgba(255,255,255,0.25) 45%, transparent 55%, rgba(255,255,255,0.12) 68%, transparent 82%)`
-          : `linear-gradient(${angle}deg, transparent 15%, rgba(0,0,0,0.03) 30%, rgba(255,255,255,0.6) 42%, rgba(255,255,255,0.8) 48%, transparent 55%, rgba(255,255,255,0.4) 68%, rgba(0,0,0,0.02) 80%, transparent 90%)`,
-        pointerEvents: "none", zIndex: 2,
-      }} />
-
-      {/* Prismatic rainbow shimmer — visible iridescent tint */}
-      <div suppressHydrationWarning style={{
-        position: "absolute", inset: 0, borderRadius: radius,
-        background: isDark
-          ? `conic-gradient(from ${angle}deg at 50% 50%, rgba(100,160,255,0.12) 0deg, rgba(160,100,255,0.1) 60deg, rgba(255,120,160,0.08) 120deg, rgba(255,200,80,0.1) 180deg, rgba(80,220,160,0.08) 240deg, rgba(100,140,255,0.12) 300deg, rgba(100,160,255,0.12) 360deg)`
-          : `conic-gradient(from ${angle}deg at 40% 40%, rgba(100,160,255,0.08) 0deg, rgba(180,100,255,0.07) 60deg, rgba(255,130,180,0.06) 120deg, rgba(255,200,100,0.08) 180deg, rgba(100,220,180,0.06) 240deg, rgba(120,140,255,0.08) 300deg, rgba(100,160,255,0.08) 360deg)`,
-        pointerEvents: "none", zIndex: 3,
-      }} />
-
-      {/* Top edge glint — bright light catch on top edge */}
-      <div style={{
-        position: "absolute", top: 0, left: "8%", right: "8%", height: isDark ? "2px" : "3px",
-        background: `linear-gradient(90deg, transparent 5%, rgba(255,255,255,${isDark ? 0.4 : 0.95}) 35%, rgba(255,255,255,${isDark ? 0.6 : 1}) 50%, rgba(255,255,255,${isDark ? 0.4 : 0.95}) 65%, transparent 95%)`,
-        zIndex: 4, borderRadius: "2px",
-        filter: isDark ? "blur(0.5px)" : "blur(0.3px)",
-      }} />
-
-      {/* Left edge glint — subtle side highlight */}
-      <div style={{
-        position: "absolute", top: "15%", bottom: "15%", left: 0, width: isDark ? "1.5px" : "2px",
-        background: `linear-gradient(180deg, transparent 5%, rgba(255,255,255,${isDark ? 0.2 : 0.7}) 40%, rgba(255,255,255,${isDark ? 0.3 : 0.8}) 50%, rgba(255,255,255,${isDark ? 0.2 : 0.7}) 60%, transparent 95%)`,
-        zIndex: 4, borderRadius: "1px",
-      }} />
+      {/* (shine/holographic effects removed) */}
 
       {/* Bottom edge shadow — grounds the card */}
       <div style={{
