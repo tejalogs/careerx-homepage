@@ -3,8 +3,9 @@
   "configurations": [
     {
       "name": "careerx",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "/usr/local/bin/node",
+      "runtimeArgs": ["/usr/local/bin/npx", "next", "dev"],
+      "cwd": "/Users/teja/Documents/careerx-homepage",
       "port": 3000
     }
   ]

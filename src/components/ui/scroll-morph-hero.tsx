@@ -143,17 +143,19 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
 }
 
 // ─── Animated Card ────────────────────────────────────────────────────────────
-function HeroCard({ card, target, staggerDelay = 0, isMobile }: {
+function HeroCard({ card, target, staggerDelay = 0, isMobile, index }: {
   card: CardData;
   target: { x: number; y: number; rotation: number; scale: number; opacity: number };
   staggerDelay?: number;
   isMobile: boolean;
+  index: number;
 }) {
   // Use the card's rotation angle to drive the holographic sheen direction
   const holoAngle = ((target.rotation % 360) + 360) % 360;
 
   return (
     <motion.div
+      initial={{ x: 0, y: 0, rotate: 0, scale: 0.6, opacity: 0 }}
       animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
       transition={{ type: "spring", stiffness: 120, damping: 28, delay: staggerDelay }}
       style={{ position: "absolute", willChange: "transform" }}
@@ -174,18 +176,29 @@ export default function IntroAnimation() {
   const staggerApplied = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Measure container
+  // Measure container — runs on mount, drives readiness
   useEffect(() => {
     if (!containerRef.current) return;
-    const handleResize = (entries: ResizeObserverEntry[]) => {
+    const measure = () => {
+      if (!containerRef.current) return;
+      const w = containerRef.current.offsetWidth;
+      const h = containerRef.current.offsetHeight;
+      if (w > 0 && h > 0) {
+        setContainerSize({ width: w, height: h });
+      }
+    };
+    // Measure immediately
+    measure();
+    // Also observe for resizes
+    const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         setContainerSize({ width: entry.contentRect.width, height: entry.contentRect.height });
       }
-    };
-    const observer = new ResizeObserver(handleResize);
+    });
     observer.observe(containerRef.current);
-    setContainerSize({ width: containerRef.current.offsetWidth, height: containerRef.current.offsetHeight });
-    return () => observer.disconnect();
+    // Fallback: try again after a frame in case layout isn't ready
+    const raf = requestAnimationFrame(measure);
+    return () => { observer.disconnect(); cancelAnimationFrame(raf); };
   }, []);
 
   // ── Desktop: virtual scroll for arc morph ──────────────────────────────────
@@ -333,12 +346,13 @@ export default function IntroAnimation() {
 
   const [circleReady, setCircleReady] = useState(false);
 
-  // Intro animation sequence (starts at line, skips scatter)
+  // Intro animation sequence — only after client mount + container measured
   useEffect(() => {
+    if (containerSize.width === 0) return;
     const t1 = setTimeout(() => setIntroPhase("circle"), 1200);
     const t2 = setTimeout(() => setCircleReady(true), 1800);
     return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
+  }, [containerSize.width]);
 
   // Stagger on circle entry
   useEffect(() => {
@@ -541,9 +555,9 @@ export default function IntroAnimation() {
           </div>
         )}
 
-        {/* Cards — parallax deep layer */}
+        {/* Cards — parallax deep layer (only render after container is measured) */}
         <motion.div className="relative flex items-center justify-center w-full h-full" style={isMobile ? { paddingTop: 0 } : { paddingTop: 30, x: cardTranslateX, y: cardTranslateY, rotateX: cardRotateX, rotateY: cardRotateY }}>
-          {CARDS.map((card, i) => {
+          {containerSize.width > 0 && CARDS.map((card, i) => {
             let target = { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 };
 
             if (introPhase === "scatter") {
@@ -617,6 +631,7 @@ export default function IntroAnimation() {
                 target={target}
                 staggerDelay={showStagger ? i * 0.06 : 0}
                 isMobile={isMobile}
+                index={i}
               />
             );
           })}

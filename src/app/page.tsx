@@ -162,7 +162,7 @@ export default function Home() {
       {/* Video / Platform Tour */}
       <ScrollExpandMedia
         mediaType="video"
-        mediaSrc="https://me7aitdbxq.ufs.sh/f/2wsMIGDMQRdYuZ5R8ahEEZ4aQK56LizRdfBSqeDMsmUIrJN1"
+        mediaSrc="https://www.youtube.com/watch?v=rD-O-qZOjR0"
         posterSrc="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1280&q=80"
         title="See How It Works"
         date="Platform Tour"

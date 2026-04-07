@@ -6,7 +6,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 interface ScrollExpandMediaProps {
   mediaType?: 'video' | 'image';
@@ -30,6 +30,7 @@ const ScrollExpandMedia = ({
   children,
 }: ScrollExpandMediaProps) => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const mediaRef = useRef<HTMLDivElement | null>(null);
   const [isMobileState, setIsMobileState] = useState<boolean>(false);
 
   useEffect(() => {
@@ -40,6 +41,13 @@ const ScrollExpandMedia = ({
     window.addEventListener('resize', checkIfMobile);
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
+
+  // Fade out title overlay as user scrolls past the video
+  const { scrollYProgress } = useScroll({
+    target: mediaRef,
+    offset: ['start end', 'start start'],
+  });
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 1, 0]);
 
   const firstWord = title ? title.split(' ')[0] : '';
   const restOfTitle = title ? title.split(' ').slice(1).join(' ') : '';
@@ -55,7 +63,7 @@ const ScrollExpandMedia = ({
           <div className='container mx-auto flex flex-col items-center justify-start relative z-10'>
 
             {/* Video / Media — full width with rounded corners */}
-            <div className='w-full px-4 sm:px-8 pt-8 sm:pt-12'>
+            <div ref={mediaRef} className='w-full px-4 sm:px-8 pt-8 sm:pt-12'>
               <motion.div
                 className='relative w-full rounded-2xl overflow-hidden'
                 style={{
@@ -71,10 +79,8 @@ const ScrollExpandMedia = ({
               >
                 {mediaType === 'video' ? (
                   mediaSrc.includes('youtube.com') ? (
-                    <div className='relative w-full h-full pointer-events-none'>
+                    <div className='absolute inset-0 pointer-events-none'>
                       <iframe
-                        width='100%'
-                        height='100%'
                         src={
                           mediaSrc.includes('embed')
                             ? mediaSrc +
@@ -84,8 +90,8 @@ const ScrollExpandMedia = ({
                               '?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&disablekb=1&modestbranding=1&playlist=' +
                               mediaSrc.split('v=')[1]
                         }
-                        className='w-full h-full rounded-xl'
-                        frameBorder='0'
+                        className='rounded-xl'
+                        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                         allowFullScreen
                       />
@@ -119,8 +125,11 @@ const ScrollExpandMedia = ({
                   </div>
                 )}
 
-                {/* Title overlay on media */}
-                <div className='absolute inset-0 z-20 flex flex-col items-center justify-center text-center pointer-events-none px-4'>
+                {/* Title overlay on media — fades out on scroll */}
+                <motion.div
+                  className='absolute inset-0 z-20 flex flex-col items-center justify-center text-center pointer-events-none px-4'
+                  style={{ opacity: titleOpacity }}
+                >
                   {title && (
                     <>
                       <h2 className='text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight'>
@@ -136,7 +145,7 @@ const ScrollExpandMedia = ({
                       {date}
                     </p>
                   )}
-                </div>
+                </motion.div>
               </motion.div>
             </div>
 
