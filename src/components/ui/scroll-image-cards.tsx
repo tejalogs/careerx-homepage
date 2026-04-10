@@ -108,12 +108,12 @@ function CardItem({ src, stage, stageColor, label, caption, splash }: CardItemPr
           className="object-cover"
           sizes="270px"
         />
-        {/* Label overlay */}
+        {/* Label overlay — top of card so it's not hidden by stacking */}
         <div
-          className="absolute bottom-0 left-0 right-0 px-4 pb-4 pt-16"
+          className="absolute top-0 left-0 right-0 px-4 pt-4 pb-16"
           style={{
             background:
-              "linear-gradient(0deg, rgba(10,22,40,0.92) 0%, rgba(10,22,40,0.6) 50%, rgba(10,22,40,0) 100%)",
+              "linear-gradient(180deg, rgba(10,22,40,0.85) 0%, rgba(10,22,40,0.5) 50%, rgba(10,22,40,0) 100%)",
           }}
         >
           <p className="text-[10px] font-bold uppercase tracking-[0.15em] mb-1" style={{ color: stageColor }}>
