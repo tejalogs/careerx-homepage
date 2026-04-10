@@ -7,25 +7,33 @@ import Image from "next/image";
 const CARDS = [
   {
     src: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=480&q=85",
-    label: "Discover — Know Yourself Better",
+    stage: "Discover",
+    stageColor: "#4267B2",
+    label: "Know Yourself Better",
     caption: "Find which roles actually fit you",
     splash: "linear-gradient(306deg, #0a1628, #3C61A8)",
   },
   {
     src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=480&q=85",
-    label: "Prepare — Career Track",
+    stage: "Prepare",
+    stageColor: "#2D6A4F",
+    label: "Career Track",
     caption: "Close only the gaps employers screen for",
     splash: "linear-gradient(306deg, #1e4d6e, #3C8CA8)",
   },
   {
     src: "https://images.unsplash.com/photo-1565688534245-05d6b5be184a?w=480&q=85",
-    label: "Validate — Interview Simulator",
+    stage: "Validate",
+    stageColor: "#92400E",
+    label: "Interview Simulator",
     caption: "Measure your readiness before the real thing",
     splash: "linear-gradient(306deg, #0d2240, #3C61A8)",
   },
   {
     src: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=480&q=85",
-    label: "Activate — Career Activation",
+    stage: "Activate",
+    stageColor: "#6B21A8",
+    label: "Career Activation",
     caption: "Connect with roles matched to your profile",
     splash: "linear-gradient(306deg, #c49a00, #F5D134)",
   },
@@ -42,12 +50,14 @@ const cardVariants: Variants = {
 
 interface CardItemProps {
   src: string;
+  stage: string;
+  stageColor: string;
   label: string;
   caption: string;
   splash: string;
 }
 
-function CardItem({ src, label, caption, splash }: CardItemProps) {
+function CardItem({ src, stage, stageColor, label, caption, splash }: CardItemProps) {
   return (
     <motion.div
       style={{
@@ -98,6 +108,15 @@ function CardItem({ src, label, caption, splash }: CardItemProps) {
           className="object-cover"
           sizes="270px"
         />
+        {/* Stage badge */}
+        <div className="absolute top-3 left-3">
+          <span
+            className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white"
+            style={{ backgroundColor: stageColor }}
+          >
+            {stage}
+          </span>
+        </div>
         {/* Label overlay */}
         <div
           className="absolute bottom-0 left-0 right-0 px-4 py-3"
