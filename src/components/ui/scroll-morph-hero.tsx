@@ -289,13 +289,9 @@ export default function IntroAnimation() {
   const scrollRotate = useTransform(virtualScroll, [600, MAX_SCROLL], [0, 360]);
   const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 80, damping: 35 });
 
-  // Mouse parallax (desktop only) — X for arc, both X/Y for 3D depth
-  const mouseNormX = useMotionValue(0); // -1 to 1
-  const mouseNormY = useMotionValue(0); // -1 to 1
-  const mouseXArc = useMotionValue(0);  // -100 to 100 for arc parallax
+  // Mouse X tracking for arc parallax only (no 3D depth layers)
+  const mouseXArc = useMotionValue(0);
   const smoothMouseX = useSpring(mouseXArc, { stiffness: 50, damping: 28 });
-  const smoothNormX = useSpring(mouseNormX, { stiffness: 80, damping: 30 });
-  const smoothNormY = useSpring(mouseNormY, { stiffness: 80, damping: 30 });
 
   useEffect(() => {
     const container = containerRef.current;
@@ -303,22 +299,13 @@ export default function IntroAnimation() {
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
       const nx = (e.clientX - rect.left) / rect.width * 2 - 1;
-      const ny = (e.clientY - rect.top) / rect.height * 2 - 1;
       mouseXArc.set(nx * 100);
-      mouseNormX.set(nx);
-      mouseNormY.set(ny);
-    };
-    const handleMouseLeave = () => {
-      mouseNormX.set(0);
-      mouseNormY.set(0);
     };
     container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mouseleave", handleMouseLeave);
     return () => {
       container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [mouseXArc, mouseNormX, mouseNormY]);
+  }, [mouseXArc]);
 
   // Track spring values as state for card position calculations
   const [morphValue, setMorphValue] = useState(0);
@@ -391,35 +378,22 @@ export default function IntroAnimation() {
     return () => clearTimeout(t);
   }, [circleReady, isMobile]);
 
-  // ── 3D Parallax depth transforms (desktop only) ───────────────────────────
-  // Cards layer — moves most (deep)
-  const cardTranslateX = useTransform(smoothNormX, [-1, 1], [18, -18]);
-  const cardTranslateY = useTransform(smoothNormY, [-1, 1], [12, -12]);
-  const cardRotateY = useTransform(smoothNormX, [-1, 1], [4, -4]);
-  const cardRotateX = useTransform(smoothNormY, [-1, 1], [-3, 3]);
-
-  // Text layer — moves less (middle)
-  const textTranslateX = useTransform(smoothNormX, [-1, 1], [8, -8]);
-  const textTranslateY = useTransform(smoothNormY, [-1, 1], [5, -5]);
-
-  // Glow orbs — moves opposite direction (background)
-  const glowTranslateX = useTransform(smoothNormX, [-1, 1], [-10, 10]);
-  const glowTranslateY = useTransform(smoothNormY, [-1, 1], [-8, 8]);
+  // (Parallax depth layers removed for performance)
 
   return (
     <div ref={containerRef} className="relative w-full h-full overflow-hidden" style={{ background: "radial-gradient(ellipse 70% 55% at 50% 62%, rgba(60,97,168,0.07) 0%, transparent 70%), #F7F8FC" }}>
 
-      {/* Ambient glow orbs — parallax background layer */}
-      <motion.div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ x: glowTranslateX, y: glowTranslateY }}>
-        <div style={{ position: "absolute", width: 700, height: 700, background: "radial-gradient(circle, rgba(60,97,168,0.08) 0%, transparent 65%)", borderRadius: "50%", left: "5%", top: "10%", filter: "blur(80px)" }} />
-        <div style={{ position: "absolute", width: 500, height: 500, background: "radial-gradient(circle, rgba(245,209,52,0.06) 0%, transparent 65%)", borderRadius: "50%", right: "0%", top: "35%", filter: "blur(70px)" }} />
-        <div style={{ position: "absolute", width: 400, height: 400, background: "radial-gradient(circle, rgba(60,97,168,0.05) 0%, transparent 65%)", borderRadius: "50%", left: "40%", bottom: "0%", filter: "blur(60px)" }} />
-      </motion.div>
+      {/* Ambient glow orbs — static background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div style={{ position: "absolute", width: 700, height: 700, background: "radial-gradient(circle, rgba(60,97,168,0.08) 0%, transparent 65%)", borderRadius: "50%", left: "5%", top: "10%", filter: "blur(40px)" }} />
+        <div style={{ position: "absolute", width: 500, height: 500, background: "radial-gradient(circle, rgba(245,209,52,0.06) 0%, transparent 65%)", borderRadius: "50%", right: "0%", top: "35%", filter: "blur(35px)" }} />
+        <div style={{ position: "absolute", width: 400, height: 400, background: "radial-gradient(circle, rgba(60,97,168,0.05) 0%, transparent 65%)", borderRadius: "50%", left: "40%", bottom: "0%", filter: "blur(30px)" }} />
+      </div>
 
-      <div className="flex h-full w-full flex-col items-center justify-center" style={{ perspective: "1000px" }}>
+      <div className="flex h-full w-full flex-col items-center justify-center">
 
         {/* Hero headline — soft radial glow behind text for readability (no box) */}
-        <motion.div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[6%] md:top-0 md:bottom-0 md:justify-center" style={isMobile ? {} : { x: textTranslateX, y: textTranslateY }}>
+        <div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[6%] md:top-0 md:bottom-0 md:justify-center">
 
           {/* Soft radial glow — invisible container, just light behind text */}
           <motion.div
@@ -519,7 +493,7 @@ export default function IntroAnimation() {
               </motion.p>
             </>
           )}
-        </motion.div>
+        </div>
 
         {/* Desktop arc headline — fades in when scrolled past circle */}
         {!isMobile && (
@@ -555,8 +529,8 @@ export default function IntroAnimation() {
           </div>
         )}
 
-        {/* Cards — parallax deep layer (only render after container is measured) */}
-        <motion.div className="relative flex items-center justify-center w-full h-full" style={isMobile ? { paddingTop: 0 } : { paddingTop: 30, x: cardTranslateX, y: cardTranslateY, rotateX: cardRotateX, rotateY: cardRotateY }}>
+        {/* Cards (only render after container is measured) */}
+        <div className="relative flex items-center justify-center w-full h-full" style={{ paddingTop: isMobile ? 0 : 30 }}>
           {containerSize.width > 0 && CARDS.map((card, i) => {
             let target = { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 };
 
@@ -634,7 +608,7 @@ export default function IntroAnimation() {
               />
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </div>
   );
