@@ -13,8 +13,8 @@ export type AnimationPhase = "scatter" | "line" | "circle";
 // ─── Card Dimensions ──────────────────────────────────────────────────────────
 const CARD_W = 100;
 const CARD_H = 130;
-const CARD_W_MOBILE = 80;
-const CARD_H_MOBILE = 105;
+const CARD_W_MOBILE = 64;
+const CARD_H_MOBILE = 84;
 
 // ─── 8 Product Cards ─────────────────────────────────────────────────────────
 interface CardData {
@@ -52,11 +52,11 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
   const Icon = card.icon;
   const w = isMobile ? CARD_W_MOBILE : CARD_W;
   const h = isMobile ? CARD_H_MOBILE : CARD_H;
-  const iconSize = isMobile ? 20 : 26;
-  const innerIcon = isMobile ? 10 : 13;
-  const valueSize = card.value.length <= 4 ? (isMobile ? 22 : 28) : (isMobile ? 16 : 20);
-  const labelSize = isMobile ? 8 : 10;
-  const radius = isMobile ? 14 : 18;
+  const iconSize = isMobile ? 16 : 26;
+  const innerIcon = isMobile ? 8 : 13;
+  const valueSize = card.value.length <= 4 ? (isMobile ? 18 : 28) : (isMobile ? 13 : 20);
+  const labelSize = isMobile ? 7 : 10;
+  const radius = isMobile ? 12 : 18;
 
   // Is this a dark card?
   const isDark = card.bg === "#0C0E14" || card.bg === "#3C61A8";
@@ -87,7 +87,7 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
       <div style={{
         width: "100%", height: "100%", background: card.bg,
         borderRadius: radius,
-        padding: isMobile ? "10px" : "14px 13px",
+        padding: isMobile ? "7px 8px" : "14px 13px",
         display: "flex", flexDirection: "column", justifyContent: "space-between",
         position: "relative", zIndex: 1,
       }}>
@@ -567,17 +567,16 @@ export default function IntroAnimation() {
               const totalW = TOTAL_CARDS * spacing;
               target = { x: i * spacing - totalW / 2, y: 0, rotation: 0, scale: 1, opacity: 1 };
             } else if (isMobile) {
-              // ─── MOBILE: static circle, no scroll interaction ───────────
-              const minDim = Math.min(containerSize.width, containerSize.height);
-              const circleRadius = isSmallPhone ? minDim * 0.32 : minDim * 0.35;
+              // ─── MOBILE: static circle, cards stay upright ───────────
+              const circleRadius = isSmallPhone ? 120 : 140;
               const angle = (i / TOTAL_CARDS) * 360 - 90;
               const rad = (angle * Math.PI) / 180;
 
-              const mobileCircleOffsetY = isSmallPhone ? 50 : 60;
+              const mobileCircleOffsetY = isSmallPhone ? 60 : 70;
               target = {
                 x: Math.cos(rad) * circleRadius,
                 y: Math.sin(rad) * circleRadius + mobileCircleOffsetY,
-                rotation: angle + 90,
+                rotation: 0,
                 scale: 1,
                 opacity: 1,
               };
