@@ -108,25 +108,19 @@ function CardItem({ src, stage, stageColor, label, caption, splash }: CardItemPr
           className="object-cover"
           sizes="270px"
         />
-        {/* Stage badge */}
-        <div className="absolute top-3 left-3">
-          <span
-            className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white"
-            style={{ backgroundColor: stageColor }}
-          >
-            {stage}
-          </span>
-        </div>
         {/* Label overlay */}
         <div
-          className="absolute bottom-0 left-0 right-0 px-4 py-3"
+          className="absolute bottom-0 left-0 right-0 px-4 pb-4 pt-16"
           style={{
             background:
-              "linear-gradient(0deg, rgba(10,22,40,0.82) 0%, rgba(10,22,40,0) 100%)",
+              "linear-gradient(0deg, rgba(10,22,40,0.92) 0%, rgba(10,22,40,0.6) 50%, rgba(10,22,40,0) 100%)",
           }}
         >
-          <p className="text-[13px] font-black text-white leading-tight">{label}</p>
-          <p className="text-[11px] text-white/60 font-medium mt-0.5">{caption}</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.15em] mb-1" style={{ color: stageColor }}>
+            {stage}
+          </p>
+          <p className="text-[14px] font-black text-white leading-tight">{label}</p>
+          <p className="text-[11px] text-white/70 font-medium mt-1">{caption}</p>
         </div>
       </motion.div>
     </motion.div>
