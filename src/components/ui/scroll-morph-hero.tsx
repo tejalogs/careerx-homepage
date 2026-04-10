@@ -507,16 +507,22 @@ export default function IntroAnimation() {
               const totalW = TOTAL_CARDS * spacing;
               target = { x: i * spacing - totalW / 2, y: 0, rotation: 0, scale: 1, opacity: 1 };
             } else if (isMobile) {
-              // ─── MOBILE: static circle, cards stay upright ───────────
-              const circleRadius = isSmallPhone ? 120 : 140;
-              const angle = (i / TOTAL_CARDS) * 360 - 90;
-              const rad = (angle * Math.PI) / 180;
-
-              const mobileCircleOffsetY = isSmallPhone ? 60 : 70;
+              // ─── MOBILE: 2-row scattered grid, cards stay upright ───────
+              const cols = 4;
+              const row = Math.floor(i / cols);
+              const col = i % cols;
+              const gapX = isSmallPhone ? 68 : 76;
+              const gapY = isSmallPhone ? 90 : 100;
+              const totalW = (cols - 1) * gapX;
+              const offsetY = isSmallPhone ? 40 : 50;
+              // Slight stagger for organic feel
+              const jitterX = (i % 3 === 0 ? -4 : i % 3 === 1 ? 6 : -2);
+              const jitterY = (i % 2 === 0 ? -3 : 5);
+              const jitterRot = (i % 3 === 0 ? -3 : i % 3 === 1 ? 4 : -2);
               target = {
-                x: Math.cos(rad) * circleRadius,
-                y: Math.sin(rad) * circleRadius + mobileCircleOffsetY,
-                rotation: 0,
+                x: col * gapX - totalW / 2 + jitterX,
+                y: row * gapY + offsetY + jitterY,
+                rotation: jitterRot,
                 scale: 1,
                 opacity: 1,
               };
