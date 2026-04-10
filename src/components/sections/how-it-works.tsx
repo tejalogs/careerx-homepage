@@ -455,29 +455,25 @@ export function HowItWorksSection() {
         />
       </motion.div>
 
-{/* spacer */}
-
-      {/* Mobile: static before→after pairs */}
-      <div className="sm:hidden px-4 space-y-4">
-        {STEPS.map((step, i) => (
-          <motion.div key={step.stage}
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.2 + i * 0.08 }}
-            className="flex gap-2 items-stretch"
-          >
-            <div className="flex-1 h-[200px]">
-              <BeforeCard step={step} idx={i} />
-            </div>
-            <div className="flex items-center shrink-0 px-1">
-              <ArrowRight className="w-4 h-4" style={{ color: "rgba(12,14,20,0.15)" }} />
-            </div>
-            <div className="flex-1 h-[200px]">
-              {i === 0 ? <DiscoverOutcome /> : i === 1 ? <PrepareOutcome /> : i === 2 ? <ValidateOutcome /> : <ActivateOutcome />}
-            </div>
-          </motion.div>
-        ))}
-      </div>
+      {/* Scanner stream — mobile */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="sm:hidden"
+      >
+        <ScannerCardStream
+          cardContents={CARD_CONTENTS}
+          height={260}
+          cardWidth={280}
+          cardHeight={230}
+          initialSpeed={30}
+          direction={1}
+          repeat={8}
+          cardGap={16}
+          friction={0.98}
+        />
+      </motion.div>
 
       {/* Horizontal stepper */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12">
