@@ -444,7 +444,7 @@ export default function IntroAnimation() {
                   : { opacity: 0, y: 10 }
                 }
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="mt-3 inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto relative"
+                className="mt-8 inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto relative"
                 style={{ backgroundColor: "#3C61A8" }}
               >
                 Find My Best Role <span className="text-xs">→</span>
@@ -453,7 +453,7 @@ export default function IntroAnimation() {
                 initial={{ opacity: 0 }}
                 animate={circleReady && morphValue < 0.3 ? { opacity: 0.4 } : { opacity: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="mt-1.5 text-[11px] font-medium text-gray-400 relative"
+                className="mt-4 text-[11px] font-medium text-gray-400 relative"
               >
                 Scroll to explore ↓
               </motion.p>
