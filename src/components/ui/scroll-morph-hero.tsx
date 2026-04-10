@@ -65,22 +65,7 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
     <div style={{
       width: w, height: h, borderRadius: radius,
       position: "relative", overflow: "hidden",
-      // Outer shell: layered shadows for physical depth
-      boxShadow: [
-        "0 1px 2px rgba(0,0,0,0.04)",
-        "0 3px 6px rgba(0,0,0,0.05)",
-        "0 8px 16px rgba(0,0,0,0.06)",
-        "0 16px 32px rgba(0,0,0,0.05)",
-        "0 32px 64px rgba(0,0,0,0.04)",
-        // Top edge catch — bright highlight
-        `inset 0 1px 0 rgba(255,255,255,${isDark ? 0.15 : 0.85})`,
-        // Left edge catch
-        `inset 1px 0 0 rgba(255,255,255,${isDark ? 0.06 : 0.4})`,
-        // Bottom shadow edge
-        `inset 0 -1px 0 rgba(0,0,0,${isDark ? 0.35 : 0.08})`,
-        // Right shadow edge
-        `inset -1px 0 0 rgba(0,0,0,${isDark ? 0.15 : 0.03})`,
-      ].join(", "),
+      boxShadow: "0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06)",
       border: `1px solid ${card.border}`,
     }}>
       {/* Card base layer */}
@@ -97,14 +82,7 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
           background: card.iconBg,
           border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : card.border}`,
           display: "flex", alignItems: "center", justifyContent: "center",
-          // Embossed seal effect — raised with strong inner light
-          boxShadow: [
-            `0 2px 4px rgba(0,0,0,${isDark ? 0.35 : 0.1})`,
-            `0 4px 8px rgba(0,0,0,${isDark ? 0.2 : 0.06})`,
-            `inset 0 1.5px 0 rgba(255,255,255,${isDark ? 0.12 : 0.75})`,
-            `inset 0 -1px 0 rgba(0,0,0,${isDark ? 0.25 : 0.06})`,
-            `inset 1px 0 0 rgba(255,255,255,${isDark ? 0.04 : 0.3})`,
-          ].join(", "),
+          boxShadow: `0 1px 3px rgba(0,0,0,${isDark ? 0.2 : 0.08})`,
         }}>
           <Icon style={{ width: innerIcon, height: innerIcon, color: card.iconFg, strokeWidth: 2.2 }} />
         </div>
@@ -114,10 +92,6 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
           <p style={{
             fontSize: valueSize, fontWeight: 900, lineHeight: 1.1,
             color: card.fg, letterSpacing: "-0.03em",
-            // Subtle emboss on the number
-            textShadow: isDark
-              ? "0 1px 2px rgba(0,0,0,0.3)"
-              : "0 0.5px 0 rgba(255,255,255,0.8), 0 -0.5px 0 rgba(0,0,0,0.04)",
           }}>
             {card.value}
           </p>
@@ -130,14 +104,6 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
         </div>
       </div>
 
-      {/* (shine/holographic effects removed) */}
-
-      {/* Bottom edge shadow — grounds the card */}
-      <div style={{
-        position: "absolute", bottom: 0, left: "8%", right: "8%", height: "1.5px",
-        background: `linear-gradient(90deg, transparent, rgba(0,0,0,${isDark ? 0.3 : 0.1}), transparent)`,
-        zIndex: 4,
-      }} />
     </div>
   );
 }
