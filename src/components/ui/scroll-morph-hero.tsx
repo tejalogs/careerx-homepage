@@ -429,7 +429,7 @@ export default function IntroAnimation() {
         {/* Hero headline — soft radial glow behind text for readability (no box) */}
         <div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[6%] md:top-0 md:bottom-0 md:justify-center">
 
-          {/* Soft radial glow — invisible container, just light behind text */}
+          {/* Soft radial glow — no blur filter, gradient handles the softness */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={circleReady && morphValue < 0.5
@@ -439,10 +439,9 @@ export default function IntroAnimation() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="absolute pointer-events-none"
             style={{
-              width: isMobile ? 250 : 420,
-              height: isMobile ? 160 : 220,
-              background: "radial-gradient(ellipse 100% 100% at 50% 50%, rgba(247,248,252,0.7) 0%, rgba(247,248,252,0.4) 35%, transparent 65%)",
-              filter: "blur(12px)",
+              width: isMobile ? 300 : 500,
+              height: isMobile ? 200 : 280,
+              background: "radial-gradient(ellipse 100% 100% at 50% 50%, rgba(247,248,252,0.6) 0%, rgba(247,248,252,0.3) 30%, transparent 60%)",
             }}
           />
 
@@ -456,11 +455,11 @@ export default function IntroAnimation() {
             CareerXcelerator
           </motion.p>
           <motion.h1
-            initial={{ opacity: 0, y: 30, scale: 0.92, filter: "blur(12px)" }}
+            initial={{ opacity: 0, y: 30, scale: 0.92 }}
             animate={
               circleReady && morphValue < 0.5
-                ? { opacity: 1 - morphValue * 2, y: 0, scale: 1, filter: "blur(0px)" }
-                : { opacity: 0, scale: 0.96, filter: "blur(12px)" }
+                ? { opacity: 1 - morphValue * 2, y: 0, scale: 1 }
+                : { opacity: 0, scale: 0.96 }
             }
             transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
             className="text-3xl sm:text-4xl md:text-[44px] font-black tracking-tight leading-tight relative"
