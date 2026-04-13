@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { motion, useTransform, useSpring, useMotionValue } from "framer-motion";
 import {
   Crosshair, Zap, TrendingUp, CheckCircle,
@@ -45,10 +45,8 @@ const TOTAL_CARDS = CARDS.length;
 // ─── Lerp ────────────────────────────────────────────────────────────────────
 const lerp = (a: number, b: number, t: number) => a * (1 - t) + b * t;
 
-// ─── Premium Card Face with holographic sheen ────────────────────────────────
-function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boolean; holoAngle?: number }) {
-  // Use fixed angle on server, dynamic on client to avoid hydration mismatch
-  const angle = holoAngle ?? 45;
+// ─── Card Face (static, never re-renders during scroll) ──────────────────────
+const CardFace = React.memo(function CardFace({ card, isMobile }: { card: CardData; isMobile: boolean }) {
   const Icon = card.icon;
   const w = isMobile ? CARD_W_MOBILE : CARD_W;
   const h = isMobile ? CARD_H_MOBILE : CARD_H;
@@ -57,8 +55,6 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
   const valueSize = card.value.length <= 4 ? (isMobile ? 18 : 28) : (isMobile ? 13 : 20);
   const labelSize = isMobile ? 7 : 10;
   const radius = isMobile ? 12 : 18;
-
-  // Is this a dark card?
   const isDark = card.bg === "#0C0E14" || card.bg === "#3C61A8";
 
   return (
@@ -68,7 +64,6 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
       boxShadow: "0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06)",
       border: `1px solid ${card.border}`,
     }}>
-      {/* Card base layer */}
       <div style={{
         width: "100%", height: "100%", background: card.bg,
         borderRadius: radius,
@@ -76,7 +71,6 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
         display: "flex", flexDirection: "column", justifyContent: "space-between",
         position: "relative", zIndex: 1,
       }}>
-        {/* Seal/emboss icon */}
         <div style={{
           width: iconSize, height: iconSize, borderRadius: isMobile ? 6 : 8,
           background: card.iconBg,
@@ -86,194 +80,15 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
         }}>
           <Icon style={{ width: innerIcon, height: innerIcon, color: card.iconFg, strokeWidth: 2.2 }} />
         </div>
-
-        {/* Value + Label */}
         <div>
-          <p style={{
-            fontSize: valueSize, fontWeight: 900, lineHeight: 1.1,
-            color: card.fg, letterSpacing: "-0.03em",
-          }}>
+          <p style={{ fontSize: valueSize, fontWeight: 900, lineHeight: 1.1, color: card.fg, letterSpacing: "-0.03em" }}>
             {card.value}
           </p>
-          <p style={{
-            fontSize: labelSize, fontWeight: 600, color: card.muted,
-            marginTop: isMobile ? 2 : 3, letterSpacing: "0.02em",
-          }}>
+          <p style={{ fontSize: labelSize, fontWeight: 600, color: card.muted, marginTop: isMobile ? 2 : 3, letterSpacing: "0.02em" }}>
             {card.label}
           </p>
         </div>
       </div>
-
-    </div>
-  );
-}
-
-// ─── Animated Card ────────────────────────────────────────────────────────────
-// Low-end devices use pure CSS transitions (GPU composited, no JS per frame).
-// High-end devices use Framer Motion springs for richer feel.
-const HeroCard = React.memo(function HeroCard({ card, target, staggerDelay = 0, isMobile, index, lowEnd }: {
-  card: CardData;
-  target: { x: number; y: number; rotation: number; scale: number; opacity: number };
-  staggerDelay?: number;
-  isMobile: boolean;
-  index: number;
-  lowEnd: boolean;
-}) {
-  const holoAngle = ((target.rotation % 360) + 360) % 360;
-
-  if (lowEnd) {
-    return (
-      <div
-        style={{
-          position: "absolute",
-          willChange: "transform, opacity",
-          transform: `translate3d(${target.x}px, ${target.y}px, 0) rotate(${target.rotation}deg) scale(${target.scale})`,
-          opacity: target.opacity,
-          transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
-        }}
-      >
-        <CardFace card={card} isMobile={isMobile} holoAngle={holoAngle} />
-      </div>
-    );
-  }
-
-  const transition = isMobile
-    ? { type: "spring" as const, stiffness: 60, damping: 20, delay: staggerDelay + index * 0.05 }
-    : { type: "spring" as const, stiffness: 80, damping: 22, delay: staggerDelay };
-
-  return (
-    <motion.div
-      initial={{ x: 0, y: 0, rotate: 0, scale: 0.4, opacity: 0 }}
-      animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
-      transition={transition}
-      style={{ position: "absolute", willChange: "transform" }}
-    >
-      <CardFace card={card} isMobile={isMobile} holoAngle={holoAngle} />
-    </motion.div>
-  );
-});
-
-// ─── Compute a single card target (pure function, no allocations when values unchanged) ─
-function computeCardTarget(
-  i: number, introPhase: AnimationPhase, isMobile: boolean, isSmallPhone: boolean,
-  containerSize: { width: number; height: number },
-  morphValue: number, rotateValue: number, parallaxValue: number,
-  scatterPositions: { x: number; y: number; rotation: number; scale: number; opacity: number }[],
-) {
-  if (introPhase === "scatter") return scatterPositions[i];
-
-  if (introPhase === "line") {
-    const spacing = isMobile ? 55 : 75;
-    const totalW = TOTAL_CARDS * spacing;
-    return { x: i * spacing - totalW / 2, y: 0, rotation: 0, scale: 1, opacity: 1 };
-  }
-
-  if (isMobile) {
-    const circleRadius = isSmallPhone ? 115 : 135;
-    const angle = (i / TOTAL_CARDS) * 360 - 90;
-    const rad = (angle * Math.PI) / 180;
-    const mobileCircleOffsetY = isSmallPhone ? 55 : 65;
-    return {
-      x: Math.cos(rad) * circleRadius,
-      y: Math.sin(rad) * circleRadius + mobileCircleOffsetY,
-      rotation: 0, scale: 1, opacity: 1,
-    };
-  }
-
-  // Desktop: circle → arc morph
-  const minDim = Math.min(containerSize.width, containerSize.height);
-  const circleRadius = Math.min(minDim * 0.36, 320);
-  const circleAngle = (i / TOTAL_CARDS) * 360;
-  const circleRad = (circleAngle * Math.PI) / 180;
-  const circlePos = {
-    x: Math.cos(circleRad) * circleRadius,
-    y: Math.sin(circleRad) * circleRadius,
-    rotation: circleAngle + 90,
-  };
-
-  const baseRadius = Math.min(containerSize.width, containerSize.height * 1.5);
-  const arcRadius = baseRadius * 0.65;
-  const arcApexY = containerSize.height * 0.25;
-  const arcCenterY = arcApexY + arcRadius;
-  const spreadAngle = 160;
-  const startAngle = -90 - spreadAngle / 2;
-  const step = spreadAngle / (TOTAL_CARDS - 1);
-  const scrollProg = Math.min(Math.max(rotateValue / 360, 0), 1);
-  const boundedRotation = -scrollProg * spreadAngle * 0.5;
-  const currentArcAngle = startAngle + i * step + boundedRotation;
-  const arcRad = (currentArcAngle * Math.PI) / 180;
-
-  const arcPos = {
-    x: Math.cos(arcRad) * arcRadius + parallaxValue,
-    y: Math.sin(arcRad) * arcRadius + arcCenterY,
-    rotation: currentArcAngle + 90,
-    scale: 1.2,
-  };
-
-  return {
-    x: lerp(circlePos.x, arcPos.x, morphValue),
-    y: lerp(circlePos.y, arcPos.y, morphValue),
-    rotation: lerp(circlePos.rotation, arcPos.rotation, morphValue),
-    scale: lerp(1, arcPos.scale, morphValue),
-    opacity: 1,
-  };
-}
-
-// ─── Memoized card with stable target reference ──────────────────────────────
-function MemoizedCard({ card, i, introPhase, isMobile, isSmallPhone, containerSize,
-  morphValue, rotateValue, parallaxValue, scatterPositions, showStagger, isLowEnd }: {
-  card: CardData; i: number; introPhase: AnimationPhase;
-  isMobile: boolean; isSmallPhone: boolean;
-  containerSize: { width: number; height: number };
-  morphValue: number; rotateValue: number; parallaxValue: number;
-  scatterPositions: { x: number; y: number; rotation: number; scale: number; opacity: number }[];
-  showStagger: boolean; isLowEnd: boolean;
-}) {
-  const target = useMemo(
-    () => computeCardTarget(i, introPhase, isMobile, isSmallPhone, containerSize, morphValue, rotateValue, parallaxValue, scatterPositions),
-    [i, introPhase, isMobile, isSmallPhone, containerSize, morphValue, rotateValue, parallaxValue, scatterPositions]
-  );
-
-  return (
-    <HeroCard
-      card={card}
-      target={target}
-      staggerDelay={showStagger ? i * 0.06 : 0}
-      isMobile={isMobile}
-      index={i}
-      lowEnd={isLowEnd}
-    />
-  );
-}
-
-// ─── Card layer — isolated from parent re-renders ────────────────────────────
-const CardLayer = React.memo(function CardLayer({ containerSize, introPhase, isMobile, isSmallPhone,
-  morphValue, rotateValue, parallaxValue, scatterPositions, showStagger, isLowEnd }: {
-  containerSize: { width: number; height: number }; introPhase: AnimationPhase;
-  isMobile: boolean; isSmallPhone: boolean;
-  morphValue: number; rotateValue: number; parallaxValue: number;
-  scatterPositions: { x: number; y: number; rotation: number; scale: number; opacity: number }[];
-  showStagger: boolean; isLowEnd: boolean;
-}) {
-  return (
-    <div className="relative flex items-center justify-center w-full h-full" style={{ paddingTop: isMobile ? 0 : 30 }}>
-      {containerSize.width > 0 && CARDS.map((card, i) => (
-        <MemoizedCard
-          key={card.id}
-          card={card}
-          i={i}
-          introPhase={introPhase}
-          isMobile={isMobile}
-          isSmallPhone={isSmallPhone}
-          containerSize={containerSize}
-          morphValue={morphValue}
-          rotateValue={rotateValue}
-          parallaxValue={parallaxValue}
-          scatterPositions={scatterPositions}
-          showStagger={showStagger}
-          isLowEnd={isLowEnd}
-        />
-      ))}
     </div>
   );
 });
@@ -281,68 +96,56 @@ const CardLayer = React.memo(function CardLayer({ containerSize, introPhase, isM
 // ─── Desktop scroll range ─────────────────────────────────────────────────────
 const MAX_SCROLL = 1500;
 
-// ─── Detect low-end device by hardware only ──────────────────────────────────
-function useIsLowEnd() {
-  const [lowEnd, setLowEnd] = useState(false);
-  useEffect(() => {
-    const cores = navigator.hardwareConcurrency || 8;
-    const mem = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 8;
-    setLowEnd(cores <= 4 && mem <= 4);
-  }, []);
-  return lowEnd;
-}
-
 // ─── Main Hero Component ──────────────────────────────────────────────────────
 export default function IntroAnimation() {
   const [introPhase, setIntroPhase] = useState<AnimationPhase>("line");
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
-  const [showStagger, setShowStagger] = useState(false);
-  const staggerApplied = useRef(false);
+  const [circleReady, setCircleReady] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const isLowEnd = useIsLowEnd();
 
-  // Measure container — runs on mount, drives readiness
+  // Refs for direct DOM updates (bypass React during scroll)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const headlineRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
+  const scrollHintRef = useRef<HTMLParagraphElement>(null);
+  const arcHeadRef = useRef<HTMLDivElement>(null);
+
+  // ── Measure container ──────────────────────────────────────────────────────
   useEffect(() => {
     if (!containerRef.current) return;
     const measure = () => {
       if (!containerRef.current) return;
       const w = containerRef.current.offsetWidth;
       const h = containerRef.current.offsetHeight;
-      if (w > 0 && h > 0) {
-        setContainerSize({ width: w, height: h });
-      }
+      if (w > 0 && h > 0) setContainerSize({ width: w, height: h });
     };
-    // Measure immediately
     measure();
-    // Also observe for resizes
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         setContainerSize({ width: entry.contentRect.width, height: entry.contentRect.height });
       }
     });
     observer.observe(containerRef.current);
-    // Fallback: try again after a frame in case layout isn't ready
     const raf = requestAnimationFrame(measure);
     return () => { observer.disconnect(); cancelAnimationFrame(raf); };
   }, []);
 
-  // ── Desktop: virtual scroll for arc morph ──────────────────────────────────
+  // ── Virtual scroll ─────────────────────────────────────────────────────────
   const virtualScroll = useMotionValue(0);
   const scrollRef = useRef(0);
-  const cancelAuto = () => {};
 
-  // Desktop scroll handler — listens on WINDOW so scroll-back works even when
-  // cursor is below the hero. Captures scroll while animation is incomplete.
+  const isMobile = containerSize.width > 0 && containerSize.width < 768;
+  const isSmallPhone = containerSize.width > 0 && containerSize.width < 390;
+
+  // Desktop scroll handler
   useEffect(() => {
     if (!containerRef.current) return;
-    const isMob = containerSize.width > 0 && containerSize.width < 768;
-    if (isMob) return;
+    if (isMobile) return;
 
     const handleWheel = (e: WheelEvent) => {
-      cancelAuto();
       const prev = scrollRef.current;
-
-      // Scrolling DOWN while animation not finished — capture
       if (prev < MAX_SCROLL && e.deltaY > 0) {
         e.preventDefault();
         const next = Math.min(prev + e.deltaY, MAX_SCROLL);
@@ -350,13 +153,7 @@ export default function IntroAnimation() {
         virtualScroll.set(next);
         return;
       }
-
-      // At MAX_SCROLL scrolling DOWN — release, let page scroll
-      if (prev >= MAX_SCROLL && e.deltaY > 0) {
-        return;
-      }
-
-      // Scrolling UP while page is at top — rewind hero animation
+      if (prev >= MAX_SCROLL && e.deltaY > 0) return;
       if (e.deltaY < 0 && window.scrollY <= 2) {
         e.preventDefault();
         const next = Math.max(prev + e.deltaY, 0);
@@ -364,33 +161,25 @@ export default function IntroAnimation() {
         virtualScroll.set(next);
         return;
       }
-
-      // Scrolling UP but page not at top — let page scroll up normally
     };
 
     let touchStartY = 0;
-    const handleTouchStart = (e: TouchEvent) => {
-      cancelAuto();
-      touchStartY = e.touches[0].clientY;
-    };
+    const handleTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
     const handleTouchMove = (e: TouchEvent) => {
       const deltaY = touchStartY - e.touches[0].clientY;
       touchStartY = e.touches[0].clientY;
       const prev = scrollRef.current;
-
       if (prev < MAX_SCROLL && deltaY > 0) {
         e.preventDefault();
-        const next = Math.min(prev + deltaY, MAX_SCROLL);
-        scrollRef.current = next;
-        virtualScroll.set(next);
+        scrollRef.current = Math.min(prev + deltaY, MAX_SCROLL);
+        virtualScroll.set(scrollRef.current);
         return;
       }
       if (prev >= MAX_SCROLL && deltaY > 0) return;
       if (deltaY < 0 && window.scrollY <= 2) {
         e.preventDefault();
-        const next = Math.max(prev + deltaY, 0);
-        scrollRef.current = next;
-        virtualScroll.set(next);
+        scrollRef.current = Math.max(prev + deltaY, 0);
+        virtualScroll.set(scrollRef.current);
       }
     };
 
@@ -402,95 +191,130 @@ export default function IntroAnimation() {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [virtualScroll, containerSize.width]);
+  }, [virtualScroll, isMobile]);
 
-  // Desktop: morph progress (circle → arc) and scroll-driven rotation
+  // ── Springs (Framer Motion internal — no React state) ──────────────────────
   const morphProgress = useTransform(virtualScroll, [0, 600], [0, 1]);
   const smoothMorph = useSpring(morphProgress, { stiffness: 80, damping: 35 });
   const scrollRotate = useTransform(virtualScroll, [600, MAX_SCROLL], [0, 360]);
   const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 80, damping: 35 });
 
-  // Mouse X tracking for arc parallax only (no 3D depth layers)
+  // Mouse X for arc parallax
   const mouseXArc = useMotionValue(0);
   const smoothMouseX = useSpring(mouseXArc, { stiffness: 50, damping: 28 });
 
-  // Track spring values as state — throttled to ~30fps to reduce re-renders
-  const [morphValue, setMorphValue] = useState(0);
-  const [rotateValue, setRotateValue] = useState(0);
-  const [parallaxValue, setParallaxValue] = useState(0);
-
+  // ── Direct DOM update loop — ZERO React re-renders during scroll ───────────
   useEffect(() => {
-    let rafId: number | null = null;
-    let latestMorph = 0, latestRotate = 0, latestParallax = 0;
-    let dirty = false;
+    if (!containerSize.width || isMobile) return;
 
-    const flush = () => {
-      rafId = null;
-      if (dirty) {
-        setMorphValue(latestMorph);
-        setRotateValue(latestRotate);
-        setParallaxValue(latestParallax);
-        dirty = false;
+    const updateDOM = () => {
+      const morph = smoothMorph.get();
+      const rotate = smoothScrollRotate.get();
+      const parallax = smoothMouseX.get();
+
+      // Update 8 card transforms directly
+      for (let i = 0; i < TOTAL_CARDS; i++) {
+        const el = cardRefs.current[i];
+        if (!el) continue;
+
+        const minDim = Math.min(containerSize.width, containerSize.height);
+        const circleRadius = Math.min(minDim * 0.36, 320);
+        const circleAngle = (i / TOTAL_CARDS) * 360;
+        const circleRad = (circleAngle * Math.PI) / 180;
+        const cx = Math.cos(circleRad) * circleRadius;
+        const cy = Math.sin(circleRad) * circleRadius;
+        const cr = circleAngle + 90;
+
+        const baseRadius = Math.min(containerSize.width, containerSize.height * 1.5);
+        const arcRadius = baseRadius * 0.65;
+        const arcApexY = containerSize.height * 0.25;
+        const arcCenterY = arcApexY + arcRadius;
+        const spreadAngle = 160;
+        const startAngle = -90 - spreadAngle / 2;
+        const step = spreadAngle / (TOTAL_CARDS - 1);
+        const scrollProg = Math.min(Math.max(rotate / 360, 0), 1);
+        const boundedRotation = -scrollProg * spreadAngle * 0.5;
+        const currentArcAngle = startAngle + i * step + boundedRotation;
+        const arcRad = (currentArcAngle * Math.PI) / 180;
+
+        const ax = Math.cos(arcRad) * arcRadius + parallax;
+        const ay = Math.sin(arcRad) * arcRadius + arcCenterY;
+        const ar = currentArcAngle + 90;
+        const aScale = 1.2;
+
+        const x = lerp(cx, ax, morph);
+        const y = lerp(cy, ay, morph);
+        const r = lerp(cr, ar, morph);
+        const s = lerp(1, aScale, morph);
+
+        el.style.transform = `translate3d(${x}px,${y}px,0) rotate(${r}deg) scale(${s})`;
+      }
+
+      // Update headline elements directly
+      const showHead = circleReady && morph < 0.5;
+      const headOpacity = showHead ? 1 - morph * 2 : 0;
+
+      if (glowRef.current) glowRef.current.style.opacity = String(headOpacity);
+      if (subtitleRef.current) {
+        const subShow = circleReady && morph < 0.3;
+        subtitleRef.current.style.opacity = subShow ? "0.5" : "0";
+        subtitleRef.current.style.transform = `translateY(${subShow ? 0 : 10}px)`;
+      }
+      if (headlineRef.current) {
+        headlineRef.current.style.opacity = String(headOpacity);
+      }
+      if (ctaRef.current) {
+        const ctaShow = circleReady && morph < 0.4;
+        ctaRef.current.style.opacity = String(ctaShow ? 1 - morph * 2.5 : 0);
+        ctaRef.current.style.transform = `translateY(${ctaShow ? 0 : 10}px)`;
+      }
+      if (scrollHintRef.current) {
+        scrollHintRef.current.style.opacity = String(circleReady && morph < 0.3 ? 0.4 : 0);
+      }
+
+      // Arc headline (appears after morph)
+      if (arcHeadRef.current) {
+        const arcOpacity = morph >= 0.8 ? (morph - 0.8) * 5 : 0; // 0.8→1 maps to 0→1
+        const arcY = morph >= 0.8 ? lerp(20, 0, (morph - 0.8) * 5) : 20;
+        arcHeadRef.current.style.opacity = String(Math.min(arcOpacity, 1));
+        arcHeadRef.current.style.transform = `translateY(${arcY}px)`;
       }
     };
-    const scheduleFlush = () => {
-      if (!rafId) rafId = requestAnimationFrame(flush);
-    };
 
-    const u1 = smoothMorph.on("change", (v) => { latestMorph = v; dirty = true; scheduleFlush(); });
-    const u2 = smoothScrollRotate.on("change", (v) => { latestRotate = v; dirty = true; scheduleFlush(); });
-    const u3 = smoothMouseX.on("change", (v) => { latestParallax = v; dirty = true; scheduleFlush(); });
-    return () => { u1(); u2(); u3(); if (rafId) cancelAnimationFrame(rafId); };
-  }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
+    // Subscribe to spring changes — update DOM directly, no setState
+    const u1 = smoothMorph.on("change", updateDOM);
+    const u2 = smoothScrollRotate.on("change", updateDOM);
+    const u3 = smoothMouseX.on("change", updateDOM);
 
-  // Desktop: headline fades out as user scrolls into arc
-  const contentOpacity = useTransform(smoothMorph, [0.8, 1], [0, 1]);
-  const contentY = useTransform(smoothMorph, [0.8, 1], [20, 0]);
-  const [arcHeadOpacity, setArcHeadOpacity] = useState(0);
-  const [arcHeadY, setArcHeadY] = useState(20);
+    return () => { u1(); u2(); u3(); };
+  }, [containerSize, isMobile, circleReady, smoothMorph, smoothScrollRotate, smoothMouseX]);
 
+  // Mouse tracking — only after morph starts
+  const morphStartedRef = useRef(false);
   useEffect(() => {
-    let rafId: number | null = null;
-    let latestOpacity = 0, latestY = 20;
-    let dirty = false;
+    const unsub = smoothMorph.on("change", (v) => {
+      if (v > 0 && !morphStartedRef.current) morphStartedRef.current = true;
+    });
+    return unsub;
+  }, [smoothMorph]);
 
-    const flush = () => {
-      rafId = null;
-      if (dirty) {
-        setArcHeadOpacity(latestOpacity);
-        setArcHeadY(latestY);
-        dirty = false;
-      }
-    };
-
-    const u1 = contentOpacity.on("change", (v) => { latestOpacity = v; dirty = true; if (!rafId) rafId = requestAnimationFrame(flush); });
-    const u2 = contentY.on("change", (v) => { latestY = v; dirty = true; if (!rafId) rafId = requestAnimationFrame(flush); });
-    return () => { u1(); u2(); if (rafId) cancelAnimationFrame(rafId); };
-  }, [contentOpacity, contentY]);
-
-  // Only track mouse after arc morph starts to avoid idle spring calculations
-  const morphStarted = morphValue > 0;
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || !morphStarted) return;
+    if (!container) return;
     const handleMouseMove = (e: MouseEvent) => {
+      if (!morphStartedRef.current) return;
       const rect = container.getBoundingClientRect();
       const nx = (e.clientX - rect.left) / rect.width * 2 - 1;
       mouseXArc.set(nx * 100);
     };
     container.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      container.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [mouseXArc, morphStarted]);
+    return () => container.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseXArc]);
 
-  const [circleReady, setCircleReady] = useState(false);
-
-  // Intro animation sequence — only after client mount + container measured
+  // ── Intro animation sequence ───────────────────────────────────────────────
   useEffect(() => {
     if (containerSize.width === 0) return;
     const mobile = containerSize.width < 768;
-    // Mobile: skip line phase, go to circle faster
     const circleDelay = mobile ? 400 : 1200;
     const readyDelay = mobile ? 1000 : 1800;
     const t1 = setTimeout(() => setIntroPhase("circle"), circleDelay);
@@ -498,49 +322,53 @@ export default function IntroAnimation() {
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [containerSize.width]);
 
-  // Stagger on circle entry
-  useEffect(() => {
-    if (introPhase === "circle" && !staggerApplied.current) {
-      staggerApplied.current = true;
-      setShowStagger(true);
-      const t = setTimeout(() => setShowStagger(false), TOTAL_CARDS * 60 + 600);
-      return () => clearTimeout(t);
-    }
-  }, [introPhase]);
-
-  // Scatter positions
-  const scatterPositions = useMemo(() => CARDS.map(() => ({
-    x: (Math.random() - 0.5) * 1200,
-    y: (Math.random() - 0.5) * 800,
-    rotation: (Math.random() - 0.5) * 120,
-    scale: 0.6,
-    opacity: 0,
-  })), []);
-
-  const isMobile = containerSize.width > 0 && containerSize.width < 768;
-  const isSmallPhone = containerSize.width > 0 && containerSize.width < 390;
-
-  // Mobile: auto-scroll to next section after circle forms
+  // Mobile: auto-scroll to next section
   useEffect(() => {
     if (!circleReady || !isMobile) return;
     const t = setTimeout(() => {
       const heroEl = containerRef.current?.closest("section");
       if (heroEl) {
         const nextSection = heroEl.nextElementSibling;
-        if (nextSection) {
-          nextSection.scrollIntoView({ behavior: "smooth" });
-        }
+        if (nextSection) nextSection.scrollIntoView({ behavior: "smooth" });
       }
-    }, 2500); // show circle for 2.5s then auto-scroll
+    }, 2500);
     return () => clearTimeout(t);
   }, [circleReady, isMobile]);
 
-  // (Parallax depth layers removed for performance)
+  // ── Compute initial card targets for Framer Motion entrance ────────────────
+  const initialTargets = useMemo(() => {
+    if (containerSize.width === 0) return [];
+    return CARDS.map((_, i) => {
+      if (introPhase === "line") {
+        const spacing = isMobile ? 55 : 75;
+        const totalW = TOTAL_CARDS * spacing;
+        return { x: i * spacing - totalW / 2, y: 0, rotation: 0, scale: 1, opacity: 1 };
+      }
+      if (isMobile) {
+        const circleRadius = isSmallPhone ? 115 : 135;
+        const angle = (i / TOTAL_CARDS) * 360 - 90;
+        const rad = (angle * Math.PI) / 180;
+        const offsetY = isSmallPhone ? 55 : 65;
+        return { x: Math.cos(rad) * circleRadius, y: Math.sin(rad) * circleRadius + offsetY, rotation: 0, scale: 1, opacity: 1 };
+      }
+      // Desktop circle
+      const minDim = Math.min(containerSize.width, containerSize.height);
+      const circleRadius = Math.min(minDim * 0.36, 320);
+      const circleAngle = (i / TOTAL_CARDS) * 360;
+      const circleRad = (circleAngle * Math.PI) / 180;
+      return { x: Math.cos(circleRad) * circleRadius, y: Math.sin(circleRad) * circleRadius, rotation: circleAngle + 90, scale: 1, opacity: 1 };
+    });
+  }, [introPhase, containerSize, isMobile, isSmallPhone]);
+
+  // Card ref setter
+  const setCardRef = useCallback((i: number) => (el: HTMLDivElement | null) => {
+    cardRefs.current[i] = el;
+  }, []);
 
   return (
     <div ref={containerRef} className="relative w-full h-full overflow-hidden" style={{ background: "radial-gradient(ellipse 70% 55% at 50% 62%, rgba(60,97,168,0.07) 0%, transparent 70%), #F7F8FC" }}>
 
-      {/* Ambient glow orbs — static background */}
+      {/* Ambient glow orbs — static */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div style={{ position: "absolute", width: 700, height: 700, background: "radial-gradient(circle, rgba(60,97,168,0.06) 0%, transparent 60%)", borderRadius: "50%", left: "5%", top: "10%" }} />
         <div style={{ position: "absolute", width: 500, height: 500, background: "radial-gradient(circle, rgba(245,209,52,0.05) 0%, transparent 60%)", borderRadius: "50%", right: "0%", top: "35%" }} />
@@ -549,38 +377,35 @@ export default function IntroAnimation() {
 
       <div className="flex h-full w-full flex-col items-center justify-center">
 
-        {/* Hero headline — soft radial glow behind text for readability (no box) */}
+        {/* Hero headline */}
         <div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[6%] md:top-0 md:bottom-0 md:justify-center">
 
-          {/* Soft radial glow */}
           <div
+            ref={glowRef}
             className="absolute pointer-events-none"
             style={{
               width: isMobile ? 300 : 500,
               height: isMobile ? 200 : 280,
               background: "radial-gradient(ellipse 100% 100% at 50% 50%, rgba(247,248,252,0.6) 0%, rgba(247,248,252,0.3) 30%, transparent 60%)",
-              opacity: circleReady && morphValue < 0.5 ? 1 - morphValue * 2 : 0,
+              opacity: 0,
               transition: "opacity 0.3s ease-out",
             }}
           />
 
           <p
+            ref={subtitleRef}
             className="text-[10px] font-black tracking-[0.3em] uppercase mb-1.5 relative"
-            style={{
-              color: "#3C61A8",
-              opacity: circleReady && morphValue < 0.3 ? 0.5 : 0,
-              transform: `translateY(${circleReady && morphValue < 0.3 ? 0 : 10}px)`,
-              transition: "opacity 0.4s ease-out, transform 0.4s ease-out",
-            }}
+            style={{ color: "#3C61A8", opacity: 0, transform: "translateY(10px)", transition: "opacity 0.4s ease-out, transform 0.4s ease-out" }}
           >
             CareerXcelerator
           </p>
           <h1
+            ref={headlineRef}
             className="text-3xl sm:text-4xl md:text-[44px] font-black tracking-tight leading-tight relative"
             style={{
               color: "#1a1a2e",
-              opacity: circleReady && morphValue < 0.5 ? 1 - morphValue * 2 : 0,
-              transform: `translateY(${circleReady ? 0 : 30}px) scale(${circleReady ? 1 : 0.92})`,
+              opacity: 0,
+              transform: circleReady ? "translateY(0) scale(1)" : "translateY(30px) scale(0.92)",
               transition: "opacity 0.3s ease-out, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
             }}
           >
@@ -595,46 +420,33 @@ export default function IntroAnimation() {
             </span>
           </h1>
 
-          {/* Subtitle + CTA — mobile */}
+          {/* Mobile CTA */}
           {isMobile && circleReady && (
             <>
-              <p
-                className="mt-3 text-xs text-gray-500 max-w-sm relative"
-                style={{ opacity: 0.5, transition: "opacity 0.6s ease" }}
-              >
+              <p className="mt-3 text-xs text-gray-500 max-w-sm relative" style={{ opacity: 0.5 }}>
                 Role fit. Skill gaps. Interview readiness. All in one system.
               </p>
-              <a
-                href="/kyb"
-                className="mt-3 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto relative"
-                style={{ backgroundColor: "#3C61A8" }}
-              >
+              <a href="/kyb" className="mt-3 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold text-white hover:opacity-90 active:scale-95 pointer-events-auto relative" style={{ backgroundColor: "#3C61A8" }}>
                 Find My Best Role <span className="text-xs">→</span>
               </a>
             </>
           )}
 
-          {/* Desktop: CTA + scroll indicator inline with headline */}
+          {/* Desktop CTA */}
           {!isMobile && (
             <>
               <a
+                ref={ctaRef}
                 href="/kyb"
                 className="mt-8 inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white hover:opacity-90 active:scale-95 pointer-events-auto relative"
-                style={{
-                  backgroundColor: "#3C61A8",
-                  opacity: circleReady && morphValue < 0.4 ? 1 - morphValue * 2.5 : 0,
-                  transform: `translateY(${circleReady && morphValue < 0.4 ? 0 : 10}px)`,
-                  transition: "opacity 0.3s ease-out, transform 0.3s ease-out",
-                }}
+                style={{ backgroundColor: "#3C61A8", opacity: 0, transform: "translateY(10px)", transition: "opacity 0.3s ease-out, transform 0.3s ease-out" }}
               >
                 Find My Best Role <span className="text-xs">→</span>
               </a>
               <p
+                ref={scrollHintRef}
                 className="mt-4 text-[11px] font-medium text-gray-400 relative"
-                style={{
-                  opacity: circleReady && morphValue < 0.3 ? 0.4 : 0,
-                  transition: "opacity 0.3s ease-out",
-                }}
+                style={{ opacity: 0, transition: "opacity 0.3s ease-out" }}
               >
                 Scroll to explore ↓
               </p>
@@ -642,15 +454,14 @@ export default function IntroAnimation() {
           )}
         </div>
 
-        {/* Desktop arc headline — fades in when scrolled past circle */}
+        {/* Arc headline — appears when scrolled past circle */}
         {!isMobile && (
           <div
+            ref={arcHeadRef}
             className="absolute top-[14%] z-10 hidden md:flex flex-col items-center justify-center text-center pointer-events-none px-4"
-            style={{ opacity: arcHeadOpacity, transform: `translateY(${arcHeadY}px)` }}
+            style={{ opacity: 0, transform: "translateY(20px)" }}
           >
-            <p className="text-[10px] font-black tracking-[0.25em] uppercase text-gray-400 mb-3">
-              CareerXcelerator
-            </p>
+            <p className="text-[10px] font-black tracking-[0.25em] uppercase text-gray-400 mb-3">CareerXcelerator</p>
             <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
               Role fit. Skill gaps.<br />Interview readiness.
             </h2>
@@ -658,37 +469,41 @@ export default function IntroAnimation() {
               Understand what the market needs from you. Then close the gap.
             </p>
             <div className="flex items-center gap-3 mt-5 pointer-events-auto">
-              <a
-                href="/kyb"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
-                style={{ backgroundColor: "#3C61A8" }}
-              >
+              <a href="/kyb" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95" style={{ backgroundColor: "#3C61A8" }}>
                 Find My Best Role <span className="text-xs">→</span>
               </a>
-              <a
-                href="#how-it-works"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold border-2 transition-all hover:bg-gray-50 active:scale-95"
-                style={{ borderColor: "#3C61A8", color: "#3C61A8" }}
-              >
+              <a href="#how-it-works" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold border-2 transition-all hover:bg-gray-50 active:scale-95" style={{ borderColor: "#3C61A8", color: "#3C61A8" }}>
                 See How It Works
               </a>
             </div>
           </div>
         )}
 
-        {/* Cards (only render after container is measured) */}
-        <CardLayer
-          containerSize={containerSize}
-          introPhase={introPhase}
-          isMobile={isMobile}
-          isSmallPhone={isSmallPhone}
-          morphValue={morphValue}
-          rotateValue={rotateValue}
-          parallaxValue={parallaxValue}
-          scatterPositions={scatterPositions}
-          showStagger={showStagger}
-          isLowEnd={isLowEnd}
-        />
+        {/* Cards — rendered once, positions updated via direct DOM */}
+        <div className="relative flex items-center justify-center w-full h-full" style={{ paddingTop: isMobile ? 0 : 30 }}>
+          {containerSize.width > 0 && CARDS.map((card, i) => {
+            const target = initialTargets[i];
+            if (!target) return null;
+
+            const delay = isMobile ? i * 0.06 : i * 0.04;
+
+            return (
+              <motion.div
+                key={card.id}
+                ref={setCardRef(i)}
+                initial={{ x: 0, y: 0, rotate: 0, scale: 0.4, opacity: 0 }}
+                animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
+                transition={isMobile
+                  ? { type: "spring", stiffness: 60, damping: 20, delay: delay }
+                  : { type: "spring", stiffness: 80, damping: 22, delay: delay }
+                }
+                style={{ position: "absolute", willChange: "transform" }}
+              >
+                <CardFace card={card} isMobile={isMobile} />
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
