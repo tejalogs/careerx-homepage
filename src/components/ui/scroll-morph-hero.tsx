@@ -157,13 +157,18 @@ const HeroCard = React.memo(function HeroCard({ card, target, staggerDelay = 0, 
 // ─── Desktop scroll range ─────────────────────────────────────────────────────
 const MAX_SCROLL = 1500;
 
-// ─── Detect low-end device (≤4 cores or low memory) ─────────────────────────
+// ─── Detect low-end device or non-Safari browser on Windows ──────────────────
 function useIsLowEnd() {
   const [lowEnd, setLowEnd] = useState(false);
   useEffect(() => {
     const cores = navigator.hardwareConcurrency || 4;
     const mem = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 8;
-    setLowEnd(cores <= 4 || mem <= 4);
+    const ua = navigator.userAgent;
+    const isWindows = ua.includes("Windows");
+    const isLowHardware = cores <= 4 || mem <= 4;
+    // Chrome, Edge, and Firefox on Windows struggle with spring animations
+    const isWindowsBrowser = isWindows && (ua.includes("Chrome") || ua.includes("Firefox") || ua.includes("Edg"));
+    setLowEnd(isLowHardware || isWindowsBrowser);
   }, []);
   return lowEnd;
 }
