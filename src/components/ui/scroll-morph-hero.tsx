@@ -109,14 +109,34 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
 }
 
 // ─── Animated Card ────────────────────────────────────────────────────────────
-const HeroCard = React.memo(function HeroCard({ card, target, staggerDelay = 0, isMobile, index }: {
+// Low-end devices use pure CSS transitions (GPU composited, no JS per frame).
+// High-end devices use Framer Motion springs for richer feel.
+const HeroCard = React.memo(function HeroCard({ card, target, staggerDelay = 0, isMobile, index, lowEnd }: {
   card: CardData;
   target: { x: number; y: number; rotation: number; scale: number; opacity: number };
   staggerDelay?: number;
   isMobile: boolean;
   index: number;
+  lowEnd: boolean;
 }) {
   const holoAngle = ((target.rotation % 360) + 360) % 360;
+
+  if (lowEnd) {
+    const delay = isMobile ? index * 0.06 : index * 0.05;
+    return (
+      <div
+        style={{
+          position: "absolute",
+          willChange: "transform, opacity",
+          transform: `translate3d(${target.x}px, ${target.y}px, 0) rotate(${target.rotation}deg) scale(${target.scale})`,
+          opacity: target.opacity,
+          transition: `transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s, opacity 0.5s ease ${delay}s`,
+        }}
+      >
+        <CardFace card={card} isMobile={isMobile} holoAngle={holoAngle} />
+      </div>
+    );
+  }
 
   const transition = isMobile
     ? { type: "spring" as const, stiffness: 60, damping: 20, delay: staggerDelay + index * 0.05 }
@@ -137,6 +157,17 @@ const HeroCard = React.memo(function HeroCard({ card, target, staggerDelay = 0, 
 // ─── Desktop scroll range ─────────────────────────────────────────────────────
 const MAX_SCROLL = 1500;
 
+// ─── Detect low-end device (≤4 cores or low memory) ─────────────────────────
+function useIsLowEnd() {
+  const [lowEnd, setLowEnd] = useState(false);
+  useEffect(() => {
+    const cores = navigator.hardwareConcurrency || 4;
+    const mem = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 8;
+    setLowEnd(cores <= 4 || mem <= 4);
+  }, []);
+  return lowEnd;
+}
+
 // ─── Main Hero Component ──────────────────────────────────────────────────────
 export default function IntroAnimation() {
   const [introPhase, setIntroPhase] = useState<AnimationPhase>("line");
@@ -144,6 +175,7 @@ export default function IntroAnimation() {
   const [showStagger, setShowStagger] = useState(false);
   const staggerApplied = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isLowEnd = useIsLowEnd();
 
   // Measure container — runs on mount, drives readiness
   useEffect(() => {
@@ -181,10 +213,11 @@ export default function IntroAnimation() {
 
   // Desktop scroll handler — listens on WINDOW so scroll-back works even when
   // cursor is below the hero. Captures scroll while animation is incomplete.
+  // Disabled on low-end devices to avoid per-frame JS work.
   useEffect(() => {
     if (!containerRef.current) return;
     const isMob = containerSize.width > 0 && containerSize.width < 768;
-    if (isMob) return;
+    if (isMob || isLowEnd) return;
 
     const handleWheel = (e: WheelEvent) => {
       cancelAuto();
@@ -250,7 +283,7 @@ export default function IntroAnimation() {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [virtualScroll, containerSize.width]);
+  }, [virtualScroll, containerSize.width, isLowEnd]);
 
   // Desktop: morph progress (circle → arc) and scroll-driven rotation
   const morphProgress = useTransform(virtualScroll, [0, 600], [0, 1]);
@@ -607,6 +640,7 @@ export default function IntroAnimation() {
                 staggerDelay={showStagger ? i * 0.06 : 0}
                 isMobile={isMobile}
                 index={i}
+                lowEnd={isLowEnd}
               />
             );
           })}
