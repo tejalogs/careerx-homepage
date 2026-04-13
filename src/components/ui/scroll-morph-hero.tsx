@@ -122,7 +122,6 @@ const HeroCard = React.memo(function HeroCard({ card, target, staggerDelay = 0, 
   const holoAngle = ((target.rotation % 360) + 360) % 360;
 
   if (lowEnd) {
-    const delay = isMobile ? index * 0.06 : index * 0.05;
     return (
       <div
         style={{
@@ -130,7 +129,7 @@ const HeroCard = React.memo(function HeroCard({ card, target, staggerDelay = 0, 
           willChange: "transform, opacity",
           transform: `translate3d(${target.x}px, ${target.y}px, 0) rotate(${target.rotation}deg) scale(${target.scale})`,
           opacity: target.opacity,
-          transition: `transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s, opacity 0.5s ease ${delay}s`,
+          transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
         }}
       >
         <CardFace card={card} isMobile={isMobile} holoAngle={holoAngle} />
@@ -213,11 +212,10 @@ export default function IntroAnimation() {
 
   // Desktop scroll handler — listens on WINDOW so scroll-back works even when
   // cursor is below the hero. Captures scroll while animation is incomplete.
-  // Disabled on low-end devices to avoid per-frame JS work.
   useEffect(() => {
     if (!containerRef.current) return;
     const isMob = containerSize.width > 0 && containerSize.width < 768;
-    if (isMob || isLowEnd) return;
+    if (isMob) return;
 
     const handleWheel = (e: WheelEvent) => {
       cancelAuto();
@@ -283,7 +281,7 @@ export default function IntroAnimation() {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [virtualScroll, containerSize.width, isLowEnd]);
+  }, [virtualScroll, containerSize.width]);
 
   // Desktop: morph progress (circle → arc) and scroll-driven rotation
   const morphProgress = useTransform(virtualScroll, [0, 600], [0, 1]);
