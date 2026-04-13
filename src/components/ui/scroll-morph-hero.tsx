@@ -293,20 +293,6 @@ export default function IntroAnimation() {
   const mouseXArc = useMotionValue(0);
   const smoothMouseX = useSpring(mouseXArc, { stiffness: 50, damping: 28 });
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const nx = (e.clientX - rect.left) / rect.width * 2 - 1;
-      mouseXArc.set(nx * 100);
-    };
-    container.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      container.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [mouseXArc]);
-
   // Track spring values as state — throttled to ~30fps to reduce re-renders
   const [morphValue, setMorphValue] = useState(0);
   const [rotateValue, setRotateValue] = useState(0);
@@ -360,6 +346,22 @@ export default function IntroAnimation() {
     const u2 = contentY.on("change", (v) => { latestY = v; dirty = true; if (!rafId) rafId = requestAnimationFrame(flush); });
     return () => { u1(); u2(); if (rafId) cancelAnimationFrame(rafId); };
   }, [contentOpacity, contentY]);
+
+  // Only track mouse after arc morph starts to avoid idle spring calculations
+  const morphStarted = morphValue > 0;
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || !morphStarted) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      const nx = (e.clientX - rect.left) / rect.width * 2 - 1;
+      mouseXArc.set(nx * 100);
+    };
+    container.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      container.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [mouseXArc, morphStarted]);
 
   const [circleReady, setCircleReady] = useState(false);
 
