@@ -153,6 +153,131 @@ const HeroCard = React.memo(function HeroCard({ card, target, staggerDelay = 0, 
   );
 });
 
+// ─── Compute a single card target (pure function, no allocations when values unchanged) ─
+function computeCardTarget(
+  i: number, introPhase: AnimationPhase, isMobile: boolean, isSmallPhone: boolean,
+  containerSize: { width: number; height: number },
+  morphValue: number, rotateValue: number, parallaxValue: number,
+  scatterPositions: { x: number; y: number; rotation: number; scale: number; opacity: number }[],
+) {
+  if (introPhase === "scatter") return scatterPositions[i];
+
+  if (introPhase === "line") {
+    const spacing = isMobile ? 55 : 75;
+    const totalW = TOTAL_CARDS * spacing;
+    return { x: i * spacing - totalW / 2, y: 0, rotation: 0, scale: 1, opacity: 1 };
+  }
+
+  if (isMobile) {
+    const circleRadius = isSmallPhone ? 115 : 135;
+    const angle = (i / TOTAL_CARDS) * 360 - 90;
+    const rad = (angle * Math.PI) / 180;
+    const mobileCircleOffsetY = isSmallPhone ? 55 : 65;
+    return {
+      x: Math.cos(rad) * circleRadius,
+      y: Math.sin(rad) * circleRadius + mobileCircleOffsetY,
+      rotation: 0, scale: 1, opacity: 1,
+    };
+  }
+
+  // Desktop: circle → arc morph
+  const minDim = Math.min(containerSize.width, containerSize.height);
+  const circleRadius = Math.min(minDim * 0.36, 320);
+  const circleAngle = (i / TOTAL_CARDS) * 360;
+  const circleRad = (circleAngle * Math.PI) / 180;
+  const circlePos = {
+    x: Math.cos(circleRad) * circleRadius,
+    y: Math.sin(circleRad) * circleRadius,
+    rotation: circleAngle + 90,
+  };
+
+  const baseRadius = Math.min(containerSize.width, containerSize.height * 1.5);
+  const arcRadius = baseRadius * 0.65;
+  const arcApexY = containerSize.height * 0.25;
+  const arcCenterY = arcApexY + arcRadius;
+  const spreadAngle = 160;
+  const startAngle = -90 - spreadAngle / 2;
+  const step = spreadAngle / (TOTAL_CARDS - 1);
+  const scrollProg = Math.min(Math.max(rotateValue / 360, 0), 1);
+  const boundedRotation = -scrollProg * spreadAngle * 0.5;
+  const currentArcAngle = startAngle + i * step + boundedRotation;
+  const arcRad = (currentArcAngle * Math.PI) / 180;
+
+  const arcPos = {
+    x: Math.cos(arcRad) * arcRadius + parallaxValue,
+    y: Math.sin(arcRad) * arcRadius + arcCenterY,
+    rotation: currentArcAngle + 90,
+    scale: 1.2,
+  };
+
+  return {
+    x: lerp(circlePos.x, arcPos.x, morphValue),
+    y: lerp(circlePos.y, arcPos.y, morphValue),
+    rotation: lerp(circlePos.rotation, arcPos.rotation, morphValue),
+    scale: lerp(1, arcPos.scale, morphValue),
+    opacity: 1,
+  };
+}
+
+// ─── Memoized card with stable target reference ──────────────────────────────
+function MemoizedCard({ card, i, introPhase, isMobile, isSmallPhone, containerSize,
+  morphValue, rotateValue, parallaxValue, scatterPositions, showStagger, isLowEnd }: {
+  card: CardData; i: number; introPhase: AnimationPhase;
+  isMobile: boolean; isSmallPhone: boolean;
+  containerSize: { width: number; height: number };
+  morphValue: number; rotateValue: number; parallaxValue: number;
+  scatterPositions: { x: number; y: number; rotation: number; scale: number; opacity: number }[];
+  showStagger: boolean; isLowEnd: boolean;
+}) {
+  const target = useMemo(
+    () => computeCardTarget(i, introPhase, isMobile, isSmallPhone, containerSize, morphValue, rotateValue, parallaxValue, scatterPositions),
+    [i, introPhase, isMobile, isSmallPhone, containerSize, morphValue, rotateValue, parallaxValue, scatterPositions]
+  );
+
+  return (
+    <HeroCard
+      card={card}
+      target={target}
+      staggerDelay={showStagger ? i * 0.06 : 0}
+      isMobile={isMobile}
+      index={i}
+      lowEnd={isLowEnd}
+    />
+  );
+}
+
+// ─── Card layer — isolated from parent re-renders ────────────────────────────
+const CardLayer = React.memo(function CardLayer({ containerSize, introPhase, isMobile, isSmallPhone,
+  morphValue, rotateValue, parallaxValue, scatterPositions, showStagger, isLowEnd }: {
+  containerSize: { width: number; height: number }; introPhase: AnimationPhase;
+  isMobile: boolean; isSmallPhone: boolean;
+  morphValue: number; rotateValue: number; parallaxValue: number;
+  scatterPositions: { x: number; y: number; rotation: number; scale: number; opacity: number }[];
+  showStagger: boolean; isLowEnd: boolean;
+}) {
+  return (
+    <div className="relative flex items-center justify-center w-full h-full" style={{ paddingTop: isMobile ? 0 : 30 }}>
+      {containerSize.width > 0 && CARDS.map((card, i) => (
+        <MemoizedCard
+          key={card.id}
+          card={card}
+          i={i}
+          introPhase={introPhase}
+          isMobile={isMobile}
+          isSmallPhone={isSmallPhone}
+          containerSize={containerSize}
+          morphValue={morphValue}
+          rotateValue={rotateValue}
+          parallaxValue={parallaxValue}
+          scatterPositions={scatterPositions}
+          showStagger={showStagger}
+          isLowEnd={isLowEnd}
+        />
+      ))}
+    </div>
+  );
+});
+
 // ─── Desktop scroll range ─────────────────────────────────────────────────────
 const MAX_SCROLL = 1500;
 
@@ -565,85 +690,18 @@ export default function IntroAnimation() {
         )}
 
         {/* Cards (only render after container is measured) */}
-        <div className="relative flex items-center justify-center w-full h-full" style={{ paddingTop: isMobile ? 0 : 30 }}>
-          {containerSize.width > 0 && CARDS.map((card, i) => {
-            let target = { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 };
-
-            if (introPhase === "scatter") {
-              target = scatterPositions[i];
-            } else if (introPhase === "line") {
-              const spacing = isMobile ? 55 : 75;
-              const totalW = TOTAL_CARDS * spacing;
-              target = { x: i * spacing - totalW / 2, y: 0, rotation: 0, scale: 1, opacity: 1 };
-            } else if (isMobile) {
-              // ─── MOBILE: circle layout, cards upright ───────────
-              const circleRadius = isSmallPhone ? 115 : 135;
-              const angle = (i / TOTAL_CARDS) * 360 - 90;
-              const rad = (angle * Math.PI) / 180;
-              const mobileCircleOffsetY = isSmallPhone ? 55 : 65;
-              target = {
-                x: Math.cos(rad) * circleRadius,
-                y: Math.sin(rad) * circleRadius + mobileCircleOffsetY,
-                rotation: 0,
-                scale: 1,
-                opacity: 1,
-              };
-            } else {
-              // ─── DESKTOP: circle → arc morph with scroll rotation ──────
-              const minDim = Math.min(containerSize.width, containerSize.height);
-              const circleRadius = Math.min(minDim * 0.36, 320);
-              const circleAngle = (i / TOTAL_CARDS) * 360;
-              const circleRad = (circleAngle * Math.PI) / 180;
-              const circlePos = {
-                x: Math.cos(circleRad) * circleRadius,
-                y: Math.sin(circleRad) * circleRadius,
-                rotation: circleAngle + 90,
-              };
-
-              // Arc layout
-              const baseRadius = Math.min(containerSize.width, containerSize.height * 1.5);
-              const arcRadius = baseRadius * 0.65;
-              const arcApexY = containerSize.height * 0.25;
-              const arcCenterY = arcApexY + arcRadius;
-
-              const spreadAngle = 160;
-              const startAngle = -90 - spreadAngle / 2;
-              const step = spreadAngle / (TOTAL_CARDS - 1);
-
-              const scrollProg = Math.min(Math.max(rotateValue / 360, 0), 1);
-              const boundedRotation = -scrollProg * spreadAngle * 0.5;
-              const currentArcAngle = startAngle + i * step + boundedRotation;
-              const arcRad = (currentArcAngle * Math.PI) / 180;
-
-              const arcPos = {
-                x: Math.cos(arcRad) * arcRadius + parallaxValue,
-                y: Math.sin(arcRad) * arcRadius + arcCenterY,
-                rotation: currentArcAngle + 90,
-                scale: 1.2,
-              };
-
-              target = {
-                x: lerp(circlePos.x, arcPos.x, morphValue),
-                y: lerp(circlePos.y, arcPos.y, morphValue),
-                rotation: lerp(circlePos.rotation, arcPos.rotation, morphValue),
-                scale: lerp(1, arcPos.scale, morphValue),
-                opacity: 1,
-              };
-            }
-
-            return (
-              <HeroCard
-                key={card.id}
-                card={card}
-                target={target}
-                staggerDelay={showStagger ? i * 0.06 : 0}
-                isMobile={isMobile}
-                index={i}
-                lowEnd={isLowEnd}
-              />
-            );
-          })}
-        </div>
+        <CardLayer
+          containerSize={containerSize}
+          introPhase={introPhase}
+          isMobile={isMobile}
+          isSmallPhone={isSmallPhone}
+          morphValue={morphValue}
+          rotateValue={rotateValue}
+          parallaxValue={parallaxValue}
+          scatterPositions={scatterPositions}
+          showStagger={showStagger}
+          isLowEnd={isLowEnd}
+        />
       </div>
     </div>
   );
