@@ -281,6 +281,9 @@ export default function IntroAnimation() {
       }
     };
 
+    // Run once immediately so headline shows when circleReady becomes true
+    updateDOM();
+
     // Subscribe to spring changes — update DOM directly, no setState
     const u1 = smoothMorph.on("change", updateDOM);
     const u2 = smoothScrollRotate.on("change", updateDOM);
@@ -420,15 +423,20 @@ export default function IntroAnimation() {
             </span>
           </h1>
 
-          {/* Mobile CTA */}
+          {/* Mobile CTAs */}
           {isMobile && circleReady && (
             <>
               <p className="mt-3 text-xs text-gray-500 max-w-sm relative" style={{ opacity: 0.5 }}>
                 Role fit. Skill gaps. Interview readiness. All in one system.
               </p>
-              <a href="/kyb" className="mt-3 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold text-white hover:opacity-90 active:scale-95 pointer-events-auto relative" style={{ backgroundColor: "#3C61A8" }}>
-                Find My Best Role <span className="text-xs">→</span>
-              </a>
+              <div className="flex items-center gap-2 mt-3 pointer-events-auto">
+                <a href="/kyb" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-white hover:opacity-90 active:scale-95" style={{ backgroundColor: "#3C61A8" }}>
+                  Find My Best Role <span className="text-xs">→</span>
+                </a>
+                <a href="/kyb/start" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold border-2 hover:bg-gray-50 active:scale-95" style={{ borderColor: "#3C61A8", color: "#3C61A8" }}>
+                  Register Now
+                </a>
+              </div>
             </>
           )}
 
