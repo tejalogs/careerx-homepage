@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { motion, useTransform, useSpring, useMotionValue, animate } from "framer-motion";
+import { motion, useTransform, useSpring, useMotionValue } from "framer-motion";
 import {
-  Crosshair, Zap, Phone, TrendingUp, CheckCircle,
+  Crosshair, Zap, TrendingUp, CheckCircle,
   Search, Target,
 } from "lucide-react";
 
@@ -329,11 +329,7 @@ export default function IntroAnimation() {
   // ── Desktop: virtual scroll for arc morph ──────────────────────────────────
   const virtualScroll = useMotionValue(0);
   const scrollRef = useRef(0);
-  const autoAnimRef = useRef<ReturnType<typeof animate> | null>(null);
-
-  const cancelAuto = () => {
-    if (autoAnimRef.current) { autoAnimRef.current.stop(); autoAnimRef.current = null; }
-  };
+  const cancelAuto = () => {};
 
   // Desktop scroll handler — listens on WINDOW so scroll-back works even when
   // cursor is below the hero. Captures scroll while animation is incomplete.
@@ -556,41 +552,37 @@ export default function IntroAnimation() {
         {/* Hero headline — soft radial glow behind text for readability (no box) */}
         <div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[6%] md:top-0 md:bottom-0 md:justify-center">
 
-          {/* Soft radial glow — no blur filter, gradient handles the softness */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={circleReady && morphValue < 0.5
-              ? { opacity: 1 - morphValue * 2 }
-              : { opacity: 0 }
-            }
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          {/* Soft radial glow */}
+          <div
             className="absolute pointer-events-none"
             style={{
               width: isMobile ? 300 : 500,
               height: isMobile ? 200 : 280,
               background: "radial-gradient(ellipse 100% 100% at 50% 50%, rgba(247,248,252,0.6) 0%, rgba(247,248,252,0.3) 30%, transparent 60%)",
+              opacity: circleReady && morphValue < 0.5 ? 1 - morphValue * 2 : 0,
+              transition: "opacity 0.3s ease-out",
             }}
           />
 
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={circleReady && morphValue < 0.3 ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+          <p
             className="text-[10px] font-black tracking-[0.3em] uppercase mb-1.5 relative"
-            style={{ color: "#3C61A8" }}
+            style={{
+              color: "#3C61A8",
+              opacity: circleReady && morphValue < 0.3 ? 0.5 : 0,
+              transform: `translateY(${circleReady && morphValue < 0.3 ? 0 : 10}px)`,
+              transition: "opacity 0.4s ease-out, transform 0.4s ease-out",
+            }}
           >
             CareerXcelerator
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 30, scale: 0.92 }}
-            animate={
-              circleReady && morphValue < 0.5
-                ? { opacity: 1 - morphValue * 2, y: 0, scale: 1 }
-                : { opacity: 0, scale: 0.96 }
-            }
-            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          </p>
+          <h1
             className="text-3xl sm:text-4xl md:text-[44px] font-black tracking-tight leading-tight relative"
-            style={{ color: "#1a1a2e" }}
+            style={{
+              color: "#1a1a2e",
+              opacity: circleReady && morphValue < 0.5 ? 1 - morphValue * 2 : 0,
+              transform: `translateY(${circleReady ? 0 : 30}px) scale(${circleReady ? 1 : 0.92})`,
+              transition: "opacity 0.3s ease-out, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
+            }}
           >
             Your career,{" "}
             <span style={{
@@ -601,56 +593,51 @@ export default function IntroAnimation() {
             }}>
               decoded.
             </span>
-          </motion.h1>
+          </h1>
 
           {/* Subtitle + CTA — mobile */}
           {isMobile && circleReady && (
             <>
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.5 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
+              <p
                 className="mt-3 text-xs text-gray-500 max-w-sm relative"
+                style={{ opacity: 0.5, transition: "opacity 0.6s ease" }}
               >
                 Role fit. Skill gaps. Interview readiness. All in one system.
-              </motion.p>
-              <motion.a
+              </p>
+              <a
                 href="/kyb"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
                 className="mt-3 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto relative"
                 style={{ backgroundColor: "#3C61A8" }}
               >
                 Find My Best Role <span className="text-xs">→</span>
-              </motion.a>
+              </a>
             </>
           )}
 
           {/* Desktop: CTA + scroll indicator inline with headline */}
           {!isMobile && (
             <>
-              <motion.a
+              <a
                 href="/kyb"
-                initial={{ opacity: 0, y: 10 }}
-                animate={circleReady && morphValue < 0.4
-                  ? { opacity: 1 - morphValue * 2.5, y: 0 }
-                  : { opacity: 0, y: 10 }
-                }
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="mt-8 inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 pointer-events-auto relative"
-                style={{ backgroundColor: "#3C61A8" }}
+                className="mt-8 inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white hover:opacity-90 active:scale-95 pointer-events-auto relative"
+                style={{
+                  backgroundColor: "#3C61A8",
+                  opacity: circleReady && morphValue < 0.4 ? 1 - morphValue * 2.5 : 0,
+                  transform: `translateY(${circleReady && morphValue < 0.4 ? 0 : 10}px)`,
+                  transition: "opacity 0.3s ease-out, transform 0.3s ease-out",
+                }}
               >
                 Find My Best Role <span className="text-xs">→</span>
-              </motion.a>
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={circleReady && morphValue < 0.3 ? { opacity: 0.4 } : { opacity: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
+              </a>
+              <p
                 className="mt-4 text-[11px] font-medium text-gray-400 relative"
+                style={{
+                  opacity: circleReady && morphValue < 0.3 ? 0.4 : 0,
+                  transition: "opacity 0.3s ease-out",
+                }}
               >
                 Scroll to explore ↓
-              </motion.p>
+              </p>
             </>
           )}
         </div>
