@@ -292,6 +292,17 @@ export default function IntroAnimation() {
     return () => { u1(); u2(); u3(); };
   }, [containerSize, isMobile, circleReady, smoothMorph, smoothScrollRotate, smoothMouseX]);
 
+  // Mobile: show headline when circleReady (no scroll-driven updates needed)
+  useEffect(() => {
+    if (!isMobile || !circleReady) return;
+    if (glowRef.current) glowRef.current.style.opacity = "1";
+    if (subtitleRef.current) {
+      subtitleRef.current.style.opacity = "0.5";
+      subtitleRef.current.style.transform = "translateY(0)";
+    }
+    if (headlineRef.current) headlineRef.current.style.opacity = "1";
+  }, [isMobile, circleReady]);
+
   // Mouse tracking — only after morph starts
   const morphStartedRef = useRef(false);
   useEffect(() => {
