@@ -93,6 +93,79 @@ const CardFace = React.memo(function CardFace({ card, isMobile }: { card: CardDa
   );
 });
 
+// ─── Mobile Cards: line → circle → orbit (separate component for clean phases)
+function MobileCards({ introPhase, circleReady, isSmallPhone }: {
+  introPhase: AnimationPhase; circleReady: boolean; isSmallPhone: boolean;
+}) {
+  // Delay orbit start until circle transition finishes
+  const [orbitActive, setOrbitActive] = useState(false);
+  useEffect(() => {
+    if (!circleReady) return;
+    const t = setTimeout(() => setOrbitActive(true), 1500);
+    return () => clearTimeout(t);
+  }, [circleReady]);
+
+  const isCircle = introPhase === "circle";
+  const circleRadius = isSmallPhone ? 100 : 120;
+
+  return (
+    <div
+      className="absolute left-1/2 top-[58%] -translate-x-1/2 -translate-y-1/2"
+    >
+      <style>{`
+        @keyframes mobileOrbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes mobileCounterOrbit { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+      `}</style>
+      {/* Orbit wrapper — only rotates, no translate */}
+      <div
+        style={{
+          position: "relative",
+          width: 1,
+          height: 1,
+          animation: orbitActive ? "mobileOrbit 120s linear infinite" : "none",
+        }}
+      >
+        {CARDS.map((card, i) => {
+          const angle = (i / TOTAL_CARDS) * 360 - 90;
+          const rad = (angle * Math.PI) / 180;
+
+          const lineSpacing = 50;
+          const lineTotal = TOTAL_CARDS * lineSpacing;
+          const lineX = i * lineSpacing - lineTotal / 2;
+
+          const circleX = Math.cos(rad) * circleRadius;
+          const circleY = Math.sin(rad) * circleRadius;
+
+          const x = isCircle ? circleX : lineX;
+          const y = isCircle ? circleY : 0;
+          const delay = i * 0.05;
+
+          return (
+            // Outer div: handles position via translate (CSS transition)
+            <div
+              key={card.id}
+              style={{
+                position: "absolute",
+                left: -CARD_W_MOBILE / 2,
+                top: -CARD_H_MOBILE / 2,
+                transform: `translate3d(${x}px, ${y}px, 0)`,
+                transition: `transform 1s cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}s`,
+              }}
+            >
+              {/* Inner div: handles counter-rotation via CSS animation (separate transform) */}
+              <div style={{
+                animation: orbitActive ? "mobileCounterOrbit 120s linear infinite" : "none",
+              }}>
+                <CardFace card={card} isMobile />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // ─── Desktop scroll range ─────────────────────────────────────────────────────
 const MAX_SCROLL = 1500;
 
@@ -405,7 +478,7 @@ export default function IntroAnimation() {
           </p>
           <h1
             ref={headlineRef}
-            className="text-3xl sm:text-4xl md:text-[44px] font-black tracking-tight leading-tight relative"
+            className="text-[34px] sm:text-4xl md:text-[44px] font-black tracking-tight leading-tight relative"
             style={{
               color: "#1a1a2e",
               opacity: 0,
@@ -488,47 +561,13 @@ export default function IntroAnimation() {
           </div>
         )}
 
-        {/* Mobile: orbiting circle (pure CSS animation) */}
+        {/* Mobile: line → circle → slow orbit */}
         {isMobile && containerSize.width > 0 && (
-          <div className="absolute bottom-[5%] left-1/2 -translate-x-1/2" style={{ width: isSmallPhone ? 250 : 290, height: isSmallPhone ? 250 : 290 }}>
-            <style>{`
-              @keyframes orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-              @keyframes counter-orbit { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-            `}</style>
-            <div
-              style={{
-                width: "100%", height: "100%", position: "relative",
-                animation: circleReady ? "orbit 30s linear infinite" : "none",
-              }}
-            >
-              {CARDS.map((card, i) => {
-                const circleRadius = isSmallPhone ? 100 : 120;
-                const angle = (i / TOTAL_CARDS) * 360 - 90;
-                const rad = (angle * Math.PI) / 180;
-                const x = Math.cos(rad) * circleRadius;
-                const y = Math.sin(rad) * circleRadius;
-                const centerX = (isSmallPhone ? 250 : 290) / 2;
-                const centerY = (isSmallPhone ? 250 : 290) / 2;
-
-                return (
-                  <div
-                    key={card.id}
-                    style={{
-                      position: "absolute",
-                      left: centerX + x - CARD_W_MOBILE / 2,
-                      top: centerY + y - CARD_H_MOBILE / 2,
-                      opacity: circleReady ? 1 : 0,
-                      transform: `scale(${circleReady ? 1 : 0.4})`,
-                      transition: `opacity 0.5s ease ${i * 0.06}s, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${i * 0.06}s`,
-                      animation: circleReady ? "counter-orbit 30s linear infinite" : "none",
-                    }}
-                  >
-                    <CardFace card={card} isMobile={isMobile} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <MobileCards
+            introPhase={introPhase}
+            circleReady={circleReady}
+            isSmallPhone={isSmallPhone}
+          />
         )}
 
         {/* Desktop: cards with Framer Motion entrance, then direct DOM scroll */}
