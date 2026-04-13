@@ -336,18 +336,8 @@ export default function IntroAnimation() {
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [containerSize.width]);
 
-  // Mobile: auto-scroll to next section
-  useEffect(() => {
-    if (!circleReady || !isMobile) return;
-    const t = setTimeout(() => {
-      const heroEl = containerRef.current?.closest("section");
-      if (heroEl) {
-        const nextSection = heroEl.nextElementSibling;
-        if (nextSection) nextSection.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 2500);
-    return () => clearTimeout(t);
-  }, [circleReady, isMobile]);
+  // Mobile: continuous orbit animation via CSS (GPU composited, zero JS)
+  // No auto-scroll — user scrolls when ready
 
   // ── Compute initial card targets for Framer Motion entrance ────────────────
   const initialTargets = useMemo(() => {
@@ -392,7 +382,7 @@ export default function IntroAnimation() {
       <div className="flex h-full w-full flex-col items-center justify-center">
 
         {/* Hero headline */}
-        <div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[6%] md:top-0 md:bottom-0 md:justify-center">
+        <div className="absolute z-20 flex flex-col items-center text-center pointer-events-none px-6 left-0 right-0 top-[12%] md:top-0 md:bottom-0 md:justify-center">
 
           <div
             ref={glowRef}
@@ -498,31 +488,71 @@ export default function IntroAnimation() {
           </div>
         )}
 
-        {/* Cards — rendered once, positions updated via direct DOM */}
-        <div className="relative flex items-center justify-center w-full h-full" style={{ paddingTop: isMobile ? 0 : 30 }}>
-          {containerSize.width > 0 && CARDS.map((card, i) => {
-            const target = initialTargets[i];
-            if (!target) return null;
+        {/* Mobile: orbiting circle (pure CSS animation) */}
+        {isMobile && containerSize.width > 0 && (
+          <div className="absolute bottom-[5%] left-1/2 -translate-x-1/2" style={{ width: isSmallPhone ? 250 : 290, height: isSmallPhone ? 250 : 290 }}>
+            <style>{`
+              @keyframes orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+              @keyframes counter-orbit { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+            `}</style>
+            <div
+              style={{
+                width: "100%", height: "100%", position: "relative",
+                animation: circleReady ? "orbit 30s linear infinite" : "none",
+              }}
+            >
+              {CARDS.map((card, i) => {
+                const circleRadius = isSmallPhone ? 100 : 120;
+                const angle = (i / TOTAL_CARDS) * 360 - 90;
+                const rad = (angle * Math.PI) / 180;
+                const x = Math.cos(rad) * circleRadius;
+                const y = Math.sin(rad) * circleRadius;
+                const centerX = (isSmallPhone ? 250 : 290) / 2;
+                const centerY = (isSmallPhone ? 250 : 290) / 2;
 
-            const delay = isMobile ? i * 0.06 : i * 0.04;
+                return (
+                  <div
+                    key={card.id}
+                    style={{
+                      position: "absolute",
+                      left: centerX + x - CARD_W_MOBILE / 2,
+                      top: centerY + y - CARD_H_MOBILE / 2,
+                      opacity: circleReady ? 1 : 0,
+                      transform: `scale(${circleReady ? 1 : 0.4})`,
+                      transition: `opacity 0.5s ease ${i * 0.06}s, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${i * 0.06}s`,
+                      animation: circleReady ? "counter-orbit 30s linear infinite" : "none",
+                    }}
+                  >
+                    <CardFace card={card} isMobile={isMobile} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
-            return (
-              <motion.div
-                key={card.id}
-                ref={setCardRef(i)}
-                initial={{ x: 0, y: 0, rotate: 0, scale: 0.4, opacity: 0 }}
-                animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
-                transition={isMobile
-                  ? { type: "spring", stiffness: 60, damping: 20, delay: delay }
-                  : { type: "spring", stiffness: 80, damping: 22, delay: delay }
-                }
-                style={{ position: "absolute", willChange: "transform" }}
-              >
-                <CardFace card={card} isMobile={isMobile} />
-              </motion.div>
-            );
-          })}
-        </div>
+        {/* Desktop: cards with Framer Motion entrance, then direct DOM scroll */}
+        {!isMobile && (
+          <div className="relative flex items-center justify-center w-full h-full" style={{ paddingTop: 30 }}>
+            {containerSize.width > 0 && CARDS.map((card, i) => {
+              const target = initialTargets[i];
+              if (!target) return null;
+              const delay = i * 0.04;
+              return (
+                <motion.div
+                  key={card.id}
+                  ref={setCardRef(i)}
+                  initial={{ x: 0, y: 0, rotate: 0, scale: 0.4, opacity: 0 }}
+                  animate={{ x: target.x, y: target.y, rotate: target.rotation, scale: target.scale, opacity: target.opacity }}
+                  transition={{ type: "spring", stiffness: 80, damping: 22, delay: delay }}
+                  style={{ position: "absolute", willChange: "transform" }}
+                >
+                  <CardFace card={card} isMobile={false} />
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
