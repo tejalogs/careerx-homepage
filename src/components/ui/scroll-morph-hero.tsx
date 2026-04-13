@@ -109,19 +109,18 @@ function CardFace({ card, isMobile, holoAngle }: { card: CardData; isMobile: boo
 }
 
 // ─── Animated Card ────────────────────────────────────────────────────────────
-function HeroCard({ card, target, staggerDelay = 0, isMobile, index }: {
+const HeroCard = React.memo(function HeroCard({ card, target, staggerDelay = 0, isMobile, index }: {
   card: CardData;
   target: { x: number; y: number; rotation: number; scale: number; opacity: number };
   staggerDelay?: number;
   isMobile: boolean;
   index: number;
 }) {
-  // Use the card's rotation angle to drive the holographic sheen direction
   const holoAngle = ((target.rotation % 360) + 360) % 360;
 
   const transition = isMobile
     ? { type: "spring" as const, stiffness: 60, damping: 20, delay: staggerDelay + index * 0.05 }
-    : { type: "spring" as const, stiffness: 120, damping: 28, delay: staggerDelay };
+    : { type: "spring" as const, stiffness: 80, damping: 22, delay: staggerDelay };
 
   return (
     <motion.div
@@ -133,10 +132,10 @@ function HeroCard({ card, target, staggerDelay = 0, isMobile, index }: {
       <CardFace card={card} isMobile={isMobile} holoAngle={holoAngle} />
     </motion.div>
   );
-}
+});
 
 // ─── Desktop scroll range ─────────────────────────────────────────────────────
-const MAX_SCROLL = 3000;
+const MAX_SCROLL = 1500;
 
 // ─── Main Hero Component ──────────────────────────────────────────────────────
 export default function IntroAnimation() {
@@ -277,16 +276,33 @@ export default function IntroAnimation() {
     };
   }, [mouseXArc]);
 
-  // Track spring values as state for card position calculations
+  // Track spring values as state — throttled to ~30fps to reduce re-renders
   const [morphValue, setMorphValue] = useState(0);
   const [rotateValue, setRotateValue] = useState(0);
   const [parallaxValue, setParallaxValue] = useState(0);
 
   useEffect(() => {
-    const u1 = smoothMorph.on("change", setMorphValue);
-    const u2 = smoothScrollRotate.on("change", setRotateValue);
-    const u3 = smoothMouseX.on("change", setParallaxValue);
-    return () => { u1(); u2(); u3(); };
+    let rafId: number | null = null;
+    let latestMorph = 0, latestRotate = 0, latestParallax = 0;
+    let dirty = false;
+
+    const flush = () => {
+      rafId = null;
+      if (dirty) {
+        setMorphValue(latestMorph);
+        setRotateValue(latestRotate);
+        setParallaxValue(latestParallax);
+        dirty = false;
+      }
+    };
+    const scheduleFlush = () => {
+      if (!rafId) rafId = requestAnimationFrame(flush);
+    };
+
+    const u1 = smoothMorph.on("change", (v) => { latestMorph = v; dirty = true; scheduleFlush(); });
+    const u2 = smoothScrollRotate.on("change", (v) => { latestRotate = v; dirty = true; scheduleFlush(); });
+    const u3 = smoothMouseX.on("change", (v) => { latestParallax = v; dirty = true; scheduleFlush(); });
+    return () => { u1(); u2(); u3(); if (rafId) cancelAnimationFrame(rafId); };
   }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
 
   // Desktop: headline fades out as user scrolls into arc
@@ -296,9 +312,22 @@ export default function IntroAnimation() {
   const [arcHeadY, setArcHeadY] = useState(20);
 
   useEffect(() => {
-    const u1 = contentOpacity.on("change", setArcHeadOpacity);
-    const u2 = contentY.on("change", setArcHeadY);
-    return () => { u1(); u2(); };
+    let rafId: number | null = null;
+    let latestOpacity = 0, latestY = 20;
+    let dirty = false;
+
+    const flush = () => {
+      rafId = null;
+      if (dirty) {
+        setArcHeadOpacity(latestOpacity);
+        setArcHeadY(latestY);
+        dirty = false;
+      }
+    };
+
+    const u1 = contentOpacity.on("change", (v) => { latestOpacity = v; dirty = true; if (!rafId) rafId = requestAnimationFrame(flush); });
+    const u2 = contentY.on("change", (v) => { latestY = v; dirty = true; if (!rafId) rafId = requestAnimationFrame(flush); });
+    return () => { u1(); u2(); if (rafId) cancelAnimationFrame(rafId); };
   }, [contentOpacity, contentY]);
 
   const [circleReady, setCircleReady] = useState(false);
@@ -359,9 +388,9 @@ export default function IntroAnimation() {
 
       {/* Ambient glow orbs — static background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div style={{ position: "absolute", width: 700, height: 700, background: "radial-gradient(circle, rgba(60,97,168,0.08) 0%, transparent 65%)", borderRadius: "50%", left: "5%", top: "10%", filter: "blur(40px)" }} />
-        <div style={{ position: "absolute", width: 500, height: 500, background: "radial-gradient(circle, rgba(245,209,52,0.06) 0%, transparent 65%)", borderRadius: "50%", right: "0%", top: "35%", filter: "blur(35px)" }} />
-        <div style={{ position: "absolute", width: 400, height: 400, background: "radial-gradient(circle, rgba(60,97,168,0.05) 0%, transparent 65%)", borderRadius: "50%", left: "40%", bottom: "0%", filter: "blur(30px)" }} />
+        <div style={{ position: "absolute", width: 700, height: 700, background: "radial-gradient(circle, rgba(60,97,168,0.06) 0%, transparent 60%)", borderRadius: "50%", left: "5%", top: "10%" }} />
+        <div style={{ position: "absolute", width: 500, height: 500, background: "radial-gradient(circle, rgba(245,209,52,0.05) 0%, transparent 60%)", borderRadius: "50%", right: "0%", top: "35%" }} />
+        <div style={{ position: "absolute", width: 400, height: 400, background: "radial-gradient(circle, rgba(60,97,168,0.04) 0%, transparent 60%)", borderRadius: "50%", left: "40%", bottom: "0%" }} />
       </div>
 
       <div className="flex h-full w-full flex-col items-center justify-center">
